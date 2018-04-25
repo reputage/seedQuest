@@ -1,4 +1,6 @@
-# seedQuest
+# SeedQuest
+
+## Background
 
 Key recovery is a widespread problem in the blockchain space, since human memory has difficulty remembering long strings of numbers, and having backups of keys(physical or digital) can create security vulnerabilities.
 
@@ -14,13 +16,15 @@ This project seeks to create a way for an individual to recreate a one-time pad 
 
 Having a reliable method to reproduce the one-time pad through a seeded CSPRNG algorithm will make it easier to manage an account with pre-rotated keys.
 
+## Design
+
 By creating a game world with possible routes to take, and specific action to take at certain locations, a human will only need to remember a specific journey, rather than a long string of numbers or words.
 
 This game will have an explorable world with multiple “sites” or buildings/houses/caves where the player can find action spots. 
 
 At each action spot, the player will have a choice of different actions to take. 
 
-A journey through this world to take four actions at four different sites will be reasonable for a human to remember, and provide enough shards of entropy to be combined into a 128-bit string used for a key.  
+A journey through this world to take four actions at four different sites will be reasonable for a human to remember, and provide enough shards of entropy to be combined into a 128-bit string used for a seed to create a one-time pad.  
   
 The world built for seed quest would include 256 map areas, with 4 sites (buildings) in each area, with 8 action spots in each site (building), with 8 possible actions at each site. 
 
