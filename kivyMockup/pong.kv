@@ -14,17 +14,149 @@
             pos:self.pos
             size:self.size
 
+<LinkImage>
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            texture: self.texture
+            size: self.width + 1, self.height + 1
+            pos: self.x - 1, self.y - 1
+
+<Background20>
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            texture: self.texture
+            size: self.width + 1500, self.height + 1000
+            pos: self.x - 750, self.y - 550
+
+<Background21>
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            texture: self.texture
+            size: self.width + 1500, self.height + 1000
+            pos: self.x - 750, self.y - 550
+
+<Background10>
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            texture: self.texture
+            size: self.width + 1500, self.height + 1000
+            pos: self.x - 750, self.y - 550
+
+<Background11>
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            texture: self.texture
+            size: self.width + 1500, self.height + 1000
+            pos: self.x - 750, self.y - 550
+
+<Background00>
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            texture: self.texture
+            size: self.width + 1500, self.height + 1000
+            pos: self.x - 750, self.y - 550
+
+<Background01>
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            texture: self.texture
+            size: self.width + 1500, self.height + 1000
+            pos: self.x - 750, self.y - 550
+
+<Background30>
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            texture: self.texture
+            size: self.width + 1500, self.height + 1000
+            pos: self.x - 750, self.y - 550
+
+<Background31>
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            texture: self.texture
+            size: self.width + 1500, self.height + 1000
+            pos: self.x - 750, self.y - 550
+
+
 <PongGame>:
+    bkgr00: back00
+    bkgr01: back01
+    bkgr10: back10
+    bkgr11: back11
+    bkgr20: back20
+    bkgr21: back21
+    bkgr30: back30
+    bkgr31: back31
     ball: pong_ball
     link: link_image
     #player1: player_left
     #player2: player_right
     
+    Background10:
+        id: back10
+        center: self.parent.center 
+        center_x: -9000
+
+    Background00:
+        id: back00
+        center: self.parent.center 
+        center_x: -9000
+
+    Background01:
+        id: back01
+        center: self.parent.center 
+        center_x: -9000
+
+    Background11:
+        id: back11
+        center: self.parent.center 
+        center_x: -9000
+
+    Background30:
+        id: back30
+        center: self.parent.center 
+        center_x: -9000
+
+    Background31:
+        id: back31
+        center: self.parent.center 
+        center_x: -9000
+
+    Background21:
+        id: back21
+        center: self.parent.center 
+        center_x: -9000
+
+    Background20:
+        id: back20
+        center: self.parent.center
+
     PongBall:
         id: pong_ball
         center: self.parent.center
         center_y: root.center_y - 100
 
+    LinkImage:
+        id: link_image
+        center: self.parent.center
 
     Label:
         font_size: 70  
