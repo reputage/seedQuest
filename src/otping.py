@@ -57,7 +57,7 @@ def longOTP(strVar=None, chunks=2):
     "chunks" are used to generate the chunks of the otp.
 
     Example:
-    longOTP("quick brown fox")
+    longOTP("quick brown fox", 3)
     """
     longPad = []
     if not strVar:
