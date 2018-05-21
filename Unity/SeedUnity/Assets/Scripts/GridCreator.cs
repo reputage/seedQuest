@@ -7,6 +7,12 @@ public class GridCreator : MonoBehaviour {
 
     public int xSize, ySize;
     public string gridText;
+    public GameObject AllScene;
+
+    public Material metalRed;
+    public Transform blockPrefab;
+    public Material tile01, tile02, tile03, tile04, tile05, tile06, tile07, tile08;
+    public Material tile09, tile10, tile11, tile12, tile13, tile14, tile15, tile16;
 
     private int zSize = 256;
     private int gridCount = 0;
@@ -17,10 +23,8 @@ public class GridCreator : MonoBehaviour {
 
     private Vector3[] vertices;
     private Mesh mesh;
-    public Material metalRed;
-    public Material tile01, tile02, tile03, tile04, tile05, tile06, tile07, tile08;
-    public Material tile09, tile10, tile11, tile12, tile13, tile14, tile15, tile16;
-    public Transform blockPrefab;
+    private int seedParsed;
+
 
     private void Awake()
     {
@@ -31,7 +35,16 @@ public class GridCreator : MonoBehaviour {
         block.GetComponent<MeshRenderer>().material = metalRed;
         */
 
-        smallProceed(42);
+        //smallProceed();
+        seedParsed = AllScene.GetComponent<AllScene>().getSeed();
+        Debug.Log(seedParsed);
+        if (seedParsed.GetType() != typeof(int)){
+            Debug.Log("Parsed seed is not an int");
+            smallProceed(0);
+        }
+        else{
+            smallProceed(seedParsed);
+        }
         smallIron();
         //Proceed();
         //arrayCheck();
@@ -46,24 +59,31 @@ public class GridCreator : MonoBehaviour {
             This function is just for showing the proceedural generation.
             Won't be used in the final design.
          */
-        if (seed != 0){
+        if (seed != 0)
+        {
             Random.InitState(seed);
         }
 
         for (int i = 0; i < smallNums.Length; i++)
         {
             smallNums[i] = i + 1;
-            smallLay[i] = 0;
+            smallLay[i] = i + 1;
         }
 
-        for (int i = 0; i < 16; i++){
-            int w = 0;
-            while (w == 0) {
-                int r = Random.Range(0, 16);
-                if (smallNums[r] != 0){
-                    smallLay[i] = smallNums[r];
-                    smallNums[r] = 0;
-                    w++;
+        if (seed != 0)
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                int w = 0;
+                while (w == 0)
+                {
+                    int r = Random.Range(0, 16);
+                    if (smallNums[r] != 0)
+                    {
+                        smallLay[i] = smallNums[r];
+                        smallNums[r] = 0;
+                        w++;
+                    }
                 }
             }
         }

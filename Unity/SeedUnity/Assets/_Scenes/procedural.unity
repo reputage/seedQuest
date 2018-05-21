@@ -408,7 +408,10 @@ MonoBehaviour:
   xSize: 10
   ySize: 5
   gridText: 
+  AllScene: {fileID: 887714984}
   metalRed: {fileID: 2100000, guid: 9b07e36781d7f46f79865e94cc00ecd3, type: 2}
+  blockPrefab: {fileID: 4374428043853982, guid: 9afdd265b96c945108b05e14c3eb1597,
+    type: 2}
   tile01: {fileID: 2100000, guid: 89de9b10ddcd34f0ba13a9964b199f86, type: 2}
   tile02: {fileID: 2100000, guid: a7c09263ac92043c7bd32111ed5a0f70, type: 2}
   tile03: {fileID: 2100000, guid: 7ff3405ab4a0c476997233c49c8b1ad9, type: 2}
@@ -425,8 +428,6 @@ MonoBehaviour:
   tile14: {fileID: 2100000, guid: f8ad2e1eaf3e24a43b80b4b61d6b1398, type: 2}
   tile15: {fileID: 2100000, guid: 02d2362ca85cd4a2790017c2535ac593, type: 2}
   tile16: {fileID: 2100000, guid: d334b32cbc29d40848879814bb92f839, type: 2}
-  blockPrefab: {fileID: 4374428043853982, guid: 9afdd265b96c945108b05e14c3eb1597,
-    type: 2}
 --- !u!23 &433071481
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -832,3 +833,43 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 850159900}
+--- !u!1 &887714984
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 887714986}
+  - component: {fileID: 887714985}
+  m_Layer: 0
+  m_Name: AllScenes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &887714985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 887714984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1038fa186aa2e443b82e4443dc67e1d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &887714986
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 887714984}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 327.92593, y: 88.62192, z: -13.194031}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

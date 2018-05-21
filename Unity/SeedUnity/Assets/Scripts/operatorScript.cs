@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class operatorScript : MonoBehaviour {
 
     // Use this for initialization
 
-    //public GameObject defaultButton;
-    //public GameObject seedButton;
-    //public GameObject generateButton;
+    public GameObject AllScene;
     static string seedWord;
 
 	void Start () {
@@ -19,6 +16,7 @@ public class operatorScript : MonoBehaviour {
 	
     public void defaultClick(){
         Debug.Log("Default button clicked!");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 
     public void seedClick()
@@ -29,6 +27,11 @@ public class operatorScript : MonoBehaviour {
     public void generateClick()
     {
         Debug.Log("Generate button clicked!");
+        string testParse = seedWord;
+        int parsedSeed = testParse.GetHashCode();
+        Debug.Log(parsedSeed);
+        AllScene.GetComponent<AllScene>().seedChange(parsedSeed);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 
     public void GetInput(string seedInput) {
