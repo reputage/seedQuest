@@ -34,7 +34,7 @@ public class operatorScript : MonoBehaviour {
         buttonBack.transform.localPosition = new Vector3(-20, -30, 0);
         buttonGenerate.transform.localPosition = new Vector3(-90, 20, 0);
         inputField.transform.localPosition = new Vector3(90, 20, 0);
-
+        seedWord = "/!0";
     }
 
     public void backClick()
