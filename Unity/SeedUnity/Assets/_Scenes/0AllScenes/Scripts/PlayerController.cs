@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour {
 	public float jumpSpeed;
 
     public GameObject griddler;
+    public GameObject actionMenu;
+    public GameObject resultMenu;
+    public GameObject actionOperator;
 
 	public Text countText;
 	public Text winText;
@@ -18,8 +21,8 @@ public class PlayerController : MonoBehaviour {
 	//private Rigidbody rb;
 	private int count; 
 	private Vector3 moveDirection = Vector3.zero;
+    private bool singleEntry = true;
 
-	// Use this for initialization
 	void Start () 
 	{
 		//rb = GetComponent<Rigidbody> ();
@@ -87,12 +90,49 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.CompareTag ("Pick Up")) 
+
+        if (other.gameObject.CompareTag ("Pick Up")) 
 		{
+            singleEntry = false;
 			other.gameObject.SetActive (false);
 			count += 1;
 			SetCountText ();
 		}
+
+        if (other.gameObject.CompareTag("ActionSpot"))
+        {
+            singleEntry = false;
+            Debug.Log("Action spot entered");
+            //actionMenu.gameObject.SetActive(true);
+            actionOperator.GetComponent<actionOperator>().activateMenu();
+            count += 1;
+            SetCountText();
+
+            //To do:
+            // Have menu pop-up for player actions at the spot
+            // Remove menu on exit
+            // Store the action in log, including index and ID
+            //other.gameObject.GetComponent<>();
+            // Close menu on button press
+
+        }
+
+        if (other.gameObject.CompareTag("Entrance"))
+        {
+            singleEntry = false;
+            Debug.Log("Entrance entered");
+            count += 1;
+            SetCountText();
+
+            //To do:
+            // Have menu pop-up prompting button press to enter
+            // Remove menu on exit
+            // Get the index of the entrance
+            //other.gameObject.GetComponent<>();
+            // Change scene on button press
+            // UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+
+        }
 	}
 
 	void SetCountText ()

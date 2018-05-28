@@ -7,9 +7,10 @@ public class AllScene : MonoBehaviour {
 
     static int seedParsed;
     static bool scenePrimed = false;
+    //static bool pauseEverything = false;
     //private float sceneVal;
 
-	// Use this for initialization
+
 	void Start () {
         DontDestroyOnLoad(gameObject);
         seedParsed = 0;
@@ -23,7 +24,6 @@ public class AllScene : MonoBehaviour {
         return seedParsed; 
     }
 	
-	// Update is called once per frame
 	void Update () {
         
         if (Input.GetAxis("Fire1") > 0)
