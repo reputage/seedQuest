@@ -105,8 +105,6 @@ public class PlayerController : MonoBehaviour {
             Debug.Log("Action spot entered");
             //actionMenu.gameObject.SetActive(true);
             actionOperator.GetComponent<actionOperator>().activateMenu();
-            count += 1;
-            SetCountText();
 
             //To do:
             // Have menu pop-up for player actions at the spot
@@ -121,8 +119,6 @@ public class PlayerController : MonoBehaviour {
         {
             singleEntry = false;
             Debug.Log("Entrance entered");
-            count += 1;
-            SetCountText();
 
             //To do:
             // Have menu pop-up prompting button press to enter
@@ -134,6 +130,17 @@ public class PlayerController : MonoBehaviour {
 
         }
 	}
+
+    void OnTriggerExit(Collider other)
+    {
+
+        if (other.gameObject.CompareTag("ActionSpot"))
+        {
+            actionOperator.GetComponent<actionOperator>().deactivateMenu();
+            Debug.Log("Action spot exited");
+
+        }
+    }
 
 	void SetCountText ()
 	{

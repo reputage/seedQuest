@@ -21,6 +21,11 @@ public class actionOperator : MonoBehaviour {
         actionMenu.gameObject.SetActive(true);
     }
 
+    public void deactivateMenu()
+    {
+        actionMenu.gameObject.SetActive(false);
+    }
+
     public void actionButton(){
 
         //do something
