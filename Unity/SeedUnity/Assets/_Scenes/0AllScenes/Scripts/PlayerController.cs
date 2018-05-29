@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 moveDirection = Vector3.zero;
     private bool singleEntry = true;
 
+    public GameObject playerLog;
+
 	void Start () 
 	{
 		//rb = GetComponent<Rigidbody> ();
