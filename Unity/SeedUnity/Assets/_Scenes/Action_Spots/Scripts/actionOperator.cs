@@ -19,7 +19,8 @@ public class actionOperator : MonoBehaviour {
 	}
 
     public void activateMenu(){
-        actionMenu.gameObject.SetActive(true);
+        Debug.Log("action menu activation disabled");
+        //actionMenu.gameObject.SetActive(true);
     }
 
     public void deactivateMenu()

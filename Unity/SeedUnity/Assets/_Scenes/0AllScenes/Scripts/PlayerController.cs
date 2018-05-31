@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour {
 		/* 
 		 if (count >= 12) 
 		{
-			winText.text = "You Win!";
+			winText.text = "Way too many actions taken!";
 		}
 		*/
 	}
