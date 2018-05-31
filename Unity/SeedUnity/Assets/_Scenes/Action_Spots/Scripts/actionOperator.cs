@@ -6,6 +6,7 @@ public class actionOperator : MonoBehaviour {
 
     public GameObject actionMenu;
     public GameObject resultMenu;
+    public GameObject player;
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +19,8 @@ public class actionOperator : MonoBehaviour {
 	}
 
     public void activateMenu(){
-        actionMenu.gameObject.SetActive(true);
+        Debug.Log("action menu activation disabled");
+        //actionMenu.gameObject.SetActive(true);
     }
 
     public void deactivateMenu()
@@ -32,7 +34,8 @@ public class actionOperator : MonoBehaviour {
         Debug.Log("action button pressed");
         actionMenu.gameObject.SetActive(false);
         resultMenu.gameObject.SetActive(true);
-
+        player.GetComponent<PlayerController>().count += 1;
+        player.GetComponent<PlayerController>().SetCountText();
     }
 
     public void backButton() {

@@ -5,6 +5,22 @@ using UnityEngine;
 public class playerLog : MonoBehaviour {
 
 
+    /*
+     Action location: 1-256
+     Action spot: 1-32
+     Action taken: 1-8
+     
+     Location: index 8 * 1
+     Spot: index * 1000
+     Taken action: index * 100,000
+
+     Ex: location 199 * 1 = 199
+     spot 15 * 1000 = 15000
+     action 4 * 100000 = 400000
+     number: 415,199
+     
+     */
+
     public int actCount = 0;
     public int action1 = 0;
     public int action2 = 0;
@@ -45,6 +61,10 @@ public class playerLog : MonoBehaviour {
                 //Log action
                 action4 = actionInt;
                 actCount += 1;
+                break;
+            case 4:
+                //Log action
+                Debug.Log("Max actions have been performed");
                 break;
         }
 

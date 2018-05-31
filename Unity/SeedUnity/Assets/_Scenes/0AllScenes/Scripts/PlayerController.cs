@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour {
 	public Text winText;
 
 	//private Rigidbody rb;
-	private int count; 
+	public int count; 
+
 	private Vector3 moveDirection = Vector3.zero;
     private bool singleEntry = true;
 
@@ -105,6 +106,8 @@ public class PlayerController : MonoBehaviour {
         {
             singleEntry = false;
             Debug.Log("Action spot entered");
+            //count += 1;
+            SetCountText();
             //actionMenu.gameObject.SetActive(true);
             actionOperator.GetComponent<actionOperator>().activateMenu();
 
@@ -144,13 +147,15 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-	void SetCountText ()
+	public void SetCountText ()
 	{
-		countText.text = "Count: " + count.ToString ();
-		if (count >= 12) 
+		countText.text = "Actions: " + count.ToString ();
+		/* 
+		 if (count >= 12) 
 		{
-			winText.text = "You Win!";
+			winText.text = "Way too many actions taken!";
 		}
+		*/
 	}
 }
 	 
