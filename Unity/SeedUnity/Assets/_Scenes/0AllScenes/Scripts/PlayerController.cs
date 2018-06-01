@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject actionMenu;
     public GameObject resultMenu;
     public GameObject actionOperator;
+    public GameObject otherItem;
 
 	public Text countText;
 	public Text winText;
@@ -22,7 +23,8 @@ public class PlayerController : MonoBehaviour {
 	public int count; 
 
 	private Vector3 moveDirection = Vector3.zero;
-    private bool singleEntry = true;
+    private bool nearItem = false;
+    //private bool singleEntry = true;
 
     public GameObject playerLog;
 
@@ -59,6 +61,18 @@ public class PlayerController : MonoBehaviour {
             griddler.GetComponent<GridCreator>().gridIron(1);
         }
         */
+
+        //Input.GetAxis("FG")
+
+        if(nearItem == true) {
+
+            if (Input.GetAxis("FG") > 0){
+                otherItem.GetComponent<item>().takeItem();
+                otherItem.SetActive(false);
+            }
+
+        }
+
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
 	}
@@ -96,7 +110,6 @@ public class PlayerController : MonoBehaviour {
 
         if (other.gameObject.CompareTag ("Pick Up")) 
 		{
-            singleEntry = false;
 			other.gameObject.SetActive (false);
 			count += 1;
 			SetCountText ();
@@ -104,25 +117,22 @@ public class PlayerController : MonoBehaviour {
 
         if (other.gameObject.CompareTag("ActionSpot"))
         {
-            singleEntry = false;
             Debug.Log("Action spot entered");
             //count += 1;
             SetCountText();
-            //actionMenu.gameObject.SetActive(true);
-            actionOperator.GetComponent<actionOperator>().activateMenu();
-
+            other.GetComponent<actionSpot>().playerAlert();
+            actionOperator.GetComponent<actionOperator>().activateSpot();
+            nearItem = true;
+            otherItem = other.gameObject.GetComponent<actionSpot>().item;
+            //ItemController itemController = other.GetComponent<item.
+                             
             //To do:
-            // Have menu pop-up for player actions at the spot
-            // Remove menu on exit
-            // Store the action in log, including index and ID
-            //other.gameObject.GetComponent<>();
-            // Close menu on button press
+            // Store the action in log, including map index, ID of spot, and ID of action
 
         }
 
         if (other.gameObject.CompareTag("Entrance"))
         {
-            singleEntry = false;
             Debug.Log("Entrance entered");
 
             //To do:
@@ -141,8 +151,11 @@ public class PlayerController : MonoBehaviour {
 
         if (other.gameObject.CompareTag("ActionSpot"))
         {
-            actionOperator.GetComponent<actionOperator>().deactivateMenu();
+            other.GetComponent<actionSpot>().playerClear();
+            actionOperator.GetComponent<actionOperator>().deactivateSpot();
             Debug.Log("Action spot exited");
+
+            nearItem = false;
 
         }
     }
