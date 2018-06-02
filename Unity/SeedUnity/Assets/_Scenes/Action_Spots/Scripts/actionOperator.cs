@@ -7,6 +7,8 @@ public class actionOperator : MonoBehaviour {
     public GameObject actionMenu;
     public GameObject resultMenu;
     public GameObject player;
+    public GameObject actionSpot;
+    public GameObject itemPrompt;
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +19,22 @@ public class actionOperator : MonoBehaviour {
 	void Update () {
 		
 	}
+
+
+    public void activateSpot()
+    {
+        itemPrompt.gameObject.SetActive(true);
+
+    }
+
+    public void deactivateSpot()
+    {
+        itemPrompt.gameObject.SetActive(false);
+
+    }
+
+
+    /*
 
     public void activateMenu(){
         Debug.Log("action menu activation disabled");
@@ -48,5 +66,7 @@ public class actionOperator : MonoBehaviour {
         Debug.Log("result button clicked");
         resultMenu.gameObject.SetActive(false);
     }
+
+*/
 
 }
