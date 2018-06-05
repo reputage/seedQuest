@@ -18,6 +18,11 @@ public class playerLog : MonoBehaviour {
      spot 15 * 1000 = 15000
      action 4 * 100000 = 400000
      number: 415,199
+
+     Alternatively,
+     199,154
+
+     This isn't set in stone, just a possible solution
      
      */
 
@@ -46,21 +51,25 @@ public class playerLog : MonoBehaviour {
                 //Log action
                 action1 = actionInt;
                 actCount += 1;
+                Debug.Log("Action successfully logged! ID: " + actionInt);
                 break;
             case 1:
                 //Log action
                 action2 = actionInt;
                 actCount += 1;
+                Debug.Log("Action successfully logged! ID: " + actionInt);
                 break;
             case 2:
                 //Log action
                 action3 = actionInt;
                 actCount += 1;
+                Debug.Log("Action successfully logged! ID: " + actionInt);
                 break;
             case 3:
                 //Log action
                 action4 = actionInt;
                 actCount += 1;
+                Debug.Log("Action successfully logged! ID: " + actionInt);
                 break;
             case 4:
                 //Log action
