@@ -5,6 +5,7 @@ using UnityEngine;
 public class item : MonoBehaviour {
 
     public bool glowing = false;
+    public int itemID = 100000;
 
 	// Use this for initialization
 	void Start () {
@@ -46,8 +47,9 @@ public class item : MonoBehaviour {
         mat.SetColor("_EmissionColor", finalColor);
     }
 
-    public void takeItem(){
+    public int takeItem(){
         Debug.Log("Item taken!");
+        return 0;
     }
 
     public void activateGlow(){

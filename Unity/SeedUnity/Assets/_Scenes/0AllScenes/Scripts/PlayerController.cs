@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
 
 	private Vector3 moveDirection = Vector3.zero;
     private bool nearItem = false;
+    private int logID = 0;
     //private bool singleEntry = true;
 
     public GameObject playerLog;
@@ -67,8 +68,12 @@ public class PlayerController : MonoBehaviour {
         if(nearItem == true) {
 
             if (Input.GetAxis("FG") > 0){
+                logID = otherItem.GetComponent<item>().itemID;
+                //Debug.Log(logID);
+                playerLog.GetComponent<playerLog>().actionLogger(logID);
                 otherItem.GetComponent<item>().takeItem();
                 otherItem.SetActive(false);
+                nearItem = false;
             }
 
         }
