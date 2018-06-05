@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetAxis("FG") > 0){
                 logID = otherItem.GetComponent<item>().itemID;
                 //Debug.Log(logID);
+                actionOperator.GetComponent<actionOperator>().deactivateSpot();
                 playerLog.GetComponent<playerLog>().actionLogger(logID);
                 otherItem.GetComponent<item>().takeItem();
                 otherItem.SetActive(false);
