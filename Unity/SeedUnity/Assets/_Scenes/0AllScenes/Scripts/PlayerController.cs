@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject resultMenu;
     public GameObject actionOperator;
     public GameObject otherItem;
+    public GameObject logDisplay;
 
 	public Text countText;
 	public Text winText;
@@ -24,7 +25,10 @@ public class PlayerController : MonoBehaviour {
 
 	private Vector3 moveDirection = Vector3.zero;
     private bool nearItem = false;
+    private bool logVisible = false;
     private int logID = 0;
+    private int coolDown = 0;
+
     //private bool singleEntry = true;
 
     public GameObject playerLog;
@@ -35,6 +39,7 @@ public class PlayerController : MonoBehaviour {
 		count = 0;
 		SetCountText ();
 		winText.text = "";
+        logDisplay.GetComponentInChildren<Text>().text = "";
 	}
 
 	void Update() 
@@ -70,13 +75,34 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetAxis("FG") > 0){
                 logID = otherItem.GetComponent<item>().itemID;
                 //Debug.Log(logID);
+
                 actionOperator.GetComponent<actionOperator>().deactivateSpot();
                 playerLog.GetComponent<playerLog>().actionLogger(logID);
                 otherItem.GetComponent<item>().takeItem();
+
+                logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
+
                 otherItem.SetActive(false);
                 nearItem = false;
             }
+        }
 
+        if (coolDown == 0 && Input.GetAxis("FG") < 0){
+
+            coolDown += 20;
+            if (logVisible == false)
+            {
+                logVisible = true;
+                logDisplay.SetActive(true);
+            }
+            else{
+                logVisible = false;
+                logDisplay.SetActive(false);
+            }
+        }
+
+        if (coolDown > 0){
+            coolDown -= 1;
         }
 
 		moveDirection.y -= gravity * Time.deltaTime;
