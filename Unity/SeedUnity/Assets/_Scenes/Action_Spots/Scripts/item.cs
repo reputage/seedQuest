@@ -10,6 +10,7 @@ public class item : MonoBehaviour
     public bool activeEmissive = false;
     public Light lt;
     public int itemID = 100000;
+    public string itemName = "book";
 
     // Use this for initialization
     void Start()
@@ -63,18 +64,19 @@ public class item : MonoBehaviour
 
     void noGlow()
     {
-        Renderer renderer = GetComponent<Renderer>();
-        Material mat = renderer.material;
-
         float emission = 0.0f;
-        //Debug.Log(emission);
 
         Color newColor = new Color32(0x18, 0xA8, 0x95, 0xFF);
         Color finalColor = newColor * Mathf.LinearToGammaSpace(emission);
 
-        mat.SetColor("_EmissionColor", finalColor);
-
         lt.color = finalColor;
+
+        Renderer renderer = GetComponent<Renderer>();
+        Material mat = renderer.material;
+
+        //Debug.Log(emission);
+
+        mat.SetColor("_EmissionColor", finalColor);
 
     }
 
@@ -86,6 +88,9 @@ public class item : MonoBehaviour
 
     public void activateGlow()
     {
+        
+        lt.enabled = true;
+        //lt.SetActive(true);
         if (emissive)
         {
             activeEmissive = true;
