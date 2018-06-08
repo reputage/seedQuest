@@ -24,10 +24,13 @@ public class PlayerController : MonoBehaviour {
 	public int count; 
 
 	private Vector3 moveDirection = Vector3.zero;
+
     private bool nearItem = false;
     private bool logVisible = false;
+    private bool pauseActive = false;
     private int logID = 0;
-    private int coolDown = 0;
+    private int logCool = 0;
+    private int pauseCool = 0;
 
     //private bool singleEntry = true;
 
@@ -87,9 +90,9 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (coolDown == 0 && Input.GetAxis("FG") < 0){
+        if (logCool == 0 && Input.GetAxis("FG") < 0){
 
-            coolDown += 20;
+            logCool += 20;
             if (logVisible == false)
             {
                 logVisible = true;
@@ -101,8 +104,28 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (coolDown > 0){
-            coolDown -= 1;
+        if (pauseCool == 0 && Input.GetAxis("Cancel") > 0)
+        {
+
+            pauseCool += 20;
+            if (pauseActive == false)
+            {
+                pauseActive = true;
+                actionOperator.GetComponent<actionOperator>().activatePause();
+            }
+            else
+            {
+                pauseActive = false;
+                actionOperator.GetComponent<actionOperator>().deactivatePause();
+            }
+        }
+
+        if (logCool > 0){
+            logCool -= 1;
+        }
+
+        if(pauseCool > 0){
+            pauseCool -= 1;
         }
 
 		moveDirection.y -= gravity * Time.deltaTime;
