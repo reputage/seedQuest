@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowCamera : MonoBehaviour {
+public class DemoCamera : MonoBehaviour {
 
 	public GameObject player;
 

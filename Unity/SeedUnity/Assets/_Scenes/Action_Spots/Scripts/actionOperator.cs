@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class actionOperator : MonoBehaviour {
 
+    public GameObject PauseMenu;
     public GameObject actionMenu;
     public GameObject resultMenu;
     public GameObject player;
@@ -12,7 +13,7 @@ public class actionOperator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        PauseMenu.gameObject.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -33,6 +34,24 @@ public class actionOperator : MonoBehaviour {
 
     }
 
+
+    public void activatePause()
+    {
+        PauseMenu.gameObject.SetActive(true);
+
+    }
+
+    public void deactivatePause()
+    {
+        PauseMenu.gameObject.SetActive(false);
+
+    }
+
+    public void quitButton()
+    {
+        // Quit the game
+
+    }
 
     /*
 
