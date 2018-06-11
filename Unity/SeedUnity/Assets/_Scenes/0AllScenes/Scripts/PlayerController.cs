@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () 
 	{
+        Debug.Log(Time.timeScale);
 		//rb = GetComponent<Rigidbody> ();
 		count = 0;
 		SetCountText ();
@@ -104,10 +105,14 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        //float cancelVal = Input.GetAxis("Cancel");
+        Debug.Log(Input.GetAxis("Cancel"));
+
         if (pauseCool == 0 && Input.GetAxis("Cancel") > 0)
         {
-
+            //cancelVal = 0;
             pauseCool += 10;
+
             if (pauseActive == false)
             {
                 activatePause();
@@ -135,12 +140,14 @@ public class PlayerController : MonoBehaviour {
         pauseActive = true;
         actionOperator.GetComponent<actionOperator>().activatePause();
         moveDirection *= 0;
+        Time.timeScale = 0;
     }
 
     public void deactivatePause()
     {
         pauseActive = false;
         actionOperator.GetComponent<actionOperator>().deactivatePause();
+        Time.timeScale = 1;
     }
 
     public void undoAction()
