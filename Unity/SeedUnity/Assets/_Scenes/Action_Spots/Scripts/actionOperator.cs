@@ -47,6 +47,11 @@ public class actionOperator : MonoBehaviour {
 
     }
 
+    public void quitButton()
+    {
+        // Quit the game
+
+    }
 
     /*
 

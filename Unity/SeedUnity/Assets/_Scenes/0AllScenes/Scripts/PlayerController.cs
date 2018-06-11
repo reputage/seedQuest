@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour {
 	void Update() 
 	{
 		CharacterController controller = GetComponent<CharacterController>();
-		if (controller.isGrounded) 
+		if (controller.isGrounded && pauseActive == false) 
 		{
 			transform.Rotate (0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
 
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour {
 
         if(nearItem == true) {
 
-            if (Input.GetAxis("FG") > 0){
+            if (Input.GetAxis("FG") > 0 && pauseActive == false){
                 logID = otherItem.GetComponent<item>().itemID;
                 //Debug.Log(logID);
 
@@ -107,16 +107,14 @@ public class PlayerController : MonoBehaviour {
         if (pauseCool == 0 && Input.GetAxis("Cancel") > 0)
         {
 
-            pauseCool += 20;
+            pauseCool += 10;
             if (pauseActive == false)
             {
-                pauseActive = true;
-                actionOperator.GetComponent<actionOperator>().activatePause();
+                activatePause();
             }
             else
             {
-                pauseActive = false;
-                actionOperator.GetComponent<actionOperator>().deactivatePause();
+                deactivatePause();
             }
         }
 
@@ -132,6 +130,28 @@ public class PlayerController : MonoBehaviour {
 		controller.Move(moveDirection * Time.deltaTime);
 	}
 
+    public void activatePause()
+    {
+        pauseActive = true;
+        actionOperator.GetComponent<actionOperator>().activatePause();
+        moveDirection *= 0;
+    }
+
+    public void deactivatePause()
+    {
+        pauseActive = false;
+        actionOperator.GetComponent<actionOperator>().deactivatePause();
+    }
+
+    public void undoAction()
+    {
+       //in progress 
+    }
+
+    public void quitGame()
+    {
+        Application.Quit();
+    }
 
 	/*
 	// Tank controls
