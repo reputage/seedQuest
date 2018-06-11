@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject logDisplay;
 
 	public Text countText;
-	public Text winText;
+	//public Text winText;
 
 	//private Rigidbody rb;
 	public int count; 
@@ -42,14 +42,16 @@ public class PlayerController : MonoBehaviour {
 		//rb = GetComponent<Rigidbody> ();
 		count = 0;
 		SetCountText ();
-		winText.text = "";
+		//winText.text = "";
         logDisplay.GetComponentInChildren<Text>().text = "";
+        //animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
+
 	}
 
 	void Update() 
 	{
 		CharacterController controller = GetComponent<CharacterController>();
-		if (controller.isGrounded && pauseActive == false) 
+		if (/* controller.isGrounded &&v*/ pauseActive == false) 
 		{
 			transform.Rotate (0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
 
