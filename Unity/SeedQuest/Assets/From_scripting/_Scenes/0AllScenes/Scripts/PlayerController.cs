@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
+
+    Animator animator;
+
 	public float speed;
 	public float rotationSpeed;
 	public float yMin, yMax;
@@ -44,7 +47,7 @@ public class PlayerController : MonoBehaviour {
 		SetCountText ();
 		//winText.text = "";
         logDisplay.GetComponentInChildren<Text>().text = "";
-        //animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
+        animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
 
 	}
 
@@ -63,16 +66,6 @@ public class PlayerController : MonoBehaviour {
 				moveDirection.y = jumpSpeed;
 
 		}
-        /*
-        if (Input.GetAxis("Fire1") > 0){
-            griddler.GetComponent<GridCreator>().gridIron(0);
-            griddler.GetComponent<GridCreator>().Proceed();
-        }
-        if (Input.GetAxis("Fire2") > 0) {
-            griddler.GetComponent<GridCreator>().gridIron(1);
-        }
-        */
-
 
         if(nearItem == true) {
 
@@ -132,6 +125,16 @@ public class PlayerController : MonoBehaviour {
 
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
+
+        if (moveDirection.z != 0)
+        {
+            animator.SetBool("Walk", true);
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
+        }
+
 	}
 
     public void activatePause()
