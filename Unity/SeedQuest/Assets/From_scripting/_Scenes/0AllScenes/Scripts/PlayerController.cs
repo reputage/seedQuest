@@ -32,8 +32,6 @@ public class PlayerController : MonoBehaviour {
     private bool logVisible = false;
     private bool pauseActive = false;
     private int logID = 0;
-    private int logCool = 0;
-    private int pauseCool = 0;
 
     //private bool singleEntry = true;
 
@@ -84,9 +82,8 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (logCool == 0 && Input.GetAxis("FG") < 0){
+        if (Input.GetButtonDown("FG")){
 
-            logCool += 20;
             if (logVisible == false)
             {
                 logVisible = true;
@@ -98,12 +95,9 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        //float cancelVal = Input.GetAxis("Cancel");
 
-        if (pauseCool == 0 && Input.GetAxis("Cancel") > 0)
+        if (Input.GetButtonDown("Cancel"))
         {
-            //cancelVal = 0;
-            pauseCool += 10;
 
             if (pauseActive == false)
             {
@@ -112,15 +106,8 @@ public class PlayerController : MonoBehaviour {
             else
             {
                 deactivatePause();
+                Debug.Log("Unpausing from ESC...");
             }
-        }
-
-        if (logCool > 0){
-            logCool -= 1;
-        }
-
-        if(pauseCool > 0){
-            pauseCool -= 1;
         }
 
 		moveDirection.y -= gravity * Time.deltaTime;
@@ -141,7 +128,7 @@ public class PlayerController : MonoBehaviour {
     {
         pauseActive = true;
         actionOperator.GetComponent<actionOperator>().activatePause();
-        moveDirection *= 0;
+        //moveDirection *= 0;
         Time.timeScale = 0;
     }
 
@@ -218,7 +205,13 @@ public class PlayerController : MonoBehaviour {
         {
             Debug.Log("Entrance entered");
 
-
+            //To do:
+            // Have menu pop-up prompting button press to enter
+            // Remove menu on exit
+            // Get the index of the entrance
+            //other.gameObject.GetComponent<>();
+            // Change scene on button press
+            // UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 
         }
 	}
