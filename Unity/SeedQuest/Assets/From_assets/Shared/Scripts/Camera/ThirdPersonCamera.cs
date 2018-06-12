@@ -43,8 +43,7 @@ public class ThirdPersonCamera : MonoBehaviour {
     // Update is called once per frame
     void LateUpdate () {
 
-
-
+        // This code is for using the mouse to control the camera
         Vector3 dir = new Vector3(0, 0, -distance);
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
         transform.position = lookAt.position + rotation * dir + offset;
@@ -54,7 +53,7 @@ public class ThirdPersonCamera : MonoBehaviour {
         // This code is for not using the mouse to move the camera
         /*
         float desiredAngle = lookAt.transform.eulerAngles.y;
-        rotation = Quaternion.Euler(0, desiredAngle, 0);
+        Quaternion rotation = Quaternion.Euler(0, desiredAngle, 0);
         transform.position = lookAt.transform.position - (rotation * altOffset);
         transform.LookAt(lookAt.transform);
         */

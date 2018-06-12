@@ -51,12 +51,11 @@ public class PlayerController : MonoBehaviour {
 	void Update() 
 	{
 		CharacterController controller = GetComponent<CharacterController>();
-		if (/* controller.isGrounded &&v*/ pauseActive == false) 
+		if (controller.isGrounded && pauseActive == false) 
 		{
 			transform.Rotate (0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
 
 			moveDirection = new Vector3(Input.GetAxis("Strafe"), 0, Input.GetAxis("Vertical"));
-			//moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
 
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
@@ -74,7 +73,6 @@ public class PlayerController : MonoBehaviour {
         }
         */
 
-        //Input.GetAxis("FG")
 
         if(nearItem == true) {
 
@@ -108,7 +106,6 @@ public class PlayerController : MonoBehaviour {
         }
 
         //float cancelVal = Input.GetAxis("Cancel");
-        Debug.Log(Input.GetAxis("Cancel"));
 
         if (pauseCool == 0 && Input.GetAxis("Cancel") > 0)
         {
