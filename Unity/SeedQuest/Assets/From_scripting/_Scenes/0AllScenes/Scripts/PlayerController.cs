@@ -208,7 +208,6 @@ public class PlayerController : MonoBehaviour {
             actionOperator.GetComponent<actionOperator>().activateSpot();
             nearItem = true;
             otherItem = other.gameObject.GetComponent<actionSpot>().item;
-            //ItemController itemController = other.GetComponent<item.
                              
             //To do:
             // Store the action in log, including map index, ID of spot, and ID of action
@@ -219,13 +218,7 @@ public class PlayerController : MonoBehaviour {
         {
             Debug.Log("Entrance entered");
 
-            //To do:
-            // Have menu pop-up prompting button press to enter
-            // Remove menu on exit
-            // Get the index of the entrance
-            //other.gameObject.GetComponent<>();
-            // Change scene on button press
-            // UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+
 
         }
 	}
