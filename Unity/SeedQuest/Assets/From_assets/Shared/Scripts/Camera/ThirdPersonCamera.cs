@@ -20,8 +20,13 @@ public class ThirdPersonCamera : MonoBehaviour {
     public Vector3 offset = new Vector3(0.0f, 2.0f, 0.0f);
     public Vector3 lookAtOffset = new Vector3(0.0f, 2.0f, 0.0f);
 
+    private Vector3 altOffset;
+
 	// Use this for initialization
 	void Start () {
+
+        altOffset = lookAt.transform.position - transform.position;
+
 	}
 
     private void Update()
@@ -37,9 +42,21 @@ public class ThirdPersonCamera : MonoBehaviour {
 
     // Update is called once per frame
     void LateUpdate () {
+
+
+
         Vector3 dir = new Vector3(0, 0, -distance);
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
         transform.position = lookAt.position + rotation * dir + offset;
         transform.LookAt(lookAt.position + lookAtOffset);
+
+
+        // This code is for not using the mouse to move the camera
+        /*
+        float desiredAngle = lookAt.transform.eulerAngles.y;
+        rotation = Quaternion.Euler(0, desiredAngle, 0);
+        transform.position = lookAt.transform.position - (rotation * altOffset);
+        transform.LookAt(lookAt.transform);
+        */
 	}
 }
