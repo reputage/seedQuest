@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
+
+    Animator animator;
+
 	public float speed;
 	public float rotationSpeed;
 	public float yMin, yMax;
@@ -29,8 +32,6 @@ public class PlayerController : MonoBehaviour {
     private bool logVisible = false;
     private bool pauseActive = false;
     private int logID = 0;
-    private int logCool = 0;
-    private int pauseCool = 0;
 
     //private bool singleEntry = true;
 
@@ -44,19 +45,18 @@ public class PlayerController : MonoBehaviour {
 		SetCountText ();
 		//winText.text = "";
         logDisplay.GetComponentInChildren<Text>().text = "";
-        //animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
+        animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
 
 	}
 
 	void Update() 
 	{
 		CharacterController controller = GetComponent<CharacterController>();
-		if (/* controller.isGrounded &&v*/ pauseActive == false) 
+		if (controller.isGrounded && pauseActive == false) 
 		{
 			transform.Rotate (0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
 
 			moveDirection = new Vector3(Input.GetAxis("Strafe"), 0, Input.GetAxis("Vertical"));
-			//moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
 
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
@@ -64,17 +64,6 @@ public class PlayerController : MonoBehaviour {
 				moveDirection.y = jumpSpeed;
 
 		}
-        /*
-        if (Input.GetAxis("Fire1") > 0){
-            griddler.GetComponent<GridCreator>().gridIron(0);
-            griddler.GetComponent<GridCreator>().Proceed();
-        }
-        if (Input.GetAxis("Fire2") > 0) {
-            griddler.GetComponent<GridCreator>().gridIron(1);
-        }
-        */
-
-        //Input.GetAxis("FG")
 
         if(nearItem == true) {
 
@@ -93,9 +82,8 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (logCool == 0 && Input.GetAxis("FG") < 0){
+        if (Input.GetButtonDown("FG")){
 
-            logCool += 20;
             if (logVisible == false)
             {
                 logVisible = true;
@@ -107,13 +95,9 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        //float cancelVal = Input.GetAxis("Cancel");
-        Debug.Log(Input.GetAxis("Cancel"));
 
-        if (pauseCool == 0 && Input.GetAxis("Cancel") > 0)
+        if (Input.GetButtonDown("Cancel"))
         {
-            //cancelVal = 0;
-            pauseCool += 10;
 
             if (pauseActive == false)
             {
@@ -122,26 +106,29 @@ public class PlayerController : MonoBehaviour {
             else
             {
                 deactivatePause();
+                Debug.Log("Unpausing from ESC...");
             }
-        }
-
-        if (logCool > 0){
-            logCool -= 1;
-        }
-
-        if(pauseCool > 0){
-            pauseCool -= 1;
         }
 
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
+
+        if (moveDirection.z != 0)
+        {
+            animator.SetBool("Walk", true);
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
+        }
+
 	}
 
     public void activatePause()
     {
         pauseActive = true;
         actionOperator.GetComponent<actionOperator>().activatePause();
-        moveDirection *= 0;
+        //moveDirection *= 0;
         Time.timeScale = 0;
     }
 
@@ -208,7 +195,6 @@ public class PlayerController : MonoBehaviour {
             actionOperator.GetComponent<actionOperator>().activateSpot();
             nearItem = true;
             otherItem = other.gameObject.GetComponent<actionSpot>().item;
-            //ItemController itemController = other.GetComponent<item.
                              
             //To do:
             // Store the action in log, including map index, ID of spot, and ID of action
