@@ -31,9 +31,9 @@ public class operatorScript : MonoBehaviour {
         //Debug.Log("Seed button clicked!");
         buttonDefault.transform.localPosition = new Vector3(-60, -500, 0);
         buttonSeed.transform.localPosition = new Vector3(60, -500, 0);
-        buttonBack.transform.localPosition = new Vector3(-20, -30, 0);
-        buttonGenerate.transform.localPosition = new Vector3(-90, 20, 0);
-        inputField.transform.localPosition = new Vector3(90, 20, 0);
+        buttonBack.transform.localPosition = new Vector3(-20, -50, 0);
+        buttonGenerate.transform.localPosition = new Vector3(-90, 30, 0);
+        inputField.transform.localPosition = new Vector3(90, 30, 0);
         seedWord = "/!0";
     }
 
