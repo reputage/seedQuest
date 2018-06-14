@@ -77,10 +77,6 @@ public class actionOperator : MonoBehaviour {
         actionMenu.gameObject.SetActive(false);
     }
 
-    public void resultButton(){
-        Debug.Log("result button clicked");
-        resultMenu.gameObject.SetActive(false);
-    }
 
 */
 

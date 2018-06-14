@@ -7,6 +7,7 @@ public class WalkingPlayer : MonoBehaviour {
     Animator animator;
     public float moveSpeed = 10;
     public float rotateSpeed = 100;
+    // public float gravity = 8.9;
 
 	// Use this for initialization
 	void Start () {

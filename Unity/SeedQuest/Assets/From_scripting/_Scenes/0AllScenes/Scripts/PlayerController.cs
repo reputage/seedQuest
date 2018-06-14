@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour {
 	public Text countText;
 	//public Text winText;
 
-	//private Rigidbody rb;
 	public int count; 
 
 	private Vector3 moveDirection = Vector3.zero;
@@ -33,8 +32,6 @@ public class PlayerController : MonoBehaviour {
     private bool logVisible = false;
     private bool pauseActive = false;
     private int logID = 0;
-
-    //private bool singleEntry = true;
 
     public GameObject playerLog;
 
@@ -163,13 +160,14 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-
+        /*
         if (other.gameObject.CompareTag ("Pick Up")) 
 		{
 			other.gameObject.SetActive (false);
 			count += 1;
 			SetCountText ();
 		}
+		*/
 
         if (other.gameObject.CompareTag("ActionSpot"))
         {
@@ -192,6 +190,8 @@ public class PlayerController : MonoBehaviour {
 
             actionOperator.GetComponent<actionOperator>().activateEntrance();
             nearEntrance = true;
+            other.GetComponent<entranceScript>().activateGlow();
+
             //To do:
             // Have menu pop-up prompting button press to enter
             // Remove menu on exit
@@ -219,6 +219,7 @@ public class PlayerController : MonoBehaviour {
             //other.GetComponent<entrance>().playerClear();
             actionOperator.GetComponent<actionOperator>().deactivateEntrance();
             Debug.Log("Action spot exited");
+            other.GetComponent<entranceScript>().deactivateGlow();
 
             nearItem = false;
         }
