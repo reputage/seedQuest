@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 moveDirection = Vector3.zero;
 
     private bool nearItem = false;
+    private bool nearEntrance = false;
     private bool logVisible = false;
     private bool pauseActive = false;
     private int logID = 0;
@@ -67,7 +68,7 @@ public class PlayerController : MonoBehaviour {
 
         if(nearItem == true) {
 
-            if (Input.GetAxis("FG") > 0 && pauseActive == false){
+            if (Input.GetButtonDown("F_in") && pauseActive == false){
                 logID = otherItem.GetComponent<item>().itemID;
                 //Debug.Log(logID);
 
@@ -82,7 +83,18 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonDown("FG")){
+        if (nearEntrance == true)
+        {
+
+            if (Input.GetButtonDown("F_in"))
+            {
+                //Debug.Log(logID);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+
+            }
+        }
+
+        if (Input.GetButtonDown("G_in")){
 
             if (logVisible == false)
             {
@@ -149,33 +161,6 @@ public class PlayerController : MonoBehaviour {
         Application.Quit();
     }
 
-	/*
-	// Tank controls
-	void Update () 
-	{
-		var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotationSpeed;
-		var z = Input.GetAxis("Vertical") * Time.deltaTime * speed;
-
-		transform.Rotate(0, x, 0);
-		transform.Translate(0, 0, z);
-	}
-	*/
-
-
-	/*
-	// Movement, buggy when used with rigidbody physics
-	void FixedUpdate () 
-	{
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		float moveVertical = Input.GetAxis ("Vertical");
-
-		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-
-		rb.velocity = (movement * speed);
-
-	}
-	*/
-
 	void OnTriggerEnter(Collider other)
 	{
 
@@ -205,6 +190,8 @@ public class PlayerController : MonoBehaviour {
         {
             Debug.Log("Entrance entered");
 
+            actionOperator.GetComponent<actionOperator>().activateEntrance();
+            nearEntrance = true;
             //To do:
             // Have menu pop-up prompting button press to enter
             // Remove menu on exit
@@ -218,7 +205,6 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerExit(Collider other)
     {
-
         if (other.gameObject.CompareTag("ActionSpot"))
         {
             other.GetComponent<actionSpot>().playerClear();
@@ -226,7 +212,15 @@ public class PlayerController : MonoBehaviour {
             Debug.Log("Action spot exited");
 
             nearItem = false;
+        }
 
+        if (other.gameObject.CompareTag("Entrance"))
+        {
+            //other.GetComponent<entrance>().playerClear();
+            actionOperator.GetComponent<actionOperator>().deactivateEntrance();
+            Debug.Log("Action spot exited");
+
+            nearItem = false;
         }
     }
 

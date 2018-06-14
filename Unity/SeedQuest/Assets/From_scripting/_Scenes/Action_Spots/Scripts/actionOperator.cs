@@ -10,6 +10,7 @@ public class actionOperator : MonoBehaviour {
     public GameObject player;
     public GameObject actionSpot;
     public GameObject itemPrompt;
+    public GameObject entrancePrompt;
 
 	// Use this for initialization
 	void Start () {
@@ -21,30 +22,34 @@ public class actionOperator : MonoBehaviour {
 		
 	}
 
-
     public void activateSpot()
     {
         itemPrompt.gameObject.SetActive(true);
-
     }
 
     public void deactivateSpot()
     {
         itemPrompt.gameObject.SetActive(false);
-
     }
-
 
     public void activatePause()
     {
         PauseMenu.gameObject.SetActive(true);
-
     }
 
     public void deactivatePause()
     {
         PauseMenu.gameObject.SetActive(false);
+    }
 
+    public void activateEntrance()
+    {
+        entrancePrompt.gameObject.SetActive(true);
+    }
+
+    public void deactivateEntrance()
+    {
+        entrancePrompt.gameObject.SetActive(false);
     }
 
     public void quitButton()
@@ -55,15 +60,6 @@ public class actionOperator : MonoBehaviour {
 
     /*
 
-    public void activateMenu(){
-        Debug.Log("action menu activation disabled");
-        //actionMenu.gameObject.SetActive(true);
-    }
-
-    public void deactivateMenu()
-    {
-        actionMenu.gameObject.SetActive(false);
-    }
 
     public void actionButton(){
 
