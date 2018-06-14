@@ -18,7 +18,7 @@ public class operatorScript : MonoBehaviour {
     static string seedWord = "/!0";
 
 	void Start () {
-		
+        //Debug.Log("Game begin OK");
 	}
 	
     public void defaultClick(){

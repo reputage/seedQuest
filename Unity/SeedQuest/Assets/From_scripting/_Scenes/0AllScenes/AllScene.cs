@@ -7,9 +7,7 @@ public class AllScene : MonoBehaviour {
 
     static int seedParsed;
     static bool scenePrimed = false;
-    //static bool pauseEverything = false;
-    //private float sceneVal;
-
+    public int locationID = 0;
 
 	void Start () {
         DontDestroyOnLoad(gameObject);
@@ -31,7 +29,6 @@ public class AllScene : MonoBehaviour {
             scenePrimed = true;
             Debug.Log("Scene primed");
         }
-        //sceneVal = Input.GetAxis("SceneHack");
 
         if (scenePrimed == true && Input.GetAxis("SceneHack") > 0)
         {
