@@ -75,6 +75,8 @@ public class playerLog : MonoBehaviour {
                 //Log action
                 Debug.Log("Max actions have been performed");
                 break;
+            default:
+                break;
         }
 
     }

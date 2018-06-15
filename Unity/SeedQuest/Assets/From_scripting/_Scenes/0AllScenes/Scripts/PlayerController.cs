@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject actionOperator;
     public GameObject otherItem;
     public GameObject logDisplay;
+    public GameObject inventory;
 
 	public Text countText;
 	//public Text winText;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour {
     private bool nearEntrance = false;
     private bool logVisible = false;
     private bool pauseActive = false;
+    private bool invVisible = false;
     private int logID = 0;
 
     public GameObject playerLog;
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour {
 
 		}
 
+        // If near an item, show prompt to take it
         if(nearItem == true) {
 
             if (Input.GetButtonDown("F_in") && pauseActive == false){
@@ -74,12 +77,15 @@ public class PlayerController : MonoBehaviour {
                 otherItem.GetComponent<item>().takeItem();
 
                 logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
+                // inventory code here
+                inventory.GetComponent<InventoryOperator>().addItem(logID);
 
                 otherItem.SetActive(false);
                 nearItem = false;
             }
         }
 
+        // If near an entrance, show prompt to enter
         if (nearEntrance == true)
         {
 
@@ -91,6 +97,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        // Display or hide action log
         if (Input.GetButtonDown("G_in")){
 
             if (logVisible == false)
@@ -104,7 +111,23 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        // Display or hide inventory
+        if (Input.GetButtonDown("I_in"))
+        {
 
+            if (invVisible == false)
+            {
+                invVisible = true;
+                inventory.SetActive(true);
+            }
+            else
+            {
+                invVisible = false;
+                inventory.SetActive(false);
+            }
+        }
+
+        // Display or hide pause menu, and pause or unpause game
         if (Input.GetButtonDown("Cancel"))
         {
 
