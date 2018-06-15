@@ -13,6 +13,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 
     public Transform lookAt;
 
+    public bool paused = false;
     public bool inverted = false;
     public float mouseSensitivityX = 5.0f;
     public float mouseSensitivityY = 2.0f;
@@ -43,12 +44,14 @@ public class ThirdPersonCamera : MonoBehaviour {
     // Update is called once per frame
     void LateUpdate () {
 
-        // This code is for using the mouse to control the camera
-        Vector3 dir = new Vector3(0, 0, -distance);
-        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        transform.position = lookAt.position + rotation * dir + offset;
-        transform.LookAt(lookAt.position + lookAtOffset);
-
+        if (paused == false)
+        {
+            // This code is for using the mouse to control the camera
+            Vector3 dir = new Vector3(0, 0, -distance);
+            Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
+            transform.position = lookAt.position + rotation * dir + offset;
+            transform.LookAt(lookAt.position + lookAtOffset);
+        }
 
         // This code is for not using the mouse to move the camera
         /*
@@ -58,4 +61,15 @@ public class ThirdPersonCamera : MonoBehaviour {
         transform.LookAt(lookAt.transform);
         */
 	}
+
+    public void activatePause()
+    {
+        paused = true;
+    }
+
+    public void deactivatePause()
+    {
+        paused = false;
+    }
+
 }
