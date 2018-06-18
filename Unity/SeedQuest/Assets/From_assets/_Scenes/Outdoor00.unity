@@ -827,6 +827,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4710886630447282, guid: 302169fd31ec14c7d99a294789985329,
     type: 2}
   m_PrefabInternal: {fileID: 505359490}
+--- !u!1 &512389886 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1880027505610662, guid: dff1806bf7643411ab441a3630d3ba74,
+    type: 2}
+  m_PrefabInternal: {fileID: 1613335695}
 --- !u!1001 &531531979
 Prefab:
   m_ObjectHideFlags: 0
@@ -916,7 +921,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &575249817
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1362,6 +1367,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1728814693710806, guid: 2171765f75517426c99f58b058fed434, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 95031681774737010, guid: 2171765f75517426c99f58b058fed434,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114594338715851470, guid: 2171765f75517426c99f58b058fed434,
+        type: 2}
+      propertyPath: emissive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2037,6 +2052,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1279399291}
+  - component: {fileID: 1279399292}
   m_Layer: 0
   m_Name: Inventory
   m_TagString: Untagged
@@ -2060,6 +2076,21 @@ Transform:
   m_Father: {fileID: 784857678}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1279399292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1279399290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f47394ff527aa4cc3927dae6702c8146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item1: {fileID: 512389886}
+  item2: {fileID: 1923342898}
+  item3: {fileID: 0}
+  item4: {fileID: 0}
 --- !u!1001 &1328668456
 Prefab:
   m_ObjectHideFlags: 0
@@ -2106,7 +2137,7 @@ Prefab:
     - target: {fileID: 114918900986613444, guid: dff1806bf7643411ab441a3630d3ba74,
         type: 2}
       propertyPath: m_Text
-      value: Item 2
+      value: Rock
       objectReference: {fileID: 0}
     - target: {fileID: 114745520174271888, guid: dff1806bf7643411ab441a3630d3ba74,
         type: 2}
@@ -2114,6 +2145,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 94f9c1ecfca0a47df87b603fa9ae98f0,
         type: 3}
+    - target: {fileID: 1880027505610662, guid: dff1806bf7643411ab441a3630d3ba74, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dff1806bf7643411ab441a3630d3ba74, type: 2}
   m_IsPrefabParent: 0
@@ -2584,6 +2619,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1880027505610662, guid: dff1806bf7643411ab441a3630d3ba74, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114918900986613444, guid: dff1806bf7643411ab441a3630d3ba74,
+        type: 2}
+      propertyPath: m_Text
+      value: Soccer ball
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dff1806bf7643411ab441a3630d3ba74, type: 2}
   m_IsPrefabParent: 0
@@ -2845,9 +2889,19 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: deactivatePause
       objectReference: {fileID: 0}
+    - target: {fileID: 224385471786005070, guid: 75bfb8525b39245738cb202e6cb49cb6,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75bfb8525b39245738cb202e6cb49cb6, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1923342898 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1880027505610662, guid: dff1806bf7643411ab441a3630d3ba74,
+    type: 2}
+  m_PrefabInternal: {fileID: 1328668456}
 --- !u!1001 &1973789661
 Prefab:
   m_ObjectHideFlags: 0
@@ -3114,6 +3168,7 @@ MonoBehaviour:
   actionOperator: {fileID: 2035319992}
   otherItem: {fileID: 0}
   logDisplay: {fileID: 902159865}
+  inventory: {fileID: 1279399290}
   countText: {fileID: 1501022542}
   count: 0
   playerLog: {fileID: 2048091083}

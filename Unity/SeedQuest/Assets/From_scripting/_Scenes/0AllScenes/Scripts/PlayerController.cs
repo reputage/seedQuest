@@ -78,7 +78,9 @@ public class PlayerController : MonoBehaviour {
 
                 logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
                 // inventory code here
+                //inventory.SetActive(true);
                 inventory.GetComponent<InventoryOperator>().addItem(logID);
+                //inventory.SetActive(false);
 
                 otherItem.SetActive(false);
                 nearItem = false;
@@ -118,12 +120,16 @@ public class PlayerController : MonoBehaviour {
             if (invVisible == false)
             {
                 invVisible = true;
-                inventory.SetActive(true);
+                //inventory.SetActive(true);
+                inventory.GetComponent<InventoryOperator>().show();
             }
             else
             {
                 invVisible = false;
-                inventory.SetActive(false);
+                //inventory.SetActive(false);
+                inventory.GetComponent<InventoryOperator>().hide();
+
+
             }
         }
 
