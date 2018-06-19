@@ -14,17 +14,15 @@ public class PlayerController : MonoBehaviour {
 	public float jumpSpeed;
 
     public GameObject griddler;
-    public GameObject actionMenu;
-    public GameObject resultMenu;
     public GameObject actionOperator;
     public GameObject otherItem;
     public GameObject logDisplay;
     public GameObject inventory;
 
-	public Text countText;
+	//public Text countText;
 	//public Text winText;
 
-	public int count; 
+	//public int count; 
 
 	private Vector3 moveDirection = Vector3.zero;
 
@@ -34,6 +32,7 @@ public class PlayerController : MonoBehaviour {
     private bool pauseActive = false;
     private bool invVisible = false;
     private int logID = 0;
+    private int destinationScene;
     private string logName = "";
 
     public GameObject playerLog;
@@ -42,9 +41,8 @@ public class PlayerController : MonoBehaviour {
 	{
         Debug.Log(Time.timeScale);
 		//rb = GetComponent<Rigidbody> ();
-		count = 0;
-		SetCountText ();
-		//winText.text = "";
+		//count = 0;
+		//SetCountText ();
         logDisplay.GetComponentInChildren<Text>().text = "";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
 
@@ -80,10 +78,9 @@ public class PlayerController : MonoBehaviour {
                 otherItem.GetComponent<item>().takeItem();
 
                 logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
+
                 // inventory code here
-                //inventory.SetActive(true);
                 inventory.GetComponent<InventoryOperator>().addItem(logID, logName);
-                //inventory.SetActive(false);
 
                 otherItem.SetActive(false);
                 nearItem = false;
@@ -96,8 +93,8 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetButtonDown("F_in"))
             {
-                //Debug.Log(logID);
-                UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+                Debug.Log("Destination: " + destinationScene);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(destinationScene);
 
             }
         }
@@ -205,7 +202,7 @@ public class PlayerController : MonoBehaviour {
         {
             Debug.Log("Action spot entered");
             //count += 1;
-            SetCountText();
+            //SetCountText();
             other.GetComponent<actionSpot>().playerAlert();
             actionOperator.GetComponent<actionOperator>().activateSpot();
             nearItem = true;
@@ -223,15 +220,8 @@ public class PlayerController : MonoBehaviour {
             actionOperator.GetComponent<actionOperator>().activateEntrance();
             nearEntrance = true;
             other.GetComponent<entranceScript>().activateGlow();
-
-            //To do:
-            // Have menu pop-up prompting button press to enter
-            // Remove menu on exit
-            // Get the index of the entrance
-            //other.gameObject.GetComponent<>();
-            // Change scene on button press
-            // UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-
+            destinationScene = other.GetComponent<entranceScript>().destinationScene;
+            //Debug.Log("destination loaded: scene " + destinationScene);
         }
 	}
 
@@ -250,7 +240,7 @@ public class PlayerController : MonoBehaviour {
         {
             //other.GetComponent<entrance>().playerClear();
             actionOperator.GetComponent<actionOperator>().deactivateEntrance();
-            Debug.Log("Action spot exited");
+            Debug.Log("Entrance exited");
             other.GetComponent<entranceScript>().deactivateGlow();
 
             nearItem = false;
@@ -259,13 +249,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void SetCountText ()
 	{
-		countText.text = "Actions: " + count.ToString ();
-		/* 
-		 if (count >= 12) 
-		{
-			winText.text = "Way too many actions taken!";
-		}
-		*/
+		//countText.text = "Actions: " + count.ToString ();
 	}
 }
 	 
