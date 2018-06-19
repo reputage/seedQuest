@@ -19,10 +19,10 @@ public class PlayerController : MonoBehaviour {
     public GameObject logDisplay;
     public GameObject inventory;
 
-	public Text countText;
+	//public Text countText;
 	//public Text winText;
 
-	public int count; 
+	//public int count; 
 
 	private Vector3 moveDirection = Vector3.zero;
 
@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour {
     private bool pauseActive = false;
     private bool invVisible = false;
     private int logID = 0;
+    private int destinationScene;
     private string logName = "";
 
     public GameObject playerLog;
@@ -40,8 +41,8 @@ public class PlayerController : MonoBehaviour {
 	{
         Debug.Log(Time.timeScale);
 		//rb = GetComponent<Rigidbody> ();
-		count = 0;
-		SetCountText ();
+		//count = 0;
+		//SetCountText ();
         logDisplay.GetComponentInChildren<Text>().text = "";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
 
@@ -92,8 +93,8 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetButtonDown("F_in"))
             {
-                //Debug.Log(logID);
-                UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+                Debug.Log("Destination: " + destinationScene);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(destinationScene);
 
             }
         }
@@ -201,7 +202,7 @@ public class PlayerController : MonoBehaviour {
         {
             Debug.Log("Action spot entered");
             //count += 1;
-            SetCountText();
+            //SetCountText();
             other.GetComponent<actionSpot>().playerAlert();
             actionOperator.GetComponent<actionOperator>().activateSpot();
             nearItem = true;
@@ -219,7 +220,8 @@ public class PlayerController : MonoBehaviour {
             actionOperator.GetComponent<actionOperator>().activateEntrance();
             nearEntrance = true;
             other.GetComponent<entranceScript>().activateGlow();
-
+            destinationScene = other.GetComponent<entranceScript>().destinationScene;
+            //Debug.Log("destination loaded: scene " + destinationScene);
         }
 	}
 
@@ -238,7 +240,7 @@ public class PlayerController : MonoBehaviour {
         {
             //other.GetComponent<entrance>().playerClear();
             actionOperator.GetComponent<actionOperator>().deactivateEntrance();
-            Debug.Log("Action spot exited");
+            Debug.Log("Entrance exited");
             other.GetComponent<entranceScript>().deactivateGlow();
 
             nearItem = false;
@@ -247,13 +249,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void SetCountText ()
 	{
-		countText.text = "Actions: " + count.ToString ();
-		/* 
-		 if (count >= 12) 
-		{
-			winText.text = "Way too many actions taken!";
-		}
-		*/
+		//countText.text = "Actions: " + count.ToString ();
 	}
 }
 	 

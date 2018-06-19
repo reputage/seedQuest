@@ -29,8 +29,8 @@ public class operatorScript : MonoBehaviour {
     public void seedClick()
     {
         //Debug.Log("Seed button clicked!");
-        buttonDefault.transform.localPosition = new Vector3(-60, -500, 0);
-        buttonSeed.transform.localPosition = new Vector3(60, -500, 0);
+        buttonDefault.transform.localPosition = new Vector3(-60, -900, 0);
+        buttonSeed.transform.localPosition = new Vector3(60, -900, 0);
         buttonBack.transform.localPosition = new Vector3(-20, -50, 0);
         buttonGenerate.transform.localPosition = new Vector3(-90, 30, 0);
         inputField.transform.localPosition = new Vector3(90, 30, 0);
@@ -42,9 +42,9 @@ public class operatorScript : MonoBehaviour {
         //Debug.Log("Back button clicked!");
         buttonDefault.transform.localPosition = new Vector3(-60, 0, 0);
         buttonSeed.transform.localPosition = new Vector3(60, 0, 0);
-        buttonBack.transform.localPosition = new Vector3(-20, -500, 0);
-        buttonGenerate.transform.localPosition = new Vector3(-90, -500, 0);
-        inputField.transform.localPosition = new Vector3(90, -500, 0);
+        buttonBack.transform.localPosition = new Vector3(-20, -900, 0);
+        buttonGenerate.transform.localPosition = new Vector3(-90, -900, 0);
+        inputField.transform.localPosition = new Vector3(90, -900, 0);
 
     }
 

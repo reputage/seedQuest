@@ -10,6 +10,7 @@ public class entranceScript : MonoBehaviour
     public bool activeEmissive = false;
     //public Light lt;
     public int locationID = 100000;
+    public int destinationScene;
 
     // Use this for initialization
     void Start()

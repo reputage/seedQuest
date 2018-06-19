@@ -7,11 +7,11 @@ public class AllScene : MonoBehaviour {
 
     static int seedParsed;
     static bool scenePrimed = false;
-    public int locationID = 0;
-    public Vector3 outdoorLocation;
+    public static int locationID = 0;
+    public static Vector3 outdoorLocation;
 
 	void Start () {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         seedParsed = 0;
 	}
 
