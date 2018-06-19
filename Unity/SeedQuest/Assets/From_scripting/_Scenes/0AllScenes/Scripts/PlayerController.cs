@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour {
     private bool pauseActive = false;
     private bool invVisible = false;
     private int logID = 0;
+    private string logName = "";
 
     public GameObject playerLog;
 
@@ -70,6 +71,8 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetButtonDown("F_in") && pauseActive == false){
                 logID = otherItem.GetComponent<item>().itemID;
+                logName = otherItem.GetComponent<item>().itemName;
+
                 //Debug.Log(logID);
 
                 actionOperator.GetComponent<actionOperator>().deactivateSpot();
@@ -78,7 +81,9 @@ public class PlayerController : MonoBehaviour {
 
                 logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
                 // inventory code here
-                inventory.GetComponent<InventoryOperator>().addItem(logID);
+                //inventory.SetActive(true);
+                inventory.GetComponent<InventoryOperator>().addItem(logID, logName);
+                //inventory.SetActive(false);
 
                 otherItem.SetActive(false);
                 nearItem = false;
@@ -118,12 +123,16 @@ public class PlayerController : MonoBehaviour {
             if (invVisible == false)
             {
                 invVisible = true;
-                inventory.SetActive(true);
+                //inventory.SetActive(true);
+                inventory.GetComponent<InventoryOperator>().show();
             }
             else
             {
                 invVisible = false;
-                inventory.SetActive(false);
+                //inventory.SetActive(false);
+                inventory.GetComponent<InventoryOperator>().hide();
+
+
             }
         }
 
