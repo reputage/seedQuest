@@ -5,8 +5,6 @@ using UnityEngine;
 public class actionOperator : MonoBehaviour {
 
     public GameObject PauseMenu;
-    public GameObject actionMenu;
-    public GameObject resultMenu;
     public GameObject player;
     public GameObject actionSpot;
     public GameObject itemPrompt;
@@ -59,29 +57,7 @@ public class actionOperator : MonoBehaviour {
     public void quitButton()
     {
         // Quit the game
-
+        Application.Quit();
     }
-
-    /*
-
-
-    public void actionButton(){
-
-        //do something
-        Debug.Log("action button pressed");
-        actionMenu.gameObject.SetActive(false);
-        resultMenu.gameObject.SetActive(true);
-        player.GetComponent<PlayerController>().count += 1;
-        player.GetComponent<PlayerController>().SetCountText();
-    }
-
-    public void backButton() {
-        //do something
-        Debug.Log("back button pressed");
-        actionMenu.gameObject.SetActive(false);
-    }
-
-
-*/
 
 }

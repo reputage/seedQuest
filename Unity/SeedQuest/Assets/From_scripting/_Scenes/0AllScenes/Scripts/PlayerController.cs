@@ -14,8 +14,6 @@ public class PlayerController : MonoBehaviour {
 	public float jumpSpeed;
 
     public GameObject griddler;
-    public GameObject actionMenu;
-    public GameObject resultMenu;
     public GameObject actionOperator;
     public GameObject otherItem;
     public GameObject logDisplay;
@@ -44,7 +42,6 @@ public class PlayerController : MonoBehaviour {
 		//rb = GetComponent<Rigidbody> ();
 		count = 0;
 		SetCountText ();
-		//winText.text = "";
         logDisplay.GetComponentInChildren<Text>().text = "";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
 
@@ -80,10 +77,9 @@ public class PlayerController : MonoBehaviour {
                 otherItem.GetComponent<item>().takeItem();
 
                 logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
+
                 // inventory code here
-                //inventory.SetActive(true);
                 inventory.GetComponent<InventoryOperator>().addItem(logID, logName);
-                //inventory.SetActive(false);
 
                 otherItem.SetActive(false);
                 nearItem = false;
@@ -223,14 +219,6 @@ public class PlayerController : MonoBehaviour {
             actionOperator.GetComponent<actionOperator>().activateEntrance();
             nearEntrance = true;
             other.GetComponent<entranceScript>().activateGlow();
-
-            //To do:
-            // Have menu pop-up prompting button press to enter
-            // Remove menu on exit
-            // Get the index of the entrance
-            //other.gameObject.GetComponent<>();
-            // Change scene on button press
-            // UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 
         }
 	}
