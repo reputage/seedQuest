@@ -16,11 +16,6 @@ public class InventoryOperator : MonoBehaviour {
     public GameObject icon3;
     public GameObject icon4;
 
-    /* public GameObject item5;
-    public GameObject item6;
-    public GameObject item7;
-    public GameObject item8; */
-
     public Sprite iconRock;
     public Sprite iconBall;
     public Sprite iconDrone;
@@ -43,8 +38,6 @@ public class InventoryOperator : MonoBehaviour {
     private static string item4Name;
 
     private bool showing = false;
-
-
     private static int index = 0;
 
 	// Use this for initialization
