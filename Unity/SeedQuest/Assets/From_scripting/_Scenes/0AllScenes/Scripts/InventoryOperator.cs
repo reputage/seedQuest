@@ -15,6 +15,10 @@ public class InventoryOperator : MonoBehaviour {
     public GameObject icon2;
     public GameObject icon3;
     public GameObject icon4;
+    public GameObject drop1;
+    public GameObject drop2;
+    public GameObject drop3;
+    public GameObject drop4;
 
     public Sprite iconRock;
     public Sprite iconBall;
@@ -174,18 +178,22 @@ public class InventoryOperator : MonoBehaviour {
         if (item1Active == true)
         {
             item1.SetActive(true);
+            drop1.SetActive(true);
         }
         if (item2Active == true)
         {
             item2.SetActive(true);
+            drop2.SetActive(true);
         }
         if (item3Active == true)
         {
             item3.SetActive(true);
+            drop3.SetActive(true);
         }
         if (item4Active == true)
         {
             item4.SetActive(true);
+            drop3.SetActive(true);
         }
 
     }
