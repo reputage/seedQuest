@@ -20,6 +20,8 @@ public class ThirdPersonCamera : MonoBehaviour {
     public float keySensitivityX = 50.0f;
     public Vector3 offset = new Vector3(0.0f, 2.0f, 0.0f);
     public Vector3 lookAtOffset = new Vector3(0.0f, 2.0f, 0.0f);
+    public Vector3 pauseLocation;
+    public Vector3 pauseRotation;
 
     private Vector3 altOffset;
 
@@ -53,6 +55,12 @@ public class ThirdPersonCamera : MonoBehaviour {
             transform.LookAt(lookAt.position + lookAtOffset);
         }
 
+        else
+        {
+            transform.position = pauseLocation;
+            transform.eulerAngles = pauseRotation;
+        }
+
         // This code is for not using the mouse to move the camera
         /*
         float desiredAngle = lookAt.transform.eulerAngles.y;
@@ -65,11 +73,14 @@ public class ThirdPersonCamera : MonoBehaviour {
     public void activatePause()
     {
         paused = true;
+        pauseLocation = transform.position;
+        pauseRotation = transform.eulerAngles;
     }
 
     public void deactivatePause()
     {
         paused = false;
+
     }
 
 }

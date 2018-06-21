@@ -24,7 +24,8 @@ public class AllScene : MonoBehaviour {
     }
 	
 	void Update () {
-        
+
+        /*
         if (Input.GetAxis("Fire1") > 0)
         {
             scenePrimed = true;
@@ -42,7 +43,8 @@ public class AllScene : MonoBehaviour {
             scenePrimed = false;
             Debug.Log("Transitioning to scene 1...");
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-        }
+        } 
+        */
 	}
 
     /*
