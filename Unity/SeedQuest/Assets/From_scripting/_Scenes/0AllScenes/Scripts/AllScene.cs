@@ -8,7 +8,7 @@ public class AllScene : MonoBehaviour {
     static int seedParsed;
     static bool scenePrimed = false;
     public static int locationID = 0;
-    public static Vector3 outdoorLocation;
+    //public static Vector3 outdoorLocation;
 
 	void Start () {
         //DontDestroyOnLoad(gameObject);
@@ -24,7 +24,8 @@ public class AllScene : MonoBehaviour {
     }
 	
 	void Update () {
-        
+
+        /*
         if (Input.GetAxis("Fire1") > 0)
         {
             scenePrimed = true;
@@ -42,6 +43,14 @@ public class AllScene : MonoBehaviour {
             scenePrimed = false;
             Debug.Log("Transitioning to scene 1...");
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-        }
+        } 
+        */
 	}
+
+    /*
+    public void setLocation(Vector3 playerLoc)
+    {
+        outdoorLocation = playerLoc;
+    }
+    */
 }

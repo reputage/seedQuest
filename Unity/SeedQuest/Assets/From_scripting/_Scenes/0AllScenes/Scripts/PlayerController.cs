@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -19,13 +20,15 @@ public class PlayerController : MonoBehaviour {
     public GameObject logDisplay;
     public GameObject inventory;
 
-	//public Text countText;
-	//public Text winText;
+    //public Text countText;
+    //public Text winText;
 
-	//public int count; 
+    //public int count; 
 
+    public static Vector3 outdoorSpot;
 	private Vector3 moveDirection = Vector3.zero;
 
+    private static bool outdoorMove = false;
     private bool nearItem = false;
     private bool nearEntrance = false;
     private bool logVisible = false;
@@ -45,6 +48,11 @@ public class PlayerController : MonoBehaviour {
 		//SetCountText ();
         logDisplay.GetComponentInChildren<Text>().text = "";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
+        if (outdoorMove = true && SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            transform.position = outdoorSpot;
+            outdoorMove = false;
+        }
 
 	}
 
@@ -93,9 +101,14 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetButtonDown("F_in"))
             {
+                if (SceneManager.GetActiveScene().buildIndex == 1)
+                {
+                    outdoorSpot = transform.position;
+                }
+                outdoorMove = true;
                 Debug.Log("Destination: " + destinationScene);
+                Debug.Log("Position: " + outdoorSpot);
                 UnityEngine.SceneManagement.SceneManager.LoadScene(destinationScene);
-
             }
         }
 

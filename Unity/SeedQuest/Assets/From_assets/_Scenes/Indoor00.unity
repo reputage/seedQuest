@@ -513,7 +513,7 @@ Prefab:
     - target: {fileID: 224899786514360448, guid: 59c2e35c0490f4a62a1e1bead5bc7ef0,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -339.5
+      value: -309.5
       objectReference: {fileID: 0}
     - target: {fileID: 224899786514360448, guid: 59c2e35c0490f4a62a1e1bead5bc7ef0,
         type: 2}
@@ -623,7 +623,7 @@ Prefab:
     - target: {fileID: 224996933653276426, guid: be6ad3473ce864c0fb9104b0eba53799,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -339.5
+      value: -309.5
       objectReference: {fileID: 0}
     - target: {fileID: 224996933653276426, guid: be6ad3473ce864c0fb9104b0eba53799,
         type: 2}
@@ -721,6 +721,26 @@ Prefab:
     - target: {fileID: 4152476031910684, guid: 75bfb8525b39245738cb202e6cb49cb6, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114421708835226338, guid: 75bfb8525b39245738cb202e6cb49cb6,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1170759020}
+    - target: {fileID: 114421708835226338, guid: 75bfb8525b39245738cb202e6cb49cb6,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: quitGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 114371534527496898, guid: 75bfb8525b39245738cb202e6cb49cb6,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1170759020}
+    - target: {fileID: 114371534527496898, guid: 75bfb8525b39245738cb202e6cb49cb6,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: deactivatePause
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75bfb8525b39245738cb202e6cb49cb6, type: 2}
@@ -838,7 +858,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 967263878}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 
@@ -865,6 +885,8 @@ MonoBehaviour:
   keySensitivityX: 50
   offset: {x: 0, y: 2, z: 0}
   lookAtOffset: {x: 0, y: 2, z: 0}
+  pauseLocation: {x: 0, y: 0, z: 0}
+  pauseRotation: {x: 0, y: 0, z: 0}
 --- !u!1001 &1058155853
 Prefab:
   m_ObjectHideFlags: 0
@@ -1084,7 +1106,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
