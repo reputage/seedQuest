@@ -122,53 +122,7 @@ public class InventoryOperator : MonoBehaviour {
 
     }
 
-    /*
-    public void iconRefresh(int i)
-    {
-        switch (i)
-        {
-            case 0: 
-                iconRef = iconRock;
-                break;
-            case 1: 
-                iconRef = iconBall;
-                break;
-            case 2: 
-                iconRef = iconDrone;
-                break;
-            case 3: 
-                iconRef = iconBook;
-                break;
-            default:
-                break;
-        }
-    }
 
-    public void fullRefresh(){
-
-        for (int i = 0; i++; i < index)
-        {
-            
-            switch (ID)
-            {
-                case 100001: // rock
-                    iconRef = iconRock;
-                    break;
-                case 100002: // soccer ball
-                    iconRef = iconBall;
-                    break;
-                case 100003: // drone
-                    iconRef = iconDrone;
-                    break;
-                case 100004: // book
-                    iconRef = iconBook;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    */
 
     public void show(){
 
@@ -206,6 +160,11 @@ public class InventoryOperator : MonoBehaviour {
         item2.SetActive(false);
         item3.SetActive(false);
         item4.SetActive(false);
+        drop1.SetActive(false);
+        drop2.SetActive(false);
+        drop3.SetActive(false);
+        drop4.SetActive(false);
+
     }
 
     public void removeItem()

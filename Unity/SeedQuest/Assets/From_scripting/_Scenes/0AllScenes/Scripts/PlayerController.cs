@@ -20,10 +20,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject logDisplay;
     public GameObject inventory;
 
-    //public Text countText;
     //public Text winText;
-
-    //public int count; 
 
     public static Vector3 outdoorSpot;
 	private Vector3 moveDirection = Vector3.zero;
@@ -44,8 +41,6 @@ public class PlayerController : MonoBehaviour {
 	{
         Debug.Log(Time.timeScale);
 		//rb = GetComponent<Rigidbody> ();
-		//count = 0;
-		//SetCountText ();
         logDisplay.GetComponentInChildren<Text>().text = "";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
         if (outdoorMove = true && SceneManager.GetActiveScene().buildIndex == 1)
@@ -141,8 +136,6 @@ public class PlayerController : MonoBehaviour {
                 invVisible = false;
                 //inventory.SetActive(false);
                 inventory.GetComponent<InventoryOperator>().hide();
-
-
             }
         }
 
@@ -202,20 +195,10 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-        /*
-        if (other.gameObject.CompareTag ("Pick Up")) 
-		{
-			other.gameObject.SetActive (false);
-			count += 1;
-			SetCountText ();
-		}
-		*/
 
         if (other.gameObject.CompareTag("ActionSpot"))
         {
             Debug.Log("Action spot entered");
-            //count += 1;
-            //SetCountText();
             other.GetComponent<actionSpot>().playerAlert();
             actionOperator.GetComponent<actionOperator>().activateSpot();
             nearItem = true;
@@ -260,9 +243,5 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-	public void SetCountText ()
-	{
-		//countText.text = "Actions: " + count.ToString ();
-	}
 }
 	 
