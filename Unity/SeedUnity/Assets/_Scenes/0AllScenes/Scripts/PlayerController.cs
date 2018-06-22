@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject resultMenu;
     public GameObject actionOperator;
     public GameObject otherItem;
+    public GameObject logDisplay;
 
 	public Text countText;
 	public Text winText;
@@ -23,24 +24,32 @@ public class PlayerController : MonoBehaviour {
 	public int count; 
 
 	private Vector3 moveDirection = Vector3.zero;
+
     private bool nearItem = false;
+    private bool logVisible = false;
+    private bool pauseActive = false;
     private int logID = 0;
+    private int logCool = 0;
+    private int pauseCool = 0;
+
     //private bool singleEntry = true;
 
     public GameObject playerLog;
 
 	void Start () 
 	{
+        Debug.Log(Time.timeScale);
 		//rb = GetComponent<Rigidbody> ();
 		count = 0;
 		SetCountText ();
 		winText.text = "";
+        logDisplay.GetComponentInChildren<Text>().text = "";
 	}
 
 	void Update() 
 	{
 		CharacterController controller = GetComponent<CharacterController>();
-		if (controller.isGrounded) 
+		if (controller.isGrounded && pauseActive == false) 
 		{
 			transform.Rotate (0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
 
@@ -67,22 +76,89 @@ public class PlayerController : MonoBehaviour {
 
         if(nearItem == true) {
 
-            if (Input.GetAxis("FG") > 0){
+            if (Input.GetAxis("FG") > 0 && pauseActive == false){
                 logID = otherItem.GetComponent<item>().itemID;
                 //Debug.Log(logID);
+
                 actionOperator.GetComponent<actionOperator>().deactivateSpot();
                 playerLog.GetComponent<playerLog>().actionLogger(logID);
                 otherItem.GetComponent<item>().takeItem();
+
+                logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
+
                 otherItem.SetActive(false);
                 nearItem = false;
             }
+        }
 
+        if (logCool == 0 && Input.GetAxis("FG") < 0){
+
+            logCool += 20;
+            if (logVisible == false)
+            {
+                logVisible = true;
+                logDisplay.SetActive(true);
+            }
+            else{
+                logVisible = false;
+                logDisplay.SetActive(false);
+            }
+        }
+
+        //float cancelVal = Input.GetAxis("Cancel");
+        Debug.Log(Input.GetAxis("Cancel"));
+
+        if (pauseCool == 0 && Input.GetAxis("Cancel") > 0)
+        {
+            //cancelVal = 0;
+            pauseCool += 10;
+
+            if (pauseActive == false)
+            {
+                activatePause();
+            }
+            else
+            {
+                deactivatePause();
+            }
+        }
+
+        if (logCool > 0){
+            logCool -= 1;
+        }
+
+        if(pauseCool > 0){
+            pauseCool -= 1;
         }
 
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
 	}
 
+    public void activatePause()
+    {
+        pauseActive = true;
+        actionOperator.GetComponent<actionOperator>().activatePause();
+        moveDirection *= 0;
+        Time.timeScale = 0;
+    }
+
+    public void deactivatePause()
+    {
+        pauseActive = false;
+        actionOperator.GetComponent<actionOperator>().deactivatePause();
+        Time.timeScale = 1;
+    }
+
+    public void undoAction()
+    {
+       //in progress 
+    }
+
+    public void quitGame()
+    {
+        Application.Quit();
+    }
 
 	/*
 	// Tank controls
