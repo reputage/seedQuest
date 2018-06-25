@@ -168,31 +168,6 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-    public void activatePause()
-    {
-        pauseActive = true;
-        actionOperator.GetComponent<actionOperator>().activatePause();
-        //moveDirection *= 0;
-        Time.timeScale = 0;
-    }
-
-    public void deactivatePause()
-    {
-        pauseActive = false;
-        actionOperator.GetComponent<actionOperator>().deactivatePause();
-        Time.timeScale = 1;
-    }
-
-    public void undoAction()
-    {
-       //in progress 
-    }
-
-    public void quitGame()
-    {
-        Application.Quit();
-    }
-
 	void OnTriggerEnter(Collider other)
 	{
 
@@ -241,6 +216,51 @@ public class PlayerController : MonoBehaviour {
 
             nearItem = false;
         }
+    }
+
+    public void activatePause()
+    {
+        pauseActive = true;
+        actionOperator.GetComponent<actionOperator>().activatePause();
+        //moveDirection *= 0;
+        Time.timeScale = 0;
+    }
+
+    public void deactivatePause()
+    {
+        pauseActive = false;
+        actionOperator.GetComponent<actionOperator>().deactivatePause();
+        Time.timeScale = 1;
+    }
+
+    public void undoAction()
+    {
+        //in progress 
+    }
+
+    public void quitGame()
+    {
+        Application.Quit();
+    }
+
+    public void dropItem1()
+    {
+        inventory.GetComponent<InventoryOperator>().dropItem(1);
+    }
+
+    public void dropItem2()
+    {
+        inventory.GetComponent<InventoryOperator>().dropItem(2);
+    }
+
+    public void dropItem3()
+    {
+        inventory.GetComponent<InventoryOperator>().dropItem(3);
+    }
+
+    public void dropItem4()
+    {
+        inventory.GetComponent<InventoryOperator>().dropItem(4);
     }
 
 }

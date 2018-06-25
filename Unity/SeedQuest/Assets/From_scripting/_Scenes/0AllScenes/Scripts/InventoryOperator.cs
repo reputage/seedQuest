@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class InventoryOperator : MonoBehaviour {
-
+public class InventoryOperator : MonoBehaviour
+{
     public GameObject backPanel;
     public GameObject item1;
     public GameObject item2;
@@ -44,22 +44,26 @@ public class InventoryOperator : MonoBehaviour {
     private bool showing = false;
     private static int index = 0;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+
+    void Start()
+    {
         item1.SetActive(false);
         item2.SetActive(false);
         item3.SetActive(false);
         item4.SetActive(false);
         //DontDestroyOnLoad(gameObject);
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
 
-    public void addItem(int ID, string name){
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void addItem(int ID, string name)
+    {
 
         // 100001 = rock
         // 100002 = ball
@@ -123,8 +127,8 @@ public class InventoryOperator : MonoBehaviour {
     }
 
 
-
-    public void show(){
+    public void show()
+    {
 
         showing = true;
         backPanel.SetActive(true);
@@ -167,8 +171,104 @@ public class InventoryOperator : MonoBehaviour {
 
     }
 
-    public void removeItem()
+
+    /*
+    for (int i = 0; i == index; i++;)
     {
+        if (i == 1)
+        {
+            item1ID = item2ID;
+            iconRef = icon1.GetComponent<Image>().sprite = iconRef;
+        }
+    }
+    */
+
+    public void dropItem(int itemNum)
+    {
+        //spawn item on ground
+        //move lower-level items to higher-level slots
+
+        //deactivate item# and drop#
+        switch (itemNum)
+        { 
+            case 1:
+                if (index > 0)
+                {
+                    item1ID = item2ID;
+                    icon1.GetComponent<Image>().sprite = icon2.GetComponent<Image>().sprite;
+                    item1.GetComponentInChildren<Text>().text = item2.GetComponentInChildren<Text>().text;
+                }
+                if (index > 1)
+                {
+                    item2ID = item3ID;
+                    icon2.GetComponent<Image>().sprite = icon3.GetComponent<Image>().sprite;
+                    item2.GetComponentInChildren<Text>().text = item3.GetComponentInChildren<Text>().text;
+                }
+                if (index > 2)
+                {
+                    item3ID = item4ID;
+                    icon3.GetComponent<Image>().sprite = icon4.GetComponent<Image>().sprite;
+                    item3.GetComponentInChildren<Text>().text = item4.GetComponentInChildren<Text>().text;
+                }
+                break;
+            case 2:
+                if (index > 1)
+                {
+                    item2ID = item3ID;
+                    icon2.GetComponent<Image>().sprite = icon3.GetComponent<Image>().sprite;
+                    item2.GetComponentInChildren<Text>().text = item3.GetComponentInChildren<Text>().text;
+                }
+                if (index > 2)
+                {
+                    item3ID = item4ID;
+                    icon3.GetComponent<Image>().sprite = icon4.GetComponent<Image>().sprite;
+                    item3.GetComponentInChildren<Text>().text = item4.GetComponentInChildren<Text>().text;
+                }
+                break;
+            case 3:
+                if (index > 2)
+                {
+                    item3ID = item4ID;
+                    icon3.GetComponent<Image>().sprite = icon4.GetComponent<Image>().sprite;
+                    item3.GetComponentInChildren<Text>().text = item4.GetComponentInChildren<Text>().text;
+                }
+                break;
+            case 4:
+                //item4.SetActive(false);
+                //drop4.SetActive(false);
+                break;
+            default:
+                break;
+        
+        }
+
+        switch (index){
+            case 1:
+                item1.SetActive(false);
+                drop1.SetActive(false);
+                item1Active = false;
+                break;
+            case 2:
+                item2.SetActive(false);
+                drop2.SetActive(false);
+                item2Active = false;
+                break;
+            case 3:
+                item3.SetActive(false);
+                drop3.SetActive(false);
+                item3Active = false;
+                break;
+            case 4:
+                item4.SetActive(false);
+                drop4.SetActive(false);
+                item4Active = false;
+                break;
+            default:
+                break;
+        } 
+
+        // decrement index
+        index -= 1;
     }
 
 }
