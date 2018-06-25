@@ -34,4 +34,10 @@ The number of sites per area and the number of action spots per site could be va
   
 With a visual world to explore, the mnemonic load of remembering a seed is significantly reduced. 
 
-As long as someone can remember four actions at four locations, the seed can be recovered at any time by playing the game.  
+As long as someone can remember four actions at four locations, the seed can be recovered at any time by playing the game. 
+
+## Note about Unity assets
+
+While this is an open-source project, we are using some assets purchased through the Unity store that are in a separate repository. 
+
+If you are a collaborator wanting to work on the 3D assets, please contact weston.bodily@consensys.net or michael.mendoza@consensys.net for access to the private repository with the Unity assets.
