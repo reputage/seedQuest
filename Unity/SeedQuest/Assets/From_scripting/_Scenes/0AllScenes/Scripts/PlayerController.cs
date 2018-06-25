@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour {
     public GameObject otherItem;
     public GameObject logDisplay;
     public GameObject inventory;
+    public GameObject rock;
+    public GameObject ball;
+    public GameObject drone;
+    public GameObject book;
 
     //public Text winText;
 
@@ -34,6 +38,12 @@ public class PlayerController : MonoBehaviour {
     private int logID = 0;
     private int destinationScene;
     private string logName = "";
+
+    private static int item1ID;
+    private static int item2ID;
+    private static int item3ID;
+    private static int item4ID;
+    private static int invIndex = 0;
 
     public GameObject playerLog;
 
@@ -72,6 +82,7 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetButtonDown("F_in") && pauseActive == false){
                 logID = otherItem.GetComponent<item>().itemID;
+                invLogSelf();
                 logName = otherItem.GetComponent<item>().itemName;
 
                 //Debug.Log(logID);
@@ -218,6 +229,27 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    void invLogSelf()
+    {
+        switch (invIndex){
+            case 0:
+                item1ID = logID;
+                break;
+            case 1:
+                item2ID = logID;
+                break;
+            case 2:
+                item3ID = logID;
+                break;
+            case 3:
+                item4ID = logID;
+                break;
+            default:
+                break;
+        }
+        invIndex += 1;
+    }
+
     public void activatePause()
     {
         pauseActive = true;
@@ -262,6 +294,48 @@ public class PlayerController : MonoBehaviour {
     {
         inventory.GetComponent<InventoryOperator>().dropItem(4);
     }
+
+
+    public void itemSpawner()
+    {
+        switch(invIndex)
+        {
+            case 1:
+                GameObject itemSpawn = Instantiate(rock, new Vector3(0, 0, 0), Quaternion.identity);
+                // Put code here for moving index around
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void itemLookup(int itemsIdentity)
+    {
+        switch (itemsIdentity)
+        {
+            case 100001:
+                //rock
+                // PUT CODE HERE FOR INSTANTIATING OBJECT
+                break;
+            case 100002:
+                //ball
+                break;
+            case 100003:
+                //drone
+                break;
+            case 100004:
+                //book
+                break;
+            default:
+                break;
+        }
+    }
+    /*          
+        Transform block = Instantiate(blockPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        block.transform.position = new Vector3((j * 5 ), 0.1f, (i * 5));
+        block.transform.Rotate(0, 180, 0);
+        block.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+     */
 
 }
 	 
