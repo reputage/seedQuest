@@ -278,31 +278,54 @@ public class PlayerController : MonoBehaviour {
     public void dropItem1()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(1);
+        itemSpawner(item1ID, 1);
     }
 
     public void dropItem2()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(2);
+        itemSpawner(item2ID, 2);
     }
 
     public void dropItem3()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(3);
+        itemSpawner(item3ID, 3);
     }
 
     public void dropItem4()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(4);
+        itemSpawner(item4ID, 4);
     }
 
 
-    public void itemSpawner()
+    public void itemSpawner(int spawnID, int dropIndex)
     {
-        switch(invIndex)
+        itemLookup(spawnID);
+        switch(dropIndex)
         {
             case 1:
-                GameObject itemSpawn = Instantiate(rock, new Vector3(0, 0, 0), Quaternion.identity);
-                // Put code here for moving index around
+                item1ID = item2ID;
+                item2ID = item3ID;
+                item3ID = item4ID;
+                item4ID = 0;
+                invIndex -= 1;
+                break;
+            case 2:
+                item2ID = item3ID;
+                item3ID = item4ID;
+                item4ID = 0;
+                invIndex -= 1;
+                break;
+            case 3:
+                item3ID = item4ID;
+                item4ID = 0;
+                invIndex -= 1;
+                break;
+            case 4:
+                item4ID = 0;
+                invIndex -= 1;
                 break;
             default:
                 break;
@@ -316,15 +339,19 @@ public class PlayerController : MonoBehaviour {
             case 100001:
                 //rock
                 // PUT CODE HERE FOR INSTANTIATING OBJECT
+                GameObject itemSpawn1 = Instantiate(rock, new Vector3(0, 0, 0), Quaternion.identity);
                 break;
             case 100002:
                 //ball
+                GameObject itemSpawn2 = Instantiate(ball, new Vector3(0, 0, 0), Quaternion.identity);
                 break;
             case 100003:
                 //drone
+                GameObject itemSpawn3 = Instantiate(drone, new Vector3(0, 0, 0), Quaternion.identity);
                 break;
             case 100004:
                 //book
+                GameObject itemSpawn4 = Instantiate(book, new Vector3(0, 0, 0), Quaternion.identity);
                 break;
             default:
                 break;
