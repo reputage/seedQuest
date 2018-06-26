@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour {
     private bool pauseActive = false;
     private bool invVisible = false;
     private int logID = 0;
+    private Vector3 logScale;
     private int destinationScene;
     private string logName = "";
 
@@ -82,8 +83,8 @@ public class PlayerController : MonoBehaviour {
 
             if (Input.GetButtonDown("F_in") && pauseActive == false){
                 logID = otherItem.GetComponent<item>().itemID;
-                invLogSelf();
                 logName = otherItem.GetComponent<item>().itemName;
+                invLogSelf();
 
                 //Debug.Log(logID);
 
@@ -303,6 +304,7 @@ public class PlayerController : MonoBehaviour {
     public void itemSpawner(int spawnID, int dropIndex)
     {
         itemLookup(spawnID);
+
         switch(dropIndex)
         {
             case 1:
@@ -334,24 +336,25 @@ public class PlayerController : MonoBehaviour {
 
     public void itemLookup(int itemsIdentity)
     {
+        Vector3 pCoord = transform.position;
+        pCoord.y += 0.2f;
         switch (itemsIdentity)
         {
             case 100001:
                 //rock
-                // PUT CODE HERE FOR INSTANTIATING OBJECT
-                GameObject itemSpawn1 = Instantiate(rock, new Vector3(0, 0, 0), Quaternion.identity);
+                GameObject itemSpawn1 = Instantiate(rock, pCoord, Quaternion.identity);
                 break;
             case 100002:
                 //ball
-                GameObject itemSpawn2 = Instantiate(ball, new Vector3(0, 0, 0), Quaternion.identity);
+                GameObject itemSpawn2 = Instantiate(ball, pCoord, Quaternion.identity);
                 break;
             case 100003:
                 //drone
-                GameObject itemSpawn3 = Instantiate(drone, new Vector3(0, 0, 0), Quaternion.identity);
+                GameObject itemSpawn3 = Instantiate(drone, pCoord, Quaternion.identity);
                 break;
             case 100004:
                 //book
-                GameObject itemSpawn4 = Instantiate(book, new Vector3(0, 0, 0), Quaternion.identity);
+                GameObject itemSpawn4 = Instantiate(book, pCoord, Quaternion.identity);
                 break;
             default:
                 break;
