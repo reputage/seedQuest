@@ -91,4 +91,14 @@ public class playerLog : MonoBehaviour {
 
     }
 
+    // Testing to see if the Blake2 hashing algorithm will work in unity
+    public void hashTest(){
+
+        string str = "The quick brown fox jumps over the lazy dog";
+        //byte[] pbText = Encoding.Default.GetBytes(str);
+        //Blake512 blake512 = new Blake512();
+        //byte[] pbHash = blake512.ComputeHash(pbText);
+
+    }
+
 }

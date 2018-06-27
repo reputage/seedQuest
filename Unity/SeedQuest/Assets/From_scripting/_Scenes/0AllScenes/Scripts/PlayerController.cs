@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () 
 	{
-        Debug.Log(Time.timeScale);
+        //Debug.Log(Time.timeScale);
 		//rb = GetComponent<Rigidbody> ();
         logDisplay.GetComponentInChildren<Text>().text = "";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
@@ -64,6 +64,9 @@ public class PlayerController : MonoBehaviour {
 
 	void Update() 
 	{
+
+        // This code is for controlling the player character
+
 		CharacterController controller = GetComponent<CharacterController>();
 		if (controller.isGrounded && pauseActive == false) 
 		{
@@ -78,10 +81,14 @@ public class PlayerController : MonoBehaviour {
 
 		}
 
-        // If near an item, show prompt to take it
+        // If near an item, show prompt to take it, and allow player to take it
+
         if(nearItem == true) {
 
+            // Executed if the player takes the item
             if (Input.GetButtonDown("F_in") && pauseActive == false){
+                
+                // Log data from the item
                 logID = otherItem.GetComponent<item>().itemID;
                 logName = otherItem.GetComponent<item>().itemName;
                 invLogSelf();
@@ -92,11 +99,13 @@ public class PlayerController : MonoBehaviour {
                 playerLog.GetComponent<playerLog>().actionLogger(logID);
                 otherItem.GetComponent<item>().takeItem();
 
+                // Update the log display
                 logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
 
-                // inventory code here
+                // Add item to the inventory
                 inventory.GetComponent<InventoryOperator>().addItem(logID, logName);
 
+                // Deactivate item
                 otherItem.SetActive(false);
                 nearItem = false;
             }
@@ -106,8 +115,10 @@ public class PlayerController : MonoBehaviour {
         if (nearEntrance == true)
         {
 
+            //Executed if the player activates the entrance
             if (Input.GetButtonDown("F_in"))
             {
+                // If on the world map, save their location so they can be returned later
                 if (SceneManager.GetActiveScene().buildIndex == 1)
                 {
                     outdoorSpot = transform.position;
@@ -115,13 +126,15 @@ public class PlayerController : MonoBehaviour {
                 outdoorMove = true;
                 Debug.Log("Destination: " + destinationScene);
                 Debug.Log("Position: " + outdoorSpot);
+
+                // Load the new scene
                 UnityEngine.SceneManagement.SceneManager.LoadScene(destinationScene);
             }
         }
 
         // Display or hide action log
-        if (Input.GetButtonDown("G_in")){
-
+        if (Input.GetButtonDown("G_in"))
+        {
             if (logVisible == false)
             {
                 logVisible = true;
@@ -136,7 +149,6 @@ public class PlayerController : MonoBehaviour {
         // Display or hide inventory
         if (Input.GetButtonDown("I_in"))
         {
-
             if (invVisible == false)
             {
                 invVisible = true;
@@ -154,7 +166,6 @@ public class PlayerController : MonoBehaviour {
         // Display or hide pause menu, and pause or unpause game
         if (Input.GetButtonDown("Cancel"))
         {
-
             if (pauseActive == false)
             {
                 activatePause();
@@ -166,9 +177,11 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        // After checking for input, move the character
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
 
+        // Set the walking animation
         if (moveDirection.z != 0)
         {
             animator.SetBool("Walk", true);
@@ -180,12 +193,15 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+    // All "Entry" related code is in here
 	void OnTriggerEnter(Collider other)
 	{
-
+        // If at an action spot (for an item)
         if (other.gameObject.CompareTag("ActionSpot"))
         {
-            Debug.Log("Action spot entered");
+            // Button prompt pops up, allows player to take the item
+
+            //Debug.Log("Action spot entered");
             other.GetComponent<actionSpot>().playerAlert();
             actionOperator.GetComponent<actionOperator>().activateSpot();
             nearItem = true;
@@ -198,18 +214,19 @@ public class PlayerController : MonoBehaviour {
 
         if (other.gameObject.CompareTag("Entrance"))
         {
-            Debug.Log("Entrance entered");
+            // Button prompt pops up, allows player to enter
 
+            //Debug.Log("Entrance entered");
             actionOperator.GetComponent<actionOperator>().activateEntrance();
             nearEntrance = true;
             other.GetComponent<entranceScript>().activateGlow();
             destinationScene = other.GetComponent<entranceScript>().destinationScene;
-            //Debug.Log("destination loaded: scene " + destinationScene);
         }
 	}
 
     void OnTriggerExit(Collider other)
     {
+        // Executes when player walks away from an item
         if (other.gameObject.CompareTag("ActionSpot"))
         {
             other.GetComponent<actionSpot>().playerClear();
@@ -219,6 +236,7 @@ public class PlayerController : MonoBehaviour {
             nearItem = false;
         }
 
+        // Executes when player walks away from an entrance
         if (other.gameObject.CompareTag("Entrance"))
         {
             //other.GetComponent<entrance>().playerClear();
@@ -251,6 +269,7 @@ public class PlayerController : MonoBehaviour {
         invIndex += 1;
     }
 
+    // Code for pausing the game
     public void activatePause()
     {
         pauseActive = true;
@@ -259,6 +278,7 @@ public class PlayerController : MonoBehaviour {
         Time.timeScale = 0;
     }
 
+    // Code for unpausing the game
     public void deactivatePause()
     {
         pauseActive = false;
@@ -271,11 +291,13 @@ public class PlayerController : MonoBehaviour {
         //in progress 
     }
 
+    // Function to quit the game
     public void quitGame()
     {
         Application.Quit();
     }
 
+    // Functions for droppint items
     public void dropItem1()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(1);
@@ -300,7 +322,7 @@ public class PlayerController : MonoBehaviour {
         itemSpawner(item4ID, 4);
     }
 
-
+    //Function to spawn an item when dropped from the menu
     public void itemSpawner(int spawnID, int dropIndex)
     {
         itemLookup(spawnID);
@@ -334,6 +356,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    // Function "looks up" which item needs to be spawned based on item ID
     public void itemLookup(int itemsIdentity)
     {
         Vector3 pCoord = transform.position;
