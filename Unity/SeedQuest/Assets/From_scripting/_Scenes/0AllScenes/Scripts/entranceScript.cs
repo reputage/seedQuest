@@ -21,6 +21,8 @@ public class entranceScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // This code can be used for a point light at an entrance. Disabled for now.
+
         /*
         // Function for glowing using a point light
         if (glowing)
@@ -37,7 +39,6 @@ public class entranceScript : MonoBehaviour
         */
 
         //  function for glowing using material emission
-
         if (emissive && activeEmissive)
         {
             Renderer renderer = GetComponent<Renderer>();
@@ -55,6 +56,7 @@ public class entranceScript : MonoBehaviour
 
     }
 
+    // This function resets the emission color for the entrance
     void noGlow()
     {
         float emission = 0.0f;
@@ -73,6 +75,7 @@ public class entranceScript : MonoBehaviour
 
     }
 
+    // Used to activate the object's glow type
     public void activateGlow()
     {
 
@@ -87,7 +90,7 @@ public class entranceScript : MonoBehaviour
         }
     }
 
-
+    // deactivates glowing, resets the emission color
     public void deactivateGlow()
     {
         glowing = false;

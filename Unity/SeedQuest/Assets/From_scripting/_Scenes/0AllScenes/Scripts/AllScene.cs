@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class AllScene : MonoBehaviour {
 
+    /* 
+       This script and it's associated object are mean to be in every scene.
+       This is meant to be used for things that need to stay constant across 
+       all scenes, but don't belong in another object or script.
+    */
+      
+     
     static int seedParsed;
     static bool scenePrimed = false;
     public static int locationID = 0;

@@ -6,15 +6,20 @@ using UnityEngine.UI;
 
 public class InventoryOperator : MonoBehaviour
 {
+    private bool showing = false; 
+    private static int index = 0; // Used to indicate how many items the player has
     public GameObject backPanel;
+
     public GameObject item1;
     public GameObject item2;
     public GameObject item3;
     public GameObject item4;
+
     public GameObject icon1;
     public GameObject icon2;
     public GameObject icon3;
     public GameObject icon4;
+
     public GameObject drop1;
     public GameObject drop2;
     public GameObject drop3;
@@ -41,10 +46,6 @@ public class InventoryOperator : MonoBehaviour
     private static string item3Name;
     private static string item4Name;
 
-    private bool showing = false;
-    private static int index = 0;
-
-    // Use this for initialization
 
     void Start()
     {
@@ -52,23 +53,21 @@ public class InventoryOperator : MonoBehaviour
         item2.SetActive(false);
         item3.SetActive(false);
         item4.SetActive(false);
-        //DontDestroyOnLoad(gameObject);
-
     }
 
-    // Update is called once per frame
     void Update()
     {
 
     }
 
+    // Adds item to the player's inventory
     public void addItem(int ID, string name)
     {
-
         // 100001 = rock
         // 100002 = ball
         // 100003 = drone
         // 100004 = book
+
         switch (ID)
         {
             case 100001: // rock
@@ -127,9 +126,9 @@ public class InventoryOperator : MonoBehaviour
     }
 
 
+    // Activates the inventory and associated UI elements
     public void show()
     {
-
         showing = true;
         backPanel.SetActive(true);
 
@@ -153,9 +152,9 @@ public class InventoryOperator : MonoBehaviour
             item4.SetActive(true);
             drop3.SetActive(true);
         }
-
     }
 
+    // Deactivates the inventory and associated UI elements
     public void hide()
     {
         showing = false;
@@ -171,24 +170,9 @@ public class InventoryOperator : MonoBehaviour
 
     }
 
-
-    /*
-    for (int i = 0; i == index; i++;)
-    {
-        if (i == 1)
-        {
-            item1ID = item2ID;
-            iconRef = icon1.GetComponent<Image>().sprite = iconRef;
-        }
-    }
-    */
-
+    // Used to remove items from inventory, and re-arranges the items as well
     public void dropItem(int itemNum)
     {
-        //spawn item on ground
-        //move lower-level items to higher-level slots
-
-        //deactivate item# and drop#
         switch (itemNum)
         { 
             case 1:
