@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class actionOperator : MonoBehaviour {
 
-    /* This script is meant to be used in handling some menus 
-       and other UI elements in the game. */
+    /* 
+       This script is meant to be used in handling some menus 
+       and other UI elements in the game. 
+    */
 
 
     public GameObject PauseMenu;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class item : MonoBehaviour
 {
+    /* 
+       This script is used for items the player can interact with.
+    */
 
     public bool glowing = false;
     public bool emissive = false;
@@ -16,10 +19,8 @@ public class item : MonoBehaviour
     void Start()
     {
         noGlow();
-
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -42,7 +43,7 @@ public class item : MonoBehaviour
         }
 
 
-        //  function for glowing using material emission
+        // Function for glowing using material emission
 
         if (emissive && activeEmissive)
         {
@@ -62,6 +63,7 @@ public class item : MonoBehaviour
 
     }
 
+    // Used to reset the glow effect on items
     void noGlow()
     {
         float emission = 0.0f;
@@ -80,12 +82,14 @@ public class item : MonoBehaviour
 
     }
 
+
     public int takeItem()
     {
         Debug.Log("Item taken!");
         return 0;
     }
 
+    // Activate the glowing effects
     public void activateGlow()
     {
         
@@ -101,7 +105,7 @@ public class item : MonoBehaviour
         }
     }
 
-
+    // Deactivate the glowing effects
     public void deactivateGlow(){
         glowing = false;
         activeEmissive = false;

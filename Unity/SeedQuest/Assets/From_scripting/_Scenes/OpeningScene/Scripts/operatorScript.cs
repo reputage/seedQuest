@@ -6,7 +6,10 @@ using UnityEngine.UI;
 
 public class operatorScript : MonoBehaviour {
 
-    // Use this for initialization
+    /* 
+       This script is used for controlling elements in the main menu
+       of the start screen in scene 0.
+    */
 
     public GameObject AllScene;
     public GameObject buttonDefault;
@@ -53,7 +56,7 @@ public class operatorScript : MonoBehaviour {
         //Debug.Log("Generate button clicked!");
         if (seedWord == "/!0")
         {
-            Debug.Log("No input given");
+            Debug.Log("Invalid seed");
             inputField.GetComponent<InputField>().placeholder.GetComponent<Text>().color = Color.red;
         }
         else

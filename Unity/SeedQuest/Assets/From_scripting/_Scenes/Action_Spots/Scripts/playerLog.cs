@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class playerLog : MonoBehaviour {
-    
+
+    // This script is used to tack player actions
+
     public int actCount = 0;
     public int action1 = 0;
     public int action2 = 0;
@@ -56,7 +58,6 @@ public class playerLog : MonoBehaviour {
             default:
                 break;
         }
-
     }
 
 
@@ -88,17 +89,16 @@ public class playerLog : MonoBehaviour {
                 actCount -= 1;
                 break;
         }
-
     }
 
     // Testing to see if the Blake2 hashing algorithm will work in unity
-    public void hashTest(){
-
+    // WIP
+    public void hashTest()
+    {
         string str = "The quick brown fox jumps over the lazy dog";
         //byte[] pbText = Encoding.Default.GetBytes(str);
         //Blake512 blake512 = new Blake512();
         //byte[] pbHash = blake512.ComputeHash(pbText);
-
     }
 
 }
