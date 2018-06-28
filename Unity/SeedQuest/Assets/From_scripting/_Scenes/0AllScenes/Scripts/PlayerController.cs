@@ -359,6 +359,7 @@ public class PlayerController : MonoBehaviour {
     // Function "looks up" which item needs to be spawned based on item ID
     public void itemLookup(int itemsIdentity)
     {
+        
         Vector3 pCoord = transform.position;
         pCoord.y += 0.2f;
         switch (itemsIdentity)
