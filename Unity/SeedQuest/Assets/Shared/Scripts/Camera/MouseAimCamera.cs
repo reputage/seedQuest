@@ -16,8 +16,8 @@ public class MouseAimCamera : MonoBehaviour {
 
     void LateUpdate()
     {
-        float horizontal = Input.GetAxis("Mouse X") * rotateSpeed;
-        //target.transform.Rotate(0, horizontal, 0);
+        //float horizontal = Input.GetAxis("Mouse X") * rotateSpeed;
+        //target.transform.Rotate(0, horizontal, 0); 
 
         float desiredAngle = target.transform.eulerAngles.y;
         Quaternion rotation = Quaternion.Euler(0, desiredAngle, 0);

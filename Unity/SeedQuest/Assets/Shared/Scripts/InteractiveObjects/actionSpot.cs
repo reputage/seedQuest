@@ -8,7 +8,7 @@ public class actionSpot : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        item = gameObject.transform.parent.gameObject;
 	}
 	
 	// Update is called once per frame

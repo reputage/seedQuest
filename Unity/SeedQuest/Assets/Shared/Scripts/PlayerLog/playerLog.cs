@@ -95,7 +95,7 @@ public class playerLog : MonoBehaviour {
     // WIP
     public void hashTest()
     {
-        string str = "The quick brown fox jumps over the lazy dog";
+        //string str = "The quick brown fox jumps over the lazy dog";
         //byte[] pbText = Encoding.Default.GetBytes(str);
         //Blake512 blake512 = new Blake512();
         //byte[] pbHash = blake512.ComputeHash(pbText);

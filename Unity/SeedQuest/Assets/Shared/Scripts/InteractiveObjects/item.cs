@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshRenderer))]
 public class item : MonoBehaviour
 {
     /* 
@@ -14,11 +15,19 @@ public class item : MonoBehaviour
     public Light lt;
     public int itemID = 100000;
     public string itemName = "book";
+    public GameObject zonePrefab;
+    //(Instantiate (m_Prefab, position, rotation) as GameObject).transform.parent = parentGameObject.transform;
 
     // Use this for initialization
     void Start()
     {
         noGlow();
+        if (transform.childCount <= 0)
+        {
+            GameObject zone;
+            zone = Instantiate(zonePrefab, transform.position, Quaternion.identity) as GameObject;
+            zone.transform.parent = transform;   
+        }
     }
 
     void Update()
