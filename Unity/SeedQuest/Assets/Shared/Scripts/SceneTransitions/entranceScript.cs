@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
 public class entranceScript : MonoBehaviour
 {
 
@@ -15,6 +19,8 @@ public class entranceScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        gameObject.tag = "Entrance";
+        gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
         noGlow();
     }
 
