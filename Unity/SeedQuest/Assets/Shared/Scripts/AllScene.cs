@@ -13,7 +13,7 @@ public class AllScene : MonoBehaviour {
       
      
     static int seedParsed;
-    static bool scenePrimed = false;
+    //static bool scenePrimed = false;
     public static int locationID = 0;
     //public static Vector3 outdoorLocation;
 
@@ -54,10 +54,4 @@ public class AllScene : MonoBehaviour {
         */
 	}
 
-    /*
-    public void setLocation(Vector3 playerLoc)
-    {
-        outdoorLocation = playerLoc;
-    }
-    */
 }

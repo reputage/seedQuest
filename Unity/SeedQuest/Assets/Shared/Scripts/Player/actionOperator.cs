@@ -15,7 +15,7 @@ public class actionOperator : MonoBehaviour {
     public GameObject actionSpot;
     public GameObject itemPrompt;
     public GameObject entrancePrompt;
-    public GameObject camera;
+    public GameObject cameraRef;
 
 	// Use this for initialization
 	void Start () {
@@ -43,14 +43,14 @@ public class actionOperator : MonoBehaviour {
     public void activatePause()
     {
         PauseMenu.gameObject.SetActive(true);
-        camera.GetComponent<ThirdPersonCamera>().activatePause();
+        cameraRef.GetComponent<ThirdPersonCamera>().activatePause();
     }
 
     // Deactivates pause menu, lets camera move again
     public void deactivatePause()
     {
         PauseMenu.gameObject.SetActive(false);
-        camera.GetComponent<ThirdPersonCamera>().deactivatePause();
+        cameraRef.GetComponent<ThirdPersonCamera>().deactivatePause();
     }
 
     // Activates UI elements for entrance prompts

@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+//[RequireComponent(typeof(CapsuleCollider))]
+
+
 public class PlayerController : MonoBehaviour {
 
     Animator animator;
@@ -35,8 +38,8 @@ public class PlayerController : MonoBehaviour {
     private bool logVisible = false;
     private bool pauseActive = false;
     private bool invVisible = false;
+    private bool enableWarning = false;
     private int logID = 0;
-    private Vector3 logScale;
     private int destinationScene;
     private string logName = "";
 
@@ -51,7 +54,6 @@ public class PlayerController : MonoBehaviour {
 	void Start () 
 	{
         //Debug.Log(Time.timeScale);
-		//rb = GetComponent<Rigidbody> ();
         logDisplay.GetComponentInChildren<Text>().text = "";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
         if (outdoorMove = true && SceneManager.GetActiveScene().buildIndex == 1)
@@ -367,23 +369,39 @@ public class PlayerController : MonoBehaviour {
             case 100001:
                 //rock
                 GameObject itemSpawn1 = Instantiate(rock, pCoord, Quaternion.identity);
+                if (enableWarning){ Debug.Log(itemSpawn1.transform.position); }
                 break;
             case 100002:
                 //ball
                 GameObject itemSpawn2 = Instantiate(ball, pCoord, Quaternion.identity);
+                if (enableWarning) { Debug.Log(itemSpawn2.transform.position); }
                 break;
             case 100003:
                 //drone
                 GameObject itemSpawn3 = Instantiate(drone, pCoord, Quaternion.identity);
+                if (enableWarning) { Debug.Log(itemSpawn3.transform.position); }
                 break;
             case 100004:
                 //book
                 GameObject itemSpawn4 = Instantiate(book, pCoord, Quaternion.identity);
+                if (enableWarning) { Debug.Log(itemSpawn4.transform.position); }
                 break;
             default:
                 break;
         }
+
+
     }
+
+
+    private void warningFunc()
+    {
+        if (enableWarning)
+        {
+            Debug.Log(outdoorMove);
+        }
+    }
+
     /*          
         Transform block = Instantiate(blockPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         block.transform.position = new Vector3((j * 5 ), 0.1f, (i * 5));
