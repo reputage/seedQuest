@@ -34,7 +34,9 @@ public class playerLog : MonoBehaviour {
     //For removing the last performed action
     public void actionRemove()
     {
-
+        actCount -= 1;
+        actionArr[actCount] = 0;
+        Debug.Log("Last action removed.");
     }
 
     // Testing to see if the Blake2 hashing algorithm will work in unity

@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour {
     private bool invVisible = false;
     private bool enableWarning = false;
     private int logID = 0;
+    private int locationID;
+    private int actionID;
     private int destinationScene;
     private string logName = "";
 
@@ -92,10 +94,11 @@ public class PlayerController : MonoBehaviour {
                 
                 // Log data from the item
                 logID = otherItem.GetComponent<item>().itemID;
+                locationID = getLocation();
                 logName = otherItem.GetComponent<item>().itemName;
                 invLogSelf();
 
-                //Debug.Log(logID);
+                Debug.Log(locationID);
 
                 actionOperator.GetComponent<actionOperator>().deactivateSpot();
                 playerLog.GetComponent<playerLog>().actionLogger(logID);
@@ -391,6 +394,40 @@ public class PlayerController : MonoBehaviour {
         }
 
 
+    }
+
+    // This function is used to get the player's location for the action log.
+    // Temporary function, will need to change when all the locations are available.
+    private int getLocation() 
+    {
+        int x = 0;
+        int z = 0;
+        Vector3 coords = transform.position;
+        if (coords.x <= -5)
+        {
+            x = 0;
+        }
+        else if (coords.x > -5 && coords.x <= 50)
+        {
+            x = 1;
+        }
+        else 
+        {
+            x = 2;
+        }
+        if (coords.z >= 5){
+            z = 0;
+        }
+        else if (coords.z < 5 && coords.z <= -50)
+        {
+            z = 1;
+        }
+        else 
+        {
+            z = 2;
+        }
+        return (x + z * 3);
+        //return 0;
     }
 
 
