@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-//[RequireComponent(typeof(CapsuleCollider))]
 
+//[RequireComponent(typeof(CapsuleCollider))]
 
 public class PlayerController : MonoBehaviour {
 
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
 	public float gravity;
 	public float jumpSpeed;
 
-    public GameObject griddler;
+    //public GameObject griddler;
     public GameObject actionOperator;
     public GameObject otherItem;
     public GameObject logDisplay;
@@ -26,10 +26,10 @@ public class PlayerController : MonoBehaviour {
     public GameObject ball;
     public GameObject drone;
     public GameObject book;
-
-    //public Text winText;
+    public GameObject playerLog;
 
     public static Vector3 outdoorSpot;
+
 	private Vector3 moveDirection = Vector3.zero;
 
     private static bool outdoorMove = false;
@@ -40,6 +40,9 @@ public class PlayerController : MonoBehaviour {
     private bool invVisible = false;
     private bool enableWarning = false;
     private int logID = 0;
+    private int locationID;
+    private int actionID;
+    private int spotID;
     private int destinationScene;
     private string logName = "";
 
@@ -49,7 +52,6 @@ public class PlayerController : MonoBehaviour {
     private static int item4ID;
     private static int invIndex = 0;
 
-    public GameObject playerLog;
 
 	void Start () 
 	{
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour {
         }
 
 	}
+
 
 	void Update() 
 	{
@@ -83,35 +86,17 @@ public class PlayerController : MonoBehaviour {
 
 		}
 
+
         // If near an item, show prompt to take it, and allow player to take it
-
-        if(nearItem == true) {
-
+        if(nearItem == true) 
+        {
             // Executed if the player takes the item
-            if (Input.GetButtonDown("F_in") && pauseActive == false){
-                
-                // Log data from the item
-                logID = otherItem.GetComponent<item>().itemID;
-                logName = otherItem.GetComponent<item>().itemName;
-                invLogSelf();
-
-                //Debug.Log(logID);
-
-                actionOperator.GetComponent<actionOperator>().deactivateSpot();
-                playerLog.GetComponent<playerLog>().actionLogger(logID);
-                otherItem.GetComponent<item>().takeItem();
-
-                // Update the log display
-                logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
-
-                // Add item to the inventory
-                inventory.GetComponent<InventoryOperator>().addItem(logID, logName);
-
-                // Deactivate item
-                otherItem.SetActive(false);
-                nearItem = false;
+            if (Input.GetButtonDown("F_in") && pauseActive == false)
+            {
+                takeItem();
             }
         }
+
 
         // If near an entrance, show prompt to enter
         if (nearEntrance == true)
@@ -120,17 +105,7 @@ public class PlayerController : MonoBehaviour {
             //Executed if the player activates the entrance
             if (Input.GetButtonDown("F_in"))
             {
-                // If on the world map, save their location so they can be returned later
-                if (SceneManager.GetActiveScene().buildIndex == 1)
-                {
-                    outdoorSpot = transform.position;
-                }
-                outdoorMove = true;
-                Debug.Log("Destination: " + destinationScene);
-                Debug.Log("Position: " + outdoorSpot);
-
-                // Load the new scene
-                UnityEngine.SceneManagement.SceneManager.LoadScene(destinationScene);
+                enterArea();
             }
         }
 
@@ -154,13 +129,11 @@ public class PlayerController : MonoBehaviour {
             if (invVisible == false)
             {
                 invVisible = true;
-                //inventory.SetActive(true);
                 inventory.GetComponent<InventoryOperator>().show();
             }
             else
             {
                 invVisible = false;
-                //inventory.SetActive(false);
                 inventory.GetComponent<InventoryOperator>().hide();
             }
         }
@@ -195,6 +168,7 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+
     // All "Entry" related code is in here
 	void OnTriggerEnter(Collider other)
 	{
@@ -226,6 +200,7 @@ public class PlayerController : MonoBehaviour {
         }
 	}
 
+
     void OnTriggerExit(Collider other)
     {
         // Executes when player walks away from an item
@@ -250,6 +225,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+
     void invLogSelf()
     {
         switch (invIndex){
@@ -271,6 +247,7 @@ public class PlayerController : MonoBehaviour {
         invIndex += 1;
     }
 
+
     // Code for pausing the game
     public void activatePause()
     {
@@ -280,6 +257,7 @@ public class PlayerController : MonoBehaviour {
         Time.timeScale = 0;
     }
 
+
     // Code for unpausing the game
     public void deactivatePause()
     {
@@ -288,16 +266,19 @@ public class PlayerController : MonoBehaviour {
         Time.timeScale = 1;
     }
 
+
     public void undoAction()
     {
         //in progress 
     }
+
 
     // Function to quit the game
     public void quitGame()
     {
         Application.Quit();
     }
+
 
     // Functions for droppint items
     public void dropItem1()
@@ -306,11 +287,13 @@ public class PlayerController : MonoBehaviour {
         itemSpawner(item1ID, 1);
     }
 
+
     public void dropItem2()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(2);
         itemSpawner(item2ID, 2);
     }
+
 
     public void dropItem3()
     {
@@ -318,11 +301,13 @@ public class PlayerController : MonoBehaviour {
         itemSpawner(item3ID, 3);
     }
 
+
     public void dropItem4()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(4);
         itemSpawner(item4ID, 4);
     }
+
 
     //Function to spawn an item when dropped from the menu
     public void itemSpawner(int spawnID, int dropIndex)
@@ -357,6 +342,7 @@ public class PlayerController : MonoBehaviour {
                 break;
         }
     }
+
 
     // Function "looks up" which item needs to be spawned based on item ID
     public void itemLookup(int itemsIdentity)
@@ -394,6 +380,85 @@ public class PlayerController : MonoBehaviour {
     }
 
 
+    // This function is used to get the player's location for the action log.
+    // Temporary function, will need to change when all the locations are available.
+    private int getLocation() 
+    {
+        int x = 0;
+        int z = 0;
+        Vector3 coords = transform.position;
+        if (coords.x <= -5)
+        {
+            x = 0;
+        }
+        else if (coords.x > -5 && coords.x <= 50)
+        {
+            x = 1;
+        }
+        else 
+        {
+            x = 2;
+        }
+        if (coords.z >= 5){
+            z = 0;
+        }
+        else if (coords.z < 5 && coords.z <= -50)
+        {
+            z = 1;
+        }
+        else 
+        {
+            z = 2;
+        }
+        return (x + z * 3);
+        //return 0;
+    }
+
+
+    private void takeItem()
+    {
+        // Log data from the item
+        logID = otherItem.GetComponent<item>().itemID;
+        locationID = getLocation();
+        actionID = 0; // Change this to reflect action taken, when implemented
+        spotID = 0; // Change this to get spot ID when spot ID's are impolemented
+
+        logName = otherItem.GetComponent<item>().itemName;
+        invLogSelf();
+
+        //Debug.Log(locationID);
+
+        actionOperator.GetComponent<actionOperator>().deactivateSpot();
+        playerLog.GetComponent<playerLog>().actionLogger(logID);
+        otherItem.GetComponent<item>().takeItem();
+
+        // Update the log display
+        logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
+
+        // Add item to the inventory
+        inventory.GetComponent<InventoryOperator>().addItem(logID, logName);
+
+        // Deactivate item
+        otherItem.SetActive(false);
+        nearItem = false;
+    }
+
+
+    private void enterArea()
+    {                
+        // If on the world map, save their location so they can be returned later
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            outdoorSpot = transform.position;
+        }
+        outdoorMove = true;
+        Debug.Log("Destination: " + destinationScene);
+        Debug.Log("Position: " + outdoorSpot);
+
+        // Load the new scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene(destinationScene);
+    }
+
     private void warningFunc()
     {
         if (enableWarning)
@@ -401,13 +466,6 @@ public class PlayerController : MonoBehaviour {
             Debug.Log(outdoorMove);
         }
     }
-
-    /*          
-        Transform block = Instantiate(blockPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        block.transform.position = new Vector3((j * 5 ), 0.1f, (i * 5));
-        block.transform.Rotate(0, 180, 0);
-        block.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-     */
 
 }
 	 
