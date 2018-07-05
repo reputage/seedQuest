@@ -5,6 +5,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour {
 
     public Transform target;
+    public LineRenderer line;
+
     public float speed = 2.0F;
     public float rotateSpeed = 1.0F;
     Vector3[] path;
@@ -17,6 +19,7 @@ public class Unit : MonoBehaviour {
     public void OnPathFound(Vector3[] newPath, bool pathSucessful) {
         if(pathSucessful) {
             path = newPath;
+            DrawPath();
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
         }
@@ -39,10 +42,17 @@ public class Unit : MonoBehaviour {
 
             // Look at currentWaypoint (using Lerp)
             Vector3 dir = currentWaypoint - transform.position;
-            Quaternion rotatation = Quaternion.LookRotation(dir, Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotatation, rotateSpeed * Time.deltaTime);
+            if(dir.sqrMagnitude > 0) {
+                Quaternion rotatation = Quaternion.LookRotation(dir, Vector3.up);
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotatation, rotateSpeed * Time.deltaTime);
+            } 
 
             yield return null;
         }
+    }
+
+    void DrawPath() {
+        line.positionCount = path.Length;
+        line.SetPositions(path);
     }
 }
