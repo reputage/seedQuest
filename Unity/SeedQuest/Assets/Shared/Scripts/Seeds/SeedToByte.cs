@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System;
+using System.Collections.Specialized;
 
 
 /* For each action:
@@ -44,7 +45,7 @@ public class SeedToByte : MonoBehaviour
 {
 
     //public string testSeed = "C5E3D45D341C5";
-    public string testSeed = "||||||||||||||||";
+    public string testSeed2 = "||||||||||||||||";
 
     public string testReturnStr;
     public string testReturnStr2;
@@ -53,28 +54,48 @@ public class SeedToByte : MonoBehaviour
     public byte[] testReturnBytes;
     public int[] actionToDo;
     public BitArray testBitArr;
+    public byte[] actionToBits;
+    public List<int> actionList;
 
 
     void Start () 
     {
+        actionList = listBuilder();
         // Just a test
-        testByteArr = seedToByte(testSeed);
+        testByteArr = seedToByte(testSeed2);
         testReturnStr = byteToSeed(testByteArr);
         testBitArr = byteToBits(testByteArr);
         testReturnBytes = bitToByte(testBitArr);
         testReturnStr2 = byteToSeed(testReturnBytes);
 
-        actionToDo = bitConverter(testBitArr);
+        actionToDo = bitConverter(testBitArr, actionList);
 
-        //Debug.Log(testBitArr.Length);
-        //Debug.Log(actionToDo);
+        actionToBits = actionConverter(actionToDo, actionList);
 
+        /*
+        for (int i = 0; i < 128; i++)
+        {
+            Debug.Log("Test bit: " + testBitArr[i] + " action bit: " + actionToBits[i]);
+        }
+        */
 
-        for (int i = 0; i < actionToDo.Length; i ++)
+        //Debug.Log(testBitArr.Length + " " + actionToBits.Length);
+
+        /*
+        Debug.Log(testBitArr[0] + " " + testBitArr[1] + " " + testBitArr[2] + " " + testBitArr[3]);
+        Debug.Log("Locations: " + actionToDo[0] + " " + actionToDo[9] + " " + actionToDo[18] + " " + actionToDo[27]);
+        Debug.Log(testBitArr[4] + " " + testBitArr[5] + " " + testBitArr[6] + " " + testBitArr[7]);
+        Debug.Log("First spots: " + actionToDo[1] + " " + actionToDo[10] + " " + actionToDo[19] + " " + actionToDo[28]);
+        Debug.Log(testBitArr[8] + " " + testBitArr[9] + " " + testBitArr[10]);
+        Debug.Log("First actions: " + actionToDo[2] + " " + actionToDo[11] + " " + actionToDo[20] + " " + actionToDo[29]);
+        */
+
+        /*
+        for (int i = 0; i < actionToDo.Length; i++)
         {
             Debug.Log( "Index: " + i + " Value: " + actionToDo[i]);
         }
-
+        */
 
     }
 	
@@ -134,22 +155,13 @@ public class SeedToByte : MonoBehaviour
 
     }
 
-
-    public int[] bitConverter(BitArray bits)
+    public List<int> listBuilder()
     {
-
-        /*
-        bool[] ibits = new bool[128];
-        for (int i = 0; i < 128; i++) {
-            ibits[i] = bits[i];
-        }
-        */
-
-        int numLocationBits = 4;
-        int numSpotBits = 4;
-        int numActionBits = 3;
-        int numActions = 4;
-        int numTotalLocations = 4;
+        int numLocationBits = 4;        // Number of bits used to determine location
+        int numSpotBits = 4;            // Number of bits used to determine spots for each action
+        int numActionBits = 3;          // Number of bits used to determine action choice
+        int numActions = 4;             // Total actions the player needs to take at each location
+        int numTotalLocations = 4;      // Total number of locatiosn the player needs to visit
 
         List<int> actionList = new List<int>();
 
@@ -164,12 +176,15 @@ public class SeedToByte : MonoBehaviour
             }
         }
 
-        // TO DO:
-        //  use actionList declared above in the function
-        //  read bits forwards, not backwards
-        //  use the list as the stop points when writing to the array
+        // Print total list items, and the values for location, spot, and action
+        //Debug.Log("Total: " + actionList.Count + " Loc: " + actionList[0] + " Spot: " + actionList[1] + " Act: " + actionList[2]);
 
-        int[] actionValues = new int[40];
+        return actionList;
+    }
+
+    public int[] bitConverter(BitArray bits, List<int> actionList)
+    {
+        int[] actionValues = new int[36];
         int value = 0;
         int valueIndex = 0;
         int locator = 0;
@@ -184,67 +199,67 @@ public class SeedToByte : MonoBehaviour
         for (int i = 0; i < bits.Length; i++)
         {
             //Debug.Log(value);
-
             if (bits[i])
             {
-                value += Convert.ToInt32(Math.Pow(2, valueIndex));
+                int bitValue = actionList[writeIndex] - (valueIndex + 1);
+                //Debug.Log("BitValue: " + bitValue);
+                value += Convert.ToInt32(Math.Pow(2, bitValue));
             }
 
-            valueIndex += 1;
-
-
-            //4, 11, 18, 25 locations end
-            //8, 15, 22, 29 spots end
-            //11, 18, 25, 32 action end
-
-            if (locator == 3)
+            if (locator == (actionList[writeIndex] - 1))
             {
-                // get location
+                // Store the location/spot/action
                 actionValues[writeIndex] = value;
-                Debug.Log(actionValues[writeIndex] + " i: " + i + " Loc: " + locator);
+                //Debug.Log(actionValues[writeIndex] + " i: " + i + " Loc: " + locator);
 
                 writeIndex += 1;
                 value = 0;
                 valueIndex = 0;
-            }
-            if (locator == 7 || locator == 14 || locator == 21 || locator == 28)
-            {
-                // get spot
-                actionValues[writeIndex] = value;
-                Debug.Log(actionValues[writeIndex] + " i: " + i + " Loc: " + locator);
-
-                writeIndex += 1;
-                value = 0;
-                valueIndex = 0;
-            }
-            if (locator == 10 || locator == 17 || locator == 24 || locator == 31)
-            {
-                // get action 
-                actionValues[writeIndex] = value;
-                Debug.Log(actionValues[writeIndex] + " i: " + i + " Loc: " + locator);
-
-                writeIndex += 1;
-                value = 0;
-                valueIndex = 0;
-            }
-
-            locator += 1;
-
-            if (locator > 1 && (i + 1) % 32 == 0)
-            {
-                //Debug.Log(locator + " and: " + (i % 32));
                 locator = 0;
             }
-
+            else
+            {
+                valueIndex += 1;
+                locator += 1;
+            }
         }
 
         return actionValues;
     }
 
-    // repeat 4 times:
-    // iterate 4 times, save to location
-    // repeat 4 times:
-    // iterate 4 times, save to spot
-    // iterate 3 times, save to action
+    public byte[] actionConverter(int[] actions, List<int> actionList)
+    {
+        var actionBits = new BitArray(128);
+        ulong path1 = 0;
+        ulong path2 = 0;
+
+        for (int i = 0; i < 18; i++)
+        {
+            path1 += (ulong)actions[i];
+            path2 += (ulong)actions[i + 18];
+            if (i < 17)
+            {
+                path1 = path1 << actionList[i];
+                path2 = path2 << actionList[i + 18];
+            }
+            Debug.Log( i + " " + path1 + " " + path2);
+        }
+
+        /*
+        for (int i = 0; i < actionBits.Length; i ++)
+        {
+            Debug.Log(actionBits.Length + " " + actionBits[i]);
+        }
+*/
+        byte[] bytes1 = BitConverter.GetBytes(path1);
+        byte[] bytes2 = BitConverter.GetBytes(path1);
+        byte[] bytes3 = new byte[bytes1.Length + bytes2.Length];
+        System.Buffer.BlockCopy(bytes1, 0, bytes3, 0, bytes2.Length);
+        System.Buffer.BlockCopy(bytes2, 0, bytes3, bytes1.Length, bytes2.Length);
+
+
+
+        return bytes3;
+    }
 
 }
