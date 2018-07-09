@@ -27,6 +27,7 @@ public class SeedToByte : MonoBehaviour
 
     public string testSeed3 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
+    public string a1234 = "a1234";
 
     public string testReturnStr;
     public string testReturnStr2;
@@ -87,9 +88,9 @@ public class SeedToByte : MonoBehaviour
 
     void Start()
     {
+        //DontDestroyOnLoad(gameObject);
         actionList = listBuilder();
         testRun();
-
     }
 
     void Update()
@@ -121,6 +122,7 @@ public class SeedToByte : MonoBehaviour
         inputBytes = seedToByte(inputSeed);
         inputBits = byteToBits(inputBytes);
         actionToDo = bitConverter(inputBits, actionList);
+        Debug.Log(actionToDo);
     }
 
     // Get the return seed from a list of actions

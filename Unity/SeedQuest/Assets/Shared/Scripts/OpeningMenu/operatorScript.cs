@@ -28,7 +28,7 @@ public class operatorScript : MonoBehaviour {
 
 
     static string mapWord = "/!0";
-    static string keySeed = "";
+    static string keySeed = "/!0";
 
 
 	void Start () {
@@ -44,21 +44,21 @@ public class operatorScript : MonoBehaviour {
     // For the "Recall mode" button
     public void recallClick()
     {
-        //Debug.Log("recall button clicked!");
+        Debug.Log("recall button clicked!");
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 
     // For the "rehearse mode" button
     public void rehearseClick()
     {
-        //Debug.Log("rehearse button clicked!");
+        Debug.Log("rehearse button clicked!");
         buttonRecall.transform.localPosition = new Vector3(-60, -900, 0);
         buttonRehearse.transform.localPosition = new Vector3(60, -900, 0);
 
         buttonBackRehearse.transform.localPosition = new Vector3(-20, -50, 0);
         buttonRehearseGo.transform.localPosition = new Vector3(-90, 30, 0);
         keySeedInput.transform.localPosition = new Vector3(90, 30, 0);
-        keySeed = "";
+        keySeed = "/!0";
     }
 
     public void backRehearseClick()
@@ -119,7 +119,7 @@ public class operatorScript : MonoBehaviour {
     public void rehearseGoClick()
     {
         //Debug.Log("Generate button clicked!");
-        if (keySeed == "")
+        if (keySeed == "/!0")
         {
             Debug.Log("Invalid map name");
             keySeedInput.GetComponent<InputField>().placeholder.GetComponent<Text>().color = Color.red;

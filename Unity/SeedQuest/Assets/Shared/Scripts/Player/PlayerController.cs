@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
 
     Animator animator;
 
+    public SeedToByte seedScriptor;
+
 	public float speed;
 	public float rotationSpeed;
 	public float yMin, yMax;
@@ -57,6 +59,8 @@ public class PlayerController : MonoBehaviour {
     private static int item3ID;
     private static int item4ID;
     private static int invIndex = 0;
+
+    private static string seed;
 
 
 	void Start () 
@@ -144,6 +148,25 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        // Add actions to the action log
+        // This should only be used for testing purposes
+        if (Input.GetButtonDown("T_in"))
+        {
+            if (actionIndex >= 35)
+            {
+                // send action log of ints to the seedToByte script
+                int[] actTemp = playerLog.GetComponent<playerLog>().getActions();
+                seed = seedScriptor.getSeed(actTemp);
+                Debug.Log("Your seed is: " + seed);
+            }
+
+            else
+            {
+                playerLog.GetComponent<playerLog>().actionLogger(2);
+            }
+            actionIndex += 1;
+        }
+
         // Display or hide pause menu, and pause or unpause game
         if (Input.GetButtonDown("Cancel"))
         {
@@ -182,22 +205,16 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("ActionSpot"))
         {
             // Button prompt pops up, allows player to take the item
-
             //Debug.Log("Action spot entered");
             other.GetComponent<actionSpot>().playerAlert();
             actionOperator.GetComponent<actionOperator>().activateSpot();
             nearItem = true;
             otherItem = other.gameObject.GetComponent<actionSpot>().item;
-                             
-            //To do:
-            // Store the action in log, including map index, ID of spot, and ID of action
-
         }
 
         if (other.gameObject.CompareTag("Entrance"))
         {
             // Button prompt pops up, allows player to enter
-
             //Debug.Log("Entrance entered");
             actionOperator.GetComponent<actionOperator>().activateEntrance();
             nearEntrance = true;
@@ -442,11 +459,20 @@ public class PlayerController : MonoBehaviour {
             if (actionIndex % 9 == 0)
             {
                 playerLog.GetComponent<playerLog>().actionLogger(locationID);
-
+                actionIndex += 1;
             }
             actionOperator.GetComponent<actionOperator>().deactivateSpot();
             playerLog.GetComponent<playerLog>().actionLogger(spotID);
             playerLog.GetComponent<playerLog>().actionLogger(logID);
+            actionIndex += 2;
+        }
+
+        if(actionIndex >= 36)
+        {
+            // send action log of ints to the seedToByte script
+            int[] actTemp = playerLog.GetComponent<playerLog>().getActions();
+            seed = seedScriptor.getSeed(actTemp);
+            Debug.Log("Your seed is: " + seed);
         }
 
         otherItem.GetComponent<item>().takeItem();

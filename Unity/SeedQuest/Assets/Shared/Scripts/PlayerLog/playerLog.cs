@@ -7,8 +7,8 @@ public class playerLog : MonoBehaviour {
     // This script is used to track player actions.
     // Player action integers come from the 'PlayerController' script
 
-    public int actCount = 0;
-    public int[] actionArr = new int[36];
+    public static int actCount = 0;
+    public static int[] actionArr = new int[36];
 
 
 	// Use this for initialization
@@ -35,6 +35,11 @@ public class playerLog : MonoBehaviour {
         actCount -= 1;
         actionArr[actCount] = 0;
         Debug.Log("Last action removed.");
+    }
+
+    public int[] getActions()
+    {
+        return actionArr;
     }
 
 }
