@@ -9,6 +9,11 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
+    // Warning:
+    //  Right now actions are logged as the player takes items, 
+    //  this should be changed to be logged when actions are taken at
+    //  action spots, but those aren't implemented yet.
+
     Animator animator;
 
 	public float speed;
@@ -43,6 +48,7 @@ public class PlayerController : MonoBehaviour {
     private int locationID;
     private int actionID;
     private int spotID;
+    private int actionIndex;
     private int destinationScene;
     private string logName = "";
 
@@ -428,8 +434,21 @@ public class PlayerController : MonoBehaviour {
 
         //Debug.Log(locationID);
 
-        actionOperator.GetComponent<actionOperator>().deactivateSpot();
-        playerLog.GetComponent<playerLog>().actionLogger(logID);
+        // The following code logs actions, but this should be changed 
+        //  once action spots are ready and implemented
+
+        if (actionIndex < 36)
+        {
+            if (actionIndex % 9 == 0)
+            {
+                playerLog.GetComponent<playerLog>().actionLogger(locationID);
+
+            }
+            actionOperator.GetComponent<actionOperator>().deactivateSpot();
+            playerLog.GetComponent<playerLog>().actionLogger(spotID);
+            playerLog.GetComponent<playerLog>().actionLogger(logID);
+        }
+
         otherItem.GetComponent<item>().takeItem();
 
         // Update the log display
@@ -441,6 +460,7 @@ public class PlayerController : MonoBehaviour {
         // Deactivate item
         otherItem.SetActive(false);
         nearItem = false;
+
     }
 
 

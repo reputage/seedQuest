@@ -7,37 +7,15 @@ using System.Collections.Specialized;
 
 
 /* For each action:
+ * 
  * 4 bits for location
- *  0 
- *  32
- *  64
- *  96
- * 
  * 4 bits for each "spot" at the location
- *  4, 11, 18, 25
- *  36, 43, 50, 57
- *  68, 75, 82, 89
- *  100, 107, 114, 121
- * 
  * 3 bits for each action at the location
- *  8, 15, 22, 29
- *  40, 47, 54, 61
- *  72, 79, 86, 93
- *  104, 111, 118, 125
  * 
  * 4 actions at each location = 4 * 7 = 28
  * 28 + 4 (for the location) = 32
  * 4 locations to be visited
  * 
- * 4 bits = location
- * 4 bits = spot
- * 3 bits = action
- * 4 spot
- * 3 action
- * 4 spot
- * 3 action
- * 4 spot
- * 3 action
  */
 
 
@@ -57,10 +35,19 @@ public class SeedToByte : MonoBehaviour
     public string testBitStr;
     public byte[] testByteArr;
     public byte[] testReturnBytes;
-    public int[] actionToDo;
+    public int[] testActionToDo;
     public BitArray testBitArr;
     public byte[] actionToBits;
     public List<int> actionList;
+
+    public static string inputSeed;
+    public static string returnSeed;
+
+    public static byte[] inputBytes;
+    public static byte[] returnBytes;
+    public static int[] actionToDo;
+    public static BitArray inputBits;
+
 
     public static byte[] BitReverseTable =
     {
@@ -101,6 +88,18 @@ public class SeedToByte : MonoBehaviour
     void Start()
     {
         actionList = listBuilder();
+        testRun();
+
+    }
+
+    void Update()
+    {
+
+    }
+
+    // Test to make sure everything works
+    void testRun()
+    {
         // Just a test
         testByteArr = seedToByte(testSeed3);
         testReturnStr = byteToSeed(testByteArr);
@@ -108,16 +107,29 @@ public class SeedToByte : MonoBehaviour
         testReturnBytes = bitToByte(testBitArr);
         testReturnStr2 = byteToSeed(testReturnBytes);
 
-        actionToDo = bitConverter(testBitArr, actionList);
+        testActionToDo = bitConverter(testBitArr, actionList);
 
-        actionToBits = actionConverter(actionToDo, actionList);
+        actionToBits = actionConverter(testActionToDo, actionList);
         testReturnStr3 = byteToSeed(actionToBits);
-
     }
 
-    void Update()
-    {
 
+    // Take string for input, get the to-do list of actions
+    public void getActions(string inputStr)
+    {
+        inputSeed = inputStr;
+        inputBytes = seedToByte(inputSeed);
+        inputBits = byteToBits(inputBytes);
+        actionToDo = bitConverter(inputBits, actionList);
+    }
+
+    // Get the return seed from a list of actions
+    public string getSeed(int[] actionsPerformed)
+    {
+        // Don't change the actionList - it will break everything
+        returnBytes = actionConverter(actionsPerformed, actionList);
+        string convertedSeed = byteToSeed(returnBytes);
+        return convertedSeed;
     }
 
     //  Convert string to byte array
@@ -203,10 +215,8 @@ public class SeedToByte : MonoBehaviour
 
         for (int i = 0; i < bits.Length; i++)
         {
-            //Debug.Log(value);
             if (bits[i])
             {
-                //Debug.Log(valueIndex);
                 // Yes, I know this is reading the bits in reverse, this is intentional
                 int bitValue = actionList[writeIndex] - (valueIndex + 1);
                 value += Convert.ToInt32(Math.Pow(2, bitValue));

@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class playerLog : MonoBehaviour {
 
-    // This script is used to tack player actions
+    // This script is used to track player actions.
+    // Player action integers come from the 'PlayerController' script
 
     public int actCount = 0;
-    public int[] actionArr = new int[10];
-   /* public int action1 = 0;
-    public int action2 = 0;
-    public int action3 = 0;
-    public int action4 = 0; */
+    public int[] actionArr = new int[36];
+
 
 	// Use this for initialization
 	void Start () {
@@ -23,6 +21,7 @@ public class playerLog : MonoBehaviour {
 		
 	}
 
+    // Log player action ints
     public void actionLogger(int actionInt)
     {
         actionArr[actCount] = actionInt;
@@ -30,23 +29,12 @@ public class playerLog : MonoBehaviour {
         actCount += 1;
     }
 
-
-    //For removing the last performed action
+    // For removing the last performed action
     public void actionRemove()
     {
         actCount -= 1;
         actionArr[actCount] = 0;
         Debug.Log("Last action removed.");
-    }
-
-    // Testing to see if the Blake2 hashing algorithm will work in unity
-    // WIP
-    public void hashTest()
-    {
-        //string str = "The quick brown fox jumps over the lazy dog";
-        //byte[] pbText = Encoding.Default.GetBytes(str);
-        //Blake512 blake512 = new Blake512();
-        //byte[] pbHash = blake512.ComputeHash(pbText);
     }
 
 }
