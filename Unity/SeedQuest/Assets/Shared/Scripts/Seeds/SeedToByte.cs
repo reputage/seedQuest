@@ -44,8 +44,10 @@ using System.Collections.Specialized;
 public class SeedToByte : MonoBehaviour
 {
 
-                            //C5E3D45DC5E3D45D
-    public string testSeed3 = "C5E3D45D341A7"; 
+    // Yes, I know this isn't the best way to do this operation, but it works
+    // Please don't break this.
+
+    public string testSeed3 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
 
     public string testReturnStr;
@@ -96,7 +98,7 @@ public class SeedToByte : MonoBehaviour
             0x1f, 0x9f, 0x5f, 0xdf, 0x3f, 0xbf, 0x7f, 0xff
     };
 
-    void Start () 
+    void Start()
     {
         actionList = listBuilder();
         // Just a test
@@ -111,41 +113,14 @@ public class SeedToByte : MonoBehaviour
         actionToBits = actionConverter(actionToDo, actionList);
         testReturnStr3 = byteToSeed(actionToBits);
 
+    }
 
-
-
-        /*
-        for (int i = 0; i < 128; i++)
-        {
-            Debug.Log("Test bit: " + testBitArr[i] + " action bit: " + actionToBits[i]);
-        }
-        */
-
-        //Debug.Log(testBitArr.Length + " " + actionToBits.Length);
-
-        /*
-        Debug.Log(testBitArr[0] + " " + testBitArr[1] + " " + testBitArr[2] + " " + testBitArr[3]);
-        Debug.Log("Locations: " + actionToDo[0] + " " + actionToDo[9] + " " + actionToDo[18] + " " + actionToDo[27]);
-        Debug.Log(testBitArr[4] + " " + testBitArr[5] + " " + testBitArr[6] + " " + testBitArr[7]);
-        Debug.Log("First spots: " + actionToDo[1] + " " + actionToDo[10] + " " + actionToDo[19] + " " + actionToDo[28]);
-        Debug.Log(testBitArr[8] + " " + testBitArr[9] + " " + testBitArr[10]);
-        Debug.Log("First actions: " + actionToDo[2] + " " + actionToDo[11] + " " + actionToDo[20] + " " + actionToDo[29]);
-        */
-
-        /*
-        for (int i = 0; i < actionToDo.Length; i++)
-        {
-            Debug.Log( "Index: " + i + " Value: " + actionToDo[i]);
-        }
-        */
+    void Update()
+    {
 
     }
-	
-	void Update () {
-		
-	}
 
-    //  Byte array conversion
+    //  Convert string to byte array
     public byte[] seedToByte(string seedString)
     {
         // example string = C5E3D45D341C5
@@ -153,21 +128,21 @@ public class SeedToByte : MonoBehaviour
         return seedByte;
     }
 
-
+    // Convert byte array back to string
     public string byteToSeed(byte[] bytes)
     {
         string returnStr = Encoding.UTF8.GetString(bytes);
         return returnStr;
     }
 
-
+    // Convert byte array to bit array
     public BitArray byteToBits(byte[] bytes)
     {
         var returnBits = new BitArray(bytes);
         return returnBits;
     }
 
-
+    // Convert bit array to byte array
     public byte[] bitToByte(BitArray bits)
     {
         byte[] returnBytes;
@@ -175,7 +150,7 @@ public class SeedToByte : MonoBehaviour
         return returnBytes;
     }
 
-
+    // Convert bit array to byte array
     public byte[] BitArrayToByteArray(BitArray bits)
     {
         byte[] ret = new byte[(bits.Length - 1) / 8 + 1];
@@ -183,20 +158,7 @@ public class SeedToByte : MonoBehaviour
         return ret;
     }
 
-
-    private int getIntFromBitArray(BitArray bits)
-    {
-        if (bits.Length > 32)
-        {
-            //throw new ArgumentException("Argument length shall be at most 32 bits.");
-        }
-
-        int[] array = new int[1];
-        bits.CopyTo(array, 0);
-        return array[0];
-
-    }
-
+    // Construct the list of how many bits represent which parts of the path to take
     public List<int> listBuilder()
     {
         int numLocationBits = 4;        // Number of bits used to determine location
@@ -224,6 +186,7 @@ public class SeedToByte : MonoBehaviour
         return actionList;
     }
 
+    // Convert bit array to int array representing the actions the player should take
     public int[] bitConverter(BitArray bits, List<int> actionList)
     {
         int[] actionValues = new int[36];
@@ -244,8 +207,8 @@ public class SeedToByte : MonoBehaviour
             if (bits[i])
             {
                 //Debug.Log(valueIndex);
+                // Yes, I know this is reading the bits in reverse, this is intentional
                 int bitValue = actionList[writeIndex] - (valueIndex + 1);
-
                 value += Convert.ToInt32(Math.Pow(2, bitValue));
                 //value += Convert.ToInt32(Math.Pow(2, valueIndex));
             }
@@ -285,7 +248,7 @@ public class SeedToByte : MonoBehaviour
             path2 += (ulong)actions[i + 18];
             if (i < 17)
             {
-                path1 = path1 << actionList[i+1];
+                path1 = path1 << actionList[i + 1];
                 path2 = path2 << actionList[i + 19];
             }
 
@@ -296,6 +259,9 @@ public class SeedToByte : MonoBehaviour
         byte[] bytes2 = BitConverter.GetBytes(path2);
 
         // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
+        //  Yes, I know we are reversing the bits to get the actions,
+        //  then reversing them again when extracting the bits.
+        //  The manager-man wanted me to do it this way.
         for (int i = 0; i < bytes1.Length / 2; i++)
         {
             byte tmp = bytes1[i];
@@ -315,7 +281,7 @@ public class SeedToByte : MonoBehaviour
         System.Buffer.BlockCopy(bytes2, 0, bytes3, bytes1.Length, bytes2.Length);
 
         // Reverse the order of the bits within each byte (yes, this is also necessary)
-        for (int i = 0; i < bytes3.Length; i ++)
+        for (int i = 0; i < bytes3.Length; i++)
         {
             bytes3[i] = ReverseWithLookupTable(bytes3[i]);
         }
@@ -323,7 +289,8 @@ public class SeedToByte : MonoBehaviour
         return bytes3;
     }
 
-
+    // Reverse the order of bits
+    // This method is used since it's faster than other bit-reversal methods
     public static byte ReverseWithLookupTable(byte toReverse)
     {
         return BitReverseTable[toReverse];
