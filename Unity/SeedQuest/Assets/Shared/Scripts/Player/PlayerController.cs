@@ -458,10 +458,19 @@ public class PlayerController : MonoBehaviour {
         {
             if (actionIndex % 9 == 0)
             {
+                if (locationID > 15)
+                { Debug.Log("Warning! Location ID is greater than 15! Must be <= 15!");    }
                 playerLog.GetComponent<playerLog>().actionLogger(locationID);
                 actionIndex += 1;
             }
+
             actionOperator.GetComponent<actionOperator>().deactivateSpot();
+
+            if (spotID > 15)
+            { Debug.Log("Warning! Spot ID is greater than 15! Must be <= 15!");    }
+            if (logID > 15)
+            { Debug.Log("Warning! Action ID is greater than 7! Must be <= 7!");    }
+
             playerLog.GetComponent<playerLog>().actionLogger(spotID);
             playerLog.GetComponent<playerLog>().actionLogger(logID);
             actionIndex += 2;
