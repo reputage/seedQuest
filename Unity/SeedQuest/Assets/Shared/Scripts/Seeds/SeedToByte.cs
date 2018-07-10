@@ -25,8 +25,10 @@ public class SeedToByte : MonoBehaviour
     // Yes, I know this isn't the best way to do this operation, but it works
     // Please don't break this.
 
-    public string testSeed3 = "C5E3D45D341A7";
+    public string testSeed1 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
+    public string testSeed4 = "AAAAAAAAAAAAAAAA";
+
     public string a1234 = "a1234";
 
     public string testReturnStr;
@@ -102,7 +104,7 @@ public class SeedToByte : MonoBehaviour
     void testRun()
     {
         // Just a test
-        testByteArr = seedToByte(testSeed3);
+        testByteArr = seedToByte(testSeed4);
         testReturnStr = byteToSeed(testByteArr);
         testBitArr = byteToBits(testByteArr);
         testReturnBytes = bitToByte(testBitArr);

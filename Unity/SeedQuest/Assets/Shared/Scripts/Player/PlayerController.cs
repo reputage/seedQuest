@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject drone;
     public GameObject book;
     public GameObject playerLog;
+    public GameObject seedBox;
 
     public static Vector3 outdoorSpot;
 
@@ -46,6 +47,8 @@ public class PlayerController : MonoBehaviour {
     private bool pauseActive = false;
     private bool invVisible = false;
     private bool enableWarning = false;
+    private bool seedBoxActive = false;
+
     private int logID = 0;
     private int locationID;
     private int actionID;
@@ -59,6 +62,8 @@ public class PlayerController : MonoBehaviour {
     private static int item3ID;
     private static int item4ID;
     private static int invIndex = 0;
+
+    private int[] testActionArr = { 8, 2, 4, 1, 2, 0, 5, 0, 2 };
 
     private static string seed;
 
@@ -107,6 +112,14 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        if (seedBoxActive == true)
+        {
+            if (Input.GetButtonDown("F_in"))
+            {
+                seedBox.SetActive(false);
+                seedBoxActive = false;
+            }
+        }
 
         // If near an entrance, show prompt to enter
         if (nearEntrance == true)
@@ -158,11 +171,14 @@ public class PlayerController : MonoBehaviour {
                 int[] actTemp = playerLog.GetComponent<playerLog>().getActions();
                 seed = seedScriptor.getSeed(actTemp);
                 Debug.Log("Your seed is: " + seed);
+                seedBox.GetComponentInChildren<Text>().text = "Your seed is: " + seed;
+                seedBox.SetActive(true);
+                seedBoxActive = true;
             }
 
             else
             {
-                playerLog.GetComponent<playerLog>().actionLogger(2);
+                playerLog.GetComponent<playerLog>().actionLogger(testActionArr[actionIndex%9]);
             }
             actionIndex += 1;
         }
@@ -375,22 +391,22 @@ public class PlayerController : MonoBehaviour {
         pCoord.y += 0.2f;
         switch (itemsIdentity)
         {
-            case 100001:
+            case 1:
                 //rock
                 GameObject itemSpawn1 = Instantiate(rock, pCoord, Quaternion.identity);
                 if (enableWarning){ Debug.Log(itemSpawn1.transform.position); }
                 break;
-            case 100002:
+            case 2:
                 //ball
                 GameObject itemSpawn2 = Instantiate(ball, pCoord, Quaternion.identity);
                 if (enableWarning) { Debug.Log(itemSpawn2.transform.position); }
                 break;
-            case 100003:
+            case 3:
                 //drone
                 GameObject itemSpawn3 = Instantiate(drone, pCoord, Quaternion.identity);
                 if (enableWarning) { Debug.Log(itemSpawn3.transform.position); }
                 break;
-            case 100004:
+            case 4:
                 //book
                 GameObject itemSpawn4 = Instantiate(book, pCoord, Quaternion.identity);
                 if (enableWarning) { Debug.Log(itemSpawn4.transform.position); }
@@ -398,8 +414,6 @@ public class PlayerController : MonoBehaviour {
             default:
                 break;
         }
-
-
     }
 
 
@@ -482,6 +496,9 @@ public class PlayerController : MonoBehaviour {
             int[] actTemp = playerLog.GetComponent<playerLog>().getActions();
             seed = seedScriptor.getSeed(actTemp);
             Debug.Log("Your seed is: " + seed);
+            seedBox.GetComponentInChildren<Text>().text = "Your seed is: " + seed;
+            seedBox.SetActive(true);
+            seedBoxActive = true;
         }
 
         otherItem.GetComponent<item>().takeItem();

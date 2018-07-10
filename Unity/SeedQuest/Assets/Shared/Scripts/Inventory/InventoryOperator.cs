@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+// Item IDs
+// 1 = rock
+// 2 = ball
+// 3 = drone
+// 4 = book
+
 public class InventoryOperator : MonoBehaviour
 {
     private bool showing = false; 
@@ -31,21 +37,9 @@ public class InventoryOperator : MonoBehaviour
     public Sprite iconBook;
     public Sprite iconRef;
 
-    private static bool item1Active = false;
-    private static bool item2Active = false;
-    private static bool item3Active = false;
-    private static bool item4Active = false;
-
-    private static int item1ID;
-    private static int item2ID;
-    private static int item3ID;
-    private static int item4ID;
-
-    private static string item1Name;
-    private static string item2Name;
-    private static string item3Name;
-    private static string item4Name;
-
+    private static bool[] itemsActive = new bool[16];
+    private static int[] itemIDs = new int[16];
+    private static string[] itemNames = new string[16];
 
     void Start()
     {
@@ -60,71 +54,31 @@ public class InventoryOperator : MonoBehaviour
 
     }
 
+    // Item IDs
+    // 1 = rock
+    // 2 = ball
+    // 3 = drone
+    // 4 = book
+
     // Adds item to the player's inventory
     public void addItem(int ID, string name)
     {
-        // 100001 = rock
-        // 100002 = ball
-        // 100003 = drone
-        // 100004 = book
+        itemsActive[index] = true;
+        itemIDs[index] = ID;
+        itemNames[index] = name;
 
-        switch (ID)
-        {
-            case 100001: // rock
-                // do something
-                iconRef = iconRock;
-                break;
-            case 100002: // soccer ball
-                iconRef = iconBall;
-                break;
-            case 100003:
-                iconRef = iconDrone;
-                break;
-            case 100004:
-                iconRef = iconBook;
-                break;
-            default:
-                break;
-        }
-
-        switch (index)
-        {
-            case 0:
-                item1Active = true;
-                item1ID = ID;
-                item1.GetComponentInChildren<Text>().text = name;
-                icon1.GetComponent<Image>().sprite = iconRef;
-                break;
-            case 1:
-                item2Active = true;
-                item2ID = ID;
-                item2.GetComponentInChildren<Text>().text = name;
-                icon2.GetComponent<Image>().sprite = iconRef;
-                break;
-            case 2:
-                item3Active = true;
-                item3ID = ID;
-                item3.GetComponentInChildren<Text>().text = name;
-                icon3.GetComponent<Image>().sprite = iconRef;
-                break;
-            case 3:
-                item4Active = true;
-                item4ID = ID;
-                item4.GetComponentInChildren<Text>().text = name;
-                icon4.GetComponent<Image>().sprite = iconRef;
-                break;
-            default:
-                break;
-        }
+        getItemIcon(ID);
+        activateItem(name);
 
         index += 1;
+
+        // This will force the inventory window to update if the 
+        // item is picked up while the inventory is open
         if (showing)
         {
             show();
         }
-
     }
-
 
     // Activates the inventory and associated UI elements
     public void show()
@@ -132,25 +86,25 @@ public class InventoryOperator : MonoBehaviour
         showing = true;
         backPanel.SetActive(true);
 
-        if (item1Active == true)
+        if (itemsActive[0] == true)
         {
             item1.SetActive(true);
             drop1.SetActive(true);
         }
-        if (item2Active == true)
+        if (itemsActive[1] == true)
         {
             item2.SetActive(true);
             drop2.SetActive(true);
         }
-        if (item3Active == true)
+        if (itemsActive[2] == true)
         {
             item3.SetActive(true);
             drop3.SetActive(true);
         }
-        if (item4Active == true)
+        if (itemsActive[3] == true)
         {
             item4.SetActive(true);
-            drop3.SetActive(true);
+            drop4.SetActive(true);
         }
     }
 
@@ -178,19 +132,19 @@ public class InventoryOperator : MonoBehaviour
             case 1:
                 if (index > 0)
                 {
-                    item1ID = item2ID;
+                    itemIDs[1] = itemIDs[2];
                     icon1.GetComponent<Image>().sprite = icon2.GetComponent<Image>().sprite;
                     item1.GetComponentInChildren<Text>().text = item2.GetComponentInChildren<Text>().text;
                 }
                 if (index > 1)
                 {
-                    item2ID = item3ID;
+                    itemIDs[2] = itemIDs[3];
                     icon2.GetComponent<Image>().sprite = icon3.GetComponent<Image>().sprite;
                     item2.GetComponentInChildren<Text>().text = item3.GetComponentInChildren<Text>().text;
                 }
                 if (index > 2)
                 {
-                    item3ID = item4ID;
+                    itemIDs[3] = itemIDs[4];
                     icon3.GetComponent<Image>().sprite = icon4.GetComponent<Image>().sprite;
                     item3.GetComponentInChildren<Text>().text = item4.GetComponentInChildren<Text>().text;
                 }
@@ -198,13 +152,13 @@ public class InventoryOperator : MonoBehaviour
             case 2:
                 if (index > 1)
                 {
-                    item2ID = item3ID;
+                    itemIDs[2] = itemIDs[3];
                     icon2.GetComponent<Image>().sprite = icon3.GetComponent<Image>().sprite;
                     item2.GetComponentInChildren<Text>().text = item3.GetComponentInChildren<Text>().text;
                 }
                 if (index > 2)
                 {
-                    item3ID = item4ID;
+                    itemIDs[3] = itemIDs[4];
                     icon3.GetComponent<Image>().sprite = icon4.GetComponent<Image>().sprite;
                     item3.GetComponentInChildren<Text>().text = item4.GetComponentInChildren<Text>().text;
                 }
@@ -212,40 +166,35 @@ public class InventoryOperator : MonoBehaviour
             case 3:
                 if (index > 2)
                 {
-                    item3ID = item4ID;
+                    itemIDs[3] = itemIDs[4];
                     icon3.GetComponent<Image>().sprite = icon4.GetComponent<Image>().sprite;
                     item3.GetComponentInChildren<Text>().text = item4.GetComponentInChildren<Text>().text;
                 }
                 break;
             case 4:
-                //item4.SetActive(false);
-                //drop4.SetActive(false);
                 break;
             default:
                 break;
-        
         }
+
+        itemsActive[index] = false;
 
         switch (index){
             case 1:
                 item1.SetActive(false);
                 drop1.SetActive(false);
-                item1Active = false;
                 break;
             case 2:
                 item2.SetActive(false);
                 drop2.SetActive(false);
-                item2Active = false;
                 break;
             case 3:
                 item3.SetActive(false);
                 drop3.SetActive(false);
-                item3Active = false;
                 break;
             case 4:
                 item4.SetActive(false);
                 drop4.SetActive(false);
-                item4Active = false;
                 break;
             default:
                 break;
@@ -253,6 +202,55 @@ public class InventoryOperator : MonoBehaviour
 
         // decrement index
         index -= 1;
+    }
+
+    //  figure out which icon is needed for the item 
+    public void getItemIcon(int ID)
+    {
+        switch (ID)
+        {
+            case 1: // rock
+                iconRef = iconRock;
+                break;
+            case 2: // soccer ball
+                iconRef = iconBall;
+                break;
+            case 3: // drone
+                iconRef = iconDrone;
+                break;
+            case 4: // book
+                iconRef = iconBook;
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Activates item, sets the name of the item
+    public void activateItem(string name)
+    {
+        // Sets the icon for the item in the inventory, and sets the inventory item active
+        switch (index)
+        {
+            case 0:
+                item1.GetComponentInChildren<Text>().text = name;
+                icon1.GetComponent<Image>().sprite = iconRef;
+                break;
+            case 1:
+                item2.GetComponentInChildren<Text>().text = name;
+                icon2.GetComponent<Image>().sprite = iconRef;
+                break;
+            case 2:
+                item3.GetComponentInChildren<Text>().text = name;
+                icon3.GetComponent<Image>().sprite = iconRef;
+                break;
+            case 3:
+                item4.GetComponentInChildren<Text>().text = name;
+                icon4.GetComponent<Image>().sprite = iconRef;
+                break;
+            default:
+                break;
+        }
     }
 
 }
