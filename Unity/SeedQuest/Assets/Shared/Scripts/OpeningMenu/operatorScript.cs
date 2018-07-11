@@ -57,7 +57,7 @@ public class operatorScript : MonoBehaviour {
 
         buttonBackRehearse.transform.localPosition = new Vector3(-20, -50, 0);
         buttonRehearseGo.transform.localPosition = new Vector3(-90, 30, 0);
-        keySeedInput.transform.localPosition = new Vector3(90, 30, 0);
+        keySeedInput.transform.localPosition = new Vector3(120, 30, 0);
         keySeed = "/!0";
     }
 
@@ -69,7 +69,7 @@ public class operatorScript : MonoBehaviour {
 
         buttonBackRehearse.transform.localPosition = new Vector3(-20, -900, 0);
         buttonRehearseGo.transform.localPosition = new Vector3(-90, -900, 0);
-        keySeedInput.transform.localPosition = new Vector3(90, 30, -900);
+        keySeedInput.transform.localPosition = new Vector3(120, -900, 0);
 
     }
 
