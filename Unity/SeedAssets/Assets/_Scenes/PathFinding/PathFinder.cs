@@ -4,31 +4,35 @@ using UnityEngine;
 
 public class PathFinder : MonoBehaviour
 {
-
-    public Transform target;
+    static PathFinder instance;
+    public Transform player;
+    public List<Transform> targetList = new List<Transform>();
     public LineRenderer line;
 
-    Pathfinding pathfinding;
-    Vector3[] path;
+    private Pathfinding pathfinding;
+    private Vector3[] path;
+    private int currentIndex = 0;
 
-    private void Start()
-    {
-        //Vector3[] waypoints = FindPath(transform.position, target.position);
-        //if (waypoints.Length > 0)
-        //    DrawPath();
+    private void Awake() {
+        instance = this;
+        pathfinding = GetComponent<Pathfinding>();
     }
 
-    public void OnPathFound(Vector3[] newPath, bool pathSucessful)
-    {
-        if (pathSucessful)
-        {
-            path = newPath;
+    private void Start() {
+        InvokeRepeating("UpdatePath", 0, 1.0F);
+    }
+
+    private void UpdatePath() {
+        path = pathfinding.FindPath(player.position, targetList[currentIndex].position);
+        if (path.Length > 0)
             DrawPath();
-        }
     }
 
-    void DrawPath()
-    {
+    public void NextPath() {
+        currentIndex++;
+    }
+
+    void DrawPath() {
         line.positionCount = path.Length;
         line.SetPositions(path);
     }

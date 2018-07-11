@@ -7,8 +7,9 @@ public class Grid : MonoBehaviour {
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
+    public bool showGrid;
     Node[,] grid;
-    
+
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
     
@@ -72,7 +73,7 @@ public class Grid : MonoBehaviour {
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
-        if (grid != null)
+        if (showGrid && grid != null)
             {
                 foreach (Node n in grid)
                 {
