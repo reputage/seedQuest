@@ -49,7 +49,7 @@ public class ThirdPersonCamera : MonoBehaviour {
     public Texture2D cursorImage;
     private void OnGUI()
     {
-        Vector3 mPos = Input.mousePosition;
-        GUI.DrawTexture(new Rect(mPos.x - 32, Screen.height - mPos.y - 32, 64, 64), cursorImage);
+        //Vector3 mPos = Input.mousePosition;
+        //GUI.DrawTexture(new Rect(mPos.x - 32, Screen.height - mPos.y - 32, 64, 64), cursorImage);
     }
 }

@@ -40,6 +40,14 @@ public class PathFinder : MonoBehaviour
 
     private void Update()
     {
+        if (currentIndex == 4) {
+            Tooltip.SetActive(true);
+            UnityEngine.UI.Text[] t = Tooltip.GetComponentsInChildren<UnityEngine.UI.Text>();
+            t[0].text = targets[currentIndex].label;
+            t[1].text = targets[currentIndex].description;
+            return;
+        }
+
         nearInteractable = Physics.CheckSphere(player.position, targetRadius, interactableMask);
         if(nearInteractable) {
             UnityEngine.UI.Text[] t = Tooltip.GetComponentsInChildren<UnityEngine.UI.Text>();
@@ -75,6 +83,11 @@ public class PathFinder : MonoBehaviour
         Debug.Log("Completed Action:" + targets[currentIndex].label);
         if (targets[currentIndex].effect != null)
             targets[currentIndex].effect.SetActive(true);
+
+        if (currentIndex == 3) {
+            SoccerBall ball = targets[currentIndex].transform.GetComponent<SoccerBall>();
+            ball.KickBall();
+        }
 
         currentIndex++;
     }
