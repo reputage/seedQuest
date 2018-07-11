@@ -26,6 +26,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 
     private void Update()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
+
         currentX += Input.GetAxis("Mouse X") * mouseSensitivityX;
         if(inverted)
             currentY += Input.GetAxis("Mouse Y") * mouseSensitivityY;
@@ -42,4 +45,11 @@ public class ThirdPersonCamera : MonoBehaviour {
         transform.position = lookAt.position + rotation * dir + offset;
         transform.LookAt(lookAt.position + lookAtOffset);
 	}
+
+    public Texture2D cursorImage;
+    private void OnGUI()
+    {
+        Vector3 mPos = Input.mousePosition;
+        GUI.DrawTexture(new Rect(mPos.x - 32, Screen.height - mPos.y - 32, 64, 64), cursorImage);
+    }
 }
