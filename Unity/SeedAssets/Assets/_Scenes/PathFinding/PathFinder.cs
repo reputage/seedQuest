@@ -52,25 +52,31 @@ public class PathFinder : MonoBehaviour
             Tooltip.SetActive(false);
         }
 
+        if(nearInteractable && Input.GetButtonDown("Jump")) {
+            DoAction();
+        }
+
         if (Input.GetMouseButton(0)) {
             
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, 100.0f))
-            {
-                if (hit.transform == targets[currentIndex].transform)
-                {
-                    Debug.Log("Completed Action:" + targets[currentIndex].label);
-                    if(targets[currentIndex].effect != null)
-                        targets[currentIndex].effect.SetActive(true);
-
-                    currentIndex++;
+            if (Physics.Raycast(ray, out hit, 100.0f)) {
+                if (hit.transform == targets[currentIndex].transform) {
+                    DoAction(); 
                 }
             }
 
         }
 
+    } 
+
+    private void DoAction() { 
+        Debug.Log("Completed Action:" + targets[currentIndex].label);
+        if (targets[currentIndex].effect != null)
+            targets[currentIndex].effect.SetActive(true);
+
+        currentIndex++;
     }
 
     private void UpdatePath() {
