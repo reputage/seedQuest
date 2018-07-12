@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour {
 	void Start () 
 	{
         //Debug.Log(Time.timeScale);
-        logDisplay.GetComponentInChildren<Text>().text = "";
+        logDisplay.GetComponentInChildren<Text>().text = "Log display is defunct for now. Sorry.";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
         if (outdoorMove = true && SceneManager.GetActiveScene().buildIndex == 1)
         {
@@ -84,9 +84,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Update() 
 	{
-
         // This code is for controlling the player character
-
 		CharacterController controller = GetComponent<CharacterController>();
 		if (controller.isGrounded && pauseActive == false) 
 		{
@@ -98,7 +96,6 @@ public class PlayerController : MonoBehaviour {
 			moveDirection *= speed;
 			if (Input.GetButton("Jump"))
 				moveDirection.y = jumpSpeed;
-
 		}
 
 
@@ -451,7 +448,7 @@ public class PlayerController : MonoBehaviour {
         //return 0;
     }
 
-
+    // This function "takes" an item and puts it into the player's inventory
     private void takeItem()
     {
         // Log data from the item
@@ -504,7 +501,8 @@ public class PlayerController : MonoBehaviour {
         otherItem.GetComponent<item>().takeItem();
 
         // Update the log display
-        logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
+        // Temporarily disabled due to logistic changes in the log's functionality.
+        //logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
 
         // Add item to the inventory
         inventory.GetComponent<InventoryOperator>().addItem(logID, logName);
@@ -515,7 +513,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-
+    // Transition to the new scene
     private void enterArea()
     {                
         // If on the world map, save their location so they can be returned later
