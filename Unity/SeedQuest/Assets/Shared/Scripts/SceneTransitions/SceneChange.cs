@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class SceneChange : MonoBehaviour
@@ -13,7 +14,7 @@ public class SceneChange : MonoBehaviour
 
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         GameObject fadePanel123 = (GameObject)Instantiate(fadePanelPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         fadePanel = fadePanel123;
         fadePanel.transform.SetParent (GameObject.FindGameObjectWithTag("Canvas").transform, false);
@@ -21,6 +22,10 @@ public class SceneChange : MonoBehaviour
 
     }
 
+    // These fade transitions need to be executed as coroutines, due to the way 
+    //  Unity is built. Fade transitions could be programmed differently
+    //  using the update() function, but I also wanted an excuse to 
+    //  learn how coroutines work.
     private void Update()
     {
         if (one)
@@ -28,16 +33,21 @@ public class SceneChange : MonoBehaviour
             StartCoroutine(fadeIn(fadePanel));
         }
         one = false;
-
 	}
 
-	void sceneChange(int sceneNum)
+    // Change the scene, but fade out firts
+	public void sceneChange(int sceneNum)
     {
-        fadeOut(fadePanel);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneNum);
-        fadeIn(fadePanel);
+        StartCoroutine(fadeOut(fadePanel, sceneNum));
     }
 
+    // Actually execute the scene change
+    public void loadScene(int sceneNum)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneNum);
+    }
+
+    // Coroutine for the fade in animation
     IEnumerator fadeIn(GameObject panel)
     {
         Debug.Log("Fading in...");
@@ -46,8 +56,8 @@ public class SceneChange : MonoBehaviour
 
         while (alphaVal > 0) 
         {
-            Debug.Log("Alpha : " + alphaVal);
-            alphaVal -= (Time.deltaTime + 7);
+            //Debug.Log("Alpha : " + alphaVal);
+            alphaVal -= (Time.deltaTime + 12);
             panel.GetComponent<CanvasRenderer>().SetAlpha(alphaVal / 255);
             yield return null;
         }
@@ -57,19 +67,23 @@ public class SceneChange : MonoBehaviour
         yield return null;
     }
 
-    public void fadeOut(GameObject panel)
+    // coroutine for the fade out animation
+    IEnumerator fadeOut(GameObject panel, int sceneNum)
     {
         panel.SetActive(true);
         Debug.Log("Fading out...");
         panel.GetComponent<CanvasRenderer>().SetAlpha(0);
-        for (int i = 1; i < 31; i++)
+        float alphaVal = 0;
+        while (alphaVal < 255)
         {
-            float alphaVal = 255 / i;
-            alphaVal = 255 - alphaVal;
-            panel.GetComponent<CanvasRenderer>().SetAlpha(alphaVal);
+            //Debug.Log("Alpha : " + alphaVal);
+            alphaVal += (Time.deltaTime + 17);
+            panel.GetComponent<CanvasRenderer>().SetAlpha(alphaVal / 255);
+            yield return null;
         }
-        panel.GetComponent<CanvasRenderer>().SetAlpha(255);
-
+        Debug.Log(panel.GetComponent<CanvasRenderer>().GetAlpha());
+        panel.GetComponent<CanvasRenderer>().SetAlpha(1);
+        loadScene(sceneNum);
     }
 
 }

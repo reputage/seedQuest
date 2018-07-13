@@ -13,6 +13,7 @@ public class operatorScript : MonoBehaviour {
 
     public GameObject AllScene;
     public GameObject SeedToByte;
+    public GameObject SceneChange;
 
     public GameObject buttonDefault;
     public GameObject buttonMapWord;
@@ -38,14 +39,16 @@ public class operatorScript : MonoBehaviour {
     // For the "default map" button
     public void defaultClick(){
         //Debug.Log("Default button clicked!");
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        SceneChange.GetComponent<SceneChange>().sceneChange(1);
     }
 
     // For the "Recall mode" button
     public void recallClick()
     {
         Debug.Log("recall button clicked!");
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        SceneChange.GetComponent<SceneChange>().sceneChange(1);
     }
 
     // For the "rehearse mode" button
