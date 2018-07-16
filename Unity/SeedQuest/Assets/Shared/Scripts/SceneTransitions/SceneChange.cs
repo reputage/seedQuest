@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class SceneChange : MonoBehaviour
 {
 
-    //public Fade fade;
     public GameObject fadePanelPrefab;
     public GameObject fadePanel;
     private bool one = true;
@@ -25,7 +24,7 @@ public class SceneChange : MonoBehaviour
     // These fade transitions need to be executed as coroutines, due to the way 
     //  Unity is built. Fade transitions could be programmed differently
     //  using the update() function, but I also wanted an excuse to 
-    //  learn how coroutines work.
+    //  learn how coroutines work in Unity.
     private void Update()
     {
         if (one)
@@ -67,7 +66,7 @@ public class SceneChange : MonoBehaviour
         yield return null;
     }
 
-    // coroutine for the fade out animation
+    // Coroutine for the fade out animation
     IEnumerator fadeOut(GameObject panel, int sceneNum)
     {
         panel.SetActive(true);

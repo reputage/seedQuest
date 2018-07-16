@@ -57,13 +57,10 @@ public class PlayerController : MonoBehaviour {
     private int destinationScene;
     private string logName = "";
 
-    private static int item1ID;
-    private static int item2ID;
-    private static int item3ID;
-    private static int item4ID;
+    private static int[] itemIDs = new int[16];
     private static int invIndex = 0;
 
-    private int[] testActionArr = { 8, 2, 4, 1, 2, 0, 5, 0, 2 };
+    private int[] testActionArr = { 8, 2, 4, 1, 2, 0, 5, 0, 2 }; //This sequence, repeated 4 times returns a seed of "AAAAAAAAAAAAAAAA"
 
     private static string seed;
 
@@ -264,22 +261,7 @@ public class PlayerController : MonoBehaviour {
 
     void invLogSelf()
     {
-        switch (invIndex){
-            case 0:
-                item1ID = logID;
-                break;
-            case 1:
-                item2ID = logID;
-                break;
-            case 2:
-                item3ID = logID;
-                break;
-            case 3:
-                item4ID = logID;
-                break;
-            default:
-                break;
-        }
+        itemIDs[invIndex] = logID;
         invIndex += 1;
     }
 
@@ -293,7 +275,7 @@ public class PlayerController : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-
+   
     // Code for unpausing the game
     public void deactivatePause()
     {
@@ -316,62 +298,62 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-    // Functions for droppint items
+    // Functions for droping items
     public void dropItem1()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(1);
-        itemSpawner(item1ID, 1);
+        itemSpawner(itemIDs[0], 1);
     }
 
 
     public void dropItem2()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(2);
-        itemSpawner(item2ID, 2);
+        itemSpawner(itemIDs[1], 2);
     }
 
 
     public void dropItem3()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(3);
-        itemSpawner(item3ID, 3);
+        itemSpawner(itemIDs[2], 3);
     }
 
 
     public void dropItem4()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(4);
-        itemSpawner(item4ID, 4);
+        itemSpawner(itemIDs[3], 4);
     }
 
 
     //Function to spawn an item when dropped from the menu
     public void itemSpawner(int spawnID, int dropIndex)
     {
-        itemLookup(spawnID);
+        placeItem(spawnID);
 
         switch(dropIndex)
         {
             case 1:
-                item1ID = item2ID;
-                item2ID = item3ID;
-                item3ID = item4ID;
-                item4ID = 0;
+                itemIDs[0] = itemIDs[1]; // I'm sure there's a better way to do this, will fix later
+                itemIDs[1] = itemIDs[2];
+                itemIDs[2] = itemIDs[3];
+                itemIDs[0] = 0;
                 invIndex -= 1;
                 break;
             case 2:
-                item2ID = item3ID;
-                item3ID = item4ID;
-                item4ID = 0;
+                itemIDs[1] = itemIDs[2];
+                itemIDs[2] = itemIDs[3];
+                itemIDs[3] = 0;
                 invIndex -= 1;
                 break;
             case 3:
-                item3ID = item4ID;
-                item4ID = 0;
+                itemIDs[2] = itemIDs[3];
+                itemIDs[3] = 0;
                 invIndex -= 1;
                 break;
             case 4:
-                item4ID = 0;
+                itemIDs[3] = 0;
                 invIndex -= 1;
                 break;
             default:
@@ -380,8 +362,9 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-    // Function "looks up" which item needs to be spawned based on item ID
-    public void itemLookup(int itemsIdentity)
+    // Function determines which item needs to be spawned based on item ID,
+    //  and places item on the ground
+    public void placeItem(int itemsIdentity)
     {
         
         Vector3 pCoord = transform.position;

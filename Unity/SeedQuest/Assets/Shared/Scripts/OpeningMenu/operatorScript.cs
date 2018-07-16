@@ -114,7 +114,8 @@ public class operatorScript : MonoBehaviour {
             int parsedMapWord = mapWord.GetHashCode();
             Debug.Log(parsedMapWord);
             AllScene.GetComponent<AllScene>().seedChange(parsedMapWord);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+            SceneChange.GetComponent<SceneChange>().sceneChange(1);
         }
     }
 
@@ -131,7 +132,8 @@ public class operatorScript : MonoBehaviour {
         {
             Debug.Log(keySeed);
             SeedToByte.GetComponent<SeedToByte>().getActions(keySeed);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+            SceneChange.GetComponent<SceneChange>().sceneChange(1);
         }
     }
 

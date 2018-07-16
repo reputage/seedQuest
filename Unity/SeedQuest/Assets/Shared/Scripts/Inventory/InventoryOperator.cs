@@ -129,6 +129,8 @@ public class InventoryOperator : MonoBehaviour
     {
         switch (itemNum)
         { 
+            // I know this looks like a terrible way to handle this, but 
+            // it's necessary to have the inventory self-sort itself.
             case 1:
                 if (index > 0)
                 {
