@@ -35,7 +35,7 @@ public class PathFinder : MonoBehaviour
     private void Start() {
         InvokeRepeating("UpdatePath", 0, 1.0F);
 
-        targets[0].effect.SetActive(false);
+        //targets[0].effect.SetActive(false);
     } 
 
     private void Update()
