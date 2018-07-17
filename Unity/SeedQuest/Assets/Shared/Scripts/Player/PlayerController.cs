@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 
 //[RequireComponent(typeof(CapsuleCollider))]
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     // Warning:
     //  Right now actions are logged as the player takes items, 
@@ -18,11 +19,11 @@ public class PlayerController : MonoBehaviour {
 
     public SeedToByte seedScriptor;
 
-	public float speed;
-	public float rotationSpeed;
-	public float yMin, yMax;
-	public float gravity;
-	public float jumpSpeed;
+    public float speed;
+    public float rotationSpeed;
+    public float yMin, yMax;
+    public float gravity;
+    public float jumpSpeed;
 
     //public GameObject griddler;
     public GameObject actionOperator;
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour {
 
     public static Vector3 outdoorSpot;
 
-	private Vector3 moveDirection = Vector3.zero;
+    private Vector3 moveDirection = Vector3.zero;
 
     private static bool outdoorMove = false;
     private bool nearItem = false;
@@ -65,8 +66,8 @@ public class PlayerController : MonoBehaviour {
     private static string seed;
 
 
-	void Start () 
-	{
+    void Start()
+    {
         //Debug.Log(Time.timeScale);
         logDisplay.GetComponentInChildren<Text>().text = "Log display is defunct for now. Sorry.";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
@@ -76,28 +77,28 @@ public class PlayerController : MonoBehaviour {
             outdoorMove = false;
         }
 
-	}
+    }
 
 
-	void Update() 
-	{
+    void Update()
+    {
         // This code is for controlling the player character
-		CharacterController controller = GetComponent<CharacterController>();
-		if (controller.isGrounded && pauseActive == false) 
-		{
-			transform.Rotate (0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
+        CharacterController controller = GetComponent<CharacterController>();
+        if (controller.isGrounded && pauseActive == false)
+        {
+            transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
 
-			moveDirection = new Vector3(Input.GetAxis("Strafe"), 0, Input.GetAxis("Vertical"));
+            moveDirection = new Vector3(Input.GetAxis("Strafe"), 0, Input.GetAxis("Vertical"));
 
-			moveDirection = transform.TransformDirection(moveDirection);
-			moveDirection *= speed;
-			if (Input.GetButton("Jump"))
-				moveDirection.y = jumpSpeed;
-		}
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection *= speed;
+            if (Input.GetButton("Jump"))
+                moveDirection.y = jumpSpeed;
+        }
 
 
         // If near an item, show prompt to take it, and allow player to take it
-        if(nearItem == true) 
+        if (nearItem == true)
         {
             // Executed if the player takes the item
             if (Input.GetButtonDown("F_in") && pauseActive == false)
@@ -134,7 +135,8 @@ public class PlayerController : MonoBehaviour {
                 logVisible = true;
                 logDisplay.SetActive(true);
             }
-            else{
+            else
+            {
                 logVisible = false;
                 logDisplay.SetActive(false);
             }
@@ -172,7 +174,7 @@ public class PlayerController : MonoBehaviour {
 
             else
             {
-                playerLog.GetComponent<playerLog>().actionLogger(testActionArr[actionIndex%9]);
+                playerLog.GetComponent<playerLog>().actionLogger(testActionArr[actionIndex % 9]);
             }
             actionIndex += 1;
         }
@@ -192,8 +194,8 @@ public class PlayerController : MonoBehaviour {
         }
 
         // After checking for input, move the character
-		moveDirection.y -= gravity * Time.deltaTime;
-		controller.Move(moveDirection * Time.deltaTime);
+        moveDirection.y -= gravity * Time.deltaTime;
+        controller.Move(moveDirection * Time.deltaTime);
 
         // Set the walking animation
         if (moveDirection.z != 0)
@@ -205,12 +207,11 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("Walk", false);
         }
 
-	}
-
+    }
 
     // All "Entry" related code is in here
-	void OnTriggerEnter(Collider other)
-	{
+    void OnTriggerEnter(Collider other)
+    {
         // If at an action spot (for an item)
         if (other.gameObject.CompareTag("ActionSpot"))
         {
@@ -231,9 +232,9 @@ public class PlayerController : MonoBehaviour {
             other.GetComponent<entranceScript>().activateGlow();
             destinationScene = other.GetComponent<entranceScript>().destinationScene;
         }
-	}
+    }
 
-
+    // All "Exit" related code is in here
     void OnTriggerExit(Collider other)
     {
         // Executes when player walks away from an item
@@ -258,13 +259,12 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
+    // store IDs in the log
     void invLogSelf()
     {
         itemIDs[invIndex] = logID;
         invIndex += 1;
     }
-
 
     // Code for pausing the game
     public void activatePause()
@@ -275,7 +275,6 @@ public class PlayerController : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-   
     // Code for unpausing the game
     public void deactivatePause()
     {
@@ -284,12 +283,11 @@ public class PlayerController : MonoBehaviour {
         Time.timeScale = 1;
     }
 
-
+    // Undo the last action performed
     public void undoAction()
     {
         //in progress 
     }
-
 
     // Function to quit the game
     public void quitGame()
@@ -305,13 +303,11 @@ public class PlayerController : MonoBehaviour {
         itemSpawner(itemIDs[0], 1);
     }
 
-
     public void dropItem2()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(2);
         itemSpawner(itemIDs[1], 2);
     }
-
 
     public void dropItem3()
     {
@@ -319,20 +315,18 @@ public class PlayerController : MonoBehaviour {
         itemSpawner(itemIDs[2], 3);
     }
 
-
     public void dropItem4()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(4);
         itemSpawner(itemIDs[3], 4);
     }
 
-
     //Function to spawn an item when dropped from the menu
     public void itemSpawner(int spawnID, int dropIndex)
     {
         placeItem(spawnID);
 
-        switch(dropIndex)
+        switch (dropIndex)
         {
             case 1:
                 itemIDs[0] = itemIDs[1]; // I'm sure there's a better way to do this, will fix later
@@ -361,12 +355,11 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
     // Function determines which item needs to be spawned based on item ID,
     //  and places item on the ground
     public void placeItem(int itemsIdentity)
     {
-        
+
         Vector3 pCoord = transform.position;
         pCoord.y += 0.2f;
         switch (itemsIdentity)
@@ -374,7 +367,7 @@ public class PlayerController : MonoBehaviour {
             case 1:
                 //rock
                 GameObject itemSpawn1 = Instantiate(rock, pCoord, Quaternion.identity);
-                if (enableWarning){ Debug.Log(itemSpawn1.transform.position); }
+                if (enableWarning) { Debug.Log(itemSpawn1.transform.position); }
                 break;
             case 2:
                 //ball
@@ -396,10 +389,9 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
     // This function is used to get the player's location for the action log.
     // Temporary function, will need to change when all the locations are available.
-    private int getLocation() 
+    private int getLocation()
     {
         int x = 0;
         int z = 0;
@@ -412,18 +404,19 @@ public class PlayerController : MonoBehaviour {
         {
             x = 1;
         }
-        else 
+        else
         {
             x = 2;
         }
-        if (coords.z >= 5){
+        if (coords.z >= 5)
+        {
             z = 0;
         }
         else if (coords.z < 5 && coords.z <= -50)
         {
             z = 1;
         }
-        else 
+        else
         {
             z = 2;
         }
@@ -453,7 +446,7 @@ public class PlayerController : MonoBehaviour {
             if (actionIndex % 9 == 0)
             {
                 if (locationID > 15)
-                { Debug.Log("Warning! Location ID is greater than 15! Must be <= 15!");    }
+                { Debug.Log("Warning! Location ID is greater than 15! Must be <= 15!"); }
                 playerLog.GetComponent<playerLog>().actionLogger(locationID);
                 actionIndex += 1;
             }
@@ -461,16 +454,16 @@ public class PlayerController : MonoBehaviour {
             actionOperator.GetComponent<actionOperator>().deactivateSpot();
 
             if (spotID > 15)
-            { Debug.Log("Warning! Spot ID is greater than 15! Must be <= 15!");    }
+            { Debug.Log("Warning! Spot ID is greater than 15! Must be <= 15!"); }
             if (logID > 15)
-            { Debug.Log("Warning! Action ID is greater than 7! Must be <= 7!");    }
+            { Debug.Log("Warning! Action ID is greater than 7! Must be <= 7!"); }
 
             playerLog.GetComponent<playerLog>().actionLogger(spotID);
             playerLog.GetComponent<playerLog>().actionLogger(logID);
             actionIndex += 2;
         }
 
-        if(actionIndex >= 36)
+        if (actionIndex >= 36)
         {
             // send action log of ints to the seedToByte script
             int[] actTemp = playerLog.GetComponent<playerLog>().getActions();
@@ -493,12 +486,11 @@ public class PlayerController : MonoBehaviour {
         // Deactivate item
         otherItem.SetActive(false);
         nearItem = false;
-
     }
 
     // Transition to the new scene
     private void enterArea()
-    {                
+    {
         // If on the world map, save their location so they can be returned later
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
@@ -521,4 +513,3 @@ public class PlayerController : MonoBehaviour {
     }
 
 }
-	 

@@ -27,10 +27,8 @@ public class operatorScript : MonoBehaviour {
     public GameObject buttonRehearseGo;
     public GameObject keySeedInput;
 
-
     static string mapWord = "/!0";
     static string keySeed = "/!0";
-
 
 	void Start () {
         //Debug.Log("Game begin OK");
@@ -143,6 +141,7 @@ public class operatorScript : MonoBehaviour {
         mapWord = mapWordInput;
     }
 
+    // Get the seed from the input field
     public void GetSeedInput(string seedWordInput)
     {
         //Debug.Log("Input: " + seedInput);

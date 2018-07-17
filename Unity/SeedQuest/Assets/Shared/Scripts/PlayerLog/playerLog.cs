@@ -10,17 +10,6 @@ public class playerLog : MonoBehaviour {
     public static int actCount = 0;
     public static int[] actionArr = new int[36];
 
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     // Log player action ints
     public void actionLogger(int actionInt)
     {

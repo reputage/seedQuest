@@ -19,6 +19,31 @@ using System.Collections.Specialized;
  */
 
 
+/*
+ * The functions in this sccript can be used like this:
+ * 
+ * To get the int[] of actions to be performed from a seed:
+ *  getActions(string inputStringName);
+ * 
+ * To get the seed from an int[] of actions:
+ *  getSeed(int[] actionArray);
+ * 
+ * To use this in a different GameObject, you can make a reference to this script:
+ *  public SeedToByte seedScriptor; 
+ *
+ * And access the functions like this:
+ *  actions = seedScriptor.getActions(inputSeed);
+ *  seed = seedScriptor.getSeed(intArrayOfActions);
+ *
+ * Alternatively, if this script is in it's own object, reference it this way:
+ *  public GameObject seedScriptor
+ *  
+ * And access funcitons this way:
+ *  int[] actionsFromASeed = seedScriptor.GetComponent<SeedToByte>().getActions(inputString);
+ *  string seedFromActions = seedScriptor.GetComponent<SeedToByte>().getSeed(intArrayOfActions);
+ * 
+*/
+
 public class SeedToByte : MonoBehaviour
 {
 
@@ -51,7 +76,7 @@ public class SeedToByte : MonoBehaviour
     public static int[] actionToDo;
     public static BitArray inputBits;
 
-
+    // For reversing bits later
     public static byte[] BitReverseTable =
     {
             0x00, 0x80, 0x40, 0xc0, 0x20, 0xa0, 0x60, 0xe0,
@@ -248,7 +273,7 @@ public class SeedToByte : MonoBehaviour
         return actionValues;
     }
 
-
+    // Takes the list of actions, converts it back into bytes
     public byte[] actionConverter(int[] actions, List<int> actionList)
     {
         var actionBits = new BitArray(128);

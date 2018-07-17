@@ -49,11 +49,6 @@ public class InventoryOperator : MonoBehaviour
         item4.SetActive(false);
     }
 
-    void Update()
-    {
-
-    }
-
     // Item IDs
     // 1 = rock
     // 2 = ball
