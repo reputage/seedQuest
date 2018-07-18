@@ -143,13 +143,15 @@ public class SeedToByte : MonoBehaviour
 
 
     // Take string for input, get the to-do list of actions
-    public void getActions(string inputStr)
+    public int[] getActions(string inputStr)
     {
         inputSeed = inputStr;
         inputBytes = seedToByte(inputSeed);
         inputBits = byteToBits(inputBytes);
         actionToDo = bitConverter(inputBits, actionList);
+        int[] returnActions = actionToDo;
         Debug.Log(actionToDo);
+        return returnActions;
     }
 
     // Get the return seed from a list of actions

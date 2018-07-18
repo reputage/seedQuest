@@ -27,6 +27,7 @@ public class operatorScript : MonoBehaviour {
     public GameObject buttonRehearseGo;
     public GameObject keySeedInput;
 
+    public static int[] actionsToDo;
     static string mapWord = "/!0";
     static string keySeed = "/!0";
 
@@ -129,7 +130,7 @@ public class operatorScript : MonoBehaviour {
         else
         {
             Debug.Log(keySeed);
-            SeedToByte.GetComponent<SeedToByte>().getActions(keySeed);
+            actionsToDo = SeedToByte.GetComponent<SeedToByte>().getActions(keySeed);
             //UnityEngine.SceneManagement.SceneManager.LoadScene(1);
             SceneChange.GetComponent<SceneChange>().sceneChange(1);
         }
