@@ -22,6 +22,7 @@ public class StateController : MonoBehaviour {
         interactables = FindInteractables();
 
         playerPathData.currentAction = pathTargets[0];
+        playerPathData.targetList = pathTargets;
     }
 
     private void Update() {
@@ -29,7 +30,9 @@ public class StateController : MonoBehaviour {
     }
 
     private Interactable[] FindInteractables() {
-        return (Interactable[])Object.FindObjectsOfType(typeof(Interactable));
+        Interactable[] actions = (Interactable[])Object.FindObjectsOfType(typeof(Interactable));
+
+        return actions;
     }
 
     public Vector3[] FindPath() {

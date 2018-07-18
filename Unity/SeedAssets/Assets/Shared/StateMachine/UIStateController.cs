@@ -11,11 +11,22 @@ public class UIStateController : MonoBehaviour {
     public GameObject DebugDisplay;
     public PathData playerPathData;
 
-    private void Awake()
+    private void Start()
     {
         playerPathData.startPathSearch = false;
         ActionDisplay.SetActive(false);
         DebugDisplay.GetComponentInChildren<Text>().text = "";
+
+        InitalizeActionDisplay();
+    }
+
+    private void InitalizeActionDisplay() {
+        int count = playerPathData.targetList.Length;
+        for (int i = 0; i < count; i++)
+        {
+            GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
+            g.GetComponentInChildren<Text>().text = playerPathData.targetList[i].description;
+        }
     }
 
     private void Update()
@@ -42,6 +53,17 @@ public class UIStateController : MonoBehaviour {
         } 
 
         // In Recall Mode
+        if(playerPathData.inRehersalMode) {
+            
+            int index = System.Array.IndexOf(playerPathData.targetList, playerPathData.currentAction);
+            Debug.Log(index);
+
+            for (int i = 0; i < index; i++) {
+                GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
+                g.GetComponentInChildren<Image>().sprite = playerPathData.checkedState;
+            }
+        }
+
         if(!playerPathData.inRehersalMode) {
             ActionDisplay.SetActive(false);
         }
