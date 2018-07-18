@@ -20,6 +20,14 @@ public class UIStateController : MonoBehaviour {
         InitalizeActionDisplay();
     }
 
+    private void Update()
+    {
+        CheckGameStart();
+        CheckRehersalMode();
+        UpdateTooltip();
+
+    }
+
     private void InitalizeActionDisplay() {
         int count = playerPathData.targetList.Length;
         for (int i = 0; i < count; i++)
@@ -29,18 +37,18 @@ public class UIStateController : MonoBehaviour {
         }
     }
 
-    private void Update()
-    {
+    private void CheckGameStart() {
         // Start Game after StartScreen
-        if (!playerPathData.startPathSearch) {
-            if(Input.anyKey)
+        if (!playerPathData.startPathSearch)
+        {
+            if (Input.anyKey)
                 playerPathData.startPathSearch = true;
 
             if (Input.GetButtonDown("Jump"))
                 playerPathData.inRehersalMode = true;
-            else if(Input.anyKey)
+            else if (Input.anyKey)
                 playerPathData.inRehersalMode = false;
-        }
+        }  
 
         if(playerPathData.startPathSearch) {
             ActionDisplay.SetActive(true);
@@ -51,38 +59,48 @@ public class UIStateController : MonoBehaviour {
             else
                 DebugDisplay.GetComponentInChildren<Text>().text = "Mode: Recall";
         } 
+    }
 
-        // In Recall Mode
-        if(playerPathData.inRehersalMode) {
-            
+    private void CheckRehersalMode() {
+        // In Rehersal Mode
+        if (playerPathData.inRehersalMode)
+        {
+
             int index = System.Array.IndexOf(playerPathData.targetList, playerPathData.currentAction);
             Debug.Log(index);
 
-            for (int i = 0; i < index; i++) {
+            for (int i = 0; i < index; i++)
+            {
                 GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
                 g.GetComponentInChildren<Image>().sprite = playerPathData.checkedState;
             }
         }
 
-        if(!playerPathData.inRehersalMode) {
+        if (!playerPathData.inRehersalMode)
+        {
             ActionDisplay.SetActive(false);
         }
+    }
 
-        if(playerPathData.pathComplete) {
+    private void UpdateTooltip() {
+        if (playerPathData.pathComplete)
+        {
             Text[] t = Tooltip.GetComponentsInChildren<Text>();
             t[0].text = "Recovered Seed:";
             t[1].text = "XXXXXXXXXXX";
             Tooltip.SetActive(true);
         }
-        else if(playerPathData.showPathTooltip && playerPathData.currentAction != null) {
+        else if (playerPathData.showPathTooltip && playerPathData.currentAction != null)
+        {
             Text[] t = Tooltip.GetComponentsInChildren<Text>();
             t[0].text = playerPathData.currentAction.label;
             t[1].text = playerPathData.currentAction.description;
             Tooltip.SetActive(true);
         }
-        else {
+        else
+        {
             Tooltip.SetActive(false);
-        }
+        } 
     }
 
 }
