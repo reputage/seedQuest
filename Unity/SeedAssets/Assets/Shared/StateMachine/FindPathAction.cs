@@ -12,6 +12,7 @@ public class FindPathAction : PlayerAction {
     private void Find(StateController controller) {
         Vector3[] path = controller.FindPath();
         controller.DrawPath(path);
+        controller.checkIsNearTarget();          
     }
 
 }

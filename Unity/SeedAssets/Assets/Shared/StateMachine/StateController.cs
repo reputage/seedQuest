@@ -5,6 +5,8 @@ using UnityEngine;
 public class StateController : MonoBehaviour {
 
     public State currentState;
+    public State remainState;
+
     public Interactable[] pathTargets;
     public PathData playerPathData;
     public GameObject NavAIMesh;
@@ -16,6 +18,8 @@ public class StateController : MonoBehaviour {
     private void Awake() {
         pathfinding = NavAIMesh.GetComponent<Pathfinding>();
         pathTargets = FindInteractables();
+
+        playerPathData.currentAction = pathTargets[0];
     }
 
     private void Update() {
@@ -32,6 +36,9 @@ public class StateController : MonoBehaviour {
 
     public void NextPath() {
         nextWayPoint++;
+
+        if(nextWayPoint < pathTargets.Length)
+            playerPathData.currentAction = pathTargets[nextWayPoint];
     }
 
     public void DrawPath(Vector3[] path) {
@@ -40,11 +47,41 @@ public class StateController : MonoBehaviour {
         line.SetPositions(path);
     }
 
+    public bool isNearTarget() {
+        Vector3 dist = transform.position - pathTargets[nextWayPoint].transform.position;
+
+        if (dist.magnitude < playerPathData.interactionRadius)
+            return true;
+        else
+            return false;
+    }
+
+    public void checkIsNearTarget() {
+        if (isNearTarget()) {
+            playerPathData.showPathTooltip = true;
+
+            if(Input.GetButtonDown("Jump")) {
+                NextPath();
+            }
+        }
+        else
+            playerPathData.showPathTooltip = false;
+    }
+
     private void OnDrawGizmos() {
         if(currentState != null) {
             Gizmos.color = currentState.sceneGizmoColor;
             Gizmos.DrawWireSphere(transform.position, playerPathData.interactionRadius);
         }
+
+        if(isNearTarget()) {
+            Gizmos.DrawWireSphere(playerPathData.currentAction.transform.position, playerPathData.interactionRadius);
+        }
+    }
+
+    public void TransitionToState(State nextState) {
+        if (nextState != remainState)
+            currentState = nextState;
     }
 
 }
