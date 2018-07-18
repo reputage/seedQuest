@@ -18,15 +18,22 @@ public class StateController : MonoBehaviour {
 
     private void Awake() {
         pathfinding = NavAIMesh.GetComponent<Pathfinding>();
-        pathTargets = FindInteractables();
-        interactables = FindInteractables();
-
-        playerPathData.currentAction = pathTargets[0];
-        playerPathData.targetList = pathTargets;
+        InitializeState();
     }
 
     private void Update() {
         currentState.UpdateState(this);
+    }
+
+    private void InitializeState()
+    {
+        pathTargets = FindInteractables();
+        interactables = FindInteractables();
+
+        playerPathData.startPathSearch = false;
+        playerPathData.pathComplete = false;
+        playerPathData.currentAction = pathTargets[0];
+        playerPathData.targetList = pathTargets;
     }
 
     private Interactable[] FindInteractables() {
@@ -42,8 +49,10 @@ public class StateController : MonoBehaviour {
     public void NextPath() {
         nextWayPoint++;
 
-        if(nextWayPoint < pathTargets.Length)
+        if (nextWayPoint < pathTargets.Length)
             playerPathData.currentAction = pathTargets[nextWayPoint];
+        else
+            playerPathData.pathComplete = true;
     }
 
     public void DrawPath(Vector3[] path) {

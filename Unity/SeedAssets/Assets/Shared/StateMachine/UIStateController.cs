@@ -11,30 +11,35 @@ public class UIStateController : MonoBehaviour {
     public GameObject DebugDisplay;
     public PathData playerPathData;
 
-    private void Start()
-    {
-        playerPathData.startPathSearch = false;
-        ActionDisplay.SetActive(false);
-        DebugDisplay.GetComponentInChildren<Text>().text = "";
-
+    private void Start() {
         InitalizeActionDisplay();
+        InitializeDebugDisplay();
+        InitializeToolTip();
     }
 
-    private void Update()
-    {
+    private void Update() {
         CheckGameStart();
         CheckRehersalMode();
         UpdateTooltip();
-
     }
 
     private void InitalizeActionDisplay() {
+        ActionDisplay.SetActive(false);
+
         int count = playerPathData.targetList.Length;
         for (int i = 0; i < count; i++)
         {
             GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
             g.GetComponentInChildren<Text>().text = playerPathData.targetList[i].description;
         }
+    }
+
+    private void InitializeDebugDisplay() {
+        DebugDisplay.GetComponentInChildren<Text>().text = "";
+    }
+
+    private void InitializeToolTip() {
+        playerPathData.showPathTooltip = false;
     }
 
     private void CheckGameStart() {
@@ -63,11 +68,11 @@ public class UIStateController : MonoBehaviour {
 
     private void CheckRehersalMode() {
         // In Rehersal Mode
-        if (playerPathData.inRehersalMode)
-        {
-
+        if (playerPathData.inRehersalMode) {
+            
             int index = System.Array.IndexOf(playerPathData.targetList, playerPathData.currentAction);
-            Debug.Log(index);
+            if (playerPathData.pathComplete)
+                index = playerPathData.targetList.Length;
 
             for (int i = 0; i < index; i++)
             {
@@ -77,9 +82,7 @@ public class UIStateController : MonoBehaviour {
         }
 
         if (!playerPathData.inRehersalMode)
-        {
             ActionDisplay.SetActive(false);
-        }
     }
 
     private void UpdateTooltip() {
