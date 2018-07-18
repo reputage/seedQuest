@@ -31,9 +31,10 @@ public class WalkingPlayer : MonoBehaviour {
         }
         else {
             animator.SetBool("Walk", false);
+            animator.SetBool("Run", false);
         }
 
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("r"))
             if (animator.GetBool("Run"))
                 animator.SetBool("Run", false);
             else
