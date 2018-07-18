@@ -50,6 +50,8 @@ public class SeedToByte : MonoBehaviour
     // Yes, I know this isn't the best way to do this operation, but it works
     // Please don't break this.
 
+    public GameStateData gameState;
+
     public string testSeed1 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
     public string testSeed4 = "AAAAAAAAAAAAAAAA";
@@ -115,9 +117,7 @@ public class SeedToByte : MonoBehaviour
 
     void Start()
     {
-        //DontDestroyOnLoad(gameObject);
-        actionList = listBuilder();
-        testRun();
+        //testRun(); 
     }
 
     void Update()
@@ -231,7 +231,10 @@ public class SeedToByte : MonoBehaviour
 
     // Convert bit array to int array representing the actions the player should take
     public int[] bitConverter(BitArray bits, List<int> actionList)
-    {
+    { 
+        if (actionList.Count == 0)
+            actionList = listBuilder();
+        
         int[] actionValues = new int[36];
         int value = 0;
         int valueIndex = 0;
@@ -278,6 +281,9 @@ public class SeedToByte : MonoBehaviour
     // Takes the list of actions, converts it back into bytes
     public byte[] actionConverter(int[] actions, List<int> actionList)
     {
+        if (actionList.Count == 0)
+            actionList = listBuilder();
+
         var actionBits = new BitArray(128);
         ulong path1 = 0;
         ulong path2 = 0;

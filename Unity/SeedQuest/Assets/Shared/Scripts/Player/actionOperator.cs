@@ -43,14 +43,14 @@ public class actionOperator : MonoBehaviour {
     public void activatePause()
     {
         PauseMenu.gameObject.SetActive(true);
-        cameraRef.GetComponent<ThirdPersonCamera>().activatePause();
+        //cameraRef.GetComponent<ThirdPersonCamera>().activatePause();
     }
 
     // Deactivates pause menu, lets camera move again
     public void deactivatePause()
     {
         PauseMenu.gameObject.SetActive(false);
-        cameraRef.GetComponent<ThirdPersonCamera>().deactivatePause();
+        //cameraRef.GetComponent<ThirdPersonCamera>().deactivatePause();
     }
 
     // Activates UI elements for entrance prompts

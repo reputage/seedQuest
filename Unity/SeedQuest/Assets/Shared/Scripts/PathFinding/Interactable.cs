@@ -1,0 +1,21 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
+public class Interactable : MonoBehaviour {
+    
+    public GameObject effect;
+    public string label;
+    public string description;
+    public int siteID;
+    public int spotID;
+    public int actionID;
+    public IteractableAction[] actions;
+
+    public Interactable(int _siteId, int _spotId, int _actionID) {
+        siteID = _siteId;
+        spotID = _spotId;
+        actionID = _actionID;
+    }
+}
