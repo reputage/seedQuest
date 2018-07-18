@@ -4,101 +4,31 @@ using UnityEngine;
 
 public class playerLog : MonoBehaviour {
 
-    // This script is used to tack player actions
+    // This script is used to track player actions.
+    // Player action integers come from the 'PlayerController' script
 
-    public int actCount = 0;
-    public int action1 = 0;
-    public int action2 = 0;
-    public int action3 = 0;
-    public int action4 = 0;
+    public static int actCount = 0;
+    public static int[] actionArr = new int[36];
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
+    // Log player action ints
     public void actionLogger(int actionInt)
     {
-
-        switch (actCount)
-        {
-            case 0:
-                //Log action
-                action1 = actionInt;
-                actCount += 1;
-                Debug.Log("Action successfully logged! ID: " + actionInt);
-                break;
-            case 1:
-                //Log action
-                action2 = actionInt;
-                actCount += 1;
-                Debug.Log("Action successfully logged! ID: " + actionInt);
-                break;
-            case 2:
-                //Log action
-                action3 = actionInt;
-                actCount += 1;
-                Debug.Log("Action successfully logged! ID: " + actionInt);
-                break;
-            case 3:
-                //Log action
-                action4 = actionInt;
-                actCount += 1;
-                Debug.Log("Action successfully logged! ID: " + actionInt);
-                break;
-            case 4:
-                //Log action
-                Debug.Log("Max actions have been performed");
-                break;
-            default:
-                break;
-        }
+        actionArr[actCount] = actionInt;
+        Debug.Log("Action successfully logged! ID: " + actionInt);
+        actCount += 1;
     }
 
-
-    //For removing the last performed action
-    public void actionRemove(){
-        switch (actCount)
-        {
-            case 0:
-                Debug.Log("No actions have been performed yet");
-                break;
-            case 1:
-                //Log action
-                action1 = 0;
-                actCount -= 1;
-                break;
-            case 2:
-                //Log action
-                action2 = 0;
-                actCount -= 1;
-                break;
-            case 3:
-                //Log action
-                action3 = 0;
-                actCount -= 1;
-                break;
-            case 4:
-                //Log action
-                action4 = 0;
-                actCount -= 1;
-                break;
-        }
-    }
-
-    // Testing to see if the Blake2 hashing algorithm will work in unity
-    // WIP
-    public void hashTest()
+    // For removing the last performed action
+    public void actionRemove()
     {
-        //string str = "The quick brown fox jumps over the lazy dog";
-        //byte[] pbText = Encoding.Default.GetBytes(str);
-        //Blake512 blake512 = new Blake512();
-        //byte[] pbHash = blake512.ComputeHash(pbText);
+        actCount -= 1;
+        actionArr[actCount] = 0;
+        Debug.Log("Last action removed.");
+    }
+
+    public int[] getActions()
+    {
+        return actionArr;
     }
 
 }

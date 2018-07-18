@@ -4,20 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 //[RequireComponent(typeof(CapsuleCollider))]
 
+public class PlayerController : MonoBehaviour
+{
 
-public class PlayerController : MonoBehaviour {
+    // Warning:
+    //  Right now actions are logged as the player takes items, 
+    //  this should be changed to be logged when actions are taken at
+    //  action spots, but those aren't implemented yet.
 
     Animator animator;
 
-	public float speed;
-	public float rotationSpeed;
-	public float yMin, yMax;
-	public float gravity;
-	public float jumpSpeed;
+    public SeedToByte seedScriptor;
 
-    public GameObject griddler;
+    public float speed;
+    public float rotationSpeed;
+    public float yMin, yMax;
+    public float gravity;
+    public float jumpSpeed;
+
+    //public GameObject griddler;
     public GameObject actionOperator;
     public GameObject otherItem;
     public GameObject logDisplay;
@@ -26,11 +34,12 @@ public class PlayerController : MonoBehaviour {
     public GameObject ball;
     public GameObject drone;
     public GameObject book;
-
-    //public Text winText;
+    public GameObject playerLog;
+    public GameObject seedBox;
 
     public static Vector3 outdoorSpot;
-	private Vector3 moveDirection = Vector3.zero;
+
+    private Vector3 moveDirection = Vector3.zero;
 
     private static bool outdoorMove = false;
     private bool nearItem = false;
@@ -39,22 +48,28 @@ public class PlayerController : MonoBehaviour {
     private bool pauseActive = false;
     private bool invVisible = false;
     private bool enableWarning = false;
+    private bool seedBoxActive = false;
+
     private int logID = 0;
+    private int locationID;
+    private int actionID;
+    private int spotID;
+    private int actionIndex;
     private int destinationScene;
     private string logName = "";
 
-    private static int item1ID;
-    private static int item2ID;
-    private static int item3ID;
-    private static int item4ID;
+    private static int[] itemIDs = new int[16];
     private static int invIndex = 0;
 
-    public GameObject playerLog;
+    private int[] testActionArr = { 8, 2, 4, 1, 2, 0, 5, 0, 2 }; //This sequence, repeated 4 times returns a seed of "AAAAAAAAAAAAAAAA"
 
-	void Start () 
-	{
+    private static string seed;
+
+
+    void Start()
+    {
         //Debug.Log(Time.timeScale);
-        logDisplay.GetComponentInChildren<Text>().text = "";
+        logDisplay.GetComponentInChildren<Text>().text = "Log display is defunct for now. Sorry.";
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
         if (outdoorMove = true && SceneManager.GetActiveScene().buildIndex == 1)
         {
@@ -62,54 +77,42 @@ public class PlayerController : MonoBehaviour {
             outdoorMove = false;
         }
 
-	}
+    }
 
-	void Update() 
-	{
 
+    void Update()
+    {
         // This code is for controlling the player character
+        CharacterController controller = GetComponent<CharacterController>();
+        if (controller.isGrounded && pauseActive == false)
+        {
+            transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
 
-		CharacterController controller = GetComponent<CharacterController>();
-		if (controller.isGrounded && pauseActive == false) 
-		{
-			transform.Rotate (0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
+            moveDirection = new Vector3(Input.GetAxis("Strafe"), 0, Input.GetAxis("Vertical"));
 
-			moveDirection = new Vector3(Input.GetAxis("Strafe"), 0, Input.GetAxis("Vertical"));
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection *= speed;
+            if (Input.GetButton("Jump"))
+                moveDirection.y = jumpSpeed;
+        }
 
-			moveDirection = transform.TransformDirection(moveDirection);
-			moveDirection *= speed;
-			if (Input.GetButton("Jump"))
-				moveDirection.y = jumpSpeed;
-
-		}
 
         // If near an item, show prompt to take it, and allow player to take it
-
-        if(nearItem == true) {
-
+        if (nearItem == true)
+        {
             // Executed if the player takes the item
-            if (Input.GetButtonDown("F_in") && pauseActive == false){
-                
-                // Log data from the item
-                logID = otherItem.GetComponent<item>().itemID;
-                logName = otherItem.GetComponent<item>().itemName;
-                invLogSelf();
+            if (Input.GetButtonDown("F_in") && pauseActive == false)
+            {
+                takeItem();
+            }
+        }
 
-                //Debug.Log(logID);
-
-                actionOperator.GetComponent<actionOperator>().deactivateSpot();
-                playerLog.GetComponent<playerLog>().actionLogger(logID);
-                otherItem.GetComponent<item>().takeItem();
-
-                // Update the log display
-                logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
-
-                // Add item to the inventory
-                inventory.GetComponent<InventoryOperator>().addItem(logID, logName);
-
-                // Deactivate item
-                otherItem.SetActive(false);
-                nearItem = false;
+        if (seedBoxActive == true)
+        {
+            if (Input.GetButtonDown("F_in"))
+            {
+                seedBox.SetActive(false);
+                seedBoxActive = false;
             }
         }
 
@@ -120,17 +123,7 @@ public class PlayerController : MonoBehaviour {
             //Executed if the player activates the entrance
             if (Input.GetButtonDown("F_in"))
             {
-                // If on the world map, save their location so they can be returned later
-                if (SceneManager.GetActiveScene().buildIndex == 1)
-                {
-                    outdoorSpot = transform.position;
-                }
-                outdoorMove = true;
-                Debug.Log("Destination: " + destinationScene);
-                Debug.Log("Position: " + outdoorSpot);
-
-                // Load the new scene
-                UnityEngine.SceneManagement.SceneManager.LoadScene(destinationScene);
+                enterArea();
             }
         }
 
@@ -142,7 +135,8 @@ public class PlayerController : MonoBehaviour {
                 logVisible = true;
                 logDisplay.SetActive(true);
             }
-            else{
+            else
+            {
                 logVisible = false;
                 logDisplay.SetActive(false);
             }
@@ -154,15 +148,35 @@ public class PlayerController : MonoBehaviour {
             if (invVisible == false)
             {
                 invVisible = true;
-                //inventory.SetActive(true);
                 inventory.GetComponent<InventoryOperator>().show();
             }
             else
             {
                 invVisible = false;
-                //inventory.SetActive(false);
                 inventory.GetComponent<InventoryOperator>().hide();
             }
+        }
+
+        // Add actions to the action log
+        // This should only be used for testing purposes
+        if (Input.GetButtonDown("T_in"))
+        {
+            if (actionIndex >= 35)
+            {
+                // send action log of ints to the seedToByte script
+                int[] actTemp = playerLog.GetComponent<playerLog>().getActions();
+                seed = seedScriptor.getSeed(actTemp);
+                Debug.Log("Your seed is: " + seed);
+                seedBox.GetComponentInChildren<Text>().text = "Your seed is: " + seed;
+                seedBox.SetActive(true);
+                seedBoxActive = true;
+            }
+
+            else
+            {
+                playerLog.GetComponent<playerLog>().actionLogger(testActionArr[actionIndex % 9]);
+            }
+            actionIndex += 1;
         }
 
         // Display or hide pause menu, and pause or unpause game
@@ -180,8 +194,8 @@ public class PlayerController : MonoBehaviour {
         }
 
         // After checking for input, move the character
-		moveDirection.y -= gravity * Time.deltaTime;
-		controller.Move(moveDirection * Time.deltaTime);
+        moveDirection.y -= gravity * Time.deltaTime;
+        controller.Move(moveDirection * Time.deltaTime);
 
         // Set the walking animation
         if (moveDirection.z != 0)
@@ -193,39 +207,34 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("Walk", false);
         }
 
-	}
+    }
 
     // All "Entry" related code is in here
-	void OnTriggerEnter(Collider other)
-	{
+    void OnTriggerEnter(Collider other)
+    {
         // If at an action spot (for an item)
         if (other.gameObject.CompareTag("ActionSpot"))
         {
             // Button prompt pops up, allows player to take the item
-
             //Debug.Log("Action spot entered");
             other.GetComponent<actionSpot>().playerAlert();
             actionOperator.GetComponent<actionOperator>().activateSpot();
             nearItem = true;
             otherItem = other.gameObject.GetComponent<actionSpot>().item;
-                             
-            //To do:
-            // Store the action in log, including map index, ID of spot, and ID of action
-
         }
 
         if (other.gameObject.CompareTag("Entrance"))
         {
             // Button prompt pops up, allows player to enter
-
             //Debug.Log("Entrance entered");
             actionOperator.GetComponent<actionOperator>().activateEntrance();
             nearEntrance = true;
             other.GetComponent<entranceScript>().activateGlow();
             destinationScene = other.GetComponent<entranceScript>().destinationScene;
         }
-	}
+    }
 
+    // All "Exit" related code is in here
     void OnTriggerExit(Collider other)
     {
         // Executes when player walks away from an item
@@ -250,24 +259,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    // store IDs in the log
     void invLogSelf()
     {
-        switch (invIndex){
-            case 0:
-                item1ID = logID;
-                break;
-            case 1:
-                item2ID = logID;
-                break;
-            case 2:
-                item3ID = logID;
-                break;
-            case 3:
-                item4ID = logID;
-                break;
-            default:
-                break;
-        }
+        itemIDs[invIndex] = logID;
         invIndex += 1;
     }
 
@@ -288,6 +283,7 @@ public class PlayerController : MonoBehaviour {
         Time.timeScale = 1;
     }
 
+    // Undo the last action performed
     public void undoAction()
     {
         //in progress 
@@ -299,58 +295,59 @@ public class PlayerController : MonoBehaviour {
         Application.Quit();
     }
 
-    // Functions for droppint items
+
+    // Functions for droping items
     public void dropItem1()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(1);
-        itemSpawner(item1ID, 1);
+        itemSpawner(itemIDs[0], 1);
     }
 
     public void dropItem2()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(2);
-        itemSpawner(item2ID, 2);
+        itemSpawner(itemIDs[1], 2);
     }
 
     public void dropItem3()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(3);
-        itemSpawner(item3ID, 3);
+        itemSpawner(itemIDs[2], 3);
     }
 
     public void dropItem4()
     {
         inventory.GetComponent<InventoryOperator>().dropItem(4);
-        itemSpawner(item4ID, 4);
+        itemSpawner(itemIDs[3], 4);
     }
 
     //Function to spawn an item when dropped from the menu
     public void itemSpawner(int spawnID, int dropIndex)
     {
-        itemLookup(spawnID);
+        placeItem(spawnID);
 
-        switch(dropIndex)
+        switch (dropIndex)
         {
             case 1:
-                item1ID = item2ID;
-                item2ID = item3ID;
-                item3ID = item4ID;
-                item4ID = 0;
+                itemIDs[0] = itemIDs[1]; // I'm sure there's a better way to do this, will fix later
+                itemIDs[1] = itemIDs[2];
+                itemIDs[2] = itemIDs[3];
+                itemIDs[0] = 0;
                 invIndex -= 1;
                 break;
             case 2:
-                item2ID = item3ID;
-                item3ID = item4ID;
-                item4ID = 0;
+                itemIDs[1] = itemIDs[2];
+                itemIDs[2] = itemIDs[3];
+                itemIDs[3] = 0;
                 invIndex -= 1;
                 break;
             case 3:
-                item3ID = item4ID;
-                item4ID = 0;
+                itemIDs[2] = itemIDs[3];
+                itemIDs[3] = 0;
                 invIndex -= 1;
                 break;
             case 4:
-                item4ID = 0;
+                itemIDs[3] = 0;
                 invIndex -= 1;
                 break;
             default:
@@ -358,30 +355,31 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    // Function "looks up" which item needs to be spawned based on item ID
-    public void itemLookup(int itemsIdentity)
+    // Function determines which item needs to be spawned based on item ID,
+    //  and places item on the ground
+    public void placeItem(int itemsIdentity)
     {
-        
+
         Vector3 pCoord = transform.position;
         pCoord.y += 0.2f;
         switch (itemsIdentity)
         {
-            case 100001:
+            case 1:
                 //rock
                 GameObject itemSpawn1 = Instantiate(rock, pCoord, Quaternion.identity);
-                if (enableWarning){ Debug.Log(itemSpawn1.transform.position); }
+                if (enableWarning) { Debug.Log(itemSpawn1.transform.position); }
                 break;
-            case 100002:
+            case 2:
                 //ball
                 GameObject itemSpawn2 = Instantiate(ball, pCoord, Quaternion.identity);
                 if (enableWarning) { Debug.Log(itemSpawn2.transform.position); }
                 break;
-            case 100003:
+            case 3:
                 //drone
                 GameObject itemSpawn3 = Instantiate(drone, pCoord, Quaternion.identity);
                 if (enableWarning) { Debug.Log(itemSpawn3.transform.position); }
                 break;
-            case 100004:
+            case 4:
                 //book
                 GameObject itemSpawn4 = Instantiate(book, pCoord, Quaternion.identity);
                 if (enableWarning) { Debug.Log(itemSpawn4.transform.position); }
@@ -389,10 +387,122 @@ public class PlayerController : MonoBehaviour {
             default:
                 break;
         }
-
-
     }
 
+    // This function is used to get the player's location for the action log.
+    // Temporary function, will need to change when all the locations are available.
+    private int getLocation()
+    {
+        int x = 0;
+        int z = 0;
+        Vector3 coords = transform.position;
+        if (coords.x <= -5)
+        {
+            x = 0;
+        }
+        else if (coords.x > -5 && coords.x <= 50)
+        {
+            x = 1;
+        }
+        else
+        {
+            x = 2;
+        }
+        if (coords.z >= 5)
+        {
+            z = 0;
+        }
+        else if (coords.z < 5 && coords.z <= -50)
+        {
+            z = 1;
+        }
+        else
+        {
+            z = 2;
+        }
+        return (x + z * 3);
+        //return 0;
+    }
+
+    // This function "takes" an item and puts it into the player's inventory
+    private void takeItem()
+    {
+        // Log data from the item
+        logID = otherItem.GetComponent<item>().itemID;
+        locationID = getLocation();
+        actionID = 0; // Change this to reflect action taken, when implemented
+        spotID = 0; // Change this to get spot ID when spot ID's are impolemented
+
+        logName = otherItem.GetComponent<item>().itemName;
+        invLogSelf();
+
+        //Debug.Log(locationID);
+
+        // The following code logs actions, but this should be changed 
+        //  once action spots are ready and implemented
+
+        if (actionIndex < 36)
+        {
+            if (actionIndex % 9 == 0)
+            {
+                if (locationID > 15)
+                { Debug.Log("Warning! Location ID is greater than 15! Must be <= 15!"); }
+                playerLog.GetComponent<playerLog>().actionLogger(locationID);
+                actionIndex += 1;
+            }
+
+            actionOperator.GetComponent<actionOperator>().deactivateSpot();
+
+            if (spotID > 15)
+            { Debug.Log("Warning! Spot ID is greater than 15! Must be <= 15!"); }
+            if (logID > 15)
+            { Debug.Log("Warning! Action ID is greater than 7! Must be <= 7!"); }
+
+            playerLog.GetComponent<playerLog>().actionLogger(spotID);
+            playerLog.GetComponent<playerLog>().actionLogger(logID);
+            actionIndex += 2;
+        }
+
+        if (actionIndex >= 36)
+        {
+            // send action log of ints to the seedToByte script
+            int[] actTemp = playerLog.GetComponent<playerLog>().getActions();
+            seed = seedScriptor.getSeed(actTemp);
+            Debug.Log("Your seed is: " + seed);
+            seedBox.GetComponentInChildren<Text>().text = "Your seed is: " + seed;
+            seedBox.SetActive(true);
+            seedBoxActive = true;
+        }
+
+        otherItem.GetComponent<item>().takeItem();
+
+        // Update the log display
+        // Temporarily disabled due to logistic changes in the log's functionality.
+        //logDisplay.GetComponentInChildren<Text>().text += "Item taken: " + otherItem.GetComponent<item>().itemName + "\nItem ID: " + otherItem.GetComponent<item>().itemID + "\n";
+
+        // Add item to the inventory
+        inventory.GetComponent<InventoryOperator>().addItem(logID, logName);
+
+        // Deactivate item
+        otherItem.SetActive(false);
+        nearItem = false;
+    }
+
+    // Transition to the new scene
+    private void enterArea()
+    {
+        // If on the world map, save their location so they can be returned later
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            outdoorSpot = transform.position;
+        }
+        outdoorMove = true;
+        Debug.Log("Destination: " + destinationScene);
+        Debug.Log("Position: " + outdoorSpot);
+
+        // Load the new scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene(destinationScene);
+    }
 
     private void warningFunc()
     {
@@ -402,12 +512,4 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    /*          
-        Transform block = Instantiate(blockPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        block.transform.position = new Vector3((j * 5 ), 0.1f, (i * 5));
-        block.transform.Rotate(0, 180, 0);
-        block.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-     */
-
 }
-	 

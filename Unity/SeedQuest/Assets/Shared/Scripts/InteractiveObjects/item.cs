@@ -18,7 +18,6 @@ public class item : MonoBehaviour
     public GameObject zonePrefab;
     //(Instantiate (m_Prefab, position, rotation) as GameObject).transform.parent = parentGameObject.transform;
 
-    // Use this for initialization
     void Start()
     {
         noGlow();
