@@ -7,6 +7,7 @@ public class UIStateController : MonoBehaviour {
 
     public GameObject ActionDisplay;
     public GameObject Tooltip;
+    public GameObject StartScreen;
     public PathData playerPathData;
 
     private void Awake()
@@ -23,6 +24,7 @@ public class UIStateController : MonoBehaviour {
 
         if(playerPathData.startPathSearch) {
             ActionDisplay.SetActive(true);
+            StartScreen.SetActive(false);
         }
 
         if(playerPathData.pathComplete) {

@@ -20,7 +20,5 @@ public class CameraStateController : MonoBehaviour {
         mainCamActive = true;
         MainCam.gameObject.SetActive(mainCamActive);
         StartCam.gameObject.SetActive(!mainCamActive);
-        Canvas ui = StartCam.GetComponentInChildren<Canvas>();
-        ui.gameObject.SetActive(!mainCamActive);
     } 
 }
