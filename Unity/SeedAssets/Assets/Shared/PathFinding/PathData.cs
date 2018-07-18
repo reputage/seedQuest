@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathData : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+[CreateAssetMenu(menuName = "AI/Path Data")]
+public class PathData : ScriptableObject {
+    public bool inRehersalMode = true; 
+    public bool pathComplete = false;
+    public bool showPathTooltip = false;
+
+    public Interactable currentAction;
+    public float interactionRadius = 4.0f;
 }

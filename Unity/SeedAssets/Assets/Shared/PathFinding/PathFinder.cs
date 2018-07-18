@@ -2,23 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Interactable
-{
-    public Transform transform;
-    public GameObject effect;
-    public string label;
-    public string description;
-}
-
 public class PathFinder : MonoBehaviour
 {
     static PathFinder instance;
     public LayerMask interactableMask;
     public Transform player;
     public GameObject Tooltip;
-    public List<Interactable> targets = new List<Interactable>();
+    public Interactable[] targets;
     public LineRenderer line;
+    public GameObject world;
 
     private Pathfinding pathfinding;
     private Vector3[] path;
@@ -30,6 +22,8 @@ public class PathFinder : MonoBehaviour
         instance = this;
         pathfinding = GetComponent<Pathfinding>();
         Tooltip.SetActive(false);
+
+        targets = (Interactable[]) Object.FindObjectsOfType(typeof(Interactable));
     }
 
     private void Start() {

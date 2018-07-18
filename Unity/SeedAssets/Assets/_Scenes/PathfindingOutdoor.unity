@@ -2648,6 +2648,7 @@ GameObject:
   - component: {fileID: 238614425}
   - component: {fileID: 238614424}
   - component: {fileID: 238614423}
+  - component: {fileID: 238614426}
   m_Layer: 10
   m_Name: SM_Prop_HotdogStand_01
   m_TagString: Untagged
@@ -2712,6 +2713,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 238614422}
   m_Mesh: {fileID: 4300000, guid: a710d68ad8bbf854aa0aadc7e8649f50, type: 3}
+--- !u!114 &238614426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 238614422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1d3f68c24d7418194a24bd1a01146a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 0}
+  label: Hotdog Stand
+  description: Buy a Hotdog
 --- !u!1 &240207981
 GameObject:
   m_ObjectHideFlags: 0
@@ -10326,7 +10341,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 475942989}
-  m_Layer: 0
+  - component: {fileID: 475942990}
+  m_Layer: 10
   m_Name: Campfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10349,6 +10365,20 @@ Transform:
   m_Father: {fileID: 800114802}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &475942990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 475942988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1d3f68c24d7418194a24bd1a01146a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 2077250018}
+  label: Campfire
+  description: Light the Campfire
 --- !u!4 &476288254
 Transform:
   m_ObjectHideFlags: 0
@@ -21439,6 +21469,7 @@ GameObject:
   - component: {fileID: 1165283482}
   - component: {fileID: 1165283481}
   - component: {fileID: 1165283480}
+  - component: {fileID: 1165283483}
   m_Layer: 9
   m_Name: SM_Prop_PlanterWindow_02 (1)
   m_TagString: Untagged
@@ -21517,6 +21548,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1165283478}
   m_Mesh: {fileID: 4300000, guid: 4d7b1e8b05acda04589c4052eaa97df3, type: 3}
+--- !u!114 &1165283483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1165283478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1d3f68c24d7418194a24bd1a01146a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 0}
+  label: Planter
+  description: Water the Plants
 --- !u!1 &1187183091
 GameObject:
   m_ObjectHideFlags: 0
@@ -24990,6 +25035,7 @@ GameObject:
   - component: {fileID: 1550352306}
   - component: {fileID: 1550352307}
   - component: {fileID: 1550352311}
+  - component: {fileID: 1550352312}
   m_Layer: 10
   m_Name: ball
   m_TagString: Untagged
@@ -25177,6 +25223,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1550352312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1550352305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1d3f68c24d7418194a24bd1a01146a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 0}
+  label: Soccerball
+  description: Shot a Goal
 --- !u!1 &1557117455
 GameObject:
   m_ObjectHideFlags: 0
@@ -28513,7 +28573,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1884210218}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae940b68d63c74d2ca4ba90a677198e3, type: 3}
   m_Name: 
@@ -28523,28 +28583,9 @@ MonoBehaviour:
     m_Bits: 1024
   player: {fileID: 2098855217}
   Tooltip: {fileID: 875518030}
-  targets:
-  - transform: {fileID: 1404863805}
-    effect: {fileID: 2077250018}
-    label: Campfire
-    description: Light the Campire
-  - transform: {fileID: 1165283479}
-    effect: {fileID: 0}
-    label: Planter
-    description: Water the Plants
-  - transform: {fileID: 476288254}
-    effect: {fileID: 0}
-    label: Hotdog Vendor
-    description: Buy a Hotdog
-  - transform: {fileID: 910654238}
-    effect: {fileID: 0}
-    label: Soccerball
-    description: Shoot a Goal
-  - transform: {fileID: 0}
-    effect: {fileID: 0}
-    label: Seed Recovered!
-    description: XXXXXXXXXXXX
+  targets: []
   line: {fileID: 1980517468}
+  world: {fileID: 144977061}
 --- !u!114 &1884210220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30668,15 +30709,16 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2098855214}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb3e87d5b8dc649e6972a10f0b32ea48, type: 3}
+  m_Script: {fileID: 11500000, guid: 562f452e7d78b429ebfbc2782d21b9dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  line: {fileID: 1980517468}
-  speed: 2
-  rotateSpeed: 1
+  currentState: {fileID: 11400000, guid: 77360ce0d5eba4c5d91df8e16131d227, type: 2}
+  pathTargets: []
+  playerPathData: {fileID: 11400000, guid: 1c1812f47befb492d92236d90e2f85f5, type: 2}
+  NavAIMesh: {fileID: 1884210218}
+  nextWayPoint: 0
 --- !u!4 &2098855217 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4302201310935402, guid: c3e4e30cffdbb4408b0bcccc37f30b81,
