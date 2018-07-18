@@ -8,6 +8,7 @@ public class StateController : MonoBehaviour {
     public State remainState;
 
     public Interactable[] pathTargets;
+    public Interactable[] interactables;
     public PathData playerPathData;
     public GameObject NavAIMesh;
 
@@ -18,6 +19,7 @@ public class StateController : MonoBehaviour {
     private void Awake() {
         pathfinding = NavAIMesh.GetComponent<Pathfinding>();
         pathTargets = FindInteractables();
+        interactables = FindInteractables();
 
         playerPathData.currentAction = pathTargets[0];
     }
@@ -48,12 +50,34 @@ public class StateController : MonoBehaviour {
     }
 
     public bool isNearTarget() {
+        if (nextWayPoint >= pathTargets.Length)
+            return false;
+
         Vector3 dist = transform.position - pathTargets[nextWayPoint].transform.position;
 
         if (dist.magnitude < playerPathData.interactionRadius)
             return true;
         else
             return false;
+    }
+
+    public bool isNearInteractable() {
+        return Physics.CheckSphere(transform.position, playerPathData.interactionRadius, playerPathData.interactableMask);
+    }
+
+    public Interactable getNearestInteractable() {
+        Interactable nearest = interactables[0];
+        float nearDist = float.MaxValue;
+
+        for (int i = 0; i < interactables.Length; i++) {
+            float dist = (transform.position - interactables[i].transform.position).magnitude;
+            if(dist < nearDist) {
+                nearDist = dist;
+                nearest = interactables[i];
+            }
+        }
+
+        return nearest;
     }
 
     public void checkIsNearTarget() {

@@ -10,6 +10,7 @@ public class PathData : ScriptableObject {
     public bool showPathTooltip = false;
     public bool inRehersalMode = true; 
 
+    public LayerMask interactableMask;
     public Interactable currentAction;
     public float interactionRadius = 4.0f;
 }
