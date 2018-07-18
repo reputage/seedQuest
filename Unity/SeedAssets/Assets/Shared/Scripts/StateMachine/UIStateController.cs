@@ -9,7 +9,7 @@ public class UIStateController : MonoBehaviour {
     public GameObject Tooltip;
     public GameObject StartScreen;
     public GameObject DebugDisplay;
-    public PathData playerPathData;
+    public GameStateData playerPathData;
 
     private void Start() {
         InitalizeActionDisplay();

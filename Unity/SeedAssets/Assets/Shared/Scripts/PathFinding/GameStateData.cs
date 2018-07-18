@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(menuName = "AI/Path Data")]
-public class PathData : ScriptableObject {
+[CreateAssetMenu(menuName = "AI/GameState")]
+public class GameStateData : ScriptableObject {
     public bool startPathSearch = false;
     public bool pathComplete = false;
     public bool showPathTooltip = false;

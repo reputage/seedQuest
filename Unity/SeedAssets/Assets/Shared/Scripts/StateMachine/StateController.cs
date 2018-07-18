@@ -9,7 +9,7 @@ public class StateController : MonoBehaviour {
 
     public Interactable[] pathTargets;
     public Interactable[] interactables;
-    public PathData playerPathData;
+    public GameStateData playerPathData;
     public GameObject NavAIMesh;
 
     [HideInInspector] public int nextWayPoint;

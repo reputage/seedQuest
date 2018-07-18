@@ -6,7 +6,7 @@ public class CameraStateController : MonoBehaviour {
     
     public Camera StartCam;
     public Camera MainCam;
-    public PathData playerPathData;
+    public GameStateData playerPathData;
     private bool mainCamActive = false;
 
     private void Update()
