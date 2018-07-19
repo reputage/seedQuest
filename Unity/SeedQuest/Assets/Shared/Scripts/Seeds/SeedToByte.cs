@@ -53,7 +53,6 @@ public class SeedToByte : MonoBehaviour
 
     public GameStateData gameState;
 
-
     public string testSeed1 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
     public string testSeed4 = "AAAAAAAAAAAAAAAA";
@@ -202,11 +201,12 @@ public class SeedToByte : MonoBehaviour
     // Construct the list of how many bits represent which parts of the path to take
     public List<int> listBuilder()
     {
-        int numLocationBits = 4;        // Number of bits used to determine location
-        int numSpotBits = 4;            // Number of bits used to determine spots for each action
-        int numActionBits = 3;          // Number of bits used to determine action choice
-        int numActions = 4;             // Total actions the player needs to take at each location
-        int numTotalLocations = 4;      // Total number of locations the player needs to visit
+        
+        int numLocationBits = gameState.SiteBits ;        // Number of bits used to determine location
+        int numSpotBits = gameState.SpotBits;            // Number of bits used to determine spots for each action
+        int numActionBits = gameState.ActionBits;          // Number of bits used to determine action choice
+        int numActions = gameState.ActionCount;             // Total actions the player needs to take at each location
+        int numTotalLocations = gameState.SiteCount;      // Total number of locations the player needs to visit
 
         List<int> actionList = new List<int>();
 
