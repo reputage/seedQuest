@@ -50,6 +50,8 @@ public class SeedToByte : MonoBehaviour
     // Yes, I know this isn't the best way to do this operation, but it works
     // Please don't break this.
 
+
+
     public string testSeed1 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
     public string testSeed4 = "AAAAAAAAAAAAAAAA";
@@ -117,13 +119,9 @@ public class SeedToByte : MonoBehaviour
     {
         //DontDestroyOnLoad(gameObject);
         actionList = listBuilder();
-        testRun();
+        //testRun();
     }
 
-    void Update()
-    {
-
-    }
 
     // Test to make sure everything works
     void testRun()
@@ -208,7 +206,7 @@ public class SeedToByte : MonoBehaviour
         int numSpotBits = 4;            // Number of bits used to determine spots for each action
         int numActionBits = 3;          // Number of bits used to determine action choice
         int numActions = 4;             // Total actions the player needs to take at each location
-        int numTotalLocations = 4;      // Total number of locatiosn the player needs to visit
+        int numTotalLocations = 4;      // Total number of locations the player needs to visit
 
         List<int> actionList = new List<int>();
 
