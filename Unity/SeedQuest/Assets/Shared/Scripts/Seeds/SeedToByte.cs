@@ -6,19 +6,6 @@ using System;
 using System.Collections.Specialized;
 
 
-/* For each action:
- * 
- * 4 bits for location
- * 4 bits for each "spot" at the location
- * 3 bits for each action at the location
- * 
- * 4 actions at each location = 4 * 7 = 28
- * 28 + 4 (for the location) = 32
- * 4 locations to be visited
- * 
- */
-
-
 /*
  * The functions in this sccript can be used like this:
  * 
@@ -344,3 +331,15 @@ public class SeedToByte : MonoBehaviour
 
 
 }
+
+/* For each action:
+ * 
+ * 4 bits for location
+ * 4 bits for each "spot" at the location
+ * 3 bits for each action at the location
+ * 
+ * 4 actions at each location = 4 * 7 = 28
+ * 28 + 4 (for the location) = 32
+ * 4 locations to be visited
+ * 
+ */
