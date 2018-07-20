@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427135, b: 0.56452316, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -1310,6 +1310,12 @@ Prefab:
       propertyPath: NavAIMesh
       value: 
       objectReference: {fileID: 438578814}
+    - target: {fileID: 114919954429977244, guid: 41e6f594a60f84fe8accd214f3c83306,
+        type: 2}
+      propertyPath: gameState
+      value: 
+      objectReference: {fileID: 11400000, guid: be80d64c5b20a46baaf2ba656effca2d,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 41e6f594a60f84fe8accd214f3c83306, type: 2}
   m_IsPrefabParent: 0
@@ -2126,7 +2132,7 @@ Transform:
   - {fileID: 536246535}
   - {fileID: 984434379}
   m_Father: {fileID: 909981952}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &58692432
 GameObject:
@@ -7535,7 +7541,7 @@ Transform:
   - {fileID: 1185743432}
   - {fileID: 273255826}
   m_Father: {fileID: 909981952}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &156288418
 GameObject:
@@ -38671,7 +38677,7 @@ Transform:
   - {fileID: 994819327}
   - {fileID: 1305219566}
   m_Father: {fileID: 909981952}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &786772304
 GameObject:
@@ -39707,10 +39713,14 @@ MonoBehaviour:
   effect: {fileID: 0}
   label: Hotdog Stand
   description: Buy a Hotdog
-  siteID: 0
+  siteID: 1
   spotID: 0
-  actionID: 0
-  actions: []
+  actionID: 1
+  actions:
+  - label: Buy a Hotdog
+    description: 
+  - label: Steal a Hotdog and RUN!
+    description: 
 --- !u!65 &806713761
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40153,7 +40163,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 810145689}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 76.72382, y: -25.839497, z: 2.705019}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -43454,7 +43464,7 @@ Transform:
   - {fileID: 372063758}
   - {fileID: 526410011}
   m_Father: {fileID: 909981952}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &871681110
 GameObject:
@@ -45540,6 +45550,93 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &907194782
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 909981952}
+    m_Modifications:
+    - target: {fileID: 114546580303033648, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: actions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114808588116369440, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: actions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226704305645630, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226704305645630, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226704305645630, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226704305645630, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226704305645630, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226704305645630, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226704305645630, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226704305645630, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114546580303033648, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: siteID
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114546580303033648, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: actions.Array.data[0].label
+      value: Light the Campfire
+      objectReference: {fileID: 0}
+    - target: {fileID: 114546580303033648, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: actions.Array.data[1].label
+      value: Do Nothing
+      objectReference: {fileID: 0}
+    - target: {fileID: 114808588116369440, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: spotID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114808588116369440, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: actions.Array.data[0].label
+      value: Water the Plants
+      objectReference: {fileID: 0}
+    - target: {fileID: 114808588116369440, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: actions.Array.data[1].label
+      value: Be Lazy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &907194783 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4226704305645630, guid: 2382d2beb94894b47889b27dbf3967ee,
+    type: 2}
+  m_PrefabInternal: {fileID: 907194782}
 --- !u!1 &907674926
 GameObject:
   m_ObjectHideFlags: 0
@@ -45721,6 +45818,7 @@ Transform:
   m_Children:
   - {fileID: 2022874565}
   - {fileID: 1279632266}
+  - {fileID: 907194783}
   - {fileID: 1353172682}
   - {fileID: 786710491}
   - {fileID: 2093133431}
@@ -52973,7 +53071,7 @@ Transform:
   - {fileID: 1484622371}
   - {fileID: 2098382279}
   m_Father: {fileID: 909981952}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1033146869
 GameObject:
@@ -62881,10 +62979,14 @@ MonoBehaviour:
   effect: {fileID: 0}
   label: Soccerball
   description: Shot a Goal
-  siteID: 0
-  spotID: 0
+  siteID: 2
+  spotID: 1
   actionID: 0
-  actions: []
+  actions:
+  - label: Shoot the Winning Goal
+    description: 
+  - label: Lose the Game
+    description: 
 --- !u!82 &1262295394
 AudioSource:
   m_ObjectHideFlags: 0
@@ -66958,7 +67060,7 @@ Transform:
   - {fileID: 999503364}
   - {fileID: 1746984390}
   m_Father: {fileID: 909981952}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1354394719
 GameObject:
@@ -68431,7 +68533,7 @@ Transform:
   - {fileID: 1431720385}
   - {fileID: 893528182}
   m_Father: {fileID: 909981952}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1383624745
 GameObject:
@@ -89631,7 +89733,7 @@ Transform:
   - {fileID: 1768818577}
   - {fileID: 533489258}
   m_Father: {fileID: 909981952}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1776206577
 GameObject:
@@ -104382,7 +104484,7 @@ Transform:
   - {fileID: 1443091821}
   - {fileID: 1128144734}
   m_Father: {fileID: 909981952}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2096192701
 GameObject:

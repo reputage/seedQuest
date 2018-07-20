@@ -12,7 +12,7 @@ public class RecallDecision : Decision {
 
     private bool StartRecall(StateController controller)
     {
-        var data = controller.playerPathData;
+        var data = controller.gameState;
         return data.startPathSearch && !data.inRehersalMode;
     }
 

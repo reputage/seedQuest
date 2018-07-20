@@ -8,9 +8,8 @@ public class StateController : MonoBehaviour {
     public State remainState;
 
     public Interactable[] pathTargets;
-    public Interactable[] pathTargets2;
     public Interactable[] interactables;
-    public GameStateData playerPathData;
+    public GameStateData gameState;
     public GameObject NavAIMesh;
 
     [HideInInspector] public int nextWayPoint;
@@ -28,61 +27,55 @@ public class StateController : MonoBehaviour {
 
     private void InitializeState()
     {
-        pathTargets = FindInteractables();
+        //pathTargets = FindInteractables();
         interactables = FindInteractables();
 
-        //List<Interactable> locs = GetInteractableLocations();
-        List<GameObject> locs = GetInteractableLocationsTest(); // fixes the warning in the compiler
-        //pathTargets = GetInteractablePath(locs);
+        Interactable[] locs = GetInteractableLocations(); // fixes the warning in the compiler
         pathTargets = GetInteractablePathTest(locs);
 
-        playerPathData.startPathSearch = false; 
-        playerPathData.pathComplete = false;
-        playerPathData.currentAction = pathTargets[0];
-        playerPathData.targetList = pathTargets;
+        gameState.startPathSearch = false; 
+        gameState.pathComplete = false;
+        gameState.currentAction = pathTargets[0];
+        gameState.targetList = pathTargets;
     } 
 
     // Modified to create a list of gameobjects with interactable attached as monobehavior
-    private List<GameObject> GetInteractableLocationsTest()
+    private Interactable[] GetInteractableLocations()
     {
         SeedToByte locations = NavAIMesh.GetComponent<SeedToByte>();
-        int[] actions = locations.getActions("AAAAAAAAAAAAAAAA");
-        List<GameObject> locationIDs = new List<GameObject>();
+        int[] actions = locations.getActions(gameState.SeedString);
+        List<Interactable> locationIDs = new List<Interactable>();
 
         int count = 0;
         while (count < actions.Length)
         {
             int siteID = actions[count];
 
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < gameState.ActionCount; j++)
             {
                 int spotID = actions[count + (2 * j) + 1];
                 int actionID = actions[count + (2 * j) + 2];
-
-                locationIDs.Add(new GameObject());
-                locationIDs[(count * 4 / 9) + j].AddComponent<Interactable>();
-
-                locationIDs[(count * 4 / 9) + j].GetComponent<Interactable>().siteID = siteID;
-                locationIDs[(count * 4 / 9) + j].GetComponent<Interactable>().spotID = spotID;
-                locationIDs[(count * 4 / 9) + j].GetComponent<Interactable>().actionID = actionID;
-
+                locationIDs.Add(new Interactable(siteID, spotID, actionID));
             }
 
-            count += 9;
+            count += 1 + 2 * gameState.ActionCount;
         }
 
-        return locationIDs;
+        return locationIDs.ToArray();
     }
 
     // Modified to use the gameobject list instead
     //  fixes the compiler errors
     //  other functions commented out just in case the other way was intentional
-    private Interactable[] GetInteractablePathTest(List<GameObject> locationIDs)
+    private Interactable[] GetInteractablePathTest(Interactable[] locationIDs)
     {
+        
+        Interactable[] interactablePath = new Interactable[locationIDs.Length];
 
-        Interactable[] interactablePath = new Interactable[locationIDs.Count];
+        int siteCount = (int)Mathf.Pow(2.0F, gameState.SiteBits);
+        int spotCount = (int)Mathf.Pow(2.0F, gameState.SpotBits);
 
-        Interactable[,] LUT = new Interactable[16, 16];
+        Interactable[,] LUT = new Interactable[siteCount, spotCount];
         for (int i = 0; i < interactables.Length; i++)
         {
             int row = interactables[i].siteID;
@@ -90,12 +83,11 @@ public class StateController : MonoBehaviour {
             LUT[row, col] = interactables[i];
         }
 
-        for (int i = 0; i < locationIDs.Count; i++)
+        for (int i = 0; i < locationIDs.Length; i++)
         {
-            int row = locationIDs[i].GetComponent<Interactable>().siteID;
-            int col = locationIDs[i].GetComponent<Interactable>().spotID;
+            int row = locationIDs[i].siteID;
+            int col = locationIDs[i].spotID;
             interactablePath[i] = LUT[row, col];
-            //Debug.Log(interactablePath[i]);
         }
 
         return interactablePath;
@@ -118,9 +110,9 @@ public class StateController : MonoBehaviour {
         nextWayPoint++;
 
         if (nextWayPoint < pathTargets.Length)
-            playerPathData.currentAction = pathTargets[nextWayPoint];
+            gameState.currentAction = pathTargets[nextWayPoint];
         else
-            playerPathData.pathComplete = true;
+            gameState.pathComplete = true;
     }
 
     public void DrawPath(Vector3[] path) {
@@ -135,14 +127,14 @@ public class StateController : MonoBehaviour {
 
         Vector3 dist = transform.position - pathTargets[nextWayPoint].transform.position;
 
-        if (dist.magnitude < playerPathData.interactionRadius)
+        if (dist.magnitude < gameState.interactionRadius)
             return true;
         else
             return false;
     }
 
     public bool isNearInteractable() {
-        return Physics.CheckSphere(transform.position, playerPathData.interactionRadius, playerPathData.interactableMask);
+        return Physics.CheckSphere(transform.position, gameState.interactionRadius, gameState.interactableMask);
     }
 
     public Interactable getNearestInteractable() {
@@ -162,24 +154,24 @@ public class StateController : MonoBehaviour {
 
     public void checkIsNearTarget() {
         if (isNearTarget()) {
-            playerPathData.showPathTooltip = true;
+            gameState.showPathTooltip = true;
 
             if(Input.GetButtonDown("Jump")) {
                 NextPath();
             }
         }
         else
-            playerPathData.showPathTooltip = false;
+            gameState.showPathTooltip = false;
     }
 
     private void OnDrawGizmos() {
         if(currentState != null) {
             Gizmos.color = currentState.sceneGizmoColor;
-            Gizmos.DrawWireSphere(transform.position, playerPathData.interactionRadius);
+            Gizmos.DrawWireSphere(transform.position, gameState.interactionRadius);
         }
 
         if(isNearTarget()) {
-            Gizmos.DrawWireSphere(playerPathData.currentAction.transform.position, playerPathData.interactionRadius);
+            Gizmos.DrawWireSphere(gameState.currentAction.transform.position, gameState.interactionRadius);
         }
     }
 

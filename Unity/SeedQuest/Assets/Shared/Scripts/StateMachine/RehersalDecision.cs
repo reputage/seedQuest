@@ -13,7 +13,7 @@ public class RehersalDecision : Decision
 
     private bool StartRehersal(StateController controller)
     {
-        var data = controller.playerPathData;
+        var data = controller.gameState;
         return data.startPathSearch && data.inRehersalMode;
     }
 

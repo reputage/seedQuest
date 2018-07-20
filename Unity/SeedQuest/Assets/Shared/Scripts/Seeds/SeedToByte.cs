@@ -220,7 +220,7 @@ public class SeedToByte : MonoBehaviour
         if (actionList.Count == 0)
             actionList = listBuilder();
         
-        int[] actionValues = new int[36];
+        int[] actionValues = new int[actionList.Count];
         int value = 0;
         int valueIndex = 0;
         int locator = 0;
