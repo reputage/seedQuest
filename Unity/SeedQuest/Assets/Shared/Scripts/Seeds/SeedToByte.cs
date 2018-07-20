@@ -144,6 +144,7 @@ public class SeedToByte : MonoBehaviour
         // Don't change the actionList - it will break everything
         returnBytes = actionConverter(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
+        //Debug.Log(convertedSeed);
         return convertedSeed;
     }
 
@@ -272,19 +273,40 @@ public class SeedToByte : MonoBehaviour
         var actionBits = new BitArray(128);
         ulong path1 = 0;
         ulong path2 = 0;
+        int[] tempArray = new int[36];
 
-        // Convert action ints into two ulong ints
-        for (int i = 0; i < 18; i++)
-        {
-            path1 += (ulong)actions[i];
-            path2 += (ulong)actions[i + 18];
-            if (i < 17)
-            {
-                path1 = path1 << actionList[i + 1];
-                path2 = path2 << actionList[i + 19];
-            }
-
+        int totalBits = 0;
+        for (int i = 0; i < actionList.Count; i++) {
+            totalBits += actionList[i];
         }
+
+        if (totalBits < 128)
+        {
+            // Convert action ints into two ulong ints
+            for (int i = 0; i < actions.Length; i++)
+            { 
+                path1 += (ulong)actions[i];
+                if(i < actions.Length - 1)
+                    path1 = path1 << actionList[i + 1];
+            }
+            path1 = path1 << (128 - totalBits);
+        }
+
+        else
+        {
+            for (int i = 0; i < 18; i++)
+            {
+                path1 += (ulong)actions[i];
+                path2 += (ulong)actions[i + 18];
+                if (i < 17)
+                {
+                    path1 = path1 << actionList[i + 1];
+                    path2 = path2 << actionList[i + 19];
+                }
+
+            }
+        }
+
 
         // Convert ulong ints with actions into byte arrays
         byte[] bytes1 = BitConverter.GetBytes(path1);
@@ -293,7 +315,7 @@ public class SeedToByte : MonoBehaviour
         // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
         //  Yes, I know we are reversing the bits to get the actions,
         //  then reversing them again when extracting the bits.
-        //  The manager-man wanted me to do it this way.
+        //  The higer-ups wanted me to do it this way.
         for (int i = 0; i < bytes1.Length / 2; i++)
         {
             byte tmp = bytes1[i];

@@ -103,13 +103,16 @@ public class StateController : MonoBehaviour {
     }
 
     public Vector3[] FindPath() {
-        return pathfinding.FindPath(transform.position, pathTargets[nextWayPoint].transform.position);
+        if (nextWayPoint < pathTargets.Length)
+            return pathfinding.FindPath(transform.position, pathTargets[nextWayPoint].transform.position);
+        else
+            return null;
     }
 
     public void DoActionAtInteractable(int actionIndex) {
         // Record action at interactable into action log
         Interactable interactable = pathTargets[nextWayPoint];
-        gameState.actionLog.Add(interactable, interactable.actions[actionIndex]);
+        NavAIMesh.GetComponent<ActionLog>().Add(interactable, actionIndex);
 
         // Go to next waypoint
         NextPath();
@@ -121,10 +124,17 @@ public class StateController : MonoBehaviour {
         if (nextWayPoint < pathTargets.Length)
             gameState.currentAction = pathTargets[nextWayPoint];
         else
+        {
             gameState.pathComplete = true;
+            gameState.recoveredSeed = NavAIMesh.GetComponent<ActionLog>().getSeed();
+            Debug.Log(gameState.recoveredSeed);
+        }
     }
 
     public void DrawPath(Vector3[] path) {
+        if (path == null)
+            return;
+        
         LineRenderer line = NavAIMesh.GetComponentInChildren<LineRenderer>();
         line.positionCount = path.Length;
         line.SetPositions(path);
@@ -168,7 +178,7 @@ public class StateController : MonoBehaviour {
             if(Input.GetButtonDown("Jump")) {
                 DoActionAtInteractable(0);
             }
-            else if(Input.anyKey){
+            else if(Input.GetKey("1")){
                 DoActionAtInteractable(1);
             }
         }

@@ -9,7 +9,7 @@ public class UIStateController : MonoBehaviour {
     public GameObject Tooltip;
     public GameObject StartScreen;
     public GameObject DebugDisplay;
-    public GameStateData playerPathData;
+    public GameStateData gameState;
 
     private void Start() {
         InitalizeActionDisplay();
@@ -26,11 +26,11 @@ public class UIStateController : MonoBehaviour {
     private void InitalizeActionDisplay() {
         ActionDisplay.SetActive(false);
 
-        int count = playerPathData.targetList.Length;
+        int count = gameState.targetList.Length;
         for (int i = 0; i < count; i++)
         {
             GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
-            g.GetComponentInChildren<Text>().text = playerPathData.targetList[i].description;
+            g.GetComponentInChildren<Text>().text = gameState.targetList[i].description;
         }
     }
 
@@ -39,27 +39,27 @@ public class UIStateController : MonoBehaviour {
     }
 
     private void InitializeToolTip() {
-        playerPathData.showPathTooltip = false;
+        gameState.showPathTooltip = false;
     }
 
     private void CheckGameStart() {
         // Start Game after StartScreen
-        if (!playerPathData.startPathSearch)
+        if (!gameState.startPathSearch)
         {
             if (Input.anyKey)
-                playerPathData.startPathSearch = true;
+                gameState.startPathSearch = true;
 
             if (Input.GetButtonDown("Jump"))
-                playerPathData.inRehersalMode = true;
+                gameState.inRehersalMode = true;
             else if (Input.anyKey)
-                playerPathData.inRehersalMode = false;
+                gameState.inRehersalMode = false;
         }  
 
-        if(playerPathData.startPathSearch) {
+        if(gameState.startPathSearch) {
             ActionDisplay.SetActive(true);
             StartScreen.SetActive(false);
 
-            if(playerPathData.inRehersalMode)
+            if(gameState.inRehersalMode)
                 DebugDisplay.GetComponentInChildren<Text>().text = "Mode: Rehersal";
             else
                 DebugDisplay.GetComponentInChildren<Text>().text = "Mode: Recall";
@@ -68,36 +68,36 @@ public class UIStateController : MonoBehaviour {
 
     private void CheckRehersalMode() {
         // In Rehersal Mode
-        if (playerPathData.inRehersalMode) {
+        if (gameState.inRehersalMode) {
             
-            int index = System.Array.IndexOf(playerPathData.targetList, playerPathData.currentAction);
-            if (playerPathData.pathComplete)
-                index = playerPathData.targetList.Length;
+            int index = System.Array.IndexOf(gameState.targetList, gameState.currentAction);
+            if (gameState.pathComplete)
+                index = gameState.targetList.Length;
 
             for (int i = 0; i < index; i++)
             {
                 GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
-                g.GetComponentInChildren<Image>().sprite = playerPathData.checkedState;
+                g.GetComponentInChildren<Image>().sprite = gameState.checkedState;
             }
         }
 
-        if (!playerPathData.inRehersalMode)
+        if (!gameState.inRehersalMode)
             ActionDisplay.SetActive(false);
     }
 
     private void UpdateTooltip() {
-        if (playerPathData.pathComplete)
+        if (gameState.pathComplete)
         {
             Text[] t = Tooltip.GetComponentsInChildren<Text>();
             t[0].text = "Recovered Seed:";
-            t[1].text = "XXXXXXXXXXX";
+            t[1].text = gameState.recoveredSeed;
             Tooltip.SetActive(true);
         }
-        else if (playerPathData.showPathTooltip && playerPathData.currentAction != null)
+        else if (gameState.showPathTooltip && gameState.currentAction != null)
         {
             Text[] t = Tooltip.GetComponentsInChildren<Text>();
-            t[0].text = playerPathData.currentAction.label;
-            t[1].text = playerPathData.currentAction.description;
+            t[0].text = gameState.currentAction.label;
+            t[1].text = gameState.currentAction.description;
             Tooltip.SetActive(true);
         }
         else

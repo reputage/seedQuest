@@ -20,6 +20,7 @@ public class GameStateData : ScriptableObject {
     public Interactable[] targetList;
 
     public string SeedString;
+    public string recoveredSeed;
     public ActionLog actionLog;
 
     public int SiteBits = 4;
