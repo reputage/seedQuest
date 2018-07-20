@@ -106,6 +106,15 @@ public class StateController : MonoBehaviour {
         return pathfinding.FindPath(transform.position, pathTargets[nextWayPoint].transform.position);
     }
 
+    public void DoActionAtInteractable(int actionIndex) {
+        // Record action at interactable into action log
+        Interactable interactable = pathTargets[nextWayPoint];
+        gameState.actionLog.Add(interactable, interactable.actions[actionIndex]);
+
+        // Go to next waypoint
+        NextPath();
+    }
+
     public void NextPath() {
         nextWayPoint++;
 
@@ -157,7 +166,10 @@ public class StateController : MonoBehaviour {
             gameState.showPathTooltip = true;
 
             if(Input.GetButtonDown("Jump")) {
-                NextPath();
+                DoActionAtInteractable(0);
+            }
+            else if(Input.anyKey){
+                DoActionAtInteractable(1);
             }
         }
         else
