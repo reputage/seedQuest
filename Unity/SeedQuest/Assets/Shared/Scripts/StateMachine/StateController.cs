@@ -8,6 +8,7 @@ public class StateController : MonoBehaviour {
     public State remainState;
 
     public Interactable[] pathTargets;
+    public Interactable[] pathTargets2;
     public Interactable[] interactables;
     public GameStateData playerPathData;
     public GameObject NavAIMesh;
@@ -31,9 +32,9 @@ public class StateController : MonoBehaviour {
         interactables = FindInteractables();
 
         //List<Interactable> locs = GetInteractableLocations();
-        List<GameObject> locObjs = GetInteractableLocationsTest(); // fixes the warning in the compiler
+        List<GameObject> locs = GetInteractableLocationsTest(); // fixes the warning in the compiler
         //pathTargets = GetInteractablePath(locs);
-        pathTargets = GetInteractablePathTest(locObjs);
+        pathTargets = GetInteractablePathTest(locs);
 
         playerPathData.startPathSearch = false; 
         playerPathData.pathComplete = false;
@@ -41,33 +42,7 @@ public class StateController : MonoBehaviour {
         playerPathData.targetList = pathTargets;
     } 
 
-    /*
-    private List<Interactable> GetInteractableLocations() {
-        SeedToByte locations = NavAIMesh.GetComponent<SeedToByte>();
-        int[] actions = locations.getActions("AAAAAAAAAAAAAAAA");
-        List<Interactable> locationIDs = new List<Interactable>();
-
-        int count = 0;
-        while(count < actions.Length) {
-            int siteID = actions[count];
-
-            for (int j = 0; j < 4; j++)
-            {
-                int spotID = actions[count + (2 * j) + 1];
-                int actionID = actions[count + (2 * j) + 2];
-
-                locationIDs.Add(new Interactable(siteID, spotID, actionID)); // gives warning because it's a monobehavior, and not attached to a game object
-                //locationIDs.Add(new GameObject());
-            }
-
-            count += 9;
-        }
-
-        return locationIDs;
-    }
-    */
-
-    // copy of the above function, but instead creates list of gameobjects with interactable attached as monobehavior
+    // Modified to create a list of gameobjects with interactable attached as monobehavior
     private List<GameObject> GetInteractableLocationsTest()
     {
         SeedToByte locations = NavAIMesh.GetComponent<SeedToByte>();
@@ -85,7 +60,12 @@ public class StateController : MonoBehaviour {
                 int actionID = actions[count + (2 * j) + 2];
 
                 locationIDs.Add(new GameObject());
-                locationIDs[j].AddComponent<Interactable>();
+                locationIDs[(count * 4 / 9) + j].AddComponent<Interactable>();
+
+                locationIDs[(count * 4 / 9) + j].GetComponent<Interactable>().siteID = siteID;
+                locationIDs[(count * 4 / 9) + j].GetComponent<Interactable>().spotID = spotID;
+                locationIDs[(count * 4 / 9) + j].GetComponent<Interactable>().actionID = actionID;
+
             }
 
             count += 9;
@@ -94,29 +74,7 @@ public class StateController : MonoBehaviour {
         return locationIDs;
     }
 
-    /*
-    private Interactable[] GetInteractablePath(List<Interactable> locationIDs) {
-
-        Interactable[] interactablePath = new Interactable[locationIDs.Count];
-
-        Interactable[,] LUT = new Interactable[16, 16];
-        for (int i = 0; i < interactables.Length; i++) {
-            int row = interactables[i].siteID;
-            int col = interactables[i].spotID;
-            LUT[row, col] = interactables[i];
-        }
-
-        for (int i = 0; i < locationIDs.Count; i++) {
-            int row = locationIDs[i].siteID;
-            int col = locationIDs[i].spotID;
-            interactablePath[i] = LUT[row, col];
-        }
-
-        return interactablePath;
-    }
-    */
-
-    // copy of the above, but modified to use the gameobject list instead
+    // Modified to use the gameobject list instead
     //  fixes the compiler errors
     //  other functions commented out just in case the other way was intentional
     private Interactable[] GetInteractablePathTest(List<GameObject> locationIDs)
@@ -137,6 +95,7 @@ public class StateController : MonoBehaviour {
             int row = locationIDs[i].GetComponent<Interactable>().siteID;
             int col = locationIDs[i].GetComponent<Interactable>().spotID;
             interactablePath[i] = LUT[row, col];
+            //Debug.Log(interactablePath[i]);
         }
 
         return interactablePath;
@@ -144,7 +103,10 @@ public class StateController : MonoBehaviour {
 
     private Interactable[] FindInteractables() {
         Interactable[] actions = (Interactable[])Object.FindObjectsOfType(typeof(Interactable));
-
+        for (int i = 0; i < actions.Length; i++)
+        {
+            Debug.Log(actions[i] + " site and spot: " + actions[i].siteID + " " + actions[i].spotID);
+        }
         return actions;
     }
 
