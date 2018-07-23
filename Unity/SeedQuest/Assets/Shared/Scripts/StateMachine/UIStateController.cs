@@ -29,8 +29,10 @@ public class UIStateController : MonoBehaviour {
         int count = gameState.targetList.Length;
         for (int i = 0; i < count; i++)
         {
+            Debug.Log(gameState.targetList[i].description);
             GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
             g.GetComponentInChildren<Text>().text = gameState.targetList[i].description;
+            g.GetComponentInChildren<Image>().sprite = gameState.uncheckedState;
         }
     }
 
@@ -76,8 +78,8 @@ public class UIStateController : MonoBehaviour {
 
             for (int i = 0; i < index; i++)
             {
-                GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
-                g.GetComponentInChildren<Image>().sprite = gameState.checkedState;
+                GameObject l = ActionDisplay.transform.GetChild(i + 1).gameObject;
+                l.GetComponentInChildren<Image>().sprite = gameState.checkedState;
             }
         }
 
