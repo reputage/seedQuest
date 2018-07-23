@@ -27,7 +27,7 @@ public class ThirdPersonCamera : MonoBehaviour {
     private void Update()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = false;
+        Cursor.visible = true;
 
         currentX += Input.GetAxis("Mouse X") * mouseSensitivityX;
         if(inverted)
