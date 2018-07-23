@@ -11,7 +11,7 @@ public class Interactable : MonoBehaviour {
     public int siteID;
     public int spotID;
     public int actionID;
-    public IteractableAction[] actions;
+    public InteractableAction[] actions;
 
     public Interactable(int _siteId, int _spotId, int _actionID) {
         siteID = _siteId;

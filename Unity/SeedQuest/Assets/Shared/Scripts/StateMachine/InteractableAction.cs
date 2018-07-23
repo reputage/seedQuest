@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class IteractableAction  {
+public class InteractableAction  {
 
     public string label;
     public string description;

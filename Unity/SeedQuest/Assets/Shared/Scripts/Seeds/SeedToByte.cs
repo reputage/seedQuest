@@ -6,19 +6,6 @@ using System;
 using System.Collections.Specialized;
 
 
-/* For each action:
- * 
- * 4 bits for location
- * 4 bits for each "spot" at the location
- * 3 bits for each action at the location
- * 
- * 4 actions at each location = 4 * 7 = 28
- * 28 + 4 (for the location) = 32
- * 4 locations to be visited
- * 
- */
-
-
 /*
  * The functions in this sccript can be used like this:
  * 
@@ -49,6 +36,7 @@ public class SeedToByte : MonoBehaviour
 
     // Yes, I know this isn't the best way to do this operation, but it works
     // Please don't break this.
+
 
     public GameStateData gameState;
 
@@ -120,10 +108,6 @@ public class SeedToByte : MonoBehaviour
         //testRun(); 
     }
 
-    void Update()
-    {
-
-    }
 
     // Test to make sure everything works
     void testRun()
@@ -160,6 +144,7 @@ public class SeedToByte : MonoBehaviour
         // Don't change the actionList - it will break everything
         returnBytes = actionConverter(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
+        //Debug.Log(convertedSeed);
         return convertedSeed;
     }
 
@@ -204,11 +189,12 @@ public class SeedToByte : MonoBehaviour
     // Construct the list of how many bits represent which parts of the path to take
     public List<int> listBuilder()
     {
-        int numLocationBits = 4;        // Number of bits used to determine location
-        int numSpotBits = 4;            // Number of bits used to determine spots for each action
-        int numActionBits = 3;          // Number of bits used to determine action choice
-        int numActions = 4;             // Total actions the player needs to take at each location
-        int numTotalLocations = 4;      // Total number of locatiosn the player needs to visit
+        
+        int numLocationBits = gameState.SiteBits ;        // Number of bits used to determine location
+        int numSpotBits = gameState.SpotBits;            // Number of bits used to determine spots for each action
+        int numActionBits = gameState.ActionBits;          // Number of bits used to determine action choice
+        int numActions = gameState.ActionCount;             // Total actions the player needs to take at each location
+        int numTotalLocations = gameState.SiteCount;      // Total number of locations the player needs to visit
 
         List<int> actionList = new List<int>();
 
@@ -235,7 +221,7 @@ public class SeedToByte : MonoBehaviour
         if (actionList.Count == 0)
             actionList = listBuilder();
         
-        int[] actionValues = new int[36];
+        int[] actionValues = new int[actionList.Count];
         int value = 0;
         int valueIndex = 0;
         int locator = 0;
@@ -287,19 +273,40 @@ public class SeedToByte : MonoBehaviour
         var actionBits = new BitArray(128);
         ulong path1 = 0;
         ulong path2 = 0;
+        int[] tempArray = new int[36];
 
-        // Convert action ints into two ulong ints
-        for (int i = 0; i < 18; i++)
-        {
-            path1 += (ulong)actions[i];
-            path2 += (ulong)actions[i + 18];
-            if (i < 17)
-            {
-                path1 = path1 << actionList[i + 1];
-                path2 = path2 << actionList[i + 19];
-            }
-
+        int totalBits = 0;
+        for (int i = 0; i < actionList.Count; i++) {
+            totalBits += actionList[i];
         }
+
+        if (totalBits < 128)
+        {
+            // Convert action ints into two ulong ints
+            for (int i = 0; i < actions.Length; i++)
+            { 
+                path1 += (ulong)actions[i];
+                if(i < actions.Length - 1)
+                    path1 = path1 << actionList[i + 1];
+            }
+            path1 = path1 << (128 - totalBits);
+        }
+
+        else
+        {
+            for (int i = 0; i < 18; i++)
+            {
+                path1 += (ulong)actions[i];
+                path2 += (ulong)actions[i + 18];
+                if (i < 17)
+                {
+                    path1 = path1 << actionList[i + 1];
+                    path2 = path2 << actionList[i + 19];
+                }
+
+            }
+        }
+
 
         // Convert ulong ints with actions into byte arrays
         byte[] bytes1 = BitConverter.GetBytes(path1);
@@ -308,7 +315,7 @@ public class SeedToByte : MonoBehaviour
         // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
         //  Yes, I know we are reversing the bits to get the actions,
         //  then reversing them again when extracting the bits.
-        //  The manager-man wanted me to do it this way.
+        //  The higer-ups wanted me to do it this way.
         for (int i = 0; i < bytes1.Length / 2; i++)
         {
             byte tmp = bytes1[i];
@@ -346,3 +353,15 @@ public class SeedToByte : MonoBehaviour
 
 
 }
+
+/* For each action:
+ * 
+ * 4 bits for location
+ * 4 bits for each "spot" at the location
+ * 3 bits for each action at the location
+ * 
+ * 4 actions at each location = 4 * 7 = 28
+ * 28 + 4 (for the location) = 32
+ * 4 locations to be visited
+ * 
+ */

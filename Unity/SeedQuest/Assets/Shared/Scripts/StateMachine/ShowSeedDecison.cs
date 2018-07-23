@@ -11,6 +11,6 @@ public class ShowSeedDecison : Decision {
     }
 
     private bool ShowSeed(StateController controller) {
-        return controller.playerPathData.pathComplete;
+        return controller.gameState.pathComplete;
     }
 }
