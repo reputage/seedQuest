@@ -5,9 +5,10 @@ using UnityEngine;
 public class WalkingPlayer : MonoBehaviour {
 
     Animator animator;
-    public float moveSpeed = 10;
-    public float runMultiplier = 2.5F;
+    public float moveSpeed = 11;
+    public float runMultiplier = 2.5f;
     public float rotateSpeed = 100;
+    public float runSpeed = 1f;
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +19,20 @@ public class WalkingPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //float rotate = Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
-        float runSpeed = animator.GetBool("Run") ? runMultiplier : 1;
+
+        // runSpeed = animator.GetBool("Run") ? runMultiplier : 1;
+
+        if (animator.GetBool("Run") && runSpeed < runMultiplier)
+        {
+            runSpeed += 0.1f;
+        }
+        else if (animator.GetBool("Run"))
+        {
+            runSpeed = runMultiplier;
+        }
+        else
+            runSpeed = 1f;
+
         float moveHorizontal = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
         float moveVertical = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * runSpeed;
 
