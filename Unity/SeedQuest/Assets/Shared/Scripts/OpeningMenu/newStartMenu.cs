@@ -6,7 +6,6 @@ public class newStartMenu : MonoBehaviour {
 
     public GameStateData gameState;
     public GameObject startMenu;
-    //public ClipboardCopy clipboardCopier;
 
     public void inRehearsalMode()
     {
@@ -25,13 +24,6 @@ public class newStartMenu : MonoBehaviour {
     public void quitApplication()
     {
         Application.Quit();
-    }
-
-    public void copyToClip(string testerString)
-    {
-        testerString = "testing a copy function!";
-        testerString.CopyToClipboard();
-        Debug.Log("Hello from copyToClip()");
     }
 
 }

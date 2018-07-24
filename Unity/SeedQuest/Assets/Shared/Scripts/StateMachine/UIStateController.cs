@@ -9,6 +9,7 @@ public class UIStateController : MonoBehaviour {
     public GameObject Tooltip;
     public GameObject StartScreen;
     public GameObject DebugDisplay;
+    public GameObject copyButton;
     public GameStateData gameState;
 
     private void Start() {
@@ -85,6 +86,7 @@ public class UIStateController : MonoBehaviour {
             t[0].text = "Recovered Seed:";
             t[1].text = gameState.recoveredSeed;
             Tooltip.SetActive(true);
+            copyButton.SetActive(true);
         }
         else if (gameState.showPathTooltip && gameState.currentAction != null)
         {
