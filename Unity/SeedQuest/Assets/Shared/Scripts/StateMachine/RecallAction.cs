@@ -4,6 +4,8 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "AI/Actions/RecallAction")]
 public class RecallAction : PlayerAction {
+    
+
 
     public override void Act(StateController controller)
     {
@@ -15,6 +17,13 @@ public class RecallAction : PlayerAction {
             Interactable interactable = controller.getNearestInteractable();
             controller.gameState.currentAction = interactable;
             controller.gameState.showPathTooltip = true;
+
+            if (Input.GetButtonDown("Jump")) {
+                controller.DoActionAtInteractable(0);
+            }
+            else if (Input.GetKey("1")) {
+                controller.DoActionAtInteractable(1);
+            }
         }
         else
             controller.gameState.showPathTooltip = false;

@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -52,8 +52,8 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 1
+    m_EnableBakedLightmaps: 0
+    m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: 04c9ebec1a0bb436ab0faa8eea376d49,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -2591,6 +2592,10 @@ MonoBehaviour:
   effect: {fileID: 0}
   label: Hotdog Stand
   description: Buy a Hotdog
+  siteID: 1
+  spotID: 0
+  actionID: 1
+  actions: []
 --- !u!1 &240207981
 GameObject:
   m_ObjectHideFlags: 0
@@ -3437,6 +3442,12 @@ Prefab:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 114615700096734340, guid: cb324c762797a4886bb367b57e1c7555,
+        type: 2}
+      propertyPath: gameState
+      value: 
+      objectReference: {fileID: 11400000, guid: be80d64c5b20a46baaf2ba656effca2d,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cb324c762797a4886bb367b57e1c7555, type: 2}
   m_IsPrefabParent: 0
@@ -9894,6 +9905,10 @@ MonoBehaviour:
   effect: {fileID: 2077250018}
   label: Campfire
   description: Light the Campfire
+  siteID: 2
+  spotID: 0
+  actionID: 0
+  actions: []
 --- !u!4 &476288254
 Transform:
   m_ObjectHideFlags: 0
@@ -20714,6 +20729,10 @@ MonoBehaviour:
   effect: {fileID: 0}
   label: Planter
   description: Water the Plants
+  siteID: 0
+  spotID: 1
+  actionID: 0
+  actions: []
 --- !u!1 &1187183091
 GameObject:
   m_ObjectHideFlags: 0
@@ -23431,6 +23450,21 @@ Prefab:
       propertyPath: lookAt
       value: 
       objectReference: {fileID: 2098855217}
+    - target: {fileID: 114379471649600788, guid: 794a278409c1d4dbcb9a2f41de91acd3,
+        type: 2}
+      propertyPath: offset.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114379471649600788, guid: 794a278409c1d4dbcb9a2f41de91acd3,
+        type: 2}
+      propertyPath: lookAtOffset.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114379471649600788, guid: 794a278409c1d4dbcb9a2f41de91acd3,
+        type: 2}
+      propertyPath: distance
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 794a278409c1d4dbcb9a2f41de91acd3, type: 2}
   m_IsPrefabParent: 0
@@ -24156,6 +24190,10 @@ MonoBehaviour:
   effect: {fileID: 0}
   label: Soccerball
   description: Shot a Goal
+  siteID: 2
+  spotID: 1
+  actionID: 0
+  actions: []
 --- !u!1 &1557117455
 GameObject:
   m_ObjectHideFlags: 0
@@ -27405,6 +27443,45 @@ GameObject:
   m_PrefabParentObject: {fileID: 1287547271651208, guid: dbc7dbd61e8c5469ab9f56a62ce77f63,
     type: 2}
   m_PrefabInternal: {fileID: 1919638102}
+--- !u!114 &1884210222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1884210218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96df34427206a46a9ae6b6db559481d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: {fileID: 11400000, guid: be80d64c5b20a46baaf2ba656effca2d, type: 2}
+  testSeed1: C5E3D45D341A7
+  testSeed2: '||||||||||||||||'
+  testSeed4: AAAAAAAAAAAAAAAA
+  a1234: a1234
+  testReturnStr: 
+  testReturnStr2: 
+  testReturnStr3: 
+  testBitStr: 
+  testByteArr: 
+  testReturnBytes: 
+  testActionToDo: 
+  actionToBits: 
+  actionList: 
+--- !u!114 &1884210223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1884210218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306d5a41d44f4442aafcca2b0cb44c3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iLog: []
+  aLog: 
+  gameState: {fileID: 11400000, guid: be80d64c5b20a46baaf2ba656effca2d, type: 2}
 --- !u!1 &1890596789
 GameObject:
   m_ObjectHideFlags: 0
@@ -29194,7 +29271,7 @@ MonoBehaviour:
   remainState: {fileID: 11400000, guid: cb85c3f3b1cc3459a89f30b3fd29e880, type: 2}
   pathTargets: []
   interactables: []
-  playerPathData: {fileID: 11400000, guid: be80d64c5b20a46baaf2ba656effca2d, type: 2}
+  gameState: {fileID: 11400000, guid: be80d64c5b20a46baaf2ba656effca2d, type: 2}
   NavAIMesh: {fileID: 1884210218}
   nextWayPoint: 0
 --- !u!4 &2098855217 stripped

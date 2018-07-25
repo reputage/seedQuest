@@ -110,12 +110,24 @@ public class StateController : MonoBehaviour {
     }
 
     public void DoActionAtInteractable(int actionIndex) {
-        // Record action at interactable into action log
-        Interactable interactable = pathTargets[nextWayPoint];
-        NavAIMesh.GetComponent<ActionLog>().Add(interactable, actionIndex);
 
-        // Go to next waypoint
-        NextPath();
+        if(gameState.inRehersalMode) {
+            // Record action at interactable into action log
+            Interactable interactable = pathTargets[nextWayPoint];
+            NavAIMesh.GetComponent<ActionLog>().Add(interactable, actionIndex);
+
+            // Go to next waypoint
+            NextPath();
+        }
+        else {
+            Interactable interactable = gameState.currentAction;
+            NavAIMesh.GetComponent<ActionLog>().Add(interactable, actionIndex);
+
+            gameState.pathComplete = NavAIMesh.GetComponent<ActionLog>().ActionsComplete();
+            if(gameState.pathComplete)
+               gameState.recoveredSeed = NavAIMesh.GetComponent<ActionLog>().getSeed();
+        }
+
     }
 
     public void NextPath() {

@@ -47,7 +47,16 @@ public class UIStateController : MonoBehaviour {
 
     private void CheckGameStart() {
         // Start Game after StartScreen
+        if (!gameState.startPathSearch)
+        {
+            if (Input.anyKey)
+                gameState.startPathSearch = true;
 
+            if (Input.GetButtonDown("Jump"))
+                gameState.inRehersalMode = true;
+            else if (Input.anyKey)
+                gameState.inRehersalMode = false;
+        }  
 
         if(gameState.startPathSearch) {
             ActionDisplay.SetActive(true);
