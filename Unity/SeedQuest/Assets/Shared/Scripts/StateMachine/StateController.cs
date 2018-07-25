@@ -18,6 +18,7 @@ public class StateController : MonoBehaviour {
 
     private void Awake() {
         pathfinding = NavAIMesh.GetComponent<Pathfinding>();
+        gameState.actionLog = NavAIMesh.GetComponent<ActionLog>();
         InitializeState();
     }
 

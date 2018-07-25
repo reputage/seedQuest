@@ -23,6 +23,10 @@ public class ActionLog : MonoBehaviour {
         return iLog.Count >= gameState.SiteCount * gameState.ActionCount;   
     }
 
+    public int ActionCount() {
+        return iLog.Count;
+    }
+
     public int[] EncodeActionLog() {
         
         int ActionCount = gameState.ActionCount;
