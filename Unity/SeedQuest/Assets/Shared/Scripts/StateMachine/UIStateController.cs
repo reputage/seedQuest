@@ -98,6 +98,11 @@ public class UIStateController : MonoBehaviour {
             g.GetComponentInChildren<Image>().sprite = gameState.checkedState;
         }
     }
+
+    private void CreateActionItem() {
+        
+    }
+
     private void UpdateTooltip() {
         if (gameState.pathComplete)
         {
@@ -118,6 +123,15 @@ public class UIStateController : MonoBehaviour {
         {
             Tooltip.SetActive(false);
         } 
+    }
+
+
+    private GameObject createActionItem() {
+        GameObject item = new GameObject("Item");
+        item.AddComponent<ActionItem>();
+        item = Instantiate(item, ActionDisplay.transform);
+        item.name = "Item";
+        return item;
     }
 
 }
