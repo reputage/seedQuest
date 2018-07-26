@@ -42,7 +42,7 @@ public class SeedToByte : MonoBehaviour
 
     public string testSeed1 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
-    public string testSeed3 = "21F9";
+    public string testSeed3 = "825A";
 
     public string a1234 = "a1234";
 
@@ -134,7 +134,7 @@ public class SeedToByte : MonoBehaviour
         inputBits = byteToBits(inputBytes);
         actionToDo = bitConverter(inputBits, actionList);
         int[] returnActions = actionToDo;
-        Debug.Log(actionToDo);
+        //Debug.Log(actionToDo);
         return returnActions;
     }
 

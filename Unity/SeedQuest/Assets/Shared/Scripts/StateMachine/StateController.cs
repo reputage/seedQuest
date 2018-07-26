@@ -38,6 +38,10 @@ public class StateController : MonoBehaviour {
         gameState.pathComplete = false;
         gameState.currentAction = pathTargets[0];
         gameState.targetList = pathTargets;
+        for (int i = 0; i < gameState.targetList.Length; i++)
+        {
+            //Debug.Log(gameState.targetList[i]);
+        }
     } 
 
     // Modified to create a list of gameobjects with interactable attached as monobehavior
