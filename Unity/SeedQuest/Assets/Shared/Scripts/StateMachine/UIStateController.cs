@@ -20,7 +20,7 @@ public class UIStateController : MonoBehaviour {
 
     private void Update() {
         CheckGameStart();
-        CheckRehersalMode();
+        UpdateActionDisplay();
         UpdateTooltip();
     }
 
@@ -46,9 +46,8 @@ public class UIStateController : MonoBehaviour {
     }
 
     private void CheckGameStart() {
+        
         // Start Game after StartScreen
-
-
         if(gameState.startPathSearch) {
             ActionDisplay.SetActive(true);
             StartScreen.SetActive(false);
@@ -60,23 +59,48 @@ public class UIStateController : MonoBehaviour {
         } 
     }
 
-	private void CheckRehersalMode() {
-        // In Rehersal Mode
-        if (gameState.inRehersalMode) {
-            
-            int index = System.Array.IndexOf(gameState.targetList, gameState.currentAction);
-            if (gameState.pathComplete)
-                index = gameState.targetList.Length;
+    private void UpdateActionDisplay() {
+        
+        if (gameState.inRehersalMode)
+            UpdateActionDisplayRehersalMode();
+        else if (!gameState.inRehersalMode) 
+            UpdateActionDisplayRecallMode();
+    }
 
-            for (int i = 0; i < index; i++)
-            {
-                GameObject l = ActionDisplay.transform.GetChild(i + 1).gameObject;
-                l.GetComponentInChildren<Image>().sprite = gameState.checkedState;
-            }
+    private void UpdateActionDisplayRehersalMode() {
+
+        ActionDisplay.transform.GetChild(1).gameObject.SetActive(true);
+        ActionDisplay.transform.GetChild(2).gameObject.SetActive(true);
+        ActionDisplay.transform.GetChild(3).gameObject.SetActive(true);
+        ActionDisplay.transform.GetChild(4).gameObject.SetActive(true);
+
+        ActionLog log = gameState.actionLog;
+        for (int i = 0; i < log.ActionCount(); i++)
+        {
+            GameObject l = ActionDisplay.transform.GetChild(i + 1).gameObject;
+            l.GetComponentInChildren<Image>().sprite = gameState.checkedState;
         }
+    }
 
-        if (!gameState.inRehersalMode)
-            ActionDisplay.SetActive(false);
+    private void UpdateActionDisplayRecallMode() {
+
+        ActionDisplay.transform.GetChild(1).gameObject.SetActive(false);
+        ActionDisplay.transform.GetChild(2).gameObject.SetActive(false);
+        ActionDisplay.transform.GetChild(3).gameObject.SetActive(false);
+        ActionDisplay.transform.GetChild(4).gameObject.SetActive(false);
+
+        ActionLog log = gameState.actionLog;
+        for (int i = 0; i < log.ActionCount(); i++)
+        {
+            GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
+            g.SetActive(true);
+            g.GetComponentInChildren<Text>().text = log.iLog[i].description;
+            g.GetComponentInChildren<Image>().sprite = gameState.checkedState;
+        }
+    }
+
+    private void CreateActionItem() {
+        
     }
 
     private void UpdateTooltip() {
@@ -99,6 +123,15 @@ public class UIStateController : MonoBehaviour {
         {
             Tooltip.SetActive(false);
         } 
+    }
+
+
+    private GameObject createActionItem() {
+        GameObject item = new GameObject("Item");
+        item.AddComponent<ActionItem>();
+        item = Instantiate(item, ActionDisplay.transform);
+        item.name = "Item";
+        return item;
     }
 
 }
