@@ -42,7 +42,7 @@ public class SeedToByte : MonoBehaviour
 
     public string testSeed1 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
-    public string testSeed3 = "AAAAAAAA";
+    public string testSeed3 = "21F9";
 
     public string a1234 = "a1234";
 
@@ -153,9 +153,9 @@ public class SeedToByte : MonoBehaviour
     {
         // example string = C5E3D45D341C5
         // Old encoding method
-        byte[] seedByte = Encoding.UTF8.GetBytes(seedString);
+        //[] seedByte = Encoding.UTF8.GetBytes(seedString);
 
-        //byte[] seedByte = HexStringToByteArray(seedString);
+        byte[] seedByte = HexStringToByteArray(seedString);
         return seedByte;
     }
 
@@ -163,8 +163,8 @@ public class SeedToByte : MonoBehaviour
     public string byteToSeed(byte[] bytes)
     {
         // Old method for UTF8
-        string returnStr = Encoding.UTF8.GetString(bytes);
-        //string returnStr = ByteArrayToHex(bytes);
+        //string returnStr = Encoding.UTF8.GetString(bytes);
+        string returnStr = ByteArrayToHex(bytes);
         return returnStr;
     }
 
