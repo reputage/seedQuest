@@ -42,7 +42,7 @@ public class SeedToByte : MonoBehaviour
 
     public string testSeed1 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
-    public string testSeed4 = "AAAAAAAAAAAAAAAA";
+    public string testSeed3 = "AAAAAAAA";
 
     public string a1234 = "a1234";
 
@@ -105,7 +105,7 @@ public class SeedToByte : MonoBehaviour
 
     void Start()
     {
-        //testRun(); 
+        testRun(); 
     }
 
 
@@ -113,7 +113,7 @@ public class SeedToByte : MonoBehaviour
     void testRun()
     {
         // Just a test
-        testByteArr = seedToByte(testSeed4);
+        testByteArr = seedToByte(testSeed3);
         testReturnStr = byteToSeed(testByteArr);
         testBitArr = byteToBits(testByteArr);
         testReturnBytes = bitToByte(testBitArr);
@@ -152,14 +152,19 @@ public class SeedToByte : MonoBehaviour
     public byte[] seedToByte(string seedString)
     {
         // example string = C5E3D45D341C5
+        // Old encoding method
         byte[] seedByte = Encoding.UTF8.GetBytes(seedString);
+
+        //byte[] seedByte = HexStringToByteArray(seedString);
         return seedByte;
     }
 
     // Convert byte array back to string
     public string byteToSeed(byte[] bytes)
     {
+        // Old method for UTF8
         string returnStr = Encoding.UTF8.GetString(bytes);
+        //string returnStr = ByteArrayToHex(bytes);
         return returnStr;
     }
 
@@ -184,6 +189,40 @@ public class SeedToByte : MonoBehaviour
         byte[] ret = new byte[(bits.Length - 1) / 8 + 1];
         bits.CopyTo(ret, 0);
         return ret;
+    }
+
+    // Convert hex string to byte array
+    public static byte[] HexStringToByteArray(string hex)
+    {
+        if (hex.Length % 2 == 1)
+            throw new Exception("The binary key cannot have an odd number of digits");
+
+        byte[] bytes = new byte[hex.Length >> 1];
+
+        for (int i = 0; i < hex.Length >> 1; ++i)
+        {
+            bytes[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + (GetHexVal(hex[(i << 1) + 1])));
+        }
+
+        return bytes;
+    }
+
+    // Get hex value from a char
+    public static int GetHexVal(char hex)
+    {
+        int val = (int)hex;
+        //For uppercase A-F letters:
+        //return val - (val < 58 ? 48 : 55);
+        //For lowercase a-f letters:
+        //return val - (val < 58 ? 48 : 87);
+        //Or the two combined, but a bit slower:
+        return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+    }
+
+
+    public static string ByteArrayToHex(byte[] bytes)
+    {
+        return BitConverter.ToString(bytes).Replace("-", "");
     }
 
     // Construct the list of how many bits represent which parts of the path to take
