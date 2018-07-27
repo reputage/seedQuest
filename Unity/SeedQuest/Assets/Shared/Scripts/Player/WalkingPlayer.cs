@@ -23,13 +23,9 @@ public class WalkingPlayer : MonoBehaviour {
         // runSpeed = animator.GetBool("Run") ? runMultiplier : 1;
 
         if (animator.GetBool("Run") && runSpeed < runMultiplier)
-        {
-            runSpeed += 0.1f;
-        }
+            runSpeed += 0.09f;
         else if (animator.GetBool("Run"))
-        {
             runSpeed = runMultiplier;
-        }
         else
             runSpeed = 1f;
 

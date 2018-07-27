@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StateController : MonoBehaviour {
 
@@ -24,6 +25,7 @@ public class StateController : MonoBehaviour {
 
     private void Update() {
         currentState.UpdateState(this);
+        checkPaused();
     }
 
     private void InitializeState()
@@ -217,6 +219,25 @@ public class StateController : MonoBehaviour {
     public void TransitionToState(State nextState) {
         if (nextState != remainState)
             currentState = nextState;
+    }
+
+    private void checkPaused()
+    {
+        // Display or hide pause menu, and pause or unpause game
+        if (Input.GetButtonDown("Cancel"))
+        {
+            Debug.Log("Cancel button pressed!");
+            if (gameState.isPaused == false)
+            {
+                gameState.isPaused = true;
+                Debug.Log(gameState.isPaused);
+            }
+            else
+            {
+                gameState.isPaused = false;
+                Debug.Log(gameState.isPaused);
+            }
+        }
     }
 
 }
