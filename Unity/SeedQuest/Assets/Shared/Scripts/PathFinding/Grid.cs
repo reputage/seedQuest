@@ -11,8 +11,9 @@ public class Grid : MonoBehaviour {
     public Vector2 gridWorldSize;
     public float nodeRadius;
     public TerrainType[] walkableRegions;
-    Dictionary<int, int> walkableRegionsDict = new Dictionary<int, int>();
+
     LayerMask walkableMask;
+    Dictionary<int, int> walkableRegionsDict = new Dictionary<int, int>();
 
     Node[,] grid;
 
@@ -54,13 +55,11 @@ public class Grid : MonoBehaviour {
                     RaycastHit hit; 
                      
                     if(Physics.Raycast(ray, out hit, 100.0F, walkableMask)) {
+                        Debug.Log("Test");
                         walkableRegionsDict.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
                     }
                 }
 
-                if (movementPenalty > 0)
-                    Debug.Log("Penalty:" + movementPenalty);
-                
                 grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);
         }
 	} 
@@ -113,8 +112,21 @@ public class Grid : MonoBehaviour {
             }
         }
 
-        //else if (showGridPenalty && grid != null) {
-        //}
+        else if (showGridPenalty && grid != null) {
+        
+            foreach (Node n in grid) {
+
+                if (n.movementPenalty == walkableRegions[0].terrainPenalty)
+                    Gizmos.color = Color.green;
+                else if (n.movementPenalty == walkableRegions[1].terrainPenalty)
+                    Gizmos.color = Color.blue;
+                else
+                    Gizmos.color = Color.white;
+
+                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
+            }
+
+        }
 
     }
 
