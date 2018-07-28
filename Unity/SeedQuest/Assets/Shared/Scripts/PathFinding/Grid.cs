@@ -55,7 +55,6 @@ public class Grid : MonoBehaviour {
                     RaycastHit hit; 
                      
                     if(Physics.Raycast(ray, out hit, 100.0F, walkableMask)) {
-                        Debug.Log("Test");
                         walkableRegionsDict.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
                     }
                 }
