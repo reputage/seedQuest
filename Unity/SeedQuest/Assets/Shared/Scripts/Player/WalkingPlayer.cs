@@ -5,10 +5,16 @@ using UnityEngine;
 public class WalkingPlayer : MonoBehaviour {
 
     Animator animator;
+
+    public GameStateData gameState;
+
     public float moveSpeed = 11;
     public float runMultiplier = 2.5f;
     public float rotateSpeed = 100;
     public float runSpeed = 1f;
+
+    private float moveHorizontal = 0f;
+    private float moveVertical = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -29,8 +35,17 @@ public class WalkingPlayer : MonoBehaviour {
         else
             runSpeed = 1f;
 
-        float moveHorizontal = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-        float moveVertical = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * runSpeed;
+        if (!gameState.isPaused)
+        {
+            moveHorizontal = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+            moveVertical = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * runSpeed;
+        }
+        else
+        {
+            moveHorizontal = 0f;
+            moveVertical = 0f;
+        }
+
 
         //transform.Rotate(0, rotate, 0);
         transform.Translate(moveHorizontal, 0, 0);
@@ -44,7 +59,7 @@ public class WalkingPlayer : MonoBehaviour {
             animator.SetBool("Run", false);
         }
 
-        if (Input.GetKeyDown("r"))
+        if (Input.GetKeyDown("r") && !gameState.isPaused)
             if (animator.GetBool("Run"))
                 animator.SetBool("Run", false);
             else

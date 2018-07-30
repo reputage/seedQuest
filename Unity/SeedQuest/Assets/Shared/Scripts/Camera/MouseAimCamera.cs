@@ -5,7 +5,9 @@ using UnityEngine;
 public class MouseAimCamera : MonoBehaviour {
 
     public GameObject target;
+    public GameStateData gameState;
     public float rotateSpeed = 5;
+    public float horizontal = 0f;
 
     Vector3 offset;
 
@@ -16,7 +18,15 @@ public class MouseAimCamera : MonoBehaviour {
 
     void LateUpdate()
     {
-        float horizontal = Input.GetAxis("Mouse X") * rotateSpeed;
+        if (!gameState.isPaused)
+        {
+            horizontal = Input.GetAxis("Mouse X") * rotateSpeed;
+        }
+        else
+        {
+            horizontal = 0f;    
+        }
+
         target.transform.Rotate(0, horizontal, 0);
 
         float desiredAngle = target.transform.eulerAngles.y;

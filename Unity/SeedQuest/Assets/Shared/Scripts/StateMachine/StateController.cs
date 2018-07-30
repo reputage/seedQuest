@@ -40,6 +40,7 @@ public class StateController : MonoBehaviour {
         gameState.pathComplete = false;
         gameState.currentAction = pathTargets[0];
         gameState.targetList = pathTargets;
+        gameState.isStarted = false;
         for (int i = 0; i < gameState.targetList.Length; i++)
         {
             //Debug.Log(gameState.targetList[i]);
@@ -227,7 +228,8 @@ public class StateController : MonoBehaviour {
         if (Input.GetButtonDown("Cancel"))
         {
             Debug.Log("Cancel button pressed!");
-            if (gameState.isPaused == false)
+            Debug.Log(gameState.isStarted);
+            if (gameState.isPaused == false && gameState.isStarted == true)
             {
                 gameState.isPaused = true;
                 Debug.Log(gameState.isPaused);
@@ -235,7 +237,7 @@ public class StateController : MonoBehaviour {
             else
             {
                 gameState.isPaused = false;
-                Debug.Log(gameState.isPaused);
+                Debug.Log(gameState.isPaused); 
             }
         }
     }

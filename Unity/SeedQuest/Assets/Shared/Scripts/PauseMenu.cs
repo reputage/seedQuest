@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour {
 
@@ -15,7 +16,7 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	void Update () {
-        if (gameState.isPaused)
+        if (gameState.isPaused && gameState.isStarted)
             activatePause();
         else
             deactivatePause();
@@ -40,6 +41,7 @@ public class PauseMenu : MonoBehaviour {
         else
         {
             Debug.Log("Decativating pause menu");
+            gameState.isPaused = false;
             menuObjects.SetActive(false);
             menuActive = false;
         }
@@ -51,4 +53,17 @@ public class PauseMenu : MonoBehaviour {
     {
         Application.Quit();
     }
+
+    public void continueButton()
+    {
+        Debug.Log("Continue from the continue button");
+        deactivatePause();
+    }
+
+    public void restartButton()
+    {
+        deactivatePause();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0); // This works, might need to change later
+    }
+
 }

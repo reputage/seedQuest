@@ -11,6 +11,7 @@ public class newStartMenu : MonoBehaviour {
     {
         gameState.startPathSearch = true;
         gameState.inRehersalMode = true;
+        gameState.isStarted = true;
         startMenu.SetActive(false);
     }
 
@@ -18,6 +19,7 @@ public class newStartMenu : MonoBehaviour {
     {
         gameState.startPathSearch = true;
         gameState.inRehersalMode = false;
+        gameState.isStarted = true;
         startMenu.SetActive(false);
     }
 
