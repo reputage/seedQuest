@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIStateController : MonoBehaviour {
 
@@ -28,12 +29,8 @@ public class UIStateController : MonoBehaviour {
         ActionDisplay.SetActive(false);
 
         int count = gameState.targetList.Length;
-        for (int i = 0; i < count; i++)
-        {
-            Debug.Log(gameState.targetList[i].description);
-            GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
-            g.GetComponentInChildren<Text>().text = gameState.targetList[i].description;
-            g.GetComponentInChildren<Image>().sprite = gameState.uncheckedState;
+        for (int i = 0; i < count; i++) { 
+            createActionItem(i, gameState.targetList[i].description);
         }
     }
 
@@ -69,11 +66,6 @@ public class UIStateController : MonoBehaviour {
 
     private void UpdateActionDisplayRehersalMode() {
 
-        ActionDisplay.transform.GetChild(1).gameObject.SetActive(true);
-        ActionDisplay.transform.GetChild(2).gameObject.SetActive(true);
-        ActionDisplay.transform.GetChild(3).gameObject.SetActive(true);
-        ActionDisplay.transform.GetChild(4).gameObject.SetActive(true);
-
         ActionLog log = gameState.actionLog;
         for (int i = 0; i < log.ActionCount(); i++)
         {
@@ -84,23 +76,19 @@ public class UIStateController : MonoBehaviour {
 
     private void UpdateActionDisplayRecallMode() {
 
-        ActionDisplay.transform.GetChild(1).gameObject.SetActive(false);
-        ActionDisplay.transform.GetChild(2).gameObject.SetActive(false);
-        ActionDisplay.transform.GetChild(3).gameObject.SetActive(false);
-        ActionDisplay.transform.GetChild(4).gameObject.SetActive(false);
+        int count = gameState.targetList.Length;
+        for (int i = 0; i < count; i++) {
+            ActionDisplay.transform.GetChild(i+1).gameObject.SetActive(false);
+        }
 
         ActionLog log = gameState.actionLog;
         for (int i = 0; i < log.ActionCount(); i++)
         {
             GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
             g.SetActive(true);
-            g.GetComponentInChildren<Text>().text = log.iLog[i].description;
+            g.GetComponentInChildren<TextMeshProUGUI>().text = log.iLog[i].description;
             g.GetComponentInChildren<Image>().sprite = gameState.checkedState;
         }
-    }
-
-    private void CreateActionItem() {
-        
     }
 
     private void UpdateTooltip() {
@@ -126,12 +114,14 @@ public class UIStateController : MonoBehaviour {
     }
 
 
-    private GameObject createActionItem() {
-        GameObject item = new GameObject("Item");
-        item.AddComponent<ActionItem>();
+    private GameObject createActionItem(int index, string text) {
+        GameObject item = new GameObject();
         item = Instantiate(item, ActionDisplay.transform);
-        item.name = "Item";
+        item.name = "Action Item " + index;
+
+        ActionItem actionItem = item.AddComponent<ActionItem>();
+        actionItem.SetItem(gameState, index, text, gameState.uncheckedState);
         return item;
-    }
+    } 
 
 }

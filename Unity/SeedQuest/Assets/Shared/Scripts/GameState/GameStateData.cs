@@ -12,6 +12,8 @@ public class GameStateData : ScriptableObject {
 
     public Sprite uncheckedState;
     public Sprite checkedState;
+    public TMPro.TMP_FontAsset actionItemFont;
+    public Material actionItemMaterial;
 
     public LayerMask interactableMask;
     public float interactionRadius = 4.0f;
@@ -28,5 +30,6 @@ public class GameStateData : ScriptableObject {
     public int ActionBits = 3;
     public int ActionCount = 4;
     public int SiteCount = 4;
+
 
 }
