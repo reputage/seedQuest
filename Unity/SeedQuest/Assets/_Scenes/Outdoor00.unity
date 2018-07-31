@@ -664,15 +664,13 @@ MonoBehaviour:
   Y_ANGLE_MAX: 50
   distance: 4
   lookAt: {fileID: 2098855217}
-  paused: 0
   inverted: 0
   mouseSensitivityX: 5
   mouseSensitivityY: 2
   keySensitivityX: 50
   offset: {x: 0, y: 2, z: 0}
   lookAtOffset: {x: 0, y: 2, z: 0}
-  pauseLocation: {x: 0, y: 0, z: 0}
-  pauseRotation: {x: 0, y: 0, z: 0}
+  cursorImage: {fileID: 0}
 --- !u!1 &324021938
 GameObject:
   m_ObjectHideFlags: 0
@@ -2465,6 +2463,16 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 82885179885246050, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114865242657806374, guid: 2382d2beb94894b47889b27dbf3967ee,
+        type: 2}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2098855217}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2382d2beb94894b47889b27dbf3967ee, type: 2}
   m_IsPrefabParent: 0

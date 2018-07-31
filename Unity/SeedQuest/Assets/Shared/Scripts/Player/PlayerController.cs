@@ -189,7 +189,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 deactivatePause();
-                Debug.Log("Unpausing from ESC...");
+                //Debug.Log("Unpausing from ESC...");
             }
         }
 

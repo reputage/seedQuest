@@ -9,6 +9,8 @@ public class GameStateData : ScriptableObject {
     public bool pathComplete = false;
     public bool showPathTooltip = false;
     public bool inRehersalMode = true;
+    public bool isPaused = false;
+    public bool isStarted = false;
 
     public Sprite uncheckedState;
     public Sprite checkedState;

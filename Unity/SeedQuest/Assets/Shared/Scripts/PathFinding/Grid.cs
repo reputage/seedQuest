@@ -19,18 +19,23 @@ public class Grid : MonoBehaviour {
 
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
-    
-	void Awake() {
-		nodeDiameter = nodeRadius * 2;
-		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-		gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
 
-        foreach(TerrainType region in walkableRegions) {
+    void Awake()
+    {
+        nodeDiameter = nodeRadius * 2;
+        gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
+        gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+
+        foreach (TerrainType region in walkableRegions)
+        {
             walkableMask.value |= region.terrainMask.value;
             walkableRegionsDict.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
         }
 
-		CreateGrid();
+        CreateGrid();
+
+        Debug.Log(grid.Length);
+    
 	}
 
     public int MaxSize {
