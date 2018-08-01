@@ -232,7 +232,7 @@ public class StateController : MonoBehaviour {
         {
             Debug.Log("Cancel button pressed!");
             Debug.Log(gameState.isStarted);
-            if (gameState.isPaused == false && gameState.isStarted == true)
+            if (gameState.isPaused == false)
             {
                 gameState.isPaused = true;
                 Debug.Log(gameState.isPaused);

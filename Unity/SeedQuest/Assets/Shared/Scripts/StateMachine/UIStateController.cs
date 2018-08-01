@@ -70,6 +70,12 @@ public class UIStateController : MonoBehaviour {
     }
 
     private void UpdateActionDisplayRehersalMode() {
+        
+        int count = gameState.targetList.Length;
+        for (int i = 0; i < count; i++)
+        {
+            ActionDisplay.transform.GetChild(i + 1).gameObject.SetActive(true);
+        }
 
         ActionLog log = gameState.actionLog;
         for (int i = 0; i < log.ActionCount(); i++)
