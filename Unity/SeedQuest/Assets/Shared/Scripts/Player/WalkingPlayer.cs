@@ -35,7 +35,7 @@ public class WalkingPlayer : MonoBehaviour {
         else
             runSpeed = 1f;
 
-        if (!gameState.isPaused)
+        if (!gameState.isPaused && !gameState.isCameraPaused)
         {
             moveHorizontal = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
             moveVertical = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * runSpeed;

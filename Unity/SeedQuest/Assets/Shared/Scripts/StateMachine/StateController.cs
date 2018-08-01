@@ -194,6 +194,7 @@ public class StateController : MonoBehaviour {
     public void checkIsNearTarget() {
         if (isNearTarget()) {
             gameState.showPathTooltip = true;
+            gameState.isCameraPaused = true;
 
             if(Input.GetButtonDown("Jump")) {
                 DoActionAtInteractable(0);
@@ -202,8 +203,10 @@ public class StateController : MonoBehaviour {
                 DoActionAtInteractable(1);
             }
         }
-        else
+        else {
             gameState.showPathTooltip = false;
+            gameState.isCameraPaused = false;
+        }
     }
 
     private void OnDrawGizmos() {

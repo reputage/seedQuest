@@ -18,7 +18,7 @@ public class MouseAimCamera : MonoBehaviour {
 
     void LateUpdate()
     {
-        if (!gameState.isPaused)
+        if (!gameState.isPaused && !gameState.isCameraPaused)
         {
             horizontal = Input.GetAxis("Mouse X") * rotateSpeed;
         }

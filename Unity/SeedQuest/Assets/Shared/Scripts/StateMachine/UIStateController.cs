@@ -8,6 +8,9 @@ public class UIStateController : MonoBehaviour {
 
     public GameObject ActionDisplay;
     public GameObject Tooltip;
+    public GameObject TooltipLabel;
+    public GameObject TooltipActionOne;
+    public GameObject TooltipActionTwo;
     public GameObject StartScreen;
     public GameObject DebugDisplay;
     public GameObject copyButton;
@@ -99,20 +102,12 @@ public class UIStateController : MonoBehaviour {
             Tooltip.SetActive(false);
             seedCanvas.SetActive(true);
             seedDisplay.GetComponent<TextMeshProUGUI>().text = gameState.recoveredSeed;
-
-            /*
-            Text[] t = Tooltip.GetComponentsInChildren<Text>();
-            t[0].text = "Recovered Seed:";
-            t[1].text = gameState.recoveredSeed;
-            Tooltip.SetActive(true);
-            copyButton.SetActive(true);
-            */
         }
         else if (gameState.showPathTooltip && gameState.currentAction != null)
         {
-            Text[] t = Tooltip.GetComponentsInChildren<Text>();
-            t[0].text = gameState.currentAction.label;
-            t[1].text = gameState.currentAction.description;
+            TooltipLabel.GetComponent<TextMeshProUGUI>().text = gameState.currentAction.label;
+            TooltipActionOne.GetComponent<TextMeshProUGUI>().text = gameState.currentAction.actions[0].label;
+            TooltipActionTwo.GetComponent<TextMeshProUGUI>().text = gameState.currentAction.actions[1].label;
             Tooltip.SetActive(true);
         }
         else
@@ -120,7 +115,6 @@ public class UIStateController : MonoBehaviour {
             Tooltip.SetActive(false);
         } 
     }
-
 
     private GameObject createActionItem(int index, string text) {
         GameObject item = new GameObject();
