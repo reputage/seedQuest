@@ -32,7 +32,6 @@ public class UIStateController : MonoBehaviour {
 
         int count = gameState.targetList.Length;
         for (int i = 0; i < count; i++) {
-            Debug.Log("Adding to actiondisplay...");
             createActionItem(i, gameState.targetList[i].description);
         }
     } 
@@ -130,7 +129,6 @@ public class UIStateController : MonoBehaviour {
 
         ActionItem actionItem = item.AddComponent<ActionItem>();
         actionItem.SetItem(gameState, index, text, gameState.uncheckedState);
-        Debug.Log("Creating action item...");
         return item;
     } 
 
