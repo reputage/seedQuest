@@ -22,14 +22,13 @@ public class PauseMenu : MonoBehaviour {
 
     public void activatePause()
     {
-
-        Debug.Log("Pausing the game, activating pause menu");
+        //Debug.Log("Pausing the game, activating pause menu");
         menuObjects.SetActive(true);
     }
 
     public void deactivatePause()
     { 
-        Debug.Log("Decativating pause menu");
+        //Debug.Log("Decativating pause menu");
         gameState.isPaused = false;
         menuObjects.SetActive(false);
     }

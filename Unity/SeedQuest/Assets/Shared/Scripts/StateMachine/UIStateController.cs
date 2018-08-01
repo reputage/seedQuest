@@ -34,8 +34,9 @@ public class UIStateController : MonoBehaviour {
         ActionDisplay.SetActive(false);
 
         int count = gameState.targetList.Length;
-        for (int i = 0; i < count; i++) { 
-            createActionItem(i, gameState.targetList[i].description);
+        for (int i = 0; i < count; i++) {
+            string actionLabel = gameState.targetList[i].actions[gameState.targetList[i].actionID].label;
+            createActionItem(i, gameState.targetList[i].label + ": " + actionLabel);
         }
     } 
 
@@ -95,9 +96,12 @@ public class UIStateController : MonoBehaviour {
         ActionLog log = gameState.actionLog;
         for (int i = 0; i < log.ActionCount(); i++)
         {
+            string interactableLabel = log.iLog[i].label;
+            string actionLabel = log.iLog[i].actions[log.aLog[i]].label;
+
             GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
             g.SetActive(true);
-            g.GetComponentInChildren<TextMeshProUGUI>().text = log.iLog[i].description;
+            g.GetComponentInChildren<TextMeshProUGUI>().text = interactableLabel + ": " + actionLabel;
             g.GetComponentInChildren<Image>().sprite = gameState.checkedState;
         }
     }
