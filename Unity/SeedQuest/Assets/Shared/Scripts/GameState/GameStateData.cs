@@ -9,9 +9,13 @@ public class GameStateData : ScriptableObject {
     public bool pathComplete = false;
     public bool showPathTooltip = false;
     public bool inRehersalMode = true;
+    public bool isPaused = false;
+    public bool isStarted = false;
 
     public Sprite uncheckedState;
     public Sprite checkedState;
+    public TMPro.TMP_FontAsset actionItemFont;
+    public Material actionItemMaterial;
 
     public LayerMask interactableMask;
     public float interactionRadius = 4.0f;
@@ -19,11 +23,15 @@ public class GameStateData : ScriptableObject {
     public Interactable currentAction;
     public Interactable[] targetList;
 
-    public string SeedString; 
+    public string SeedString;
+    public string recoveredSeed;
+    public ActionLog actionLog;
 
     public int SiteBits = 4;
     public int SpotBits = 4;
     public int ActionBits = 3;
     public int ActionCount = 4;
     public int SiteCount = 4;
+
+
 }

@@ -4,20 +4,38 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour {
 
+    public bool showGrid;
+    public bool showGridPenalty;
+
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
-    public bool showGrid;
+    public TerrainType[] walkableRegions;
+
+    LayerMask walkableMask;
+    Dictionary<int, int> walkableRegionsDict = new Dictionary<int, int>();
+
     Node[,] grid;
 
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
+
+    void Awake()
+    {
+        nodeDiameter = nodeRadius * 2;
+        gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
+        gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+
+        foreach (TerrainType region in walkableRegions)
+        {
+            walkableMask.value |= region.terrainMask.value;
+            walkableRegionsDict.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
+        }
+
+        CreateGrid();
+
+        Debug.Log(grid.Length);
     
-	void Awake() {
-		nodeDiameter = nodeRadius * 2;
-		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-		gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-		CreateGrid();
 	}
 
     public int MaxSize {
@@ -34,7 +52,19 @@ public class Grid : MonoBehaviour {
             for (int y = 0; y < gridSizeY; y++) {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new Node(walkable, worldPoint, x, y);
+
+                int movementPenalty = 0;
+                // raycast
+                if(walkable) {
+                    Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
+                    RaycastHit hit; 
+                     
+                    if(Physics.Raycast(ray, out hit, 100.0F, walkableMask)) {
+                        walkableRegionsDict.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
+                    }
+                }
+
+                grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);
         }
 	} 
 
@@ -74,19 +104,39 @@ public class Grid : MonoBehaviour {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
         if (showGrid && grid != null)
-            {
-                foreach (Node n in grid)
-                {
-                    Gizmos.color = (n.walkable) ? Color.white : Color.red;
+        {
+            foreach (Node n in grid) {
+                Gizmos.color = (n.walkable) ? Color.white : Color.red;
 
-                    if (path != null)
-                        if (path.Contains(n))
-                            Gizmos.color = Color.black;
+                if (path != null)
+                    if (path.Contains(n))
+                        Gizmos.color = Color.black;
 
-                    Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
-                }
+                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
+            }
+        }
+
+        else if (showGridPenalty && grid != null) {
+        
+            foreach (Node n in grid) {
+
+                if (n.movementPenalty == walkableRegions[0].terrainPenalty)
+                    Gizmos.color = Color.green;
+                else if (n.movementPenalty == walkableRegions[1].terrainPenalty)
+                    Gizmos.color = Color.blue;
+                else
+                    Gizmos.color = Color.white;
+
+                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
             }
 
+        }
 
+    }
+
+    [System.Serializable]
+    public class TerrainType {
+        public LayerMask terrainMask;
+        public int terrainPenalty;
     }
 }

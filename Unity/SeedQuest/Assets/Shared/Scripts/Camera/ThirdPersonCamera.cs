@@ -12,6 +12,7 @@ public class ThirdPersonCamera : MonoBehaviour {
     public float distance = 6.0f;
 
     public Transform lookAt;
+    public GameStateData gameState;
 
     public bool inverted = false;
     public float mouseSensitivityX = 5.0f;
@@ -27,14 +28,21 @@ public class ThirdPersonCamera : MonoBehaviour {
     private void Update()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = false;
+        Cursor.visible = true;
 
-        currentX += Input.GetAxis("Mouse X") * mouseSensitivityX;
-        if(inverted)
-            currentY += Input.GetAxis("Mouse Y") * mouseSensitivityY;
+        if (!gameState.isPaused)
+        {
+            currentX += Input.GetAxis("Mouse X") * mouseSensitivityX;
+            if (inverted)
+                currentY += Input.GetAxis("Mouse Y") * mouseSensitivityY;
+            else
+                currentY += -Input.GetAxis("Mouse Y") * mouseSensitivityY;
+        }
         else
-            currentY += -Input.GetAxis("Mouse Y") * mouseSensitivityY;
-        
+        {
+            
+        }
+
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
     }
 
