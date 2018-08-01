@@ -11,6 +11,8 @@ public class UIStateController : MonoBehaviour {
     public GameObject StartScreen;
     public GameObject DebugDisplay;
     public GameObject copyButton;
+    public GameObject seedCanvas;
+    public GameObject seedDisplay;
     public GameStateData gameState;
 
     private void Start() {
@@ -33,7 +35,7 @@ public class UIStateController : MonoBehaviour {
             Debug.Log("Adding to actiondisplay...");
             createActionItem(i, gameState.targetList[i].description);
         }
-    }
+    } 
 
     private void InitializeDebugDisplay() {
         DebugDisplay.GetComponentInChildren<Text>().text = "";
@@ -95,11 +97,17 @@ public class UIStateController : MonoBehaviour {
     private void UpdateTooltip() {
         if (gameState.pathComplete)
         {
+            Tooltip.SetActive(false);
+            seedCanvas.SetActive(true);
+            seedDisplay.GetComponent<TextMeshProUGUI>().text = gameState.recoveredSeed;
+
+            /*
             Text[] t = Tooltip.GetComponentsInChildren<Text>();
             t[0].text = "Recovered Seed:";
             t[1].text = gameState.recoveredSeed;
             Tooltip.SetActive(true);
             copyButton.SetActive(true);
+            */
         }
         else if (gameState.showPathTooltip && gameState.currentAction != null)
         {
