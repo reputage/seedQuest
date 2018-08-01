@@ -43,7 +43,7 @@ public class StateController : MonoBehaviour {
         gameState.isStarted = false;
         for (int i = 0; i < gameState.targetList.Length; i++)
         {
-            //Debug.Log(gameState.targetList[i]);
+            Debug.Log(gameState.targetList[i]);
         }
     } 
 
