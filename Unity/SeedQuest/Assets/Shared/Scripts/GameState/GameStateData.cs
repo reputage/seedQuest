@@ -11,6 +11,7 @@ public class GameStateData : ScriptableObject {
     public bool inRehersalMode = true;
     public bool isPaused = false;
     public bool isStarted = false;
+    public bool isCameraPaused = false;
 
     public Sprite uncheckedState;
     public Sprite checkedState;

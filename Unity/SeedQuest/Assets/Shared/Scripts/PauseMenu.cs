@@ -8,11 +8,9 @@ public class PauseMenu : MonoBehaviour {
     public GameObject menuObjects;
     public GameStateData gameState;
 
-    private bool menuActive = false;
-
 	private void Start()
 	{
-		
+        gameState.isPaused = false;
 	}
 
 	void Update () {
@@ -24,28 +22,15 @@ public class PauseMenu : MonoBehaviour {
 
     public void activatePause()
     {
-        if (menuActive)
-            return;
-        else
-        {
-            Debug.Log("Pausing the game, activating pause menu");
-            menuObjects.SetActive(true);
-            menuActive = true;
-        }
+        //Debug.Log("Pausing the game, activating pause menu");
+        menuObjects.SetActive(true);
     }
 
     public void deactivatePause()
-    {
-        if (!menuActive)
-            return;
-        else
-        {
-            Debug.Log("Decativating pause menu");
-            gameState.isPaused = false;
-            menuObjects.SetActive(false);
-            menuActive = false;
-        }
-        
+    { 
+        //Debug.Log("Decativating pause menu");
+        gameState.isPaused = false;
+        menuObjects.SetActive(false);
     }
 
     // Function to quit the game

@@ -43,7 +43,7 @@ public class StateController : MonoBehaviour {
         gameState.isStarted = false;
         for (int i = 0; i < gameState.targetList.Length; i++)
         {
-            //Debug.Log(gameState.targetList[i]);
+            Debug.Log(gameState.targetList[i]);
         }
     } 
 
@@ -194,6 +194,7 @@ public class StateController : MonoBehaviour {
     public void checkIsNearTarget() {
         if (isNearTarget()) {
             gameState.showPathTooltip = true;
+            gameState.isCameraPaused = true;
 
             if(Input.GetButtonDown("Jump")) {
                 DoActionAtInteractable(0);
@@ -202,8 +203,10 @@ public class StateController : MonoBehaviour {
                 DoActionAtInteractable(1);
             }
         }
-        else
+        else {
             gameState.showPathTooltip = false;
+            gameState.isCameraPaused = false;
+        }
     }
 
     private void OnDrawGizmos() {
@@ -229,7 +232,7 @@ public class StateController : MonoBehaviour {
         {
             Debug.Log("Cancel button pressed!");
             Debug.Log(gameState.isStarted);
-            if (gameState.isPaused == false && gameState.isStarted == true)
+            if (gameState.isPaused == false)
             {
                 gameState.isPaused = true;
                 Debug.Log(gameState.isPaused);
