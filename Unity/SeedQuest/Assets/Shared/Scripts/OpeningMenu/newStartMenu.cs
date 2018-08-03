@@ -7,6 +7,8 @@ public class newStartMenu : MonoBehaviour {
     public GameStateData gameState;
     public GameObject startMenu;
 
+    public string seedInput;
+
     public void inRehearsalMode()
     {
         gameState.startPathSearch = true;
@@ -26,6 +28,11 @@ public class newStartMenu : MonoBehaviour {
     public void quitApplication()
     {
         Application.Quit();
+    }
+
+    public void getSeedFromInput(string seedFromInput)
+    {
+        seedInput = seedFromInput;
     }
 
 }
