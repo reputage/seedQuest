@@ -9,8 +9,17 @@ public class newStartMenu : MonoBehaviour {
 
     public string seedInput;
 
-    public void inRehearsalMode()
+	private void Start()
+	{
+        seedInput = "";
+	}
+
+	public void inRehearsalMode()
     {
+        if(seedInput != "")
+        {
+            setStateDataSeed();
+        }
         gameState.startPathSearch = true;
         gameState.inRehersalMode = true;
         gameState.isStarted = true;
@@ -33,6 +42,12 @@ public class newStartMenu : MonoBehaviour {
     public void getSeedFromInput(string seedFromInput)
     {
         seedInput = seedFromInput;
+        Debug.Log(seedInput);
+    }
+
+    public void setStateDataSeed()
+    {
+        gameState.SeedString = seedInput;
     }
 
 }
