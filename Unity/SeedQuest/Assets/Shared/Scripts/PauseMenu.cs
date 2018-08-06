@@ -20,12 +20,14 @@ public class PauseMenu : MonoBehaviour {
             deactivatePause();
 	}
 
+    // Activate the pause state and pause menu
     public void activatePause()
     {
         //Debug.Log("Pausing the game, activating pause menu");
         menuObjects.SetActive(true);
     }
 
+    // Deactivate the pause state and decativate the pause menu
     public void deactivatePause()
     { 
         //Debug.Log("Decativating pause menu");
@@ -39,12 +41,14 @@ public class PauseMenu : MonoBehaviour {
         Application.Quit();
     }
 
+    // Function for the continue button in the pause menu
     public void continueButton()
     {
-        Debug.Log("Continue from the continue button");
+        //Debug.Log("Continue from the continue button");
         deactivatePause();
     }
 
+    // Function for the restart button in the pause menu
     public void restartButton()
     {
         deactivatePause();

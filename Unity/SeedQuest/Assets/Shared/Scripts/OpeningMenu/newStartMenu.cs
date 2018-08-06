@@ -14,6 +14,7 @@ public class newStartMenu : MonoBehaviour {
         seedInput = "";
 	}
 
+    // This function should be called once the game enters rehearsal mode
 	public void inRehearsalMode()
     {
         if(seedInput != "")
@@ -26,6 +27,7 @@ public class newStartMenu : MonoBehaviour {
         startMenu.SetActive(false);
     }
 
+    // This function should be called once the game enters recall mode
     public void inRecallMode()
     {
         gameState.startPathSearch = true;
@@ -34,17 +36,20 @@ public class newStartMenu : MonoBehaviour {
         startMenu.SetActive(false);
     }
 
+    // Function for the quit button on the start menu
     public void quitApplication()
     {
         Application.Quit();
     }
 
+    // Function for the input field on the start screen for inputing a string
     public void getSeedFromInput(string seedFromInput)
     {
         seedInput = seedFromInput;
         Debug.Log(seedInput);
     }
 
+    // Pass the input seed to the GameState data, so it can find the right path
     public void setStateDataSeed()
     {
         gameState.SeedString = seedInput;
