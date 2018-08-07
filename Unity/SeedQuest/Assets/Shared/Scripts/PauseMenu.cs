@@ -8,10 +8,12 @@ public class PauseMenu : MonoBehaviour {
     public GameObject menuObjects;
     public GameStateData gameState;
 
-	private void Start()
+	
+    private void Start()
 	{
         gameState.isPaused = false;
 	}
+
 
 	void Update () {
         if (gameState.isPaused && gameState.isStarted)

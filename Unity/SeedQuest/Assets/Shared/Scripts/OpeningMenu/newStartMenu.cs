@@ -7,7 +7,6 @@ public class newStartMenu : MonoBehaviour {
     public GameStateData gameState;
     public GameObject startMenu;
 
-
     public string seedInput;
 
 	private void Start()
