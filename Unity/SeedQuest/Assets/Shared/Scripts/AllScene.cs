@@ -11,7 +11,7 @@ public class AllScene : MonoBehaviour {
        all scenes, but don't belong in another object or script.
     */
       
-     
+    /* 
     static int seedParsed;
     //static bool scenePrimed = false;
     public static int locationID = 0;
@@ -52,6 +52,6 @@ public class AllScene : MonoBehaviour {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         } 
         */
-	}
+	//}
 
 }
