@@ -22,16 +22,19 @@ public class OptionsMenu : MonoBehaviour {
 		
 	}
 
+    // Function to change the master volume
     public void masterVolChange()
     {
         gameState.masterVolume = masterSlider.value;
     }
 
+    // Function to change the music volume
     public void musicVolChange()
     {
         gameState.musicVolume = musicSlider.value;
     }
 
+    // Function to change the sound effects (sfx) volume
     public void sfxVolChange()
     {
         gameState.sfxVolume = sfxSlider.value;

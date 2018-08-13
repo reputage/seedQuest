@@ -9,17 +9,21 @@ public class PauseMenu : MonoBehaviour {
     public GameObject optionsMenu;
 
     public GameStateData gameState;
+    private bool optionsMenuOpen;
 
 	
     private void Start()
 	{
         gameState.isPaused = false;
+        optionsMenuOpen = false;
 	}
 
 
 	void Update () {
-        if (gameState.isPaused && gameState.isStarted)
+        if (gameState.isPaused && gameState.isStarted && !optionsMenuOpen)
             activatePause();
+        else if (gameState.isPaused && gameState.isStarted && optionsMenuOpen)
+            deactivatePauseMenuOnly();
         else
             deactivatePause();
 	}
@@ -36,6 +40,15 @@ public class PauseMenu : MonoBehaviour {
     { 
         //Debug.Log("Decativating pause menu");
         gameState.isPaused = false;
+        menuObjects.SetActive(false);
+        optionsMenu.SetActive(false);
+        optionsMenuOpen = false;
+    }
+
+    // Deactivate the pause menu without unpausing the pause state
+    public void deactivatePauseMenuOnly()
+    {
+        //Debug.Log("Decativating pause menu");
         menuObjects.SetActive(false);
     }
 
@@ -59,14 +72,20 @@ public class PauseMenu : MonoBehaviour {
         UnityEngine.SceneManagement.SceneManager.LoadScene(0); // This works, might need to change later
     }
 
+    // Function for the option button
     public void optionsButton()
     {
+        Debug.Log("options button pressed");
+        optionsMenuOpen = true;
         menuObjects.SetActive(false);
         optionsMenu.SetActive(true);
     }
 
+    // Function for the back button in the options menu
     public void optionsBackButton()
     {
+        Debug.Log("options back button pressed");
+        optionsMenuOpen = false;
         optionsMenu.SetActive(false);
         menuObjects.SetActive(true);
     }

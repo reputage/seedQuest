@@ -231,7 +231,7 @@ public class StateController : MonoBehaviour {
         if (Input.GetButtonDown("Cancel"))
         {
             Debug.Log("Cancel button pressed!");
-            Debug.Log(gameState.isStarted);
+            //Debug.Log(gameState.isStarted);
             if (gameState.isPaused == false)
             {
                 gameState.isPaused = true;
