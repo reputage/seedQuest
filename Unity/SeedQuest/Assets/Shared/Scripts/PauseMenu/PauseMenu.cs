@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour {
 
     public GameObject menuObjects;
+    public GameObject optionsMenu;
+
     public GameStateData gameState;
 
 	
@@ -55,6 +57,18 @@ public class PauseMenu : MonoBehaviour {
     {
         deactivatePause();
         UnityEngine.SceneManagement.SceneManager.LoadScene(0); // This works, might need to change later
+    }
+
+    public void optionsButton()
+    {
+        menuObjects.SetActive(false);
+        optionsMenu.SetActive(true);
+    }
+
+    public void optionsBackButton()
+    {
+        optionsMenu.SetActive(false);
+        menuObjects.SetActive(true);
     }
 
 }

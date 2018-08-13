@@ -13,6 +13,10 @@ public class GameStateData : ScriptableObject {
     public bool isStarted = false;
     public bool isCameraPaused = false;
 
+    public float masterVolume;
+    public float musicVolume;
+    public float sfxVolume;
+
     public Sprite uncheckedState;
     public Sprite checkedState;
     public TMPro.TMP_FontAsset actionItemFont;
