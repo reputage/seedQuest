@@ -13,13 +13,22 @@ public class OptionsMenu : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+    {
+        masterSlider.value = 1f;
+        musicSlider.value = 1f;
+        sfxSlider.value = 1f;
+        gameState.masterVolume = 1f;
+        gameState.musicVolume = 1f;
+        gameState.sfxVolume = 1f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        masterVolChange();
+        musicVolChange();
+        sfxVolChange();
+        //Debug.Log("options menu updating...");
 	}
 
     // Function to change the master volume

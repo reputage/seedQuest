@@ -75,7 +75,7 @@ public class PauseMenu : MonoBehaviour {
     // Function for the option button
     public void optionsButton()
     {
-        Debug.Log("options button pressed");
+        //Debug.Log("options button pressed");
         optionsMenuOpen = true;
         menuObjects.SetActive(false);
         optionsMenu.SetActive(true);
@@ -84,7 +84,7 @@ public class PauseMenu : MonoBehaviour {
     // Function for the back button in the options menu
     public void optionsBackButton()
     {
-        Debug.Log("options back button pressed");
+        //Debug.Log("options back button pressed");
         optionsMenuOpen = false;
         optionsMenu.SetActive(false);
         menuObjects.SetActive(true);
