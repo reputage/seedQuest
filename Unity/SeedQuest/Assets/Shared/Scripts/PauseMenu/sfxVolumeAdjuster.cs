@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class sfxVolumeAdjuster : MonoBehaviour {
+    
+    // This script should be attached to any object with an audiosource used for sound effect
+    // This script will find the audiosource of the object, and adjust the volume.
 
     public GameStateData gameState;
-
     public AudioSource audioSource;
 
-    // Use this for initialization
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        //audioSource.volume = 1;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gameState.masterVolume == 0 || gameState.sfxVolume == 0)

@@ -235,7 +235,7 @@ public class StateController : MonoBehaviour {
             if (gameState.isPaused == false)
             {
                 gameState.isPaused = true;
-                Debug.Log(gameState.isPaused);
+                //Debug.Log(gameState.isPaused);
             }
             else
             {

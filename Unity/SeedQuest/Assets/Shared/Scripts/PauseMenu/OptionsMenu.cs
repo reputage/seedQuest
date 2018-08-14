@@ -11,8 +11,6 @@ public class OptionsMenu : MonoBehaviour {
     public Slider musicSlider;
     public Slider sfxSlider;
 
-
-	// Use this for initialization
 	void Start () 
     {
         masterSlider.value = 1f;
@@ -23,7 +21,6 @@ public class OptionsMenu : MonoBehaviour {
         gameState.sfxVolume = 1f;
 	}
 	
-	// Update is called once per frame
 	void Update () {
         masterVolChange();
         musicVolChange();
