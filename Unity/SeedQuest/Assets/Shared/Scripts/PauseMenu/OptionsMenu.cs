@@ -11,6 +11,8 @@ public class OptionsMenu : MonoBehaviour {
     public Slider musicSlider;
     public Slider sfxSlider;
 
+    private bool muted;
+
 	void Start () 
     {
         masterSlider.value = 1f;
@@ -20,6 +22,7 @@ public class OptionsMenu : MonoBehaviour {
         gameState.musicVolume = 1f;
         gameState.sfxVolume = 1f;
         gameState.musicMute = false;
+        muted = false;
 	}
 	
 	void Update () {
@@ -49,6 +52,16 @@ public class OptionsMenu : MonoBehaviour {
 
     public void muteToggle()
     {
-        gameState.musicMute = true;
+        if (muted == false)
+        {
+            gameState.musicMute = true;
+            muted = true;
+        }
+        else
+        {
+            gameState.musicMute = false;
+            muted = false;
+        }
+        //Debug.Log("Mute button toggled");
     }
 }
