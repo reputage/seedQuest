@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class musicVolumeAdjuster : MonoBehaviour {
+public class musicVolumeAdjuster : MonoBehaviour
+{
 
     // This script should be attached to any object with an audiosource used for music
     // This script will find the audiosource of the object, and adjust the volume.
@@ -18,12 +19,22 @@ public class musicVolumeAdjuster : MonoBehaviour {
 
     void Update()
     {
-        if (gameState.masterVolume == 0 || gameState.musicVolume == 0 )
+        if (gameState.musicMute)
         {
+            //mute volume
             audioSource.volume = 0;
-            //Debug.Log("setting music volume to 0");
         }
         else
-            audioSource.volume = gameState.masterVolume * gameState.musicVolume;
+        {
+            if (gameState.masterVolume == 0 || gameState.musicVolume == 0)
+            {
+                audioSource.volume = 0;
+                //Debug.Log("setting music volume to 0");
+            }
+            else
+            {
+                audioSource.volume = gameState.masterVolume * gameState.musicVolume;
+            }
+        }
     }
 }

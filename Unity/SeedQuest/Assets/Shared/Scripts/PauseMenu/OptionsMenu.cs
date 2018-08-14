@@ -19,6 +19,7 @@ public class OptionsMenu : MonoBehaviour {
         gameState.masterVolume = 1f;
         gameState.musicVolume = 1f;
         gameState.sfxVolume = 1f;
+        gameState.musicMute = false;
 	}
 	
 	void Update () {
@@ -44,5 +45,10 @@ public class OptionsMenu : MonoBehaviour {
     public void sfxVolChange()
     {
         gameState.sfxVolume = sfxSlider.value;
+    }
+
+    public void muteToggle()
+    {
+        gameState.musicMute = true;
     }
 }

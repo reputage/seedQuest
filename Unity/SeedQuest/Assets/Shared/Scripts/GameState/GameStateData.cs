@@ -13,6 +13,7 @@ public class GameStateData : ScriptableObject {
     public bool isStarted = false;
     public bool isCameraPaused = false;
 
+    public bool musicMute;
     public float masterVolume;
     public float musicVolume;
     public float sfxVolume;
