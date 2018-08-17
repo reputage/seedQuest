@@ -21,4 +21,10 @@ public class footstepSound : MonoBehaviour {
         Debug.Log("Footstep sound playing...");
         audioSource.PlayOneShot(footstep1);
     }
+
+    void runStep(AudioClip sound)
+    {
+        Debug.Log("Running footstep sound playing...");
+        audioSource.PlayOneShot(footstep1);
+    }
 }
