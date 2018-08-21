@@ -5,6 +5,7 @@ using UnityEngine;
 public class cloudGenerator : MonoBehaviour {
 
     public int cloudIter;
+    public Transform cloudPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +16,11 @@ public class cloudGenerator : MonoBehaviour {
 	void Update () 
     {
         cloudIter += 1;
+        if (cloudIter % 2 == 0)
+        {
+            cloudIter = 0;
+            Instantiate(cloudPrefab, new Vector3(2.0F, 0, 0), Quaternion.identity);
+        }
 		
 	}
 }
