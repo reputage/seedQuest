@@ -7,7 +7,7 @@ public class footstepSound : MonoBehaviour {
     public AudioSource audioSource;
     public AudioClip footstep1;
 
-    public GameObject dustCloud;
+    //public GameObject dustCloud;
 
 	void Start () 
     {
@@ -28,6 +28,7 @@ public class footstepSound : MonoBehaviour {
     {
         Debug.Log("Running footstep sound playing...");
         audioSource.PlayOneShot(footstep1);
-        GameObject dustObj = Instantiate(dustCloud, this.transform.position, this.transform.rotation);
+        //Vector3 position = gameObject.transform.position;
+        //GameObject dustObj = Instantiate(dustCloud, this.transform.position, this.transform.rotation);
     }
 }

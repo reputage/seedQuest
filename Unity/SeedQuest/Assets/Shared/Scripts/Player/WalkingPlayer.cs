@@ -8,6 +8,8 @@ public class WalkingPlayer : MonoBehaviour {
 
     public GameStateData gameState;
 
+    public GameObject cloudGenerator;
+
     public float moveSpeed = 11;
     public float runMultiplier = 2.5f;
     public float rotateSpeed = 100;
@@ -57,12 +59,21 @@ public class WalkingPlayer : MonoBehaviour {
         else {
             animator.SetBool("Walk", false);
             animator.SetBool("Run", false);
+            cloudGenerator.GetComponent<cloudGenerator>().stopGenerate();
         }
 
         if (Input.GetKeyDown("r") && !gameState.isPaused)
+        {
             if (animator.GetBool("Run"))
+            {
                 animator.SetBool("Run", false);
+                cloudGenerator.GetComponent<cloudGenerator>().stopGenerate();
+            }
             else
+            {
                 animator.SetBool("Run", true);
+                cloudGenerator.GetComponent<cloudGenerator>().startGenerate();
+            }
+        }
     }
 }

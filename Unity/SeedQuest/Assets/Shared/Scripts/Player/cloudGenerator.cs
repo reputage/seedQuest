@@ -4,23 +4,34 @@ using UnityEngine;
 
 public class cloudGenerator : MonoBehaviour {
 
-    public int cloudIter;
     public Transform cloudPrefab;
+    public bool generating;
 
-	// Use this for initialization
-	void Start () {
-        cloudIter = 0;
+
+    void Start () {
+        generating = false;
 	}
 	
-	// Update is called once per frame
-	void Update () 
+
+    void Update () 
     {
-        cloudIter += 1;
-        if (cloudIter % 2 == 0)
+        Vector3 position = gameObject.transform.position;
+
+        if (generating)
         {
-            cloudIter = 0;
-            Instantiate(cloudPrefab, new Vector3(2.0F, 0, 0), Quaternion.identity);
+            Instantiate(cloudPrefab, position, Quaternion.identity);
+            Instantiate(cloudPrefab, position, Quaternion.identity);
         }
 		
 	}
+
+    public void startGenerate()
+    {
+        generating = true;
+    }
+
+    public void stopGenerate()
+    {
+        generating = false;    
+    }
 }
