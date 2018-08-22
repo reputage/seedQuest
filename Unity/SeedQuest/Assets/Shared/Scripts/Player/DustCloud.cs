@@ -13,7 +13,7 @@ public class DustCloud : MonoBehaviour {
 
 	void Start () 
     {
-        initialize(new Vector3(0, 1, 1), gameObject.transform.position, new Vector3(0, 0, 0));
+        initialize(new Vector3(0, 0, 0), gameObject.transform.position, new Vector3(0, 0, 0));
 
         transform.position = start;
         selfDestruct = 0;
@@ -38,7 +38,8 @@ public class DustCloud : MonoBehaviour {
     void initialize(Vector3 vel, Vector3 st, Vector3 rot)
     {
         velocity = vel + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(0.0f, 0.30f), Random.Range(-0.2f, 0.2f));
-        start = st - new Vector3(Random.Range(0.0f, 0.3f), Random.Range(0.0f, 0.3f), Random.Range(0.0f, 0.1f));
+        start = st + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(0.0f, 0.05f), Random.Range(1.1f, 1.3f));
         rotate = rot - new Vector3(Random.Range(-90.0f, 90.0f), Random.Range(-90.0f, 90.0f), Random.Range(-90.0f, 90.0f));
+        transform.position = start;
     }
 }
