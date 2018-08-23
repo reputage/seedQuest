@@ -21,7 +21,7 @@ public class musicVolumeAdjuster : MonoBehaviour
         if (baselineVol != 0)
         {
             audioSource.volume = baselineVol;
-            Debug.Log("Baseline volume: " + baselineVol);
+            //Debug.Log("Baseline volume: " + baselineVol);
         }    }
 
     void Update()
@@ -42,7 +42,7 @@ public class musicVolumeAdjuster : MonoBehaviour
             else if (baselineVol != 0)
             {
                 audioSource.volume = gameState.masterVolume * gameState.sfxVolume * baselineVol;
-                Debug.Log("Setting volume to : " + gameState.masterVolume * gameState.sfxVolume * baselineVol);
+                //Debug.Log("Setting volume to : " + gameState.masterVolume * gameState.sfxVolume * baselineVol);
             }
             // Change volume only using optional volume settings (no baseline volume set)
             else

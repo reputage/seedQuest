@@ -11,7 +11,7 @@ public class OptionsMenu : MonoBehaviour {
     public Slider musicSlider;
     public Slider sfxSlider;
 
-    private bool muted;
+    private bool muted; // this could be changed to use a state instead of a bool if we want
 
 	void Start () 
     {
@@ -25,7 +25,8 @@ public class OptionsMenu : MonoBehaviour {
         muted = false;
 	}
 	
-	void Update () {
+	void Update () 
+    {
         masterVolChange();
         musicVolChange();
         sfxVolChange();
@@ -50,6 +51,7 @@ public class OptionsMenu : MonoBehaviour {
         gameState.sfxVolume = sfxSlider.value;
     }
 
+    // Function to toggle the mute option
     public void muteToggle()
     {
         if (muted == false)
