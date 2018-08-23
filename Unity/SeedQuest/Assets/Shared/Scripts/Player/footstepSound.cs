@@ -20,13 +20,13 @@ public class footstepSound : MonoBehaviour {
 
     void playAudio(AudioClip sound)
     {
-        Debug.Log("Footstep sound playing...");
+        //Debug.Log("Footstep sound playing...");
         audioSource.PlayOneShot(footstep1);
     }
 
     void runStep(AudioClip sound)
     {
-        Debug.Log("Running footstep sound playing...");
+        //Debug.Log("Running footstep sound playing...");
         audioSource.PlayOneShot(footstep1);
         //Vector3 position = gameObject.transform.position;
         //GameObject dustObj = Instantiate(dustCloud, this.transform.position, this.transform.rotation);
