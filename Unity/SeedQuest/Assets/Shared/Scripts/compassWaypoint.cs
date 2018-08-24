@@ -40,31 +40,48 @@ public class compassWaypoint : MonoBehaviour {
 
         float angle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
         float playerAngle = player.transform.eulerAngles.y;
-        playerAngle -= 180;
 
-        float angleDiff = angle - playerAngle; //needs to be fixed
+        // Don't ask me why this is necessary, it just is.
+
+        if (playerAngle > 180)
+        {
+            playerAngle -= 360; //  playerAngle;
+        }
+
+        // Don't ask me why this is necessary either. 
+        // Just don't change it unless you know what you're doing.
+        float angleDiff = angle - playerAngle;
+        if (angleDiff > 180)
+        {
+            angleDiff -= 360;
+        }
+        if (angleDiff < -180)
+        {
+            angleDiff += 360;
+        }
 
         Debug.Log("angleDiff: " + angleDiff + " angle: " + angle + " playerAngle: " + playerAngle);
 
 
-        if (angleDiff >= 130)
+        if (angleDiff > -50)
         {
-            float newX = (angleDiff - 180) * 2;
+            float newX = (angleDiff);
             Debug.Log(newX);
             reposition(newX);
         }
-        else if(angleDiff <= -130)
+        else if(angleDiff < 50)
         {
-            float newX = (angleDiff + 180) * 2;
+            float newX = (angleDiff);
             Debug.Log(newX);
+            reposition(newX);
         }
+
 
 	}
 
     void reposition(float newX)
     {
         rPosition.anchoredPosition = new Vector3(newX, yHeight, 0);
-        //transform.position = new Vector3(newX, 0, 0);
-        //transform.Translate(newX, 0, 0);
     }
 }
+
