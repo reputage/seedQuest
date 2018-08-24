@@ -8,11 +8,16 @@ public class compassWaypoint : MonoBehaviour {
     public GameObject player;
     public GameObject target;
 
+    public int xRange;
+    public int angleRange;
+    public float yHeight;
+
     Vector3 targetDir;
     Vector3 forward;
 
+    RectTransform rPosition;
+
     // To do:
-    // find the angle between the player's forward facing line and th target
     // update the x position of the waypoint to reflect the angle
     // if the angle is > some amount (60 degrees?) then don't update the position
 
@@ -20,7 +25,12 @@ public class compassWaypoint : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        Vector3 forward = transform.forward;
+        forward = transform.forward;
+        xRange = 100;
+        yHeight = 170;
+        angleRange = 50;
+
+        rPosition = GetComponent<RectTransform>();
 	}
 	
 	// Update is called once per frame
@@ -29,13 +39,32 @@ public class compassWaypoint : MonoBehaviour {
         targetDir = target.transform.position - player.transform.position;
 
         float angle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
-        Debug.Log("angle: " + angle + " player angle: " + player.transform.rotation);
+        float playerAngle = player.transform.eulerAngles.y;
+        playerAngle -= 180;
+
+        float angleDiff = angle - playerAngle; //needs to be fixed
+
+        Debug.Log("angleDiff: " + angleDiff + " angle: " + angle + " playerAngle: " + playerAngle);
 
 
-        /*
-        Vector3 cross = Vector3.Cross(player.transform.position, target.transform.position);
-        float dot = Vector3.Dot(player.transform.position, target.transform.position);
-        Debug.Log(cross);
-        */
+        if (angleDiff >= 130)
+        {
+            float newX = (angleDiff - 180) * 2;
+            Debug.Log(newX);
+            reposition(newX);
+        }
+        else if(angleDiff <= -130)
+        {
+            float newX = (angleDiff + 180) * 2;
+            Debug.Log(newX);
+        }
+
 	}
+
+    void reposition(float newX)
+    {
+        rPosition.anchoredPosition = new Vector3(newX, yHeight, 0);
+        //transform.position = new Vector3(newX, 0, 0);
+        //transform.Translate(newX, 0, 0);
+    }
 }
