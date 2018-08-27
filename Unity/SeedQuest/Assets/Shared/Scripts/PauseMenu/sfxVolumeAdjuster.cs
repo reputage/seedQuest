@@ -21,7 +21,7 @@ public class sfxVolumeAdjuster : MonoBehaviour
         if (baselineVol != 0)
         {
             audioSource.volume = baselineVol;
-            Debug.Log("Baseline volume: " + baselineVol);
+            //Debug.Log("Baseline volume: " + baselineVol);
         }
 
     }
