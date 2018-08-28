@@ -35,7 +35,7 @@ public class compassWaypoint : MonoBehaviour {
         forward = transform.forward;
         rPosition = GetComponent<RectTransform>();
 
-        xRange = 45;
+        xRange = 60;
         yHeight = 175;
         angleRange = 50;
     }
