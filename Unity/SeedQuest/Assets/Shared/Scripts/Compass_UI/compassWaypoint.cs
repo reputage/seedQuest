@@ -17,10 +17,6 @@ public class compassWaypoint : MonoBehaviour {
 
     RectTransform rPosition;
 
-    // To do:
-    // update the x position of the waypoint to reflect the angle
-    // if the angle is > some amount (60 degrees?) then don't update the position
-
 
 	void Start ()
     {

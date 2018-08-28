@@ -21,7 +21,6 @@ public class sfxVolumeAdjuster : MonoBehaviour
         if (baselineVol != 0)
         {
             audioSource.volume = baselineVol;
-            //Debug.Log("Baseline volume: " + baselineVol);
         }
 
     }
@@ -38,13 +37,11 @@ public class sfxVolumeAdjuster : MonoBehaviour
             if (gameState.masterVolume == 0 || gameState.sfxVolume == 0)
             {
                 audioSource.volume = 0;
-                //Debug.Log("Setting sfx volume to 0...");
             }
             // Change volume based on baseline volume and optional volume settings
             else if (baselineVol != 0)
             {
                 audioSource.volume = gameState.masterVolume * gameState.sfxVolume * baselineVol;
-                //Debug.Log("Setting volume to : " + gameState.masterVolume * gameState.sfxVolume * baselineVol);
             } 
             // Change volume only using optional volume settings (no baseline volume set)
             else
