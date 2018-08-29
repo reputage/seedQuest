@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MinimapObjects : MonoBehaviour {
+public class compassObjects : MonoBehaviour {
 
     public GameObject childObjects;
     public GameStateData gameState;
 
     private bool checking;
 
+	// Use this for initialization
 	void Start () 
     {
         deactivate();
         checking = true;
-    }
+	}
 
+    // Update is called once per frame
     void Update()
     {
         if (checking)
@@ -31,14 +33,15 @@ public class MinimapObjects : MonoBehaviour {
         }
     }
 
-    void deactivate()
-    {
-        childObjects.SetActive(false);
-    }
 
     void activate()
     {
         childObjects.SetActive(true);
+    }
+
+    void deactivate()
+    {
+        childObjects.SetActive(false);
     }
 
 }

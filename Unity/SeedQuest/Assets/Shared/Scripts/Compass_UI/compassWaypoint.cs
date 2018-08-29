@@ -6,10 +6,13 @@ public class compassWaypoint : MonoBehaviour {
 
 
     public GameObject player;
-    public GameObject target;
+    public Interactable target;
+
+    public GameStateData gameState;
 
     public int xRange;
     public int angleRange;
+    public int counter;
     public float yHeight;
 
     Vector3 targetDir;
@@ -36,8 +39,11 @@ public class compassWaypoint : MonoBehaviour {
         rPosition = GetComponent<RectTransform>();
 
         xRange = 60;
-        yHeight = 175;
+        yHeight = 275;
         angleRange = 50;
+        counter = 0;
+
+        setTarget(gameState.currentAction);
     }
 
     // This calculates the angles for direction the player is facing, 
@@ -45,6 +51,7 @@ public class compassWaypoint : MonoBehaviour {
     //  marker's X position based on both angles.
     void updateWaypoint()
     {
+        counter += 1;
         targetDir = target.transform.position - player.transform.position;
 
         float angle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
@@ -76,6 +83,12 @@ public class compassWaypoint : MonoBehaviour {
             float newX = (angleDiff / angleRange) * xRange;
             reposition(newX);
         }
+
+        if (counter >= 10)
+        {
+            counter = 0;
+            setTarget(gameState.currentAction);
+        }
     }
 
     // Repositions the marker. This is called in the above function.
@@ -85,7 +98,7 @@ public class compassWaypoint : MonoBehaviour {
     }
 
     // Sets a new target for the compass waypoint to track. Needs to be tested.
-    void setTarget(GameObject newTarget)
+    void setTarget(Interactable newTarget)
     {
         target = newTarget;
     }
