@@ -39,7 +39,7 @@ public class compassWaypoint : MonoBehaviour {
         rPosition = GetComponent<RectTransform>();
 
         xRange = 60;
-        yHeight = 275;
+        yHeight = 225;
         angleRange = 50;
         counter = 0;
 
