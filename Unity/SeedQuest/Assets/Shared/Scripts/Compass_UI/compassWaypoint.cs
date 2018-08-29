@@ -57,14 +57,13 @@ public class compassWaypoint : MonoBehaviour {
         float angle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
         float playerAngle = player.transform.eulerAngles.y;
 
-        // Don't ask me why this is necessary, it just is.
+        // These calculations are required, if you change this code, 
+        //  please double-check to make sure it still works properly.
         if (playerAngle > 180)
         {
             playerAngle -= 360; //  playerAngle;
         }
 
-        // Don't ask me why this is necessary either. 
-        // Just don't change it unless you know what you're doing. 
         float angleDiff = angle - playerAngle;
         if (angleDiff > 180)
             angleDiff -= 360;

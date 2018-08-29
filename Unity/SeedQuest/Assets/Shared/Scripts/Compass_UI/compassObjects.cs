@@ -9,14 +9,14 @@ public class compassObjects : MonoBehaviour {
 
     private bool checking;
 
-	// Use this for initialization
-	void Start () 
+
+    void Start () 
     {
         deactivate();
         checking = true;
 	}
 
-    // Update is called once per frame
+
     void Update()
     {
         if (checking)
@@ -38,6 +38,7 @@ public class compassObjects : MonoBehaviour {
     {
         childObjects.SetActive(true);
     }
+
 
     void deactivate()
     {
