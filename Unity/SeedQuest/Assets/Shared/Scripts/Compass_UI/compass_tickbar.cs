@@ -16,14 +16,14 @@ public class compass_tickbar : MonoBehaviour {
     public int lowerXLimit;
     public int xRange;
 
-	// Use this for initialization
-	void Start () 
+
+    void Start () 
     {
         initialize();
 	}
 	
-	// Update is called once per frame
-	void Update () 
+
+    void Update () 
     {
         updatePosition();
 	}
@@ -35,12 +35,10 @@ public class compass_tickbar : MonoBehaviour {
         float newX = (playerAngle - 180) / 360 * xRange;
         if (newX < lowerXLimit)
         {
-            Debug.Log("Looping tickbar. NewX val: " + newX);
             newX += xRange;
         }
         else if (newX > upperXLimit)
         {
-            Debug.Log("Looping tickbar. NewX val: " + newX);
             newX -= xRange;
         }
 
@@ -57,6 +55,7 @@ public class compass_tickbar : MonoBehaviour {
         lowerXLimit = -154;
         xRange = upperXLimit - lowerXLimit;
     }
+
 
     private void reposition(float newX)
     {
