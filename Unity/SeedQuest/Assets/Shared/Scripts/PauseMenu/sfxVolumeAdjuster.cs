@@ -27,26 +27,32 @@ public class sfxVolumeAdjuster : MonoBehaviour
 
     void Update()
     {
-        if (gameState.musicMute)
+        // only check for updates when game is paused
+
+        if (gameState.isPaused)
         {
-            //mute volume
-            audioSource.volume = 0;
-        }
-        else
-        {
-            if (gameState.masterVolume == 0 || gameState.sfxVolume == 0)
+
+            if (gameState.musicMute)
             {
+                //mute volume
                 audioSource.volume = 0;
             }
-            // Change volume based on baseline volume and optional volume settings
-            else if (baselineVol != 0)
-            {
-                audioSource.volume = gameState.masterVolume * gameState.sfxVolume * baselineVol;
-            } 
-            // Change volume only using optional volume settings (no baseline volume set)
             else
             {
-                audioSource.volume = gameState.masterVolume * gameState.sfxVolume;
+                if (gameState.masterVolume == 0 || gameState.sfxVolume == 0)
+                {
+                    audioSource.volume = 0;
+                }
+                // Change volume based on baseline volume and optional volume settings
+                else if (baselineVol != 0)
+                {
+                    audioSource.volume = gameState.masterVolume * gameState.sfxVolume * baselineVol;
+                }
+                // Change volume only using optional volume settings (no baseline volume set)
+                else
+                {
+                    audioSource.volume = gameState.masterVolume * gameState.sfxVolume;
+                }
             }
         }
     }
