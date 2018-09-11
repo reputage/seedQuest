@@ -26,28 +26,33 @@ public class musicVolumeAdjuster : MonoBehaviour
 
     void Update()
     {
-        if (gameState.musicMute)
+        // Only check for volume updates when game is paused
+
+        if (gameState.isPaused)
         {
-            //mute volume
-            audioSource.volume = 0;
-        }
-        else
-        {
-            if (gameState.masterVolume == 0 || gameState.musicVolume == 0)
+            if (gameState.musicMute)
             {
+                //mute volume
                 audioSource.volume = 0;
-                //Debug.Log("setting music volume to 0");
             }
-            // Change volume based on baseline volume and optional volume settings
-            else if (baselineVol != 0)
-            {
-                audioSource.volume = gameState.masterVolume * gameState.sfxVolume * baselineVol;
-                //Debug.Log("Setting volume to : " + gameState.masterVolume * gameState.sfxVolume * baselineVol);
-            }
-            // Change volume only using optional volume settings (no baseline volume set)
             else
             {
-                audioSource.volume = gameState.masterVolume * gameState.sfxVolume;
+                if (gameState.masterVolume == 0 || gameState.musicVolume == 0)
+                {
+                    audioSource.volume = 0;
+                    //Debug.Log("setting music volume to 0");
+                }
+                // Change volume based on baseline volume and optional volume settings
+                else if (baselineVol != 0)
+                {
+                    audioSource.volume = gameState.masterVolume * gameState.sfxVolume * baselineVol;
+                    //Debug.Log("Setting volume to : " + gameState.masterVolume * gameState.sfxVolume * baselineVol);
+                }
+                // Change volume only using optional volume settings (no baseline volume set)
+                else
+                {
+                    audioSource.volume = gameState.masterVolume * gameState.sfxVolume;
+                }
             }
         }
     }

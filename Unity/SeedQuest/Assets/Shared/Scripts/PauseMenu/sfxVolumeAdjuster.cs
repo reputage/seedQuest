@@ -27,7 +27,7 @@ public class sfxVolumeAdjuster : MonoBehaviour
 
     void Update()
     {
-        // only check for updates when game is paused
+        // Only check for volume updates when game is paused
 
         if (gameState.isPaused)
         {
