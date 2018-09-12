@@ -39,8 +39,8 @@ public class compassWaypoint : MonoBehaviour {
         forward = transform.forward;
         rPosition = GetComponent<RectTransform>();
 
-        xRange = 60;
-        xMax = 100;
+        xRange = 125;
+        xMax = 250;
         yHeight = 225;
         angleRange = 50;
         counter = 0;
@@ -77,13 +77,14 @@ public class compassWaypoint : MonoBehaviour {
         if (angleDiff > - angleRange)
         {
             float newX = (angleDiff / angleRange) * xRange;
-            // if(newX < maxX)
-            reposition(newX);
+            if(newX < xMax)
+                reposition(newX);
         }
         else if (angleDiff < angleRange)
         {
             float newX = (angleDiff / angleRange) * xRange;
-            reposition(newX);
+            if(newX > -xMax)
+                reposition(newX);
         }
 
         if (counter >= 10)

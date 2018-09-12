@@ -20,12 +20,12 @@ public class ScreenShot : MonoBehaviour
         if (takeHiResShot)
         {
             RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
-            camera.targetTexture = rt;
+            //camera.targetTexture = rt;
             Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
-            camera.Render();
+            //camera.Render();
             RenderTexture.active = rt;
             screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
-            camera.targetTexture = null;
+            //camera.targetTexture = null;
             RenderTexture.active = null; 
             Destroy(rt);
             takeHiResShot = false;
