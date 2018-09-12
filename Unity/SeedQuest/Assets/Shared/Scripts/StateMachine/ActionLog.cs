@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActionLog : MonoBehaviour {
 
-    public List<Interactable> iLog = new List<Interactable>();
+    public List<InteractableID> iLog = new List<InteractableID>();
     public List<int> aLog = new List<int>();
     public GameStateData gameState;
     private SeedToByte seedToByte;
@@ -14,7 +14,7 @@ public class ActionLog : MonoBehaviour {
         seedToByte = GetComponent<SeedToByte>();
 	}
 
-	public void Add(Interactable interactable, int actionID) {
+	public void Add(InteractableID interactable, int actionID) {
         iLog.Add(interactable);
         aLog.Add(actionID);
     }

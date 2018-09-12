@@ -14,7 +14,7 @@ public class RecallAction : PlayerAction {
 
     private void Recall(StateController controller) {
         if (controller.isNearInteractable()) {
-            Interactable interactable = controller.getNearestInteractable();
+            InteractableID interactable = controller.getNearestInteractable();
             controller.gameState.currentAction = interactable;
             controller.gameState.showPathTooltip = true;
 

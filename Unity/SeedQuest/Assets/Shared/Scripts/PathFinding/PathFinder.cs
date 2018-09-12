@@ -8,7 +8,7 @@ public class PathFinder : MonoBehaviour
     public LayerMask interactableMask;
     public Transform player;
     public GameObject Tooltip;
-    public Interactable[] targets;
+    public InteractableID[] targets;
     public LineRenderer line;
     public GameObject world;
 
@@ -23,7 +23,7 @@ public class PathFinder : MonoBehaviour
         pathfinding = GetComponent<Pathfinding>();
         Tooltip.SetActive(false);
 
-        targets = (Interactable[]) Object.FindObjectsOfType(typeof(Interactable));
+        targets = (InteractableID[]) Object.FindObjectsOfType(typeof(InteractableID));
     }
 
     private void Start() {

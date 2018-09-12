@@ -6,7 +6,7 @@ public class compassWaypoint : MonoBehaviour {
 
 
     public GameObject player;
-    public Interactable target;
+    public InteractableID target;
 
     public GameStateData gameState;
 
@@ -97,7 +97,7 @@ public class compassWaypoint : MonoBehaviour {
     }
 
     // Sets a new target for the compass waypoint to track. Needs to be tested.
-    void setTarget(Interactable newTarget)
+    void setTarget(InteractableID newTarget)
     {
         target = newTarget;
     }

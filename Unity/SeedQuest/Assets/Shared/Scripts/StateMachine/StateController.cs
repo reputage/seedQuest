@@ -8,8 +8,8 @@ public class StateController : MonoBehaviour {
     public State currentState;
     public State remainState;
 
-    public Interactable[] pathTargets;
-    public Interactable[] interactables;
+    public InteractableID[] pathTargets;
+    public InteractableID[] interactables;
     public GameStateData gameState;
     public GameObject NavAIMesh;
 
@@ -33,7 +33,7 @@ public class StateController : MonoBehaviour {
         //pathTargets = FindInteractables();
         interactables = FindInteractables();
 
-        Interactable[] locs = GetInteractableLocations(); // fixes the warning in the compiler
+        InteractableID[] locs = GetInteractableLocations(); // fixes the warning in the compiler
         pathTargets = GetInteractablePathTest(locs);
 
         gameState.startPathSearch = false; 
@@ -48,11 +48,11 @@ public class StateController : MonoBehaviour {
     } 
 
     // Modified to create a list of gameobjects with interactable attached as monobehavior
-    private Interactable[] GetInteractableLocations()
+    private InteractableID[] GetInteractableLocations()
     {
         SeedToByte locations = NavAIMesh.GetComponent<SeedToByte>();
         int[] actions = locations.getActions(gameState.SeedString);
-        List<Interactable> locationIDs = new List<Interactable>();
+        List<InteractableID> locationIDs = new List<InteractableID>();
 
         int count = 0;
         while (count < actions.Length)
@@ -63,7 +63,7 @@ public class StateController : MonoBehaviour {
             {
                 int spotID = actions[count + (2 * j) + 1];
                 int actionID = actions[count + (2 * j) + 2];
-                locationIDs.Add(new Interactable(siteID, spotID, actionID));
+                locationIDs.Add(new InteractableID(siteID, spotID, actionID));
             }
 
             count += 1 + 2 * gameState.ActionCount;
@@ -75,15 +75,15 @@ public class StateController : MonoBehaviour {
     // Modified to use the gameobject list instead
     //  fixes the compiler errors
     //  other functions commented out just in case the other way was intentional
-    private Interactable[] GetInteractablePathTest(Interactable[] locationIDs)
+    private InteractableID[] GetInteractablePathTest(InteractableID[] locationIDs)
     {
         
-        Interactable[] interactablePath = new Interactable[locationIDs.Length];
+        InteractableID[] interactablePath = new InteractableID[locationIDs.Length];
 
         int siteCount = (int)Mathf.Pow(2.0F, gameState.SiteBits);
         int spotCount = (int)Mathf.Pow(2.0F, gameState.SpotBits);
 
-        Interactable[,] LUT = new Interactable[siteCount, spotCount];
+        InteractableID[,] LUT = new InteractableID[siteCount, spotCount];
         for (int i = 0; i < interactables.Length; i++)
         {
             int row = interactables[i].siteID;
@@ -101,8 +101,8 @@ public class StateController : MonoBehaviour {
         return interactablePath;
     }
 
-    private Interactable[] FindInteractables() {
-        Interactable[] actions = (Interactable[])Object.FindObjectsOfType(typeof(Interactable));
+    private InteractableID[] FindInteractables() {
+        InteractableID[] actions = (InteractableID[])Object.FindObjectsOfType(typeof(InteractableID));
         for (int i = 0; i < actions.Length; i++)
         {
             Debug.Log(actions[i] + " site and spot: " + actions[i].siteID + " " + actions[i].spotID);
@@ -121,14 +121,14 @@ public class StateController : MonoBehaviour {
 
         if(gameState.inRehersalMode) {
             // Record action at interactable into action log
-            Interactable interactable = pathTargets[nextWayPoint];
+            InteractableID interactable = pathTargets[nextWayPoint];
             NavAIMesh.GetComponent<ActionLog>().Add(interactable, actionIndex);
 
             // Go to next waypoint
             NextPath();
         }
         else {
-            Interactable interactable = gameState.currentAction;
+            InteractableID interactable = gameState.currentAction;
             NavAIMesh.GetComponent<ActionLog>().Add(interactable, actionIndex);
 
             gameState.pathComplete = NavAIMesh.GetComponent<ActionLog>().ActionsComplete();
@@ -176,8 +176,8 @@ public class StateController : MonoBehaviour {
         return Physics.CheckSphere(transform.position, gameState.interactionRadius, gameState.interactableMask);
     }
 
-    public Interactable getNearestInteractable() {
-        Interactable nearest = interactables[0];
+    public InteractableID getNearestInteractable() {
+        InteractableID nearest = interactables[0];
         float nearDist = float.MaxValue;
 
         for (int i = 0; i < interactables.Length; i++) {

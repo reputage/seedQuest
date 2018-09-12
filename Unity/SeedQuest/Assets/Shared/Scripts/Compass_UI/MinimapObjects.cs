@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MinimapObjects : MonoBehaviour {
 
     public GameObject childObjects;
-    public Interactable target;
+    public InteractableID target;
     public RectTransform waypoint;
     public Transform player;
 
