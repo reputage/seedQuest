@@ -8,7 +8,24 @@ public class PauseMenuCanvas : MonoBehaviour {
 
     public GameObject PauseMenu = null;
     public GameObject SettingsMenu = null;
-    private MenuState State = MenuState.PauseMenu;
+
+    private static PauseMenuCanvas instance = null;
+    public static PauseMenuCanvas Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = GameObject.FindObjectOfType<PauseMenuCanvas>();
+            return instance;
+        }
+    }
+
+    private MenuState state = MenuState.PauseMenu;
+    static public MenuState State
+    {
+        get { return Instance.state;  }
+        set { Instance.state = value; }
+    }
 
     public void Update()
     {
