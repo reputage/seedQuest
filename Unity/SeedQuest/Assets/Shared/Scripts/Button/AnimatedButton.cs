@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(EventTrigger))]
 [RequireComponent(typeof(Button))]
@@ -34,22 +33,19 @@ public class AnimatedButton : MonoBehaviour {
         animator.runtimeAnimatorController = GameManager.GameUI.buttonAnimationCtrl;
 
         // Set hover and click sounds
-        AudioSource audio = GetComponent<AudioSource>();
-        AudioClip onHover = GameManager.GameSound.buttonOnHover;
-        AudioClip onClick = GameManager.GameSound.buttonOnClick;
-        button.onClick.AddListener(delegate () { audio.PlayOneShot(onClick); });
+        button.onClick.AddListener(delegate () { AudioManager.Play("ButtonClick"); });
 
         EventTrigger trigger = GetComponent<EventTrigger>(); 
         if(trigger.triggers.Count == 0) { 
             // Create TriggerEntry and add callback
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerEnter;
-            entry.callback.AddListener((data) => { audio.PlayOneShot(onHover); });
+            entry.callback.AddListener((data) => { AudioManager.Play("ButtonHover"); });
             trigger.triggers.Add(entry);
         }
         else {
             // Only add callback if TriggerEntry already exists
-            trigger.triggers[0].callback.AddListener((data) => { audio.PlayOneShot(onHover); });
+            trigger.triggers[0].callback.AddListener((data) => { AudioManager.Play("ButtonHover"); });
         }
 
         // Add a child object for text if needed

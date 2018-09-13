@@ -8,40 +8,33 @@ public class VolumeOptionsMenu : MonoBehaviour {
     public Slider masterSlider;
     public Slider musicSlider;
     public Slider sfxSlider;
-    private bool muted; 
+    public Toggle muteToggle;
 
     void Start () {
         masterSlider.value = SettingsManager.MasterVolume;
         musicSlider.value = SettingsManager.MusicVolume;
         sfxSlider.value = SettingsManager.SoundEffectVolume;
-        muted = SettingsManager.IsVolumeMuted;
+        muteToggle.isOn = SettingsManager.IsVolumeMuted;
     }
 	
-    void Update () {
-        masterVolChange();
-        musicVolChange();
-        sfxVolChange();
+    public void MasterVolumeChanged(float value) 
+    {
+       SettingsManager.MasterVolume = value;
     }
 
-    public void masterVolChange()
+    public void MusicVolumeChanged(float value)
     {
-       SettingsManager.MasterVolume = masterSlider.value;
+        SettingsManager.MusicVolume = value;
     }
 
-    public void musicVolChange()
+    public void sfxVolumeChanged(float value)
     {
-        SettingsManager.MusicVolume = musicSlider.value;
+        SettingsManager.SoundEffectVolume = value;
     }
 
-    public void sfxVolChange()
+    public void MuteToggleChanged(bool value)
     {
-        SettingsManager.SoundEffectVolume = sfxSlider.value;
-    }
-
-    public void muteToggle()
-    {
-        SettingsManager.IsVolumeMuted = !SettingsManager.IsVolumeMuted;
-        muted = SettingsManager.IsVolumeMuted;
+        SettingsManager.IsVolumeMuted = value;
     }
 
     public void LeaveVolumeSettingsMenu()

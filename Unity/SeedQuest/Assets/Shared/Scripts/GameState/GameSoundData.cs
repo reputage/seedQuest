@@ -4,8 +4,5 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Skin/Sound")]
 public class GameSoundData : ScriptableObject {
-
-    public AudioClip background;
-    public AudioClip buttonOnHover;
-    public AudioClip buttonOnClick;
+    public Sound[] Sounds;
 } 

@@ -24374,7 +24374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -61839,7 +61839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -77299,6 +77299,7 @@ GameObject:
   - component: {fileID: 1346610923}
   - component: {fileID: 1346610922}
   - component: {fileID: 1346610921}
+  - component: {fileID: 1346610926}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -77412,6 +77413,18 @@ MonoBehaviour:
   prevState: 0
   gameSound: {fileID: 11400000, guid: 347b276e94137114eb971a16674a0065, type: 2}
   gameUI: {fileID: 11400000, guid: a06776bd8f5ec1e449c5f964992d9485, type: 2}
+--- !u!114 &1346610926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1346610917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f16afe8919828ff499c160b968831958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds: []
 --- !u!1 &1347460395
 GameObject:
   m_ObjectHideFlags: 0
@@ -79657,6 +79670,16 @@ Prefab:
         type: 2}
       propertyPath: m_Color.a
       value: 0.22352941
+      objectReference: {fileID: 0}
+    - target: {fileID: 224720774764887470, guid: de35e19181f9f40dd982197e3277652d,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 224720774764887470, guid: de35e19181f9f40dd982197e3277652d,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de35e19181f9f40dd982197e3277652d, type: 2}
@@ -83973,7 +83996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -224, y: -168}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1453517804
@@ -122860,6 +122883,7 @@ MonoBehaviour:
   target: {fileID: 0}
   gameState: {fileID: 11400000, guid: be80d64c5b20a46baaf2ba656effca2d, type: 2}
   xRange: 0
+  xMax: 0
   angleRange: 0
   counter: 0
   yHeight: 0

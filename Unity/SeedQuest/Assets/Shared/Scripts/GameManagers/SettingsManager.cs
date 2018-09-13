@@ -23,21 +23,21 @@ public class SettingsManager : MonoBehaviour {
 
     static public float MasterVolume {
         get { return Instance.masterVolume; }
-        set { Instance.masterVolume = value; }
+        set { Instance.masterVolume = value; AudioManager.UpdateAudioSettings(); }
     }
 
     static public float MusicVolume {
         get { return Instance.musicVolume; }
-        set { Instance.musicVolume = value; }
+        set { Instance.musicVolume = value; AudioManager.UpdateAudioSettings(); }
     }
 
     static public float SoundEffectVolume {
         get { return Instance.soundEffectVolume; }
-        set { Instance.soundEffectVolume = value; }
+        set { Instance.soundEffectVolume = value; AudioManager.UpdateAudioSettings(); }
     }
 
     static public bool IsVolumeMuted {
         get { return Instance.muteVolume; }
-        set { Instance.muteVolume = value; }
+        set { Instance.muteVolume = value; AudioManager.UpdateAudioSettings(); }
     }
 }
