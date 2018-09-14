@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class WalkingPlayer : MonoBehaviour {
 
-    Animator animator;
-
-    public GameStateData gameState;
-
+    private Animator animator; 
     public GameObject cloudGenerator;
 
     public float moveSpeed = 11;
@@ -18,18 +15,13 @@ public class WalkingPlayer : MonoBehaviour {
     private float moveHorizontal = 0f;
     private float moveVertical = 0f;
 
-	// Use this for initialization
 	void Start () {
         animator = GameObject.FindWithTag("Player").GetComponent<Animator>();
-        //Cursor.visible = false;
 	}
 	
-	// Update is called once per frame
 	void Update () {
-        //float rotate = Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
 
         // runSpeed = animator.GetBool("Run") ? runMultiplier : 1;
-
         if (animator.GetBool("Run") && runSpeed < runMultiplier)
             runSpeed += 0.09f;
         else if (animator.GetBool("Run"))
@@ -37,19 +29,15 @@ public class WalkingPlayer : MonoBehaviour {
         else
             runSpeed = 1f;
 
-        if (!gameState.isPaused && !gameState.isCameraPaused)
-        {
+        if (!PauseManager.isPaused) {
             moveHorizontal = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
             moveVertical = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * runSpeed;
         }
-        else
-        {
+        else {
             moveHorizontal = 0f;
             moveVertical = 0f;
         }
 
-
-        //transform.Rotate(0, rotate, 0);
         transform.Translate(moveHorizontal, 0, 0);
         transform.Translate(0, 0, moveVertical);
 
@@ -62,7 +50,7 @@ public class WalkingPlayer : MonoBehaviour {
             cloudGenerator.GetComponent<cloudGenerator>().stopGenerate();
         }
 
-        if (Input.GetKeyDown("r") && !gameState.isPaused)
+        if (Input.GetKeyDown("r") && !PauseManager.isPaused)
         {
             if (animator.GetBool("Run"))
             {

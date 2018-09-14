@@ -11,9 +11,6 @@ public class GameUI : MonoBehaviour {
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-
-        //Canvas[] children = GetComponentsInChildren<Canvas>(true);
-        //Debug.Log("GameUI Children Count: " +children.Length);
     } 
 
     static public bool CursorUI { 

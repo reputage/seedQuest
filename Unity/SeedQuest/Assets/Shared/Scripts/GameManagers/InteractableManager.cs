@@ -67,21 +67,21 @@ public class InteractableManager : MonoBehaviour
         return effect;
     }
 
+    static public void showActions(Interactable interactable) {
+        InteractableManager.ActiveItem = interactable;
+        GameManager.State = GameState.Interact;
+        InteractableUI.show(interactable);
+    }
+
     static public void doInteractableAction(int actionIndex) {
         Debug.Log("Action " + actionIndex);
 
         ParticleSystem effect = getEffect();
         effect.Play();
 
-        instance.activeItem.doAction(actionIndex);
-        instance.activeItem = null;
-        
-        PauseManager.isPaused = false;
-        InteractableUI.hide();
+        InteractableManager.ActiveItem.doAction(actionIndex);
+        InteractableManager.ActiveItem = null;
+
+        GameManager.State = GameManager.PrevState;
     } 
-
-    public void doInteractableActionButton(int actionIndex) {
-        doInteractableAction(actionIndex);
-    }
-
 }

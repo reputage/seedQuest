@@ -19,9 +19,11 @@ public class Interactable : MonoBehaviour {
 	}
 	
 	void Update () {
-        BillboardInteractable();
-        HoverOnInteractable();
-        clickOnInteractable();
+        if(!PauseManager.isPaused && Camera.main != null) {
+            BillboardInteractable();
+            HoverOnInteractable();
+            clickOnInteractable();
+        }
 	} 
 
     private void OnDrawGizmos()
@@ -90,8 +92,8 @@ public class Interactable : MonoBehaviour {
                 bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
                 if (hitThisInteractable) {
                     Debug.Log("Hit: " + transform.name);
-                    InteractableUI.show(this);
-                    //InteractableManager.showInteractableActions(this);
+                    //InteractableUI.show(this);
+                    InteractableManager.showActions(this);
                 }
             }
         }

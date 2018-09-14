@@ -14,11 +14,6 @@ public class DisplayUI : MonoBehaviour {
         Tooltip.SetActive(false);
     }
 
-    public void Update()
-    {
-        
-    }
-
     private void OnMouseEnter()
     {
         Debug.Log("test");

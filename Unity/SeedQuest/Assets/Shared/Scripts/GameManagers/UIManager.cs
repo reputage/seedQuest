@@ -50,6 +50,7 @@ public class UIManager : MonoBehaviour {
                 GameUI.StartMenuUI = false;
                 GameUI.DebugCanvas = true;
                 GameUI.ActionListCanvas = true;
+                GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
                 break;
             case GameState.Recall:
@@ -57,7 +58,12 @@ public class UIManager : MonoBehaviour {
                 GameUI.StartMenuUI = false;
                 GameUI.DebugCanvas = true;
                 GameUI.ActionListCanvas = true;
+                GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
+                break;
+            case GameState.Interact:
+                GameUI.ActionListCanvas = false;
+                GameUI.InteractiableUI = true;
                 break;
             case GameState.Pause:
                 GameUI.PauseMenuCanvas = true;

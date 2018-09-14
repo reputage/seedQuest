@@ -14,16 +14,7 @@ public class InteractableUI : MonoBehaviour {
             Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        //hide();
-    }
-
     static public void show(Interactable item) {
-        InteractableManager.ActiveItem = item;
-        instance.gameObject.SetActive(true);
-        PauseManager.isPaused = true;
-
         var labels = instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         labels[0].text = item.getInteractableName();
 
@@ -41,10 +32,6 @@ public class InteractableUI : MonoBehaviour {
             labels[3].text = item.getStateName(2);
         if (item.getStateCount() > 3)
             labels[4].text = item.getStateName(3);  
-    }
-
-    static public void hide() {
-        instance.gameObject.SetActive(false);
     }
 
     public void doAction(int index) {
