@@ -36,7 +36,7 @@ public class StateController : MonoBehaviour {
         InteractableID[] locs = GetInteractableLocations(); // fixes the warning in the compiler
         pathTargets = GetInteractablePathTest(locs);
 
-        gameState.startPathSearch = false; 
+        gameState.startPathSearch = true; 
         gameState.pathComplete = false;
         gameState.currentAction = pathTargets[0];
         gameState.targetList = pathTargets;
