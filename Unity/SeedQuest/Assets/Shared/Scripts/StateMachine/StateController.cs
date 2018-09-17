@@ -19,7 +19,7 @@ public class StateController : MonoBehaviour {
 
     private void Awake() {
         pathfinding = NavAIMesh.GetComponent<Pathfinding>();
-        gameState.actionLog = NavAIMesh.GetComponent<ActionLog>();
+        gameState.actionLog = NavAIMesh.GetComponent<InteractableLog>();
         InitializeState();
     }
 
@@ -122,18 +122,18 @@ public class StateController : MonoBehaviour {
         if(gameState.inRehersalMode) {
             // Record action at interactable into action log
             InteractableID interactable = pathTargets[nextWayPoint];
-            NavAIMesh.GetComponent<ActionLog>().Add(interactable, actionIndex);
+            NavAIMesh.GetComponent<InteractableLog>().Add(interactable, actionIndex);
 
             // Go to next waypoint
             NextPath();
         }
         else {
             InteractableID interactable = gameState.currentAction;
-            NavAIMesh.GetComponent<ActionLog>().Add(interactable, actionIndex);
+            NavAIMesh.GetComponent<InteractableLog>().Add(interactable, actionIndex);
 
-            gameState.pathComplete = NavAIMesh.GetComponent<ActionLog>().ActionsComplete();
+            gameState.pathComplete = NavAIMesh.GetComponent<InteractableLog>().ActionsComplete();
             if(gameState.pathComplete)
-               gameState.recoveredSeed = NavAIMesh.GetComponent<ActionLog>().getSeed();
+               gameState.recoveredSeed = NavAIMesh.GetComponent<InteractableLog>().getSeed();
         }
 
     }
@@ -146,7 +146,7 @@ public class StateController : MonoBehaviour {
         else
         {
             gameState.pathComplete = true;
-            gameState.recoveredSeed = NavAIMesh.GetComponent<ActionLog>().getSeed();
+            gameState.recoveredSeed = NavAIMesh.GetComponent<InteractableLog>().getSeed();
             Debug.Log(gameState.recoveredSeed);
         }
     }

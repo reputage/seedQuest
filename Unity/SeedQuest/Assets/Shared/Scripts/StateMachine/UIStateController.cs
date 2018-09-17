@@ -78,7 +78,7 @@ public class UIStateController : MonoBehaviour {
             ActionDisplay.transform.GetChild(i + 1).gameObject.SetActive(true);
         }
 
-        ActionLog log = gameState.actionLog;
+        InteractableLog log = gameState.actionLog;
         for (int i = 0; i < log.ActionCount(); i++)
         {
             GameObject l = ActionDisplay.transform.GetChild(i + 1).gameObject;
@@ -93,11 +93,11 @@ public class UIStateController : MonoBehaviour {
             ActionDisplay.transform.GetChild(i+1).gameObject.SetActive(false);
         }
 
-        ActionLog log = gameState.actionLog;
+        InteractableLog log = gameState.actionLog;
         for (int i = 0; i < log.ActionCount(); i++)
         {
-            string interactableLabel = log.iLog[i].label;
-            string actionLabel = log.iLog[i].actions[log.aLog[i]].label;
+            string interactableLabel = log.interactableLog[i].label;
+            string actionLabel = log.interactableLog[i].actions[log.actionLog[i]].label;
 
             GameObject g = ActionDisplay.transform.GetChild(i + 1).gameObject;
             g.SetActive(true);

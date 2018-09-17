@@ -49,7 +49,7 @@ public class newStartMenu : MonoBehaviour {
         Debug.Log(seedInput);
     }
 
-    // Pass the input seed to the GameState data, so it can find the right path
+    // Pass the input seed to the GameState data, so it can find the right Path
     public void setStateDataSeed()
     {
         gameState.SeedString = seedInput;

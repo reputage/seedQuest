@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-[ExecuteInEditMode]
-public class InteractableManager : MonoBehaviour
-{
+public class InteractableManager : MonoBehaviour {
 
     public float interactDistance = 2.0f;
     public GameObject actionSpotIcon;
-    public Interactable[] InteractableList = null;
     private Interactable activeItem = null;
+
+    static public Interactable[] InteractableList
+    {
+        get { return findAllInteractables(); }
+    }
 
     static public Interactable ActiveItem
     {
@@ -25,10 +27,6 @@ public class InteractableManager : MonoBehaviour
                 __instance = GameObject.FindObjectOfType<InteractableManager>();
             return __instance;
         }
-    }
-
-    private void Update() {
-        InteractableList = findAllInteractables();
     }
 
     static Interactable[] findAllInteractables() {

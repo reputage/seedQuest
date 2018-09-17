@@ -9,6 +9,7 @@ public class Interactable : MonoBehaviour {
 
     public GameObject transformTarget = null;
     public InteractableStateData stateData = null;
+    public InteractableID ID;
 
     private bool isOnHover = false;
     private GameObject actionSpot = null;

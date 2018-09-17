@@ -225,7 +225,7 @@ public class SeedToByte : MonoBehaviour
         return BitConverter.ToString(bytes).Replace("-", "");
     }
 
-    // Construct the list of how many bits represent which parts of the path to take
+    // Construct the list of how many bits represent which parts of the Path to take
     public List<int> listBuilder()
     {
         

@@ -31,7 +31,7 @@ public class GameStateData : ScriptableObject {
 
     public string SeedString;
     public string recoveredSeed;
-    public ActionLog actionLog;
+    public InteractableLog actionLog;
 
     public int SiteBits = 4;
     public int SpotBits = 4;
