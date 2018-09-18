@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MinimapObjects : MonoBehaviour {
 
     public GameObject childObjects;
-    public InteractableID target;
+    public Interactable target;
     public RectTransform waypoint;
     public Transform player;
 
@@ -18,7 +18,6 @@ public class MinimapObjects : MonoBehaviour {
     {
         deactivate();
         checking = true;
-
     }
 
     void Update()
@@ -36,7 +35,7 @@ public class MinimapObjects : MonoBehaviour {
             }
         }
 
-        target = gameState.currentAction;
+        target = PathManager.PathTarget;
         calculateWaypointPosition();
     }
 

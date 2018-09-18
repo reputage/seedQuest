@@ -5,36 +5,45 @@ using UnityEngine;
 public class PathManager : MonoBehaviour {
 
     public GameObject PathMesh = null;
-    public Interactable[] Path = null;
-    public string inputSeed = null;
-    public string recoveredSeed = null;
-    public Interactable PathTarget { get { return Path[pathTargetIndex]; } }
-
+    public Interactable[] path = null;
     private int pathTargetIndex = 0;
     private Vector3[] pathWaypoints = null;
 
+    static public Interactable[] Path { get { return Instance.path; } }
+
+    static public Interactable PathTarget {
+        get {
+            if (Path == null || Path.Length == 0)
+                return null;
+            return Path[Instance.pathTargetIndex];
+        }
+    }
+
     static public PathManager instance = null;
+
     static public PathManager Instance {
         get {
             if (instance == null)
                 instance = GameObject.FindObjectOfType<PathManager>();
             return instance;
         }
-    }
+    } 
 
     void Update () { 
         if(GameManager.State == GameState.Rehearsal) {
-            if (Path == null)
-                Path = CreatePath();
+            CreatePath();
             FindPath();
             DrawPath(); 
         }
 	}
 
-    private Interactable[] CreatePath()
+    private void CreatePath()
     {
-        SeedConverter converter = new SeedConverter();
-        return converter.encodeSeed(inputSeed);
+        if (Path == null || Path.Length == 0) {
+            SeedConverter converter = new SeedConverter();
+            path = converter.encodeSeed(SeedManager.InputSeed);
+        }
+
     }
 
     private void FindPath() 

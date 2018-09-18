@@ -7,7 +7,7 @@ public class InteractableLog : MonoBehaviour {
     public List<InteractableID> interactableLog = new List<InteractableID>();
     public List<int> actionLog = new List<int>();
 
-    public GameStateData gameState;
+    public int Length { get { return interactableLog.Count; } }
 
 	public void Add(InteractableID interactable, int actionID) {
         interactableLog.Add(interactable);
@@ -15,7 +15,7 @@ public class InteractableLog : MonoBehaviour {
     }
 
     public bool ActionsComplete() {
-        return interactableLog.Count >= gameState.SiteCount * gameState.ActionCount;   
+        return interactableLog.Count >= SeedManager.SiteCount * SeedManager.ActionCount;   
     }
 
     public int ActionCount() {

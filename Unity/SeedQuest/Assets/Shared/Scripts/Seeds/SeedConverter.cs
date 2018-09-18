@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class SeedConverter {
 
-    static public int SiteBits = 2;
-    static public int SpotBits = 1;
-    static public int ActionBits = 1;
-    static public int ActionCount = 1;
-    static public int SiteCount = 4;
-
     private SeedToByte converter = new SeedToByte();
 
     /// <summary> 
@@ -42,14 +36,14 @@ public class SeedConverter {
         {
             int siteID = actions[count];
 
-            for (int j = 0; j < ActionCount; j++)
+            for (int j = 0; j < SeedManager.ActionCount; j++)
             {
                 int spotID = actions[count + (2 * j) + 1];
                 int actionID = actions[count + (2 * j) + 2];
                 locationIDs.Add(new InteractableID(siteID, spotID, actionID));
             }
 
-            count += 1 + 2 * ActionCount;
+            count += 1 + 2 * SeedManager.ActionCount;
         }
 
         return locationIDs.ToArray();
@@ -60,8 +54,8 @@ public class SeedConverter {
     /// </summary>
     private Interactable[] getInteractablePath(InteractableID[] pathIDs) {
 
-        int siteCount = (int)Mathf.Pow(2.0F, SiteBits);
-        int spotCount = (int)Mathf.Pow(2.0F, SpotBits);
+        int siteCount = (int)Mathf.Pow(2.0F, SeedManager.SiteBits);
+        int spotCount = (int)Mathf.Pow(2.0F, SeedManager.SpotBits);
         Interactable[,] LUT = new Interactable[siteCount, spotCount];
 
         Interactable[] interactables = InteractableManager.InteractableList;
@@ -86,14 +80,14 @@ public class SeedConverter {
     /// </summary>
     private int[] EncodeInteractions(InteractableLog log)
     {
-        int totalInt = (2 * ActionCount) + SiteCount;
+        int totalInt = (2 * SeedManager.ActionCount) + SeedManager.SiteCount;
         int counter = 0;
         List<int> actionLog = new List<int>();
 
-        for (int j = 0; j < SiteCount; j++)
+        for (int j = 0; j < SeedManager.SiteCount; j++)
         {
             actionLog.Add(log.interactableLog[(counter)].siteID);
-            for (int i = 0; i < ActionCount; i++)
+            for (int i = 0; i < SeedManager.ActionCount; i++)
             {
                 actionLog.Add(log.interactableLog[counter].spotID);
                 actionLog.Add(log.actionLog[counter]);

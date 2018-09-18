@@ -8,6 +8,7 @@ public class InteractableManager : MonoBehaviour {
     public float interactDistance = 2.0f;
     public GameObject actionSpotIcon;
     private Interactable activeItem = null;
+    public InteractableLog log = new InteractableLog();
 
     static public Interactable[] InteractableList
     {
@@ -18,6 +19,10 @@ public class InteractableManager : MonoBehaviour {
     {
         get { return instance.activeItem; }
         set { instance.activeItem = value; }
+    }
+
+    static public InteractableLog Log {
+        get { return instance.log; }
     }
 
     static public InteractableManager __instance = null;

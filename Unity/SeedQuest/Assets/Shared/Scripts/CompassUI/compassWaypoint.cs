@@ -6,7 +6,7 @@ public class compassWaypoint : MonoBehaviour {
 
 
     public GameObject player;
-    public InteractableID target;
+    public Interactable target;
 
     public GameStateData gameState;
 
@@ -45,7 +45,7 @@ public class compassWaypoint : MonoBehaviour {
         angleRange = 50;
         counter = 0;
 
-        setTarget(gameState.currentAction);
+        setTarget(PathManager.PathTarget);
     }
 
     // This calculates the angles for direction the player is facing, 
@@ -90,7 +90,7 @@ public class compassWaypoint : MonoBehaviour {
         if (counter >= 10)
         {
             counter = 0;
-            setTarget(gameState.currentAction);
+            setTarget(PathManager.PathTarget);
         }
     }
 
@@ -101,7 +101,7 @@ public class compassWaypoint : MonoBehaviour {
     }
 
     // Sets a new target for the compass waypoint to track. Needs to be tested.
-    void setTarget(InteractableID newTarget)
+    void setTarget(Interactable newTarget)
     {
         target = newTarget;
     }

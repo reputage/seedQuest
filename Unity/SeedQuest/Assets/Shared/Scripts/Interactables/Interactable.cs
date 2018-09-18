@@ -143,12 +143,22 @@ public class Interactable : MonoBehaviour {
             return this.stateData.interactableName;
     }
 
+    public string Name
+    {
+        get { return getInteractableName(); }
+    }
+
     public string getStateName(int index)
     {
         if (stateData == null)
             return "Action #" + index;
         else
             return this.stateData.getStateName(index);
+    }
+
+    public string RehersalActionName
+    {
+        get { return getStateName(ID.actionID); }
     }
 
     public int getStateCount()
@@ -158,4 +168,5 @@ public class Interactable : MonoBehaviour {
         else
             return this.stateData.states.Count;
     }
+
 } 
