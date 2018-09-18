@@ -36,8 +36,10 @@ public class GameManager : MonoBehaviour {
     public void Update() { 
         if (Input.GetKey("escape"))
         {
-            GameManager.State = GameState.Pause;
-            Debug.Log("Pause Game: " + GameManager.State);
+            if (GameManager.State == GameState.Pause || GameManager.State == GameState.Interact)
+                GameManager.State = GameManager.PrevState;
+            else
+                GameManager.State = GameState.Pause;
         }
     }
 }

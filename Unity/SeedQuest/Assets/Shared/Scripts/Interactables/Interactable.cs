@@ -11,6 +11,7 @@ public class Interactable : MonoBehaviour {
     public InteractableStateData stateData = null;
     public InteractableID ID;
 
+    private float interactDistance = 2.0f;
     private bool isOnHover = false;
     private GameObject actionSpot = null;
 
@@ -30,7 +31,7 @@ public class Interactable : MonoBehaviour {
     private void OnDrawGizmos()
     {
         if (actionSpot != null)
-            Gizmos.DrawWireSphere(actionSpot.transform.position, 0.1f);
+            Gizmos.DrawWireSphere(actionSpot.transform.position, interactDistance);
     }
 
     public void InitInteractable() {
@@ -39,7 +40,7 @@ public class Interactable : MonoBehaviour {
             positionOffset = stateData.labelPosOffset;
         Vector3 position = transform.position + positionOffset;
         Quaternion rotate = Quaternion.identity;
-        actionSpot = Instantiate(InteractableManager.instance.actionSpotIcon, position, rotate, InteractableManager.instance.transform);
+        actionSpot = Instantiate(InteractableManager.Instance.actionSpotIcon, position, rotate, InteractableManager.Instance.transform);
         var text = actionSpot.GetComponentInChildren<TMPro.TextMeshProUGUI>();
 
         if (stateData != null)
@@ -58,6 +59,16 @@ public class Interactable : MonoBehaviour {
         actionSpot.transform.rotation = rotate;
     }
 
+    private bool PlayerIsNear()
+    {
+        Vector3 playerPosition = PlayerManager.GetPlayer().position;
+        float dist = (transform.position - playerPosition).magnitude;
+        if (dist < interactDistance)
+            return true;
+        else
+            return false;
+    }
+
     public void HoverOnInteractable() {
         Camera c = Camera.main;
         RaycastHit hit;
@@ -67,7 +78,7 @@ public class Interactable : MonoBehaviour {
         {
             bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
             if (hitThisInteractable) {
-                Debug.Log("Hover: " + transform.name);
+              
                 if (!isOnHover)
                     toggleHighlight(true);
                 isOnHover = true;
@@ -92,8 +103,6 @@ public class Interactable : MonoBehaviour {
             {
                 bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
                 if (hitThisInteractable) {
-                    Debug.Log("Hit: " + transform.name);
-                    //InteractableUI.show(this);
                     InteractableManager.showActions(this);
                 }
             }

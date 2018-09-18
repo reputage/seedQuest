@@ -1,37 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
+﻿using UnityEngine;
 
 public class InteractableManager : MonoBehaviour {
 
-    public float interactDistance = 2.0f;
+    public float nearDistance = 2.0f;
     public GameObject actionSpotIcon;
     private Interactable activeItem = null;
-    public InteractableLog log = new InteractableLog();
+    public InteractableLog log;
 
     static public Interactable[] InteractableList
     {
         get { return findAllInteractables(); }
     }
 
-    static public Interactable ActiveItem
-    {
-        get { return instance.activeItem; }
-        set { instance.activeItem = value; }
-    }
-
     static public InteractableLog Log {
-        get { return instance.log; }
+        get { return Instance.log; }
     }
 
-    static public InteractableManager __instance = null;
-    static public InteractableManager instance {
+    static private InteractableManager instance = null;
+    static public InteractableManager Instance {
         get {
-            if (__instance == null)
-                __instance = GameObject.FindObjectOfType<InteractableManager>();
-            return __instance;
+            if (instance == null)
+                instance = GameObject.FindObjectOfType<InteractableManager>();
+            return instance;
         }
+    }
+
+    private void Awake() {
+        log = new InteractableLog();
     }
 
     static Interactable[] findAllInteractables() {
@@ -45,7 +40,7 @@ public class InteractableManager : MonoBehaviour {
         {
             Vector3 playerPosition = PlayerManager.GetPlayer().position;
             float dist = (item.transform.position - playerPosition).magnitude;
-            if (dist < instance.interactDistance)
+            if (dist < Instance.nearDistance)
                 doNearInteractable(true);
             else
                 doNearInteractable(false);
@@ -59,32 +54,33 @@ public class InteractableManager : MonoBehaviour {
     static ParticleSystem getEffect() {
         ParticleSystem effect;
 
-        InteractableStateData data = instance.activeItem.stateData;
+        InteractableStateData data = Instance.activeItem.stateData;
         if(data == null)
-            effect = EffectsManager.createEffect(instance.activeItem.transform);
+            effect = EffectsManager.createEffect(Instance.activeItem.transform);
         else if(data.effect == null)
-            effect = EffectsManager.createEffect(instance.activeItem.transform);
+            effect = EffectsManager.createEffect(Instance.activeItem.transform);
         else 
-            effect = EffectsManager.createEffect(instance.activeItem.transform, data.effect);
+            effect = EffectsManager.createEffect(Instance.activeItem.transform, data.effect);
 
         return effect;
     }
 
     static public void showActions(Interactable interactable) {
-        InteractableManager.ActiveItem = interactable;
+        InteractableManager.Instance.activeItem = interactable;
         GameManager.State = GameState.Interact;
         InteractableUI.show(interactable);
     }
 
+    /// <summary> Do Interaction - Does Action, actives effect, logs action, updates path (for rehersal) and exits interactable ui dialog </summary>
     static public void doInteractableAction(int actionIndex) {
-        Debug.Log("Action " + actionIndex);
 
         ParticleSystem effect = getEffect();
         effect.Play();
 
-        InteractableManager.ActiveItem.doAction(actionIndex);
-        InteractableManager.ActiveItem = null;
-
+        Instance.activeItem.doAction(actionIndex);
+        InteractableManager.Log.Add(Instance.activeItem, actionIndex);
+        Instance.activeItem = null;
         GameManager.State = GameManager.PrevState;
-    } 
+        PathManager.NextPathSegment();
+    }
 }

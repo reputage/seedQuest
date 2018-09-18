@@ -86,10 +86,10 @@ public class SeedConverter {
 
         for (int j = 0; j < SeedManager.SiteCount; j++)
         {
-            actionLog.Add(log.interactableLog[(counter)].siteID);
+            actionLog.Add(log.interactableLog[(counter)].ID.siteID);
             for (int i = 0; i < SeedManager.ActionCount; i++)
             {
-                actionLog.Add(log.interactableLog[counter].spotID);
+                actionLog.Add(log.interactableLog[counter].ID.spotID);
                 actionLog.Add(log.actionLog[counter]);
                 counter += 1;
             }

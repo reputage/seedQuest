@@ -36,4 +36,8 @@ public class GameUI : MonoBehaviour {
     static public bool PauseMenuCanvas {
         set { instance.GetComponentInChildren<PauseMenuCanvas>(true).gameObject.SetActive(value); }
     }
+
+    static public bool EndGameUI {
+        set { instance.GetComponentInChildren<EndGameUI>(true).gameObject.SetActive(value); }
+    }
 }

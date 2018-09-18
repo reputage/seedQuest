@@ -18,8 +18,8 @@ public class EffectsManager : MonoBehaviour {
     }
 
     /*
-     * Creates an gets an effect created from effectPrefab. Generates a new instance
-     * if doesn't exist. If effect does exist, returns effect instance found in parent.
+     * Creates an gets an effect created from effectPrefab. Generates a new Instance
+     * if doesn't exist. If effect does exist, returns effect Instance found in parent.
      */
     static public ParticleSystem createEffect(Transform parent) {
        

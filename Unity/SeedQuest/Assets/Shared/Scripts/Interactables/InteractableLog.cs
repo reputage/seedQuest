@@ -2,28 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableLog : MonoBehaviour {
+public class InteractableLog {
 
-    public List<InteractableID> interactableLog = new List<InteractableID>();
+    /// <summary> Log of Interactables Used </summary>
+    public List<Interactable> interactableLog = new List<Interactable>();
+    /// <summary> Log of Interactable Actions Used </summary>
     public List<int> actionLog = new List<int>();
-
+    
+    /// <summary> Length of Log </summary>
     public int Length { get { return interactableLog.Count; } }
+    /// <summary> Log is complete and filled with the required about of entries </summary>
+    public bool LogIsComplete { get { return interactableLog.Count >= SeedManager.SiteCount * SeedManager.ActionCount; } }
 
-	public void Add(InteractableID interactable, int actionID) {
+    /// <summary> Add a log with the interactable and action used </summary>
+    public void Add(Interactable interactable, int actionID) {
         interactableLog.Add(interactable);
         actionLog.Add(actionID);
     }
 
-    public bool ActionsComplete() {
-        return interactableLog.Count >= SeedManager.SiteCount * SeedManager.ActionCount;   
-    }
-
-    public int ActionCount() {
-        return interactableLog.Count;
-    }
-
-    public string getSeed()
-    {
+    /// <summary> Decodes Log into a Seed string </summary>
+    public string RecoverSeed() {
         SeedConverter converter = new SeedConverter();
         return converter.DecodeSeed(this);
     }

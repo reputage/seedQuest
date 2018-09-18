@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour {
                 GameUI.ActionListCanvas = false;
                 GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
+                GameUI.EndGameUI = false;
                 break;
             case GameState.Rehearsal:
                 GameUI.CursorUI = true;
@@ -70,6 +71,7 @@ public class UIManager : MonoBehaviour {
                 break;
             case GameState.GameEnd:
                 GameUI.PauseMenuCanvas = false;
+                GameUI.EndGameUI = true;
                 break;
             default:
                 break;
