@@ -6,17 +6,20 @@ using TMPro;
 
 public class ActionListCanvas : MonoBehaviour {
 
-    public List<ActionItem> ActionItemList = new List<ActionItem>();
+    public List<ActionItem> actionItemList = new List<ActionItem>();
 
 	void Update () {
         if(GameManager.State == GameState.Rehearsal) {
             CreateRehersalActionList();
             UpdateRehersalActionList();
         }
+        else if(GameManager.State == GameState.Recall){
+
+        }
 	}
 
     private void CreateRehersalActionList() {
-        if (ActionItemList.Count > 0)
+        if (actionItemList.Count > 0)
             return;
 
         int count = PathManager.Path.Length;
@@ -24,12 +27,12 @@ public class ActionListCanvas : MonoBehaviour {
         {
             string name = PathManager.Path[i].Name;
             string action = PathManager.Path[i].RehersalActionName;
-            GameObject item = createActionItem(i, name + ": " + action);
-            ActionItemList.Add(item.GetComponent<ActionItem>());
+            GameObject item = CreateActionItem(i, name + ": " + action);
+            actionItemList.Add(item.GetComponent<ActionItem>());
         }
     }
 
-    private GameObject createActionItem(int index, string text) {
+    private GameObject CreateActionItem(int index, string text) {
         GameObject item = new GameObject();
         item = Instantiate(item, transform);
         item.name = "Action Item " + index;
@@ -42,6 +45,6 @@ public class ActionListCanvas : MonoBehaviour {
     private void UpdateRehersalActionList() {
         int count = InteractableManager.Log.Length;
         for (int i = 0; i < count; i++)
-            ActionItemList[i].image.sprite = GameManager.GameUI.checkedBox;
+            actionItemList[i].image.sprite = GameManager.GameUI.checkedBox;
     }
 }
