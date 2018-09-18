@@ -38,7 +38,7 @@ public class InteractableManager : MonoBehaviour {
 
         foreach (Interactable item in list)
         {
-            Vector3 playerPosition = PlayerManager.GetPlayer().position;
+            Vector3 playerPosition = PlayerManager.Position;
             float dist = (item.transform.position - playerPosition).magnitude;
             if (dist < Instance.nearDistance)
                 doNearInteractable(true);

@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class compassWaypoint : MonoBehaviour {
 
-
-    public GameObject player;
     public Interactable target;
-
-    public GameStateData gameState;
-
+    
     public int xRange;
     public int xMax;
     public int angleRange;
@@ -21,13 +17,11 @@ public class compassWaypoint : MonoBehaviour {
 
     RectTransform rPosition;
 
-
 	void Start ()
     {
         initialize();
     }
 	
-
 	void Update () 
     {
         updateWaypoint();
@@ -54,10 +48,11 @@ public class compassWaypoint : MonoBehaviour {
     void updateWaypoint()
     {
         counter += 1;
-        targetDir = target.transform.position - player.transform.position;
+
+        targetDir = target.transform.position - PlayerManager.Position;
 
         float angle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
-        float playerAngle = player.transform.eulerAngles.y;
+        float playerAngle = PlayerManager.Transform.eulerAngles.y;
 
         // These calculations are required, if you change this code, 
         //  please double-check to make sure it still works properly.

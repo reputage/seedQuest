@@ -5,10 +5,7 @@ using UnityEngine;
 public class compassObjects : MonoBehaviour {
 
     public GameObject childObjects;
-    public GameStateData gameState;
-
     private bool checking;
-
 
     void Start () 
     {
@@ -16,29 +13,24 @@ public class compassObjects : MonoBehaviour {
         checking = true;
 	}
 
-
     void Update()
     {
         if (checking)
         {
-            if (gameState.inRehersalMode && gameState.isStarted)
-            {
+            if (GameManager.State == GameState.Rehearsal) {
                 activate();
                 checking = false;
             }
-            else
-            {
+            else {
                 deactivate();
             }
         }
     }
 
-
     void activate()
     {
         childObjects.SetActive(true);
     }
-
 
     void deactivate()
     {

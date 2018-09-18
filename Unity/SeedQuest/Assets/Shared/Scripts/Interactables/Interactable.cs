@@ -59,9 +59,8 @@ public class Interactable : MonoBehaviour {
         actionSpot.transform.rotation = rotate;
     }
 
-    private bool PlayerIsNear()
-    {
-        Vector3 playerPosition = PlayerManager.GetPlayer().position;
+    private bool PlayerIsNear() {
+        Vector3 playerPosition = PlayerManager.Position;
         float dist = (transform.position - playerPosition).magnitude;
         if (dist < interactDistance)
             return true;

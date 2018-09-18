@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class tutorialPopupWASD : MonoBehaviour
 {
-
-    public GameStateData gameState;
     public GameObject popup;
     public Text popupText;
 
@@ -19,10 +17,9 @@ public class tutorialPopupWASD : MonoBehaviour
         deactivate();
     }
 
-
     void Update()
     {
-        if (gameState.isStarted && oneTimePopup)
+        if (GameManager.State != GameState.GameStart && oneTimePopup)
         {
             oneTimePopup = false;
             activate();

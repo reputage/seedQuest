@@ -38,7 +38,7 @@ public class PlayerCamera : MonoBehaviour {
     Vector3 FarCameraLookAt { get { return transform.position + cameraFarTargetOffset; } }
 
     private void Start() {
-        PlayerManager.instance.player = transform;
+        PlayerManager.SetPlayer(transform);
         lerpTime = lerpStopTime;
     }
 

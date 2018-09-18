@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class compass_tickbar : MonoBehaviour {
 
-    public GameObject player;
-
     Vector3 forward;
-
     RectTransform rPosition;
 
     public int pixelLoop;
@@ -16,22 +13,19 @@ public class compass_tickbar : MonoBehaviour {
     public int lowerXLimit;
     public int xRange;
 
-
     void Start () 
     {
         initialize();
 	}
 	
-
     void Update () 
     {
         updatePosition();
 	}
 
-
 	private void updatePosition()
 	{
-        float playerAngle = player.transform.eulerAngles.y;
+        float playerAngle = PlayerManager.Transform.eulerAngles.y;
         float newX = (playerAngle - 180) / 360 * xRange;
         if (newX < lowerXLimit)
         {
@@ -45,7 +39,6 @@ public class compass_tickbar : MonoBehaviour {
         reposition(newX);
 	}
 
-
 	private void initialize()
     { 
         forward = transform.forward;
@@ -56,10 +49,8 @@ public class compass_tickbar : MonoBehaviour {
         xRange = upperXLimit - lowerXLimit;
     }
 
-
     private void reposition(float newX)
     {
         rPosition.anchoredPosition = new Vector3(newX, yHeight, 0);
     }
-
 }

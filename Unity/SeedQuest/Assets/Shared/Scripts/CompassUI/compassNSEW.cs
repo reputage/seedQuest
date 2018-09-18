@@ -5,19 +5,10 @@ using UnityEngine.UI;
 
 public class compassNSEW : MonoBehaviour {
 
-    public Transform player;
-
     public RawImage image;
-
-
-    void Start () 
-    {
-
-    }
-	
 
     void Update () 
     {
-        image.uvRect = new Rect(player.localEulerAngles.y / 360f, 0, 1, 1);
+        image.uvRect = new Rect(PlayerManager.Transform.localEulerAngles.y / 360f, 0, 1, 1);
 	}
 }

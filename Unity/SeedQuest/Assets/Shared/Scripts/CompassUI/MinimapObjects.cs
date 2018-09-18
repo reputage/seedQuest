@@ -8,9 +8,6 @@ public class MinimapObjects : MonoBehaviour {
     public GameObject childObjects;
     public Interactable target;
     public RectTransform waypoint;
-    public Transform player;
-
-    public GameStateData gameState;
 
     private bool checking;
 
@@ -24,13 +21,11 @@ public class MinimapObjects : MonoBehaviour {
     {
         if (checking)
         {
-            if (gameState.inRehersalMode && gameState.isStarted)
-            {
+            if (GameManager.State == GameState.Rehearsal) {
                 activate();
                 checking = false;
             }
-            else
-            {
+            else {
                 deactivate();
             }
         }
@@ -49,10 +44,9 @@ public class MinimapObjects : MonoBehaviour {
         childObjects.SetActive(true);
     }
 
-
     void calculateWaypointPosition()
     {
-        Vector3 playerNoY = player.position;
+        Vector3 playerNoY = PlayerManager.Position;
         Vector3 targetNoY = target.transform.position;
 
         playerNoY.y = 0;
@@ -66,7 +60,7 @@ public class MinimapObjects : MonoBehaviour {
         targetNoY.z = targetNoY.z / 25 * 15;
 
         Vector3 diff = targetNoY - playerNoY;
-        float normDist = Vector3.Distance(player.position, target.transform.position);
+        float normDist = Vector3.Distance(PlayerManager.Position, target.transform.position);
         float dist = Vector3.Distance(targetNoY, playerNoY);
 
         Debug.Log("Dist: " + dist + " normDist: " + normDist + " diff: " + diff);
@@ -81,5 +75,4 @@ public class MinimapObjects : MonoBehaviour {
             waypoint.anchoredPosition = new Vector3(diff.x / dist * 120, diff.z / (dist) * 120, 0);   
         }
     }
-
 }

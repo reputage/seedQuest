@@ -58,7 +58,7 @@ public class PathManager : MonoBehaviour {
     private void FindPathSegment() 
     {
         Pathfinding pathfinder = PathMesh.GetComponent<Pathfinding>();
-        Vector3 player = PlayerManager.GetPlayer().position;
+        Vector3 player = PlayerManager.Position;
         Vector3 target = PathTarget.transform.position;
         pathSegment = pathfinder.FindPath(player, target);
     }
