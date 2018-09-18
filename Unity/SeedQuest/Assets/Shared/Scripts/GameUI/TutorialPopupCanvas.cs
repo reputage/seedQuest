@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class tutorialPopupWASD : MonoBehaviour
+public class TutorialPopupCanvas : MonoBehaviour
 {
     public GameObject popup;
     public Text popupText;
@@ -47,6 +47,4 @@ public class tutorialPopupWASD : MonoBehaviour
     {
         popupText.text = newText;
     }
-
-
 }
