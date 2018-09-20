@@ -5,43 +5,13 @@ using UnityEngine.UI;
 
 public class MinimapObjects : MonoBehaviour {
 
-    public GameObject childObjects;
     public Interactable target;
     public RectTransform waypoint;
 
-    private bool checking;
-
-	void Start () 
-    {
-        deactivate();
-        checking = true;
-    }
-
     void Update()
     {
-        if (checking)
-        {
-            if (GameManager.State == GameState.Rehearsal) {
-                activate();
-                checking = false;
-            }
-            else {
-                deactivate();
-            }
-        }
-
         target = PathManager.PathTarget;
         calculateWaypointPosition();
-    }
-
-    void deactivate()
-    {
-        childObjects.SetActive(false);
-    }
-
-    void activate()
-    {
-        childObjects.SetActive(true);
     }
 
     void calculateWaypointPosition()
