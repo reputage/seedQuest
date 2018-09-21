@@ -8,6 +8,9 @@ public class MinimapObjects : MonoBehaviour {
     public Interactable target;
     public RectTransform waypoint;
 
+    public int xOffset;
+    public int yOffset;
+
     void Update()
     {
         target = PathManager.PathTarget;
@@ -37,12 +40,12 @@ public class MinimapObjects : MonoBehaviour {
 
         if (dist < 15)
         {
-            waypoint.anchoredPosition = new Vector3(diff.x / 15 * 120, diff.z / 15 * 120, 0);
+            waypoint.anchoredPosition = new Vector3(diff.x / 15 * 120 + xOffset, diff.z / 15 * 120 + yOffset, 0);
 
         }
         else
         {
-            waypoint.anchoredPosition = new Vector3(diff.x / dist * 120, diff.z / (dist) * 120, 0);   
+            waypoint.anchoredPosition = new Vector3(diff.x / dist * 120 + xOffset, diff.z / (dist) * 120 + yOffset, 0);   
         }
     }
 }
