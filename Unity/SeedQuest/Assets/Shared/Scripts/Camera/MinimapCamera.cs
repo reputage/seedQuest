@@ -17,7 +17,7 @@ public class MinimapCamera : MonoBehaviour {
 	void Start () 
     {
         cameraOffset.y = 100;
-        //initializeRes();
+        initializeRes();
 	}
 	
 
@@ -30,6 +30,8 @@ public class MinimapCamera : MonoBehaviour {
     void initializeRes()
     {
         Camera cameraRef = GetComponent<Camera>();
+        cameraRef.transform.position = new Vector3(0, 500, 0);
+        RenderTexture other = cameraRef.targetTexture;
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
         cameraRef.targetTexture = rt;
         RenderTexture.active = rt;
@@ -42,5 +44,9 @@ public class MinimapCamera : MonoBehaviour {
 
         cameraRef.targetTexture = null;
         RenderTexture.active = null;
+
+        cameraRef.targetTexture = other;
+        cameraRef.enabled = false;
+
     }
 }
