@@ -77,15 +77,15 @@ public class Interactable : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, 100.0f))
         {
             bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
+            Debug.Log(name);
             if (hitThisInteractable) {
               
                 if (!isOnHover)
                     toggleHighlight(true);
                 isOnHover = true;
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Q))
                     InteractableManager.showActions(this);
-
             }
             else {
                 if (isOnHover)
@@ -96,7 +96,7 @@ public class Interactable : MonoBehaviour {
     }
 
     public void clickOnInteractable() {
-        if (PauseManager.isPaused == false)
+        if (PauseManager.isPaused == true)
             return;
 
         Camera c = Camera.main;

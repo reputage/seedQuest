@@ -76,6 +76,7 @@ public class UIManager : MonoBehaviour {
                 GameUI.PauseMenuCanvas = true;
                 break;
             case GameState.GameEnd:
+                GameUI.ActionListCanvas = false;
                 GameUI.PauseMenuCanvas = false;
                 GameUI.EndGameUI = true;
                 break;

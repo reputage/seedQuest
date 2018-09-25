@@ -68,6 +68,11 @@ public class InteractableManager : MonoBehaviour {
     }
 
     static public void showActions(Interactable interactable) {
+
+        if (GameManager.State == GameState.Rehearsal)
+            if (PathManager.PathTarget != interactable)
+                return;
+
         InteractableManager.Instance.activeItem = interactable;
         GameManager.State = GameState.Interact;
         InteractableUI.show(interactable);
