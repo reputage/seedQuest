@@ -77,7 +77,6 @@ public class Interactable : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, 100.0f))
         {
             bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
-            Debug.Log(name);
             if (hitThisInteractable) {
               
                 if (!isOnHover)

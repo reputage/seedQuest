@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour {
     }
 
     void InitGameUI() {
+        /*
         if(gameUI == null) { 
             Debug.Log("Warning: GameUI prefab missing.");
             return;
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour {
 
         if (GameUI.instance == null)
             Instantiate(gameUI);
+        */
     }
 
     void SetGameUIState() { 
