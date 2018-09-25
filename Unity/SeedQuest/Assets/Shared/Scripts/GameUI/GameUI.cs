@@ -40,4 +40,13 @@ public class GameUI : MonoBehaviour {
     static public bool EndGameUI {
         set { instance.GetComponentInChildren<EndGameUI>(true).gameObject.SetActive(value); }
     }
+
+    static public bool CompassUI {
+        set { instance.GetComponentInChildren<compassNSEW>(true).gameObject.SetActive(value);  }
+    }
+
+    static public bool MinimapUI {
+        set { instance.GetComponentInChildren<MinimapObjects>(true).gameObject.SetActive(value); }
+    }
+
 }

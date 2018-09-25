@@ -45,6 +45,8 @@ public class UIManager : MonoBehaviour {
                 GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
                 GameUI.EndGameUI = false;
+                GameUI.CompassUI = false;
+                GameUI.MinimapUI = false;
                 break;
             case GameState.Rehearsal:
                 GameUI.CursorUI = true;
@@ -53,6 +55,8 @@ public class UIManager : MonoBehaviour {
                 GameUI.ActionListCanvas = true;
                 GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
+                GameUI.CompassUI = true;
+                GameUI.MinimapUI = true;
                 break;
             case GameState.Recall:
                 GameUI.CursorUI = true;
@@ -61,6 +65,8 @@ public class UIManager : MonoBehaviour {
                 GameUI.ActionListCanvas = true;
                 GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
+                GameUI.CompassUI = false;
+                GameUI.MinimapUI = false;
                 break;
             case GameState.Interact:
                 GameUI.ActionListCanvas = false;

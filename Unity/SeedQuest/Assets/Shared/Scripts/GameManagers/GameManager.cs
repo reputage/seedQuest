@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
     public static GameUIData GameUI { get { return Instance.gameUI; } }
 
     public void Update() { 
-        if (Input.GetKey("escape"))
+        if (Input.GetKeyDown("escape"))
         {
             if (GameManager.State == GameState.Pause || GameManager.State == GameState.Interact)
                 GameManager.State = GameManager.PrevState;

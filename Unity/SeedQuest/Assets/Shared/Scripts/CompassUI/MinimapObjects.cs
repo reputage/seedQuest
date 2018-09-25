@@ -5,43 +5,19 @@ using UnityEngine.UI;
 
 public class MinimapObjects : MonoBehaviour {
 
-    public GameObject childObjects;
     public Interactable target;
     public RectTransform waypoint;
 
-    private bool checking;
+    public int xOffset;
+    public int yOffset;
 
-	void Start () 
-    {
-        deactivate();
-        checking = true;
-    }
+    public float xScale;
+    public float yScale;
 
     void Update()
     {
-        if (checking)
-        {
-            if (GameManager.State == GameState.Rehearsal) {
-                activate();
-                checking = false;
-            }
-            else {
-                deactivate();
-            }
-        }
-
         target = PathManager.PathTarget;
         calculateWaypointPosition();
-    }
-
-    void deactivate()
-    {
-        childObjects.SetActive(false);
-    }
-
-    void activate()
-    {
-        childObjects.SetActive(true);
     }
 
     void calculateWaypointPosition()
@@ -67,12 +43,12 @@ public class MinimapObjects : MonoBehaviour {
 
         if (dist < 15)
         {
-            waypoint.anchoredPosition = new Vector3(diff.x / 15 * 120, diff.z / 15 * 120, 0);
+            waypoint.anchoredPosition = new Vector3(diff.x / 15 * 120 * xScale + xOffset, diff.z / 15 * 120 * yScale + yOffset, 0);
 
         }
         else
         {
-            waypoint.anchoredPosition = new Vector3(diff.x / dist * 120, diff.z / (dist) * 120, 0);   
+            waypoint.anchoredPosition = new Vector3(diff.x / dist * 120 * xScale + xOffset, diff.z / (dist) * 120 * yScale + yOffset, 0);   
         }
     }
 }
