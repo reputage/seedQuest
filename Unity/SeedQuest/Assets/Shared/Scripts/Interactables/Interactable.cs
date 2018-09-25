@@ -81,6 +81,10 @@ public class Interactable : MonoBehaviour {
                 if (!isOnHover)
                     toggleHighlight(true);
                 isOnHover = true;
+
+                if (Input.GetKeyDown(KeyCode.Return))
+                    InteractableManager.showActions(this);
+
             }
             else {
                 if (isOnHover)
@@ -91,6 +95,9 @@ public class Interactable : MonoBehaviour {
     }
 
     public void clickOnInteractable() {
+        if (PauseManager.isPaused == false)
+            return;
+
         Camera c = Camera.main;
 
         if (Input.GetMouseButtonDown(0))
@@ -135,12 +142,6 @@ public class Interactable : MonoBehaviour {
             InteractableState state = stateData.states[actionIndex];
             state.enterState(this);
         }
-
-        if (transformTarget == null)
-            return;
-        
-        transform.GetComponent<MeshRenderer>().enabled = false;
-        Instantiate(transformTarget, transform);
     }
 
     public string getInteractableName()

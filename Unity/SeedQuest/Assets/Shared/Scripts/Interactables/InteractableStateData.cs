@@ -11,11 +11,13 @@ public class InteractableState {
     public int materialIndex = 0;
     public Vector2 uvOffset = Vector2.zero;
     public RuntimeAnimatorController animatorController;
+    public string soundEffectName = "";
 
-    public void enterState(Interactable item) {
+    public void enterState(Interactable item)
+    {
         if (mesh != null)
             item.GetComponent<MeshFilter>().sharedMesh = mesh;
-        
+
         if (material != null)
             item.GetComponent<Renderer>().materials[materialIndex] = material;
 
@@ -23,6 +25,10 @@ public class InteractableState {
 
         if (animatorController != null)
             item.GetComponentInChildren<Animator>().runtimeAnimatorController = animatorController;
+
+        if (soundEffectName != "")
+            AudioManager.Play(soundEffectName);
+
     }
 
     public void doAction(Interactable item) {
