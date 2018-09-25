@@ -15,6 +15,7 @@ public class PlayerCamera : MonoBehaviour {
     public float cameraDistance = 2f;
     public float cameraFarDistance = 8f;
     public float cameraRotateXOffset = -15;
+    public float cameraFarRotateXOffset = 0;
     public Vector2 cameraRotateYBounds = new Vector2(-25f, 15f);
     public Vector3 cameraPositionOffset = new Vector3(0.0f, 1.0f, 0.0f);
     public Vector3 cameraFarPositionOffset = new Vector3(0.0f, 8.0f, 0.0f);
@@ -109,7 +110,13 @@ public class PlayerCamera : MonoBehaviour {
         
     void CameraRotate() {
         // Rotate Camera in Horizontal Plane 
-        Camera.main.transform.Rotate(new Vector3(0, cameraRotateXOffset, 0));
+        Vector3 xRotateOffset;
+        if(cameraPosState == CameraPos.Far)
+            xRotateOffset = Vector3.Lerp(new Vector3(0, cameraRotateXOffset, 0), new Vector3(0, cameraFarRotateXOffset, 0), Percentage);
+        else
+            xRotateOffset = Vector3.Lerp(new Vector3(0, cameraFarRotateXOffset, 0), new Vector3(0, cameraRotateXOffset, 0), Percentage);
+        
+        Camera.main.transform.Rotate(xRotateOffset);
 
         // Roate Camera in Vertical Plane
         cameraRotateYOffset += Input.GetAxis("Mouse Y") * mouseYSpeed;
