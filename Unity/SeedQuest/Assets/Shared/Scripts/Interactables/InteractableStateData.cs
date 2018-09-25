@@ -18,8 +18,11 @@ public class InteractableState {
         if (mesh != null)
             item.GetComponent<MeshFilter>().sharedMesh = mesh;
 
-        if (material != null)
-            item.GetComponent<Renderer>().materials[materialIndex] = material;
+        if (material != null) {
+            Material[] materials = item.GetComponent<Renderer>().materials;
+            materials[materialIndex] = material;
+            item.GetComponent<Renderer>().materials = materials;
+        } 
 
         item.GetComponent<Renderer>().materials[materialIndex].SetTextureOffset("_MainTex", uvOffset);
 

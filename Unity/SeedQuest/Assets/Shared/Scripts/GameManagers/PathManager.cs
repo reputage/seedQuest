@@ -57,6 +57,9 @@ public class PathManager : MonoBehaviour {
     /// <summary> Generates a Vector3[] for a PathSegment </summary>
     private void FindPathSegment() 
     {
+        if (PathTarget == null)
+            return;
+
         Pathfinding pathfinder = PathMesh.GetComponent<Pathfinding>();
         Vector3 player = PlayerManager.Position;
         Vector3 target = PathTarget.transform.position;
@@ -66,7 +69,7 @@ public class PathManager : MonoBehaviour {
     /// <summary> Draws a PathSegment using a LineRenderer </summary>
     private void DrawPathSegment()
     {
-        if (Path == null)
+        if (Path == null || PathTarget == null)
             return;
 
         LineRenderer line = PathMesh.GetComponentInChildren<LineRenderer>();
