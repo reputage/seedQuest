@@ -19,7 +19,7 @@ public class InteractableState {
         if (material != null)
             item.GetComponent<Renderer>().materials[materialIndex] = material;
 
-        item.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", uvOffset);
+        item.GetComponent<Renderer>().materials[materialIndex].SetTextureOffset("_MainTex", uvOffset);
 
         if (animatorController != null)
             item.GetComponentInChildren<Animator>().runtimeAnimatorController = animatorController;
