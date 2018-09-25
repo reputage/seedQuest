@@ -104,6 +104,9 @@ public class SeedConverter {
     /// </summary>
     public string InteractableListToSeed(Interactable[] list)
     {
+        if (list.Length == 0)
+            return "";
+
         int totalInt = (2 * SeedManager.ActionCount) + SeedManager.SiteCount;
         int counter = 0;
         List<int> actionLog = new List<int>();
