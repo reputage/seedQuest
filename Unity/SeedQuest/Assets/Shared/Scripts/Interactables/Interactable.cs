@@ -27,13 +27,9 @@ public class Interactable : MonoBehaviour {
             HoverOnInteractable();
             clickOnInteractable();
         }
-	} 
 
-    private void OnDrawGizmos()
-    {
-        //if (actionSpot != null)
-        //    Gizmos.DrawWireSphere(actionSpot.transform.position, interactDistance);
-    }
+        HighlightPathTarget();
+	} 
 
     public void InitInteractable() {
         Vector3 positionOffset = Vector3.zero;
@@ -123,10 +119,24 @@ public class Interactable : MonoBehaviour {
         Shader shaderDefault = Shader.Find("Standard");
         Shader shader = Shader.Find("Custom/Outline + Rim");
 
-        if (highlight)
-            rend.material.shader = shader;
-        else
-            rend.material.shader = shaderDefault;
+        Material[] materials = rend.materials;
+        for (int i = 0; i < materials.Length; i++) {
+
+            if (highlight)
+                rend.materials[i].shader = shader;
+            else
+                rend.materials[i].shader = shaderDefault;
+        }
+    }
+
+    public void HighlightPathTarget() {
+        if (GameManager.State != GameState.Rehearsal)
+            return;
+        
+        if (PathManager.PathTarget == this)
+            toggleHighlight(true);
+        else if(!isOnHover)
+            toggleHighlight(false);
     }
 
     public void doAction(int actionIndex) {
