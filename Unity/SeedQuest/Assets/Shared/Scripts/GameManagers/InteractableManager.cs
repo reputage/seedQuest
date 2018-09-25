@@ -6,6 +6,7 @@ public class InteractableManager : MonoBehaviour {
     public GameObject actionSpotIcon;
     private Interactable activeItem = null;
     public InteractableLog log;
+    public Interactable[] list;
 
     static public Interactable[] InteractableList
     {
@@ -27,6 +28,7 @@ public class InteractableManager : MonoBehaviour {
 
     private void Awake() {
         log = new InteractableLog();
+        list = InteractableList;
     }
 
     static Interactable[] findAllInteractables() {

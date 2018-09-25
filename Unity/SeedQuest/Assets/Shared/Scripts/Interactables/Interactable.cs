@@ -11,7 +11,8 @@ public class Interactable : MonoBehaviour {
     public InteractableStateData stateData = null;
     public InteractableID ID;
 
-    private float interactDistance = 2.0f;
+    [HideInInspector]
+    public float interactDistance = 2.0f;
     private bool isOnHover = false;
     private GameObject actionSpot = null;
 
@@ -30,8 +31,8 @@ public class Interactable : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        if (actionSpot != null)
-            Gizmos.DrawWireSphere(actionSpot.transform.position, interactDistance);
+        //if (actionSpot != null)
+        //    Gizmos.DrawWireSphere(actionSpot.transform.position, interactDistance);
     }
 
     public void InitInteractable() {
