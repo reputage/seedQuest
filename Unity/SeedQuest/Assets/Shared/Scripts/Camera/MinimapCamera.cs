@@ -17,7 +17,11 @@ public class MinimapCamera : MonoBehaviour {
 	void Start () 
     {
         cameraOffset.y = 100;
-        initializeRes();
+        screenShotRender.enabled = false;
+
+        // Comment this line out if you want to just use the camera, 
+        //  and not the rendered map image
+        initializeImage();
 	}
 	
 
@@ -27,14 +31,19 @@ public class MinimapCamera : MonoBehaviour {
         transform.position += cameraOffset;
 	}
 
-    void initializeRes()
+    // Render an image of the map by having the camera take a "screenshot"
+    //  of the world from overhead, then assigning that screenshot
+    //  to a UI image which will move itself.
+    void initializeImage()
     {
         Camera cameraRef = GetComponent<Camera>();
         cameraRef.transform.position = new Vector3(0, 500, 0);
+
         RenderTexture other = cameraRef.targetTexture;
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
         cameraRef.targetTexture = rt;
         RenderTexture.active = rt;
+
         Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
         cameraRef.Render();
         screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
@@ -44,6 +53,7 @@ public class MinimapCamera : MonoBehaviour {
 
         cameraRef.targetTexture = null;
         RenderTexture.active = null;
+        screenShotRender.enabled = true;
 
         cameraRef.targetTexture = other;
         cameraRef.enabled = false;
