@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour {
         instance.SetGameUIState();
     }
 
-    void Awake() { 
+    void Start() { 
         InitGameUI();
         SetGameUIState();
     }
