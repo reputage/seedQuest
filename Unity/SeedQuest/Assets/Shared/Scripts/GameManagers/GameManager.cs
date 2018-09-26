@@ -33,7 +33,18 @@ public class GameManager : MonoBehaviour {
     public GameUIData gameUI = null;
     public static GameUIData GameUI { get { return Instance.gameUI; } }
 
-    public void Update() { 
+    public void Update() {
+        ListenForKeyDown();
+        CheckForEndGame();
+    }
+
+    public void CheckForEndGame() {
+        if(Instance.state == GameState.Recall)
+            if(InteractableManager.Log.LogIsComplete)
+                GameManager.State = GameState.GameEnd;
+    }
+
+    public void ListenForKeyDown() {
         if (Input.GetKeyDown("escape"))
         {
             if (GameManager.State == GameState.Pause || GameManager.State == GameState.Interact)
