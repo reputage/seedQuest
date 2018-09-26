@@ -35,12 +35,17 @@ public class PathManager : MonoBehaviour {
                 instance = GameObject.FindObjectOfType<PathManager>();
             return instance;
         }
-    } 
+    }
+
+    private void Start()
+    {
+        InvokeRepeating("FindPathSegment", 0f, 0.25f);
+    }
 
     void Update () { 
         if(GameManager.State == GameState.Rehearsal) {
             CreatePath();
-            FindPathSegment();
+            //FindPathSegment();
             DrawPathSegment(); 
         }
 	}
@@ -60,6 +65,9 @@ public class PathManager : MonoBehaviour {
         if (PathTarget == null)
             return;
 
+        if (GameManager.State != GameState.Rehearsal)
+            return;
+        
         Pathfinding pathfinder = PathMesh.GetComponent<Pathfinding>();
         Vector3 player = PlayerManager.Position;
         Vector3 target = PathTarget.transform.position;

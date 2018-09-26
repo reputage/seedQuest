@@ -9,7 +9,7 @@ public class PlayerCamera : MonoBehaviour {
     // Sensitivity Properties
     public float moveSpeed = 4;
     public float mouseXSpeed = 200f;
-    public float mouseYSpeed = 1f;
+    public float mouseYSpeed = 200f;
 
     // Camera Position and LookAt Properties
     public float cameraDistance = 2f;
@@ -119,7 +119,7 @@ public class PlayerCamera : MonoBehaviour {
         Camera.main.transform.Rotate(xRotateOffset);
 
         // Roate Camera in Vertical Plane
-        cameraRotateYOffset += Input.GetAxis("Mouse Y") * mouseYSpeed;
+        cameraRotateYOffset += Input.GetAxis("Mouse Y") * mouseYSpeed * Time.deltaTime;
         cameraRotateYOffset = Mathf.Clamp(cameraRotateYOffset, cameraRotateYBounds[0], cameraRotateYBounds[1]);
         Camera.main.transform.Rotate(new Vector3(-cameraRotateYOffset, 0, 0));
     }
