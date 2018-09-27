@@ -39,6 +39,7 @@ public class VolumeOptionsMenu : MonoBehaviour {
 
     public void LeaveVolumeSettingsMenu()
     {
+        SaveSettings.saveSettings();
         PauseMenuCanvas.State = MenuState.PauseMenu;
     }
 }
