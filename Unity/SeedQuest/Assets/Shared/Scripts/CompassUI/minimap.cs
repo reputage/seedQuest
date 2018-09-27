@@ -25,6 +25,7 @@ public class minimap : MonoBehaviour
     
     }
 
+    // This is necessary to work at multiple resolutions without using canvas scaling
     void scale()
     {
         RectTransform rt = GetComponent<RectTransform>();
@@ -41,9 +42,6 @@ public class minimap : MonoBehaviour
         Debug.Log("yOffset: " + yOffset + "  yScale: " + yScale);
 
         Debug.Log("Screen width: " + Screen.width + "  Screen height: " + Screen.height);
-
-        // xOffset for 5:4 : 350 (screen width = 510) calculated: 430 diff : -80 (-15.7%)
-        // yOffset for 5:4 : 130 (screen height = 408) calculated: 74 diff : +56 (+13.7%)
 
     }
 }

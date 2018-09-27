@@ -9,6 +9,7 @@ public class minimapScaling : MonoBehaviour {
         scale();
 	}
 
+    // This is necessary to work at multiple resolutions without using canvas scaling
     void scale()
     {
         RectTransform rt = GetComponent<RectTransform>();
