@@ -14,7 +14,7 @@ public class MinimapObjects : MonoBehaviour {
     public float xScale;
     public float yScale;
 
-    void Update()
+	void Update()
     {
         target = PathManager.PathTarget;
         calculateWaypointPosition();
@@ -39,16 +39,19 @@ public class MinimapObjects : MonoBehaviour {
         float normDist = Vector3.Distance(PlayerManager.Position, target.transform.position);
         float dist = Vector3.Distance(targetNoY, playerNoY);
 
-        Debug.Log("Dist: " + dist + " normDist: " + normDist + " diff: " + diff);
+        //Debug.Log("Dist: " + dist + " normDist: " + normDist + " diff: " + diff);
 
         if (dist < 15)
         {
-            waypoint.anchoredPosition = new Vector3(diff.x / 15 * 120 * xScale + xOffset, diff.z / 15 * 120 * yScale + yOffset, 0);
-
+            Vector3 wayPos = new Vector3((diff.x / 15 * 120 * xScale + xOffset) * Screen.width / 1024f, (diff.z / 15 * 120 * yScale + yOffset) * Screen.height / 768f, 0);
+            waypoint.anchoredPosition = wayPos;
         }
         else
         {
-            waypoint.anchoredPosition = new Vector3(diff.x / dist * 120 * xScale + xOffset, diff.z / (dist) * 120 * yScale + yOffset, 0);   
+            Vector3 wayPos = new Vector3((diff.x / dist * 120 * xScale + xOffset) * Screen.width / 1024f, (diff.z / (dist) * 120 * yScale + yOffset) * Screen.height / 768f, 0);
+            waypoint.anchoredPosition = wayPos;
         }
     }
+
+
 }
