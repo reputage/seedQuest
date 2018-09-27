@@ -37,12 +37,6 @@ public class minimap : MonoBehaviour
 
         xScale = 7.85f * Screen.width / 1024;
         yScale = 5.25f * Screen.height / 768;
-
-        Debug.Log("xOffset: " + xOffset + "  xScale: " + xScale);
-        Debug.Log("yOffset: " + yOffset + "  yScale: " + yScale);
-
-        Debug.Log("Screen width: " + Screen.width + "  Screen height: " + Screen.height);
-
     }
 }
 
