@@ -57,6 +57,5 @@ public class MinimapCamera : MonoBehaviour {
 
         cameraRef.targetTexture = other;
         cameraRef.enabled = false;
-
     }
 }

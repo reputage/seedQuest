@@ -51,8 +51,10 @@ public class compassWaypoint : MonoBehaviour {
 
         targetDir = target.transform.position - PlayerManager.Position;
 
+        Transform angles = CameraStateController.Transform;
+
         float angle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
-        float playerAngle = PlayerManager.Transform.eulerAngles.y;
+        float playerAngle = angles.eulerAngles.y;
 
         // These calculations are required, if you change this code, 
         //  please double-check to make sure it still works properly.
