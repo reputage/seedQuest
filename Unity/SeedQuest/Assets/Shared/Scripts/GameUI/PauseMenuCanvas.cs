@@ -27,7 +27,12 @@ public class PauseMenuCanvas : MonoBehaviour {
         set { Instance.state = value; }
     }
 
-    public void Update()
+	private void Start()
+	{
+        SettingsMenu.gameObject.SetActive(false);
+	}
+
+	public void Update()
     {
         switch(State) {
             case MenuState.PauseMenu:

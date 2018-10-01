@@ -11,7 +11,8 @@ public class Interactable : MonoBehaviour {
     public InteractableStateData stateData = null;
     public InteractableID ID;
 
-    private float interactDistance = 2.0f;
+    [HideInInspector]
+    public float interactDistance = 2.0f;
     private bool isOnHover = false;
     private GameObject actionSpot = null;
 
@@ -26,13 +27,9 @@ public class Interactable : MonoBehaviour {
             HoverOnInteractable();
             clickOnInteractable();
         }
-	} 
 
-    private void OnDrawGizmos()
-    {
-        if (actionSpot != null)
-            Gizmos.DrawWireSphere(actionSpot.transform.position, interactDistance);
-    }
+        HighlightPathTarget();
+	} 
 
     public void InitInteractable() {
         Vector3 positionOffset = Vector3.zero;
@@ -81,6 +78,9 @@ public class Interactable : MonoBehaviour {
                 if (!isOnHover)
                     toggleHighlight(true);
                 isOnHover = true;
+
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Q))
+                    InteractableManager.showActions(this);
             }
             else {
                 if (isOnHover)
@@ -91,6 +91,9 @@ public class Interactable : MonoBehaviour {
     }
 
     public void clickOnInteractable() {
+        if (PauseManager.isPaused == true)
+            return;
+
         Camera c = Camera.main;
 
         if (Input.GetMouseButtonDown(0))
@@ -116,10 +119,24 @@ public class Interactable : MonoBehaviour {
         Shader shaderDefault = Shader.Find("Standard");
         Shader shader = Shader.Find("Custom/Outline + Rim");
 
-        if (highlight)
-            rend.material.shader = shader;
-        else
-            rend.material.shader = shaderDefault;
+        Material[] materials = rend.materials;
+        for (int i = 0; i < materials.Length; i++) {
+
+            if (highlight)
+                rend.materials[i].shader = shader;
+            else
+                rend.materials[i].shader = shaderDefault;
+        }
+    }
+
+    public void HighlightPathTarget() {
+        if (GameManager.State != GameState.Rehearsal)
+            return;
+        
+        if (PathManager.PathTarget == this)
+            toggleHighlight(true);
+        else if(!isOnHover)
+            toggleHighlight(false);
     }
 
     public void doAction(int actionIndex) {
@@ -135,12 +152,6 @@ public class Interactable : MonoBehaviour {
             InteractableState state = stateData.states[actionIndex];
             state.enterState(this);
         }
-
-        if (transformTarget == null)
-            return;
-        
-        transform.GetComponent<MeshRenderer>().enabled = false;
-        Instantiate(transformTarget, transform);
     }
 
     public string getInteractableName()

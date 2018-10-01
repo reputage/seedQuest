@@ -20,12 +20,13 @@ public class UIManager : MonoBehaviour {
         instance.SetGameUIState();
     }
 
-    void Awake() { 
+    void Start() { 
         InitGameUI();
         SetGameUIState();
     }
 
     void InitGameUI() {
+        /*
         if(gameUI == null) { 
             Debug.Log("Warning: GameUI prefab missing.");
             return;
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour {
 
         if (GameUI.instance == null)
             Instantiate(gameUI);
+        */
     }
 
     void SetGameUIState() { 
@@ -45,6 +47,8 @@ public class UIManager : MonoBehaviour {
                 GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
                 GameUI.EndGameUI = false;
+                GameUI.CompassUI = false;
+                GameUI.MinimapUI = false;
                 break;
             case GameState.Rehearsal:
                 GameUI.CursorUI = true;
@@ -53,6 +57,8 @@ public class UIManager : MonoBehaviour {
                 GameUI.ActionListCanvas = true;
                 GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
+                GameUI.CompassUI = true;
+                GameUI.MinimapUI = true;
                 break;
             case GameState.Recall:
                 GameUI.CursorUI = true;
@@ -61,6 +67,8 @@ public class UIManager : MonoBehaviour {
                 GameUI.ActionListCanvas = true;
                 GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
+                GameUI.CompassUI = false;
+                GameUI.MinimapUI = false;
                 break;
             case GameState.Interact:
                 GameUI.ActionListCanvas = false;
@@ -70,6 +78,7 @@ public class UIManager : MonoBehaviour {
                 GameUI.PauseMenuCanvas = true;
                 break;
             case GameState.GameEnd:
+                GameUI.ActionListCanvas = false;
                 GameUI.PauseMenuCanvas = false;
                 GameUI.EndGameUI = true;
                 break;

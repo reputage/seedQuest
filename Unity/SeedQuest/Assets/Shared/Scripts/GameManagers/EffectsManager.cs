@@ -18,14 +18,14 @@ public class EffectsManager : MonoBehaviour {
     }
 
     /*
-     * Creates an gets an effect created from effectPrefab. Generates a new Instance
-     * if doesn't exist. If effect does exist, returns effect Instance found in parent.
+     * Creates an gets an effect created from effectPrefab. Generates a new instance
+     * if doesn't exist. If effect does exist, returns effect instance found in parent.
      */
     static public ParticleSystem createEffect(Transform parent) {
-       
+
         ParticleSystem effect = parent.GetComponentInChildren<ParticleSystem>();
         if (effect == null) {
-            GameObject obj = Instantiate(instance.effectPrefab, parent);
+            GameObject obj = Instantiate(instance.effectPrefab, parent.position + instance.effectPrefab.transform.position, instance.effectPrefab.transform.localRotation, instance.transform);
             return obj.GetComponent<ParticleSystem>();
         }
         else
@@ -38,7 +38,7 @@ public class EffectsManager : MonoBehaviour {
         ParticleSystem effect = parent.GetComponentInChildren<ParticleSystem>();
         if (effect == null)
         {
-            GameObject obj = Instantiate(effectPrefab, parent);
+            GameObject obj = Instantiate(effectPrefab, parent.position + effectPrefab.transform.position, effectPrefab.transform.localRotation, instance.transform);
             return obj.GetComponent<ParticleSystem>();
         }
         else

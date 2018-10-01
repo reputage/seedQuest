@@ -32,6 +32,7 @@ public class compassWaypoint : MonoBehaviour {
     {
         forward = transform.forward;
         rPosition = GetComponent<RectTransform>();
+        setTarget(PathManager.PathTarget);
 
         xRange = 125;
         xMax = 250;
@@ -39,8 +40,7 @@ public class compassWaypoint : MonoBehaviour {
         angleRange = 50;
         counter = 0;
 
-        setTarget(PathManager.PathTarget);
-    }
+     }
 
     // This calculates the angles for direction the player is facing, 
     //  angle between the player and the target, and sets the 
@@ -67,8 +67,6 @@ public class compassWaypoint : MonoBehaviour {
         if (angleDiff < -180)
             angleDiff += 360;
        
-        //Debug.Log("angleDiff: " + angleDiff + " angle: " + angle + " playerAngle: " + playerAngle);
-
         if (angleDiff > - angleRange)
         {
             float newX = (angleDiff / angleRange) * xRange;
@@ -102,4 +100,3 @@ public class compassWaypoint : MonoBehaviour {
     }
 
 }
-

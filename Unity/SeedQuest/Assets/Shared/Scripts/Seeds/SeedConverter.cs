@@ -98,4 +98,31 @@ public class SeedConverter {
         int[] actionArray = actionLog.ToArray();
         return actionArray;
     }
+
+    /// <summary>
+    /// Encodes an list of interactables into a seed string
+    /// </summary>
+    public string InteractableListToSeed(Interactable[] list)
+    {
+        if (list.Length == 0)
+            return "";
+
+        int totalInt = (2 * SeedManager.ActionCount) + SeedManager.SiteCount;
+        int counter = 0;
+        List<int> actionLog = new List<int>();
+
+        for (int j = 0; j < SeedManager.SiteCount; j++)
+        {
+            actionLog.Add(list[(counter)].ID.siteID);
+            for (int i = 0; i < SeedManager.ActionCount; i++)
+            {
+                actionLog.Add(list[counter].ID.spotID);
+                actionLog.Add(list[counter].ID.actionID);
+                counter += 1;
+            }
+        }
+
+        int[] actionArray = actionLog.ToArray();
+        return converter.getSeed(actionArray);
+    }
 }
