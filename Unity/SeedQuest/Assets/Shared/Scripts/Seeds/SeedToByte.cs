@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 
 
 /*
- * The functions in this sccript can be used like this:
+ * The functions in this script can be used like this:
  * 
  * To get the int[] of actions to be performed from a seed:
  *  getActions(string inputStringName);
@@ -33,13 +33,6 @@ using System.Collections.Specialized;
 
 public class SeedToByte : MonoBehaviour
 {
-
-    // Yes, I know this isn't the best way to do this operation, but it works
-    // Please don't break this.
-
-
-    public GameStateData gameState;
-
     public string testSeed1 = "C5E3D45D341A7";
     public string testSeed2 = "||||||||||||||||";
     public string testSeed3 = "825A";
@@ -56,7 +49,7 @@ public class SeedToByte : MonoBehaviour
     public int[] testActionToDo;
     public BitArray testBitArr;
     public byte[] actionToBits;
-    public List<int> actionList;
+    public List<int> actionList = new List<int>();
 
     public static string inputSeed;
     public static string returnSeed;
@@ -108,7 +101,6 @@ public class SeedToByte : MonoBehaviour
         testRun(); 
     }
 
-
     // Test to make sure everything works
     void testRun()
     {
@@ -124,7 +116,6 @@ public class SeedToByte : MonoBehaviour
         actionToBits = actionConverter(testActionToDo, actionList);
         testReturnStr3 = byteToSeed(actionToBits);
     }
-
 
     // Take string for input, get the to-do list of actions
     public int[] getActions(string inputStr)
@@ -219,21 +210,19 @@ public class SeedToByte : MonoBehaviour
         return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
     }
 
-
     public static string ByteArrayToHex(byte[] bytes)
     {
         return BitConverter.ToString(bytes).Replace("-", "");
     }
 
-    // Construct the list of how many bits represent which parts of the path to take
+    // Construct the list of how many bits represent which parts of the Path to take
     public List<int> listBuilder()
     {
-        
-        int numLocationBits = gameState.SiteBits ;        // Number of bits used to determine location
-        int numSpotBits = gameState.SpotBits;            // Number of bits used to determine spots for each action
-        int numActionBits = gameState.ActionBits;          // Number of bits used to determine action choice
-        int numActions = gameState.ActionCount;             // Total actions the player needs to take at each location
-        int numTotalLocations = gameState.SiteCount;      // Total number of locations the player needs to visit
+        int numLocationBits = SeedManager.SiteBits ;        
+        int numSpotBits = SeedManager.SpotBits;            
+        int numActionBits = SeedManager.ActionBits;         
+        int numActions = SeedManager.ActionCount;           
+        int numTotalLocations = SeedManager.SiteCount;      
 
         List<int> actionList = new List<int>();
 
@@ -346,7 +335,6 @@ public class SeedToByte : MonoBehaviour
             }
         }
 
-
         // Convert ulong ints with actions into byte arrays
         byte[] bytes1 = BitConverter.GetBytes(path1);
         byte[] bytes2 = BitConverter.GetBytes(path2);
@@ -388,9 +376,6 @@ public class SeedToByte : MonoBehaviour
     {
         return BitReverseTable[toReverse];
     }
-
-
-
 }
 
 /* For each action:

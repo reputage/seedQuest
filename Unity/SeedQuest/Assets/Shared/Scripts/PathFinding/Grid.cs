@@ -32,10 +32,7 @@ public class Grid : MonoBehaviour {
             walkableRegionsDict.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
         }
 
-        CreateGrid();
-
-        Debug.Log(grid.Length);
-    
+        CreateGrid();    
 	}
 
     public int MaxSize {
