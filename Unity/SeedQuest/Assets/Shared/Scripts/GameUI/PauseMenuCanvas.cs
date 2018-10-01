@@ -29,7 +29,6 @@ public class PauseMenuCanvas : MonoBehaviour {
 
 	private void Start()
 	{
-        SaveSettings.loadSettings();
         SettingsMenu.gameObject.SetActive(false);
 	}
 

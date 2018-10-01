@@ -23,7 +23,6 @@ public class VolumeOptionsMenu : MonoBehaviour {
         musicSlider.value = SettingsManager.MusicVolume;
         sfxSlider.value = SettingsManager.SoundEffectVolume;
         muteToggle.isOn = SettingsManager.IsVolumeMuted;
-        //Debug.Log("Toggle: " + muteToggle.isOn + " Value: " + SettingsManager.IsVolumeMuted);
     }
 	
     public void MasterVolumeChanged(float value) 
@@ -43,8 +42,8 @@ public class VolumeOptionsMenu : MonoBehaviour {
 
     public void MuteToggleChanged(bool value)
     {
+        value = muteToggle.isOn;
         SettingsManager.IsVolumeMuted = value;
-        //Debug.Log("Toggle: " + muteToggle.isOn + " Value: " + SettingsManager.IsVolumeMuted);
     }
 
     public void LeaveVolumeSettingsMenu()
