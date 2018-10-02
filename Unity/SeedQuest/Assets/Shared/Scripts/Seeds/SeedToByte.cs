@@ -111,6 +111,11 @@ public class SeedToByte : MonoBehaviour
         testReturnBytes = bitToByte(testBitArr);
         testReturnStr2 = byteToSeed(testReturnBytes);
 
+        //string binarySeed = ByteArrayToBinary(testByteArr);
+        //string base58Seed = ByteArrayToBase58(testByteArr);
+        //Debug.Log("Binary seed: " + binarySeed);
+        //Debug.Log("Base58 seed: " + base58Seed);
+
         testActionToDo = bitConverter(testBitArr, actionList);
 
         actionToBits = actionConverter(testActionToDo, actionList);
@@ -135,7 +140,6 @@ public class SeedToByte : MonoBehaviour
         // Don't change the actionList - it will break everything
         returnBytes = actionConverter(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
-        //Debug.Log(convertedSeed);
         return convertedSeed;
     }
 
@@ -210,9 +214,60 @@ public class SeedToByte : MonoBehaviour
         return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
     }
 
+    // Convert the byte array to hexidecimal
     public static string ByteArrayToHex(byte[] bytes)
     {
         return BitConverter.ToString(bytes).Replace("-", "");
+    }
+
+    // Convert the byte array to a binary string
+    public static string ByteArrayToBinary(byte[] bytes)
+    {
+        string returnString = "";
+
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            returnString += Convert.ToString(bytes[i], 2).PadLeft(8, '0');
+        }
+
+        return returnString;
+    }
+
+    // Not completely functional yet! Still needs to be tweaked before we can use it
+    public static string ByteArrayToBase58(byte[] bytes)
+    {
+        string returnString = "";
+        byte[] firstHalf = new byte[8];
+        byte[] secondHalf = new byte[8];
+
+        int halfSize = bytes.Length / 2;
+
+        for (int i = 0; i < halfSize; i++)
+        {
+            firstHalf[i] = bytes[i];
+            secondHalf[i] = bytes[i + halfSize];
+        }
+
+        ulong first = BitConverter.ToUInt64(firstHalf, 0);
+        ulong second = BitConverter.ToUInt64(secondHalf, 0);
+
+        Debug.Log("First int: " + first + " Second int: " + second);
+
+        while (second > 0)
+        {
+            int remainder = (int)(second % 58);
+            second /= 58;
+            returnString = remainder.ToString() + returnString;
+        }
+
+        while (first > 0)
+        {
+            int remainder = (int)(first % 58);
+            first /= 58;
+            returnString = remainder.ToString() + returnString;
+        }
+
+        return returnString;
     }
 
     // Construct the list of how many bits represent which parts of the Path to take
