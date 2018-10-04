@@ -33,7 +33,7 @@ using System.Collections.Specialized;
 
 public class SeedToByte : MonoBehaviour
 {
-    public string testSeed1 = "C5E3D45D341A7";
+    public string testSeed1 = "C5E3D45D341A";
     public string testSeed2 = "||||||||||||||||";
     public string testSeed3 = "825A";
 
@@ -98,7 +98,7 @@ public class SeedToByte : MonoBehaviour
 
     void Start()
     {
-        testRun(); 
+        //testRun(); 
     }
 
     // Test to make sure everything works
@@ -146,7 +146,6 @@ public class SeedToByte : MonoBehaviour
     //  Convert string to byte array
     public byte[] seedToByte(string seedString)
     {
-        // example string = C5E3D45D341C5
         // Old encoding method
         //[] seedByte = Encoding.UTF8.GetBytes(seedString);
 
@@ -206,11 +205,6 @@ public class SeedToByte : MonoBehaviour
     public static int GetHexVal(char hex)
     {
         int val = (int)hex;
-        //For uppercase A-F letters:
-        //return val - (val < 58 ? 48 : 55);
-        //For lowercase a-f letters:
-        //return val - (val < 58 ? 48 : 87);
-        //Or the two combined, but a bit slower:
         return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
     }
 
@@ -233,38 +227,28 @@ public class SeedToByte : MonoBehaviour
         return returnString;
     }
 
-    // Not completely functional yet! Still needs to be tweaked before we can use it
+    // Convert a byte array into a base58 string
     public static string ByteArrayToBase58(byte[] bytes)
     {
+        string base58Digits = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
         string returnString = "";
-        byte[] firstHalf = new byte[8];
-        byte[] secondHalf = new byte[8];
 
-        int halfSize = bytes.Length / 2;
-
-        for (int i = 0; i < halfSize; i++)
+        ulong bytesInt = 0;
+        for (int i = 0; i < bytes.Length; i++)
         {
-            firstHalf[i] = bytes[i];
-            secondHalf[i] = bytes[i + halfSize];
+            bytesInt = bytesInt * 256 + bytes[i];
+        }
+         
+        while (bytesInt > 0)
+        {
+            int remainder = (int)(bytesInt % 58);
+            bytesInt /= 58;
+            returnString = base58Digits[remainder] + returnString;
         }
 
-        ulong first = BitConverter.ToUInt64(firstHalf, 0);
-        ulong second = BitConverter.ToUInt64(secondHalf, 0);
-
-        Debug.Log("First int: " + first + " Second int: " + second);
-
-        while (second > 0)
+        for (int i = 0; i < bytes.Length && bytes[i] == 0; i++)
         {
-            int remainder = (int)(second % 58);
-            second /= 58;
-            returnString = remainder.ToString() + returnString;
-        }
-
-        while (first > 0)
-        {
-            int remainder = (int)(first % 58);
-            first /= 58;
-            returnString = remainder.ToString() + returnString;
+            returnString = '1' + returnString;
         }
 
         return returnString;
