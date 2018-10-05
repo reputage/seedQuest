@@ -254,6 +254,14 @@ public class SeedToByte : MonoBehaviour
         return returnString;
     }
 
+    // Convert a byte array to base64
+    public static string ByteArrayToBase64(byte[] bytes)
+    {
+        string returnString = "";
+        returnString = Convert.ToBase64String(bytes);
+        return returnString;
+    }
+
     // Construct the list of how many bits represent which parts of the Path to take
     public List<int> listBuilder()
     {
