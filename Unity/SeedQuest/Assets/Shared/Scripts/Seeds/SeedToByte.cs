@@ -54,6 +54,11 @@ public class SeedToByte : MonoBehaviour
     public static string inputSeed;
     public static string returnSeed;
 
+    public static string seedBase58;
+    public static string seedBase64;
+    public static string seedBinary;
+
+
     public static byte[] inputBytes;
     public static byte[] returnBytes;
     public static int[] actionToDo;
@@ -98,7 +103,7 @@ public class SeedToByte : MonoBehaviour
 
     void Start()
     {
-        //testRun(); 
+        testRun(); 
     }
 
     // Test to make sure everything works
@@ -115,6 +120,8 @@ public class SeedToByte : MonoBehaviour
         //string base58Seed = ByteArrayToBase58(testByteArr);
         //Debug.Log("Binary seed: " + binarySeed);
         //Debug.Log("Base58 seed: " + base58Seed);
+        //string base64Seed = ByteArrayToBase64(testByteArr);
+        //Debug.Log("Base64 seed: " + base64Seed);
 
         testActionToDo = bitConverter(testBitArr, actionList);
 
@@ -140,6 +147,10 @@ public class SeedToByte : MonoBehaviour
         // Don't change the actionList - it will break everything
         returnBytes = actionConverter(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
+        // Just going to put these here for now... I'm not sure where else to put them
+        seedBase58 = ByteArrayToBase58(returnBytes);
+        seedBase64 = ByteArrayToBase64(returnBytes);
+        seedBinary = ByteArrayToBinary(returnBytes);
         return convertedSeed;
     }
 
