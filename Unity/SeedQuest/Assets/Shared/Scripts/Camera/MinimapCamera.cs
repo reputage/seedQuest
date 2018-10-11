@@ -49,6 +49,12 @@ public class MinimapCamera : MonoBehaviour {
         screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
         screenShot.Apply();
 
+        // This saves a .png of the camera render - used for debugging, should remove later
+        byte[] bytes = screenShot.EncodeToPNG();
+        string filename = "TestScreenShot.png";
+        System.IO.File.WriteAllBytes(filename, bytes);
+        // Remove the above code eventually
+
         screenShotRender.GetComponent<Image>().sprite = Sprite.Create(screenShot, new Rect(0, 0, resWidth, resHeight), new Vector2(0, 0));
 
         cameraRef.targetTexture = null;
