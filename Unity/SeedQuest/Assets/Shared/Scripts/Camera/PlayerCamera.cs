@@ -112,13 +112,14 @@ public class PlayerCamera : MonoBehaviour {
         Camera.main.transform.Rotate(new Vector3(0, cameraRotateXOffset, 0));
 
         // Roate Camera in Vertical Plane
-        cameraRotateYOffset += Input.GetAxis("Mouse Y") * mouseYSpeed;
+        Debug.Log(SettingsManager.MouseSensitivity);
+        cameraRotateYOffset += Input.GetAxis("Mouse Y") * mouseYSpeed ; //* (SettingsManager.MouseSensitivity * 4);
         cameraRotateYOffset = Mathf.Clamp(cameraRotateYOffset, cameraRotateYBounds[0], cameraRotateYBounds[1]);
         Camera.main.transform.Rotate(new Vector3(-cameraRotateYOffset, 0, 0));
     }
 
     void PlayerLookAt() {
-        float rotateX = Input.GetAxis("Mouse X") * mouseXSpeed * Time.deltaTime;
+        float rotateX = Input.GetAxis("Mouse X") * mouseXSpeed * Time.deltaTime ; //* (SettingsManager.MouseSensitivity * 4);
         transform.Rotate(0, rotateX, 0);
     }
 }
