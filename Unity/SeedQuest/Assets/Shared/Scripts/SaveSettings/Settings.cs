@@ -10,6 +10,6 @@ public class Settings
     public float MasterVolume;
     public float MusicVolume;
     public float SoundEffectVolume;
-    public float MouseSensitivity;
+    public float CameraSensitivity;
     public bool IsVolumeMuted;
 }

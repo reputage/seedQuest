@@ -50,7 +50,7 @@ public class AudioManager : MonoBehaviour {
                 volumeFactor = 0f;
 
             s.source.volume = s.volume * SettingsManager.MasterVolume * volumeFactor;
-            Debug.Log("Updating Audio Settings to " + s.source.volume);
+            //Debug.Log("Updating Audio Settings to " + s.source.volume);
         }
     }
 

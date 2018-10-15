@@ -8,7 +8,7 @@ public class SettingsManager : MonoBehaviour {
     public float masterVolume = 1.0f;
     public float musicVolume = 1.0f;
     public float soundEffectVolume = 1.0f;
-    public float mouseSensitivity = 0.5f;
+    public float cameraSensitivity = 0.5f;
     public bool muteVolume = false;
 
     static private SettingsManager __instance = null;
@@ -42,9 +42,9 @@ public class SettingsManager : MonoBehaviour {
         set { Instance.muteVolume = value; AudioManager.UpdateAudioSettings(); }
     }
 
-    static public float MouseSensitivity
+    static public float CameraSensitivity
     {
-        get { return Instance.mouseSensitivity; }
-        set { Instance.mouseSensitivity = value; }
+        get { return Instance.cameraSensitivity; }
+        set { Instance.cameraSensitivity = value; }
     }
 }

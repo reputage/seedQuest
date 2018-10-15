@@ -35,9 +35,11 @@ public static class SaveSettings
             settings.MasterVolume = 1f;
             settings.MusicVolume = 1f;
             settings.SoundEffectVolume = 1f;
-            settings.MouseSensitivity = 0.5f;
+            settings.CameraSensitivity = 0.5f;
             settings.IsVolumeMuted = false;
         }
+        if (settings.CameraSensitivity == 0f)
+            settings.CameraSensitivity = 0.1f;
 
         setSettings(settings);
     }
@@ -47,7 +49,7 @@ public static class SaveSettings
         settings.MasterVolume = SettingsManager.MasterVolume;
         settings.MusicVolume = SettingsManager.MusicVolume;
         settings.SoundEffectVolume = SettingsManager.SoundEffectVolume;
-        settings.MouseSensitivity = SettingsManager.MouseSensitivity;
+        settings.CameraSensitivity = SettingsManager.CameraSensitivity;
         settings.IsVolumeMuted = SettingsManager.IsVolumeMuted;
     }
 
@@ -56,7 +58,7 @@ public static class SaveSettings
         SettingsManager.MasterVolume = settings.MasterVolume;
         SettingsManager.MusicVolume = settings.MusicVolume;
         SettingsManager.SoundEffectVolume = settings.SoundEffectVolume;
-        SettingsManager.MouseSensitivity = settings.MouseSensitivity;
+        SettingsManager.CameraSensitivity = settings.CameraSensitivity;
         SettingsManager.IsVolumeMuted = settings.IsVolumeMuted;
     }
 
