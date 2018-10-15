@@ -119,6 +119,7 @@ public class PlayerCamera : MonoBehaviour {
 
     void PlayerLookAt() {
         float rotateX = Input.GetAxis("Mouse X") * mouseXSpeed * Time.deltaTime * (SettingsManager.CameraSensitivity + 0.1f * 4);
+        rotateX += Input.GetAxis("Strafe") * mouseXSpeed * Time.deltaTime;
         transform.Rotate(0, rotateX, 0);
     }
 }
