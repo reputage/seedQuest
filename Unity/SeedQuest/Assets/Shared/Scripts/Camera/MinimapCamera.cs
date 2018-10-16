@@ -19,10 +19,15 @@ public class MinimapCamera : MonoBehaviour {
         cameraOffset.y = 100;
         screenShotRender.enabled = false;
 
-        // Comment this line out if you want to just use the camera, 
-        //  and not the rendered map image
-        initializeImage();
-	}
+        if (Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            initializeImage();
+        }
+        else if (Application.platform == RuntimePlatform.OSXEditor)
+        {
+            initializeImage();
+        }
+    }
 	
 
 	void LateUpdate () 
@@ -39,6 +44,9 @@ public class MinimapCamera : MonoBehaviour {
         Camera cameraRef = GetComponent<Camera>();
         cameraRef.transform.position = new Vector3(0, 500, 0);
 
+        //testing
+        cameraRef.enabled = false;
+
         RenderTexture other = cameraRef.targetTexture;
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
         cameraRef.targetTexture = rt;
@@ -50,9 +58,9 @@ public class MinimapCamera : MonoBehaviour {
         screenShot.Apply();
 
         // This saves a .png of the camera render - used for debugging, should remove later
-        byte[] bytes = screenShot.EncodeToPNG();
-        string filename = "TestScreenShot.png";
-        System.IO.File.WriteAllBytes(filename, bytes);
+        //byte[] bytes = screenShot.EncodeToPNG();
+        //string filename = "TestScreenShot.png";
+        //System.IO.File.WriteAllBytes(filename, bytes);
         // Remove the above code eventually
 
         screenShotRender.GetComponent<Image>().sprite = Sprite.Create(screenShot, new Rect(0, 0, resWidth, resHeight), new Vector2(0, 0));
