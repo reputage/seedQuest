@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Text;
 using System.Runtime.InteropServices;
 
 public class LibSodiumManager : MonoBehaviour {
@@ -36,6 +37,7 @@ public class LibSodiumManager : MonoBehaviour {
 
 	void Start () {
         //Test();
+        //test2();
 	}
 	 
     void Test()
@@ -59,4 +61,44 @@ public class LibSodiumManager : MonoBehaviour {
     {
         return BitConverter.ToString(ba).Replace("-", "");
     }
+
+    public void test2()
+    {
+        string message_string = "message";
+
+        byte[] message = Encoding.ASCII.GetBytes(message_string);
+
+        byte[] pk = new byte[32];
+        byte[] sk = new byte[64];
+
+        nacl_crypto_sign_keypair(pk, sk);
+
+        byte[] pk2 = new byte[32];
+        byte[] sk2 = new byte[64];
+
+        nacl_crypto_sign_keypair(pk2, sk2);
+
+        int signed_bytes = nacl_crypto_sign_BYTES();
+
+        byte[] signed_message = new byte[signed_bytes + message.Length];
+
+        nacl_crypto_sign(signed_message, message, (ulong)message.Length, sk);
+
+        byte[] unsigned_message = new byte[message.Length];
+
+        int success = nacl_crypto_sign_open(unsigned_message, signed_message, (ulong)signed_message.Length, pk);
+
+        if (success == 0)
+            Debug.Log("Correct signature");
+        else
+            Debug.Log("Incorrect signature");
+
+        int success2 = nacl_crypto_sign_open(unsigned_message, signed_message, (ulong)signed_message.Length, pk2);
+
+        if (success2 == 0)
+            Debug.Log("Correct signature");
+        else
+            Debug.Log("Incorrect signature");
+    }
+
 }

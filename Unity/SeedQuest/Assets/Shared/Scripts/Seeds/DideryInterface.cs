@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public static class DideryInterface{
 
 
-
+    // Needs testing
     public static IEnumerator GetRequest(string uri)
     {
         UnityWebRequest uwr = UnityWebRequest.Get(uri);
