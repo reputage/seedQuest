@@ -22,18 +22,23 @@ public class LibSodiumManager : MonoBehaviour {
 
     [DllImport("Assets/Lib/libsodium_wrapper.dylib")]
     public static extern void nacl_randombytes_buf_deterministic(byte[] buf, int size, byte[] seed);
+    // Saves 'size' number of values into buf, determined by 'seed' 
 
     [DllImport("Assets/Lib/libsodium_wrapper.dylib")]
     public static extern int nacl_crypto_sign_BYTES();
+    // I believe this is a constant integer, used by the other functions
 
     [DllImport("Assets/Lib/libsodium_wrapper.dylib")]
     public static extern int nacl_crypto_sign_keypair(byte[] pk, byte[] sk);
+    // Saves private key to pk, saves secret key to sk
 
     [DllImport("Assets/Lib/libsodium_wrapper.dylib")]
     public static extern int nacl_crypto_sign(byte[] sm, byte[] m, ulong mlen, byte[] sk);
+    // Saves encrypted message 'm' into 'sm', signed with 'sk'
 
     [DllImport("Assets/Lib/libsodium_wrapper.dylib")]
     public static extern int nacl_crypto_sign_open(byte[] m, byte[] sm, ulong smlen, byte[] pk);
+    // Saves decrypted message 'sm' into 'm", if 'pk' matches the signature on 'sm'
 
 	void Start () {
         //Test();
@@ -83,6 +88,7 @@ public class LibSodiumManager : MonoBehaviour {
         byte[] signed_message = new byte[signed_bytes + message.Length];
 
         nacl_crypto_sign(signed_message, message, (ulong)message.Length, sk);
+        //signature = signResource(sm, encryptedKey, (ulong)encryptedKey.Length, sk, vk);
 
         byte[] unsigned_message = new byte[message.Length];
 
