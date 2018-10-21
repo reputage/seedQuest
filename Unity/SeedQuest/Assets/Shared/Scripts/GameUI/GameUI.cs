@@ -49,4 +49,5 @@ public class GameUI : MonoBehaviour {
         set { instance.GetComponentInChildren<MinimapObjects>(true).gameObject.SetActive(value); }
     }
 
+
 }

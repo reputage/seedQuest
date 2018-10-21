@@ -79,12 +79,6 @@ public static class DideryInterface{
 
     }
 
-    public static void parseGet()
-    {
-
-
-    }
-
     // Send a GET request to the uri
     public static IEnumerator GetRequest(string uri)
     {
