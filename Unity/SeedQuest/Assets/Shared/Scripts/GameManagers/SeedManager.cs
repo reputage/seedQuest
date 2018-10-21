@@ -10,7 +10,6 @@ public class SeedManager : MonoBehaviour {
     public int actionCount = 1;         // Total actions the player needs to take at each location
     public int siteCount = 4;           // Total number of locations the player needs to visit
     public string inputSeed = "41A5";
-    //public string lastDid = "";
 
     static private SeedManager instance = null;
     static public SeedManager Instance {
@@ -30,6 +29,7 @@ public class SeedManager : MonoBehaviour {
 
     static public string InputSeed {
         get { return Instance.inputSeed; }
+        set { Instance.inputSeed = value; }
     }
 
     static public string RecoveredSeed {

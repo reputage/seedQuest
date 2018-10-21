@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Text;
 
 public class EndGameUI : MonoBehaviour {
 
     public TextMeshProUGUI seedString = null;
+    public TextMeshProUGUI keyString = null;
+    public OTPworker otpWorker;
 
     public void Update() {
         if (GameManager.State == GameState.GameEnd)
+        {
             seedString.text = SeedManager.RecoveredSeed;
+            otpWorker.getEncryptedKey();
+        }
     }
 
     public void RestartGame() {
@@ -22,5 +28,12 @@ public class EndGameUI : MonoBehaviour {
         editor.text = SeedManager.RecoveredSeed;
         editor.SelectAll();
         editor.Copy();
+    }
+
+    public void decryptKey()
+    {
+        byte[] keyByte = otpWorker.decryptFromBlob(SeedManager.RecoveredSeed);
+        string finalKey = Encoding.ASCII.GetString(keyByte);
+        keyString.text = finalKey;
     }
 }

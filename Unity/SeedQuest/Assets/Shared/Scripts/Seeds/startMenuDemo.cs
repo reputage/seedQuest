@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text;
 
 public class startMenuDemo : MonoBehaviour {
 
     public InputField keyInputField;
+    public OTPworker otpWorker;
 
 	void Start () 
     {
@@ -18,7 +20,7 @@ public class startMenuDemo : MonoBehaviour {
 
     public void encryptKey()
     {
-        //keyInputField.text;
+        otpWorker.encryptKey(keyInputField.text);
     }
 
 

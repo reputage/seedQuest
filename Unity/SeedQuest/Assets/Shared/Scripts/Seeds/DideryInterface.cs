@@ -54,6 +54,9 @@ public static class DideryInterface{
         string did;
         string signature;
         string keyString = System.Text.Encoding.UTF8.GetString(encryptedKey);
+
+        //Debug.Log("Key string in makeDid(): " + keyString);
+
         int signed_bytes = LibSodiumManager.nacl_crypto_sign_BYTES();
 
         LibSodiumManager.nacl_crypto_sign_keypair(vk, sk);
