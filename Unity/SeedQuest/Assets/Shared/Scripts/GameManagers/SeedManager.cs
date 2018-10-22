@@ -28,6 +28,7 @@ public class SeedManager : MonoBehaviour {
 
     static public string InputSeed {
         get { return Instance.inputSeed; }
+        set { Instance.inputSeed = value; }
     }
 
     static public string RecoveredSeed {
