@@ -17,6 +17,9 @@ public static class DideryInterface{
         return did;
     }
 
+    // nacl_crypto_sign(signed_message, message, (ulong)message.Length, sk);
+    // nacl_crypto_sign_open(unsigned_message, signed_message, (ulong)signed_message.Length, pk);
+
     // Create signature to use in the header of POST and PUT requests to didery
     public static string signResource(byte[] sm, byte[] m, ulong mlen, byte[] sk, byte[] vk)
     {
@@ -26,6 +29,7 @@ public static class DideryInterface{
         {
             sig[i] = sm[i];
         }
+        //Debug.Log(LibSodiumManager.nacl_crypto_sign_BYTES());
 
         byte[] usm = new byte[m.Length];
         int success = LibSodiumManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
@@ -44,7 +48,9 @@ public static class DideryInterface{
         return signature;
     }
 
-    // Puts together the body of the post request for a OTP encrypted key 
+    // Puts together the body of the post request for a OTP encrypted key, 
+    //  returns a string[] with the did, the signature, and the body of the
+    //  post request.
     public static string[] makePost(byte[] encryptedKey)
     {
         byte[] vk = new byte[32];
@@ -53,7 +59,7 @@ public static class DideryInterface{
         string body;
         string did;
         string signature;
-        string keyString = System.Text.Encoding.UTF8.GetString(encryptedKey);
+        string keyString = Convert.ToBase64String(encryptedKey);
 
         //Debug.Log("Key string in makeDid(): " + keyString);
 
@@ -65,13 +71,15 @@ public static class DideryInterface{
         dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.ffffffzzz");
         body = "{\"id\":\"" + did + "\",\"blob\":\"" + keyString + "\",\"changed\":\"" + dateTime + "\"}";
 
-        byte[] sm = new byte[signed_bytes + body.Length];
+        //byte[] sm = new byte[signed_bytes + body.Length];
         byte[] bodyByte = new byte[body.Length];
+
         bodyByte = Encoding.UTF8.GetBytes(body);
+
+        byte[] sm = new byte[signed_bytes + bodyByte.Length];
 
         signature = signResource(sm, bodyByte, (ulong)bodyByte.Length, sk, vk);
         signature = "signer=\"" + signature + "\"";
-
 
         string[] data = new string[3];
         data[0] = did;
@@ -79,10 +87,9 @@ public static class DideryInterface{
         data[2] = body;
 
         return data;
-
     }
 
-    // Send a GET request to the uri
+    // Send a GET request to the uri, saves the requested blob to demoBlob in DideryDemoManager
     public static IEnumerator GetRequest(string uri)
     {
         UnityWebRequest uwr = UnityWebRequest.Get(uri);
@@ -101,17 +108,25 @@ public static class DideryInterface{
 
         string[] getData = getResult.Split(':');
 
-        //Debug.Log(getData[7]);
+        // Debug.Log(getData[6]);
         string blob = getData[5];
         blob = blob.Replace("changed", string.Empty);
         blob = blob.Replace(":", string.Empty);
         blob = blob.Replace(",", string.Empty);
         blob = blob.Replace(" ", string.Empty);
         blob = blob.Replace("\"", string.Empty);
-        Debug.Log("Blob: " + blob);
+        Debug.Log("Recieved blob: " + blob);
 
-        DideryDemoManager.demoBlob = blob;
+        dideryBlob getBlob = JsonUtility.FromJson<dideryBlob>(getResult);
+        Debug.Log("Blob: " + getBlob.otp_data.blob);
+
+        //Debug.Log(getResult);
+
+        DideryDemoManager.demoBlob = getBlob.otp_data.blob;
     }
+
+    // dideryBlob getBlob = JsonUtility.FromJson<dideryBlob>(getResult);
+    // Debug.Log(getBlob.otp_data.blob);
 
     // Sends a POST request to didery at the url specified. 
     // Requires json body and signature from makePost()
@@ -136,7 +151,8 @@ public static class DideryInterface{
         }
     }
 
-    // Needs testing
+    // Has not been configured for use with didery yet
+    /*
     public static IEnumerator PutRequest(string url)
     {
         byte[] dataToPut = System.Text.Encoding.UTF8.GetBytes("Hello, This is a test");
@@ -152,21 +168,6 @@ public static class DideryInterface{
             Debug.Log("Received: " + uwr.downloadHandler.text);
         }
     }
-
-    // Needs testing
-    public static IEnumerator DeleteRequest(string url)
-    {
-        UnityWebRequest uwr = UnityWebRequest.Delete(url);
-        yield return uwr.SendWebRequest();
-
-        if (uwr.isNetworkError)
-        {
-            Debug.Log("Error While Sending: " + uwr.error);
-        }
-        else
-        {
-            Debug.Log("Deleted");
-        }
-    }
+    */
 
 }

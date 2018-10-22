@@ -25,7 +25,6 @@ public class SeedManager : MonoBehaviour {
     static public int ActionBits { get { return Instance.actionBits; } }
     static public int ActionCount { get { return Instance.actionCount; } }
     static public int SiteCount { get { return Instance.siteCount; } }
-    //static public string LastDid { get { return Instance.lastDid; }  set { Instance.lastDid = value;  } }
 
     static public string InputSeed {
         get { return Instance.inputSeed; }

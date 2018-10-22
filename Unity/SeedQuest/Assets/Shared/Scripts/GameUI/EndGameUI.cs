@@ -10,7 +10,12 @@ public class EndGameUI : MonoBehaviour {
     public TextMeshProUGUI keyString = null;
     public OTPworker otpWorker;
 
-    public void Update() {
+	public void Start()
+	{
+        otpWorker = FindObjectOfType<OTPworker>();
+	}
+
+	public void Update() {
         if (GameManager.State == GameState.GameEnd)
         {
             seedString.text = SeedManager.RecoveredSeed;

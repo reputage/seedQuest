@@ -11,23 +11,24 @@ public class OTPworker : MonoBehaviour {
     public byte[] key = new byte[32];
     public byte[] formatKey = new byte[34];
     int size = 32;
-    string url = "http://localhost:8080/blob/"; // change this to the url of the actual didery server
+    string url = "http://178.128.0.203:8080/blob/"; // change this to the url of the actual didery server
+    // Didery server URL: http://178.128.0.203:8080/blob/
+    // Local hosted server: http://localhost:8080/blob/
+
 
 	private void Start()
 	{
-        // Used for testing purposes, not needed right now, can be deleted
-        //OTPGenerator(otp, size, seed);
-        //key = OTPxor(seed, otp);
-        //key = OTPxor(key, otp);
 
     }
+
+    //Convert.ToBase64String(bytes);
+    //Convert.FromBase64String(string);
 
     // takes an inputKey string, generates a one time pad, encrypts the key,
     // sends the encrypted key to didery, saves the did to a manager 
     // to retrieve from didery later
     public void encryptKey(string inputKey)
     {
-        //Debug.Log(inputKey);
         string[] dideryData;
 
         string did = "";
@@ -36,30 +37,32 @@ public class OTPworker : MonoBehaviour {
 
         seed = randomSeedGenerator(seed);
         OTPGenerator(otp, size, seed);
-        key = Encoding.UTF8.GetBytes(inputKey);
-        //Debug.Log("byte[] Key length: " + key.Length);
-        string keyUTF8 = Encoding.UTF8.GetString(key);
+        key = Encoding.ASCII.GetBytes(inputKey);
+        //string keyUTF8 = Encoding.UTF8.GetString(key);
         //Debug.Log(inputKey + " " + keyUTF8);
 
         formatKey = OTPxorEncrypt(key, otp);
+        key = OTPxor(key, otp);
 
-        byte[] dispKey = OTPxorDecrypt(formatKey, otp);
-        string cryptKey = Encoding.UTF8.GetString(key);
-        string formatedKey = Encoding.UTF8.GetString(formatKey);
-        string cryptDispKey = Encoding.UTF8.GetString(dispKey);
-        Debug.Log("Crypt key: " + cryptKey + " Disp key: " + cryptDispKey);
-        Debug.Log("inputKey: " + inputKey + " format key: " + formatedKey);
+        //byte[] dispKey = OTPxorDecrypt(formatKey, otp);
+        //string cryptKey = Encoding.UTF8.GetString(key);
+        //string formatedKey = Encoding.UTF8.GetString(formatKey);
+        //string cryptDispKey = Encoding.UTF8.GetString(dispKey);
+        //Debug.Log("Crypt key: " + cryptKey + " Disp key: " + cryptDispKey);
+        //Debug.Log("inputKey: " + inputKey + " format key: " + formatedKey);
 
-        dideryData = DideryInterface.makePost(key);
+        Debug.Log("key length: " + key.Length);
+        dideryData = DideryInterface.makePost(formatKey);
 
         did = dideryData[0];
         signature = dideryData[1];
         postBody = dideryData[2];
 
-        //Debug.Log( "Did: " + did + " signature: " + " postBody: " + postBody );
+        Debug.Log( "Did: " + did + " signature: " + " postBody: " + postBody );
 
         SeedManager.InputSeed = ByteArrayToHex(seed);
         DideryDemoManager.demoDid = did;
+        Debug.Log("did: " + DideryDemoManager.demoDid);
 
         StartCoroutine(DideryInterface.PostRequest(url, postBody, signature));
     }
@@ -69,14 +72,17 @@ public class OTPworker : MonoBehaviour {
     public void getEncryptedKey()
     {
         string uri = url + DideryDemoManager.demoDid;
+        Debug.Log(uri);
         StartCoroutine(DideryInterface.GetRequest(uri));
     }
 
     // Decrypts the blob saved at DideryDemoManager.demoBlob
     public byte[] decryptFromBlob(string seed)
     {
+        //Debug.Log("Seed: " + seed);
         byte[] seedByte = HexStringToByteArray(seed);
-        byte[] demoBlob = Encoding.ASCII.GetBytes(DideryDemoManager.demoBlob);
+        Debug.Log(DideryDemoManager.demoBlob);
+        byte[] demoBlob = Convert.FromBase64String(DideryDemoManager.demoBlob);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
         return decryptedKey;
     }
@@ -85,7 +91,7 @@ public class OTPworker : MonoBehaviour {
     public byte[] decryptKey(byte[] getKey, byte[] getSeed)
     {
         OTPGenerator(otp, size, getSeed);
-        getKey = OTPxor(getKey, otp);
+        getKey = OTPxorDecrypt(getKey, otp);
         return getKey;
     }
 
@@ -106,13 +112,10 @@ public class OTPworker : MonoBehaviour {
         LibSodiumManager.nacl_randombytes_buf_deterministic(otp, size, seed);
     }
 
-    // Used to encrypt and decrypt the key using the one-time pad
+    // Used to encrypt and decrypt the key using the one-time pad, using the xor method
     public byte[] OTPxor(byte[] key, byte[] otp)
     {
         byte[] result = new byte[key.Length];
-
-        //Debug.Log("OTP length: " + otp.Length + " key length: " + key.Length);
-
         if (key.Length > otp.Length)
         {
             Debug.Log("Error: One time pad is not longer than key");
@@ -156,17 +159,13 @@ public class OTPworker : MonoBehaviour {
         return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
     }
 
-    // +33, -33
-
-
-
-
+    // Uses OTP to encrypt the key, and adds the value "70" to the start 
+    //  and end to help prevent malformed json problems with didery
     public byte[] OTPxorEncrypt(byte[] key, byte[] otp)
     {
         byte[] result = new byte[key.Length + 2];
         result[0] = 70;
         result[result.Length - 1] = 70;
-
         //Debug.Log("OTP length: " + otp.Length + " key length: " + key.Length);
 
         if (key.Length > otp.Length)
@@ -177,16 +176,17 @@ public class OTPworker : MonoBehaviour {
 
         for (int i = 0; i < key.Length; ++i)
         {
-            result[i] = (byte)(key[i] ^ otp[i]);
+            result[i+1] = (byte)(key[i] ^ otp[i]);
         }
 
         return result;
     }
 
+    // Uses OTP to decrypt the key, and removes the value "70" from the  
+    //  first and last bytes
     public byte[] OTPxorDecrypt(byte[] key, byte[] otp)
     {
         byte[] result = new byte[key.Length - 2];
-
         //Debug.Log("OTP length: " + otp.Length + " key length: " + key.Length);
 
         if (result.Length > otp.Length)
