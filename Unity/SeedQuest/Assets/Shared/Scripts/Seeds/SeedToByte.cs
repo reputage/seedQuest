@@ -141,6 +141,19 @@ public class SeedToByte : MonoBehaviour
         return returnActions;
     }
 
+    // Take string for input, get the to-do list of actions
+    public int[] getActionsFromBytes(byte[] inputBytes)
+    {
+        Debug.Log(actionList.Count);
+        actionList = listBuilder();
+        Debug.Log(actionList.Count);
+        inputBits = byteToBits(inputBytes);
+        actionToDo = bitConverter(inputBits, actionList);
+        int[] returnActions = actionToDo;
+        //Debug.Log(actionToDo);
+        return returnActions;
+    }
+
     // Get the return seed from a list of actions
     public string getSeed(int[] actionsPerformed)
     {
@@ -159,7 +172,6 @@ public class SeedToByte : MonoBehaviour
     {
         // Old encoding method
         //[] seedByte = Encoding.UTF8.GetBytes(seedString);
-
         byte[] seedByte = HexStringToByteArray(seedString);
         return seedByte;
     }
@@ -296,7 +308,7 @@ public class SeedToByte : MonoBehaviour
         }
 
         // Print total list items, and the values for location, spot, and action
-        //Debug.Log("Total: " + actionList.Count + " Loc: " + actionList[0] + " Spot: " + actionList[1] + " Act: " + actionList[2]);
+        Debug.Log("Total: " + actionList.Count + " Loc: " + actionList[0] + " Spot: " + actionList[1] + " Act: " + actionList[2]);
 
         return actionList;
     }
@@ -319,6 +331,7 @@ public class SeedToByte : MonoBehaviour
             return actionValues;
         }
 
+
         for (int i = 0; i < bits.Length; i++)
         {
             if (bits[i])
@@ -328,7 +341,7 @@ public class SeedToByte : MonoBehaviour
                 value += Convert.ToInt32(Math.Pow(2, bitValue));
                 //value += Convert.ToInt32(Math.Pow(2, valueIndex));
             }
-
+            //Debug.Log("Action list value checked: " + (writeIndex - 1));
             if (locator == (actionList[writeIndex] - 1))
             {
                 // Store the location/spot/action
