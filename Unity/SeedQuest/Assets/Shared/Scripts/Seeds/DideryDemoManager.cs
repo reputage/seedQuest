@@ -8,5 +8,6 @@ public static class DideryDemoManager {
 
     public static string demoDid;
     public static string demoBlob;
+    public static bool isDemo;
 
 }

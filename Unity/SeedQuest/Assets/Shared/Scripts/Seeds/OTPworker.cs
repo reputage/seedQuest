@@ -11,7 +11,7 @@ public class OTPworker : MonoBehaviour {
     public byte[] key = new byte[32];
     public byte[] formatKey = new byte[34];
     int size = 32;
-    string url = "http://178.128.0.203:8080/blob/"; // change this to the url of the actual didery server
+    string url = "http://localhost:8080/blob/"; // change this to the url of the actual didery server
     // Didery server URL: http://178.128.0.203:8080/blob/
     // Local hosted server: http://localhost:8080/blob/
 
@@ -20,9 +20,6 @@ public class OTPworker : MonoBehaviour {
 	{
 
     }
-
-    //Convert.ToBase64String(bytes);
-    //Convert.FromBase64String(string);
 
     // takes an inputKey string, generates a one time pad, encrypts the key,
     // sends the encrypted key to didery, saves the did to a manager 
@@ -38,20 +35,8 @@ public class OTPworker : MonoBehaviour {
         seed = randomSeedGenerator(seed);
         OTPGenerator(otp, size, seed);
         key = Encoding.ASCII.GetBytes(inputKey);
-        //string keyUTF8 = Encoding.UTF8.GetString(key);
-        //Debug.Log(inputKey + " " + keyUTF8);
 
-        formatKey = OTPxorEncrypt(key, otp);
-        key = OTPxor(key, otp);
-
-        //byte[] dispKey = OTPxorDecrypt(formatKey, otp);
-        //string cryptKey = Encoding.UTF8.GetString(key);
-        //string formatedKey = Encoding.UTF8.GetString(formatKey);
-        //string cryptDispKey = Encoding.UTF8.GetString(dispKey);
-        //Debug.Log("Crypt key: " + cryptKey + " Disp key: " + cryptDispKey);
-        //Debug.Log("inputKey: " + inputKey + " format key: " + formatedKey);
-
-        Debug.Log("key length: " + key.Length);
+        formatKey = OTPxor(key, otp);
         dideryData = DideryInterface.makePost(formatKey);
 
         did = dideryData[0];
@@ -91,7 +76,7 @@ public class OTPworker : MonoBehaviour {
     public byte[] decryptKey(byte[] getKey, byte[] getSeed)
     {
         OTPGenerator(otp, size, getSeed);
-        getKey = OTPxorDecrypt(getKey, otp);
+        getKey = OTPxor(getKey, otp);
         return getKey;
     }
 
@@ -159,49 +144,34 @@ public class OTPworker : MonoBehaviour {
         return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
     }
 
-    // Uses OTP to encrypt the key, and adds the value "70" to the start 
-    //  and end to help prevent malformed json problems with didery
-    public byte[] OTPxorEncrypt(byte[] key, byte[] otp)
-    {
-        byte[] result = new byte[key.Length + 2];
-        result[0] = 70;
-        result[result.Length - 1] = 70;
-        //Debug.Log("OTP length: " + otp.Length + " key length: " + key.Length);
-
-        if (key.Length > otp.Length)
-        {
-            Debug.Log("Error: One time pad is not longer than key");
-            return result;
-        }
-
-        for (int i = 0; i < key.Length; ++i)
-        {
-            result[i+1] = (byte)(key[i] ^ otp[i]);
-        }
-
-        return result;
-    }
-
-    // Uses OTP to decrypt the key, and removes the value "70" from the  
-    //  first and last bytes
-    public byte[] OTPxorDecrypt(byte[] key, byte[] otp)
-    {
-        byte[] result = new byte[key.Length - 2];
-        //Debug.Log("OTP length: " + otp.Length + " key length: " + key.Length);
-
-        if (result.Length > otp.Length)
-        {
-            Debug.Log("Error: One time pad is not longer than key");
-            return result;
-        }
-
-        for (int i = 0; i < result.Length; ++i)
-        {
-            result[i] = (byte)(key[i+1] ^ otp[i]);
-        }
-
-        return result;
-    }
-
-
 }
+
+
+/*
+
+******
+4040C1A90886218984850151AC123249
+******
+
+enter should do the same thing as the "encryptKey" button
+
+show key like this:
+***************01234
+all asterisks except the last four digits
+
+show the decrypted key in the same box as the seed in the end game ui
+
+
+--------------------------------
+
+other things that should change eventually but are low priority for right now: 
+
+probably shouldn't use global variables not stored in DideryDemoManager
+
+should change OTPworker to be static public class, not monobehavior
+
+DideryDemoManager should use the same manager code as the other manager scripts 
+(the if __instance = NULL type stuff - can just copy and paste from the other 
+manager scripts, effects manager is probably a good example[?])
+
+*/
