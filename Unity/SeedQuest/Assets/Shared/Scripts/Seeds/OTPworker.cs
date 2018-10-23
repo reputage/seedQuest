@@ -11,7 +11,7 @@ public class OTPworker : MonoBehaviour {
     public byte[] key = new byte[32];
     public byte[] formatKey = new byte[34];
     int size = 32;
-    string url = "http://localhost:8080/blob/"; // change this to the url of the actual didery server
+    string url = "http://178.128.0.203:8080/blob/"; // change this to the url of the actual didery server
     // Didery server URL: http://178.128.0.203:8080/blob/
     // Local hosted server: http://localhost:8080/blob/
 
