@@ -33,7 +33,7 @@ using System.Collections.Specialized;
 
 public class SeedToByte : MonoBehaviour
 {
-    public string testSeed1 = "C5E3D45D341A7";
+    public string testSeed1 = "C5E3D45D341A";
     public string testSeed2 = "||||||||||||||||";
     public string testSeed3 = "825A";
 
@@ -53,6 +53,11 @@ public class SeedToByte : MonoBehaviour
 
     public static string inputSeed;
     public static string returnSeed;
+
+    public static string seedBase58;
+    public static string seedBase64;
+    public static string seedBinary;
+
 
     public static byte[] inputBytes;
     public static byte[] returnBytes;
@@ -111,6 +116,13 @@ public class SeedToByte : MonoBehaviour
         testReturnBytes = bitToByte(testBitArr);
         testReturnStr2 = byteToSeed(testReturnBytes);
 
+        //string binarySeed = ByteArrayToBinary(testByteArr);
+        //string base58Seed = ByteArrayToBase58(testByteArr);
+        //Debug.Log("Binary seed: " + binarySeed);
+        //Debug.Log("Base58 seed: " + base58Seed);
+        //string base64Seed = ByteArrayToBase64(testByteArr);
+        //Debug.Log("Base64 seed: " + base64Seed);
+
         testActionToDo = bitConverter(testBitArr, actionList);
 
         actionToBits = actionConverter(testActionToDo, actionList);
@@ -135,14 +147,16 @@ public class SeedToByte : MonoBehaviour
         // Don't change the actionList - it will break everything
         returnBytes = actionConverter(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
-        //Debug.Log(convertedSeed);
+        // Just going to put these here for now... I'm not sure where else to put them
+        seedBase58 = ByteArrayToBase58(returnBytes);
+        seedBase64 = ByteArrayToBase64(returnBytes);
+        seedBinary = ByteArrayToBinary(returnBytes);
         return convertedSeed;
     }
 
     //  Convert string to byte array
     public byte[] seedToByte(string seedString)
     {
-        // example string = C5E3D45D341C5
         // Old encoding method
         //[] seedByte = Encoding.UTF8.GetBytes(seedString);
 
@@ -202,17 +216,61 @@ public class SeedToByte : MonoBehaviour
     public static int GetHexVal(char hex)
     {
         int val = (int)hex;
-        //For uppercase A-F letters:
-        //return val - (val < 58 ? 48 : 55);
-        //For lowercase a-f letters:
-        //return val - (val < 58 ? 48 : 87);
-        //Or the two combined, but a bit slower:
         return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
     }
 
+    // Convert the byte array to hexidecimal
     public static string ByteArrayToHex(byte[] bytes)
     {
         return BitConverter.ToString(bytes).Replace("-", "");
+    }
+
+    // Convert the byte array to a binary string
+    public static string ByteArrayToBinary(byte[] bytes)
+    {
+        string returnString = "";
+
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            returnString += Convert.ToString(bytes[i], 2).PadLeft(8, '0');
+        }
+
+        return returnString;
+    }
+
+    // Convert a byte array into a base58 string
+    public static string ByteArrayToBase58(byte[] bytes)
+    {
+        string base58Digits = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+        string returnString = "";
+
+        ulong bytesInt = 0;
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            bytesInt = bytesInt * 256 + bytes[i];
+        }
+         
+        while (bytesInt > 0)
+        {
+            int remainder = (int)(bytesInt % 58);
+            bytesInt /= 58;
+            returnString = base58Digits[remainder] + returnString;
+        }
+
+        for (int i = 0; i < bytes.Length && bytes[i] == 0; i++)
+        {
+            returnString = '1' + returnString;
+        }
+
+        return returnString;
+    }
+
+    // Convert a byte array to base64
+    public static string ByteArrayToBase64(byte[] bytes)
+    {
+        string returnString = "";
+        returnString = Convert.ToBase64String(bytes);
+        return returnString;
     }
 
     // Construct the list of how many bits represent which parts of the Path to take

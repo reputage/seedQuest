@@ -62,6 +62,7 @@ public class PauseMenuCanvas : MonoBehaviour {
     public void GoToSettingsMenu()
     {
         State = MenuState.SettingsMenu;
+        GetComponent<VolumeOptionsMenu>().updateSettings();
     }
 
     public void QuitGame()

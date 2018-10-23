@@ -58,7 +58,14 @@ public class UIManager : MonoBehaviour {
                 GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
                 GameUI.CompassUI = true;
-                GameUI.MinimapUI = true;
+                if (Application.platform == RuntimePlatform.OSXPlayer)
+                {
+                    GameUI.MinimapUI = true;
+                }
+                else if (Application.platform == RuntimePlatform.OSXEditor)
+                {
+                    GameUI.MinimapUI = true;
+                }
                 break;
             case GameState.Recall:
                 GameUI.CursorUI = true;
