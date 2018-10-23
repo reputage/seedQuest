@@ -39,7 +39,7 @@ public class startMenuDemo : MonoBehaviour {
         if (!entered)
         {
             //Debug.Log(keyInputField.text);
-            //otpWorker.encryptKey(keyInputField.text);
+            otpWorker.encryptKey(keyInputField.text);
             deactivateEncryptButtons();
             changeKeyToCensored();
             entered = true;
@@ -65,7 +65,7 @@ public class startMenuDemo : MonoBehaviour {
     {
         DideryDemoManager.isDemo = true;
         DideryDemoManager.demoBlob = "4040C1A90886218984850151AC123249";
-        SeedManager.InputSeed = "abcd";
+        SeedManager.InputSeed = "1234";
         deactivateEncryptButtons();
     }
 
@@ -90,7 +90,7 @@ public class startMenuDemo : MonoBehaviour {
         char[] newKey = new char[key.Length];
         for (int i = 0; i < oldKey.Length; i++)
         {
-            Debug.Log("i: " + i + " other: " + (oldKey.Length - 5));
+            //Debug.Log("i: " + i + " other: " + (oldKey.Length - 5));
             if (i > oldKey.Length - 5)
             {
                 newKey[i] = oldKey[i];
