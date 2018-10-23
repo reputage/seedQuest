@@ -144,9 +144,9 @@ public class SeedToByte : MonoBehaviour
     // Take string for input, get the to-do list of actions
     public int[] getActionsFromBytes(byte[] inputBytes)
     {
-        Debug.Log(actionList.Count);
+        //Debug.Log(actionList.Count);
         actionList = listBuilder();
-        Debug.Log(actionList.Count);
+        //Debug.Log(actionList.Count);
         inputBits = byteToBits(inputBytes);
         actionToDo = bitConverter(inputBits, actionList);
         int[] returnActions = actionToDo;
@@ -308,7 +308,7 @@ public class SeedToByte : MonoBehaviour
         }
 
         // Print total list items, and the values for location, spot, and action
-        Debug.Log("Total: " + actionList.Count + " Loc: " + actionList[0] + " Spot: " + actionList[1] + " Act: " + actionList[2]);
+        //Debug.Log("Total: " + actionList.Count + " Loc: " + actionList[0] + " Spot: " + actionList[1] + " Act: " + actionList[2]);
 
         return actionList;
     }

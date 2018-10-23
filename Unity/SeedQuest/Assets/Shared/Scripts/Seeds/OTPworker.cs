@@ -42,7 +42,9 @@ public class OTPworker : MonoBehaviour {
         // Check seed to see if it is within the demo parameters
         // Should remove this eventually
         //  changes the seed's bytes instead of generating a new one, since it's faster this way
-        int checkVal = checkValidSeed(seedToByte.getActionsFromBytes(seed));
+        seed = checkValidSeed(seedToByte.getActionsFromBytes(seed));
+       
+        /*
         while ( checkVal > 1)
         {
             Debug.Log("Generating new seed");
@@ -55,10 +57,14 @@ public class OTPworker : MonoBehaviour {
             }
             checkVal = checkValidSeed(seedToByte.getActionsFromBytes(seed));
         }
+        */
+
+        /*
         for (int i = 0; i < seed.Length; i++)
         {
             Debug.Log("Seed value " + i + ": " + seed[i]);
         }
+        */
 
         OTPGenerator(otp, size, seed);
         key = Encoding.ASCII.GetBytes(inputKey);
@@ -171,37 +177,49 @@ public class OTPworker : MonoBehaviour {
     }
 
     //check to see if the seed is valid within what is currently available
-    public int checkValidSeed(int[] actions)
+    public byte[] checkValidSeed(int[] actions)
     {
         // reject seeds that use location id = 8-15, and site id=16-31. 
         //  Location id =0 -7 will be valid, as will site id = 0-15
         int[] sites =  { 1, 3, 5, 7, 10, 12, 14, 16, 19, 21, 23, 25, 28, 30, 32, 34 };
         //int[] posAct = { 2, 4, 6, 8, 11, 13, 15, 17, 20, 22, 24, 26, 29, 31, 33, 35 };
-        Debug.Log("length of action list: " + actions.Length);
+        //Debug.Log("length of action list: " + actions.Length);
+        byte[] newSeed = new byte[16];
+        System.Random r = new System.Random();
+
+        //Debug.Log("Testing seed... ");
+
 
         for (int i = 0; i < actions.Length; i++)
         {
-            Debug.Log("Testing seed... ");
             if (i == 0 || i == 9 || i == 18 || i == 27)
             {
                 if (actions[i] > 7) 
                 {
-                    Debug.Log("Bad location (>7): " + actions[i]);
-                    return i;
+                    actions[i] = r.Next(0, 7);
+                    //Debug.Log("Randomly generating location with value: " + actions[i]);
                 }
             }
             else if (sites.Contains(i))
             {
                 if (actions[i] > 15)
                 {
-                    Debug.Log("Bad site (>15): " + actions[i]);
-                    return i;
+                    actions[i] = r.Next(0, 15);
+                    //Debug.Log("Randomly generating site with value: " + actions[i]);
                 }
             }
-
-
         }
-        return 0;
+
+        newSeed = seedToByte.actionConverter(actions, seedToByte.actionList);
+
+        /*
+        for (int i = 0; i < actions.Length; i++)
+        {
+            Debug.Log("Action int: " + i + " value: " + actions[i]);
+        }
+        */
+
+        return newSeed;
     }
 
 }
