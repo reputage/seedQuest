@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System;
 using System.Text;
 
 public class OTPworker : MonoBehaviour {
-    
+
+    // this class should be converted to a static class eventually, but
+    //  coroutines can't be started in a class that's not a monobehavior.
+
+    public SeedToByte seedToByte;
     public byte[] otp = new byte[32];
-    public byte[] seed = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    public byte[] seed = new byte[16];
     public byte[] key = new byte[32];
     public byte[] formatKey = new byte[34];
     int size = 32;
-    string url = "http://localhost:8080/blob/"; // change this to the url of the actual didery server
+    string url = "http://178.128.0.203:8080/blob/"; // change this to the url of the actual didery server
     // Didery server URL: http://178.128.0.203:8080/blob/
     // Local hosted server: http://localhost:8080/blob/
 
@@ -33,6 +38,34 @@ public class OTPworker : MonoBehaviour {
         string postBody = "";
 
         seed = randomSeedGenerator(seed);
+
+        // Check seed to see if it is within the demo parameters
+        // Should remove this eventually
+        //  changes the seed's bytes instead of generating a new one, since it's faster this way
+        seed = checkValidSeed(seedToByte.getActionsFromBytes(seed));
+       
+        /*
+        while ( checkVal > 1)
+        {
+            Debug.Log("Generating new seed");
+            for (int i = 0; i < seed.Length; i++)
+            {
+                if(seed[i] > 0)
+                {
+                    seed[i] -= 1;
+                }
+            }
+            checkVal = checkValidSeed(seedToByte.getActionsFromBytes(seed));
+        }
+        */
+
+        /*
+        for (int i = 0; i < seed.Length; i++)
+        {
+            Debug.Log("Seed value " + i + ": " + seed[i]);
+        }
+        */
+
         OTPGenerator(otp, size, seed);
         key = Encoding.ASCII.GetBytes(inputKey);
 
@@ -87,7 +120,6 @@ public class OTPworker : MonoBehaviour {
         {
             seed[i] = (byte)LibSodiumManager.nacl_randombytes_random();
         }
-
         return seed;
     }
 
@@ -144,34 +176,52 @@ public class OTPworker : MonoBehaviour {
         return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
     }
 
+    //check to see if the seed is valid within what is currently available
+    public byte[] checkValidSeed(int[] actions)
+    {
+        // reject seeds that use location id = 8-15, and site id=16-31. 
+        //  Location id =0 -7 will be valid, as will site id = 0-15
+        int[] sites =  { 1, 3, 5, 7, 10, 12, 14, 16, 19, 21, 23, 25, 28, 30, 32, 34 };
+        //int[] posAct = { 2, 4, 6, 8, 11, 13, 15, 17, 20, 22, 24, 26, 29, 31, 33, 35 };
+        //Debug.Log("length of action list: " + actions.Length);
+        byte[] newSeed = new byte[16];
+        System.Random r = new System.Random();
+
+        //Debug.Log("Testing seed... ");
+
+
+        for (int i = 0; i < actions.Length; i++)
+        {
+            if (i == 0 || i == 9 || i == 18 || i == 27)
+            {
+                if (actions[i] > 7) 
+                {
+                    actions[i] = r.Next(0, 7);
+                    //Debug.Log("Randomly generating location with value: " + actions[i]);
+                }
+            }
+            else if (sites.Contains(i))
+            {
+                if (actions[i] > 15)
+                {
+                    actions[i] = r.Next(0, 15);
+                    //Debug.Log("Randomly generating site with value: " + actions[i]);
+                }
+            }
+        }
+
+        newSeed = seedToByte.actionConverter(actions, seedToByte.actionList);
+
+        /*
+        for (int i = 0; i < actions.Length; i++)
+        {
+            Debug.Log("Action int: " + i + " value: " + actions[i]);
+        }
+        */
+
+        return newSeed;
+    }
+
 }
 
 
-/*
-
-******
-4040C1A90886218984850151AC123249
-******
-
-enter should do the same thing as the "encryptKey" button
-
-show key like this:
-***************01234
-all asterisks except the last four digits
-
-show the decrypted key in the same box as the seed in the end game ui
-
-
---------------------------------
-
-other things that should change eventually but are low priority for right now: 
-
-probably shouldn't use global variables not stored in DideryDemoManager
-
-should change OTPworker to be static public class, not monobehavior
-
-DideryDemoManager should use the same manager code as the other manager scripts 
-(the if __instance = NULL type stuff - can just copy and paste from the other 
-manager scripts, effects manager is probably a good example[?])
-
-*/
