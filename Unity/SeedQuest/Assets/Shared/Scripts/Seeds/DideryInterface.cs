@@ -17,9 +17,6 @@ public static class DideryInterface{
         return did;
     }
 
-    // nacl_crypto_sign(signed_message, message, (ulong)message.Length, sk);
-    // nacl_crypto_sign_open(unsigned_message, signed_message, (ulong)signed_message.Length, pk);
-
     // Create signature to use in the header of POST and PUT requests to didery
     public static string signResource(byte[] sm, byte[] m, ulong mlen, byte[] sk, byte[] vk)
     {
@@ -29,7 +26,6 @@ public static class DideryInterface{
         {
             sig[i] = sm[i];
         }
-        //Debug.Log(LibSodiumManager.nacl_crypto_sign_BYTES());
 
         byte[] usm = new byte[m.Length];
         int success = LibSodiumManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
@@ -43,8 +39,6 @@ public static class DideryInterface{
         }
 
         string signature = Convert.ToBase64String(sig).Replace('+', '-').Replace('/', '_');
-        //Debug.Log("Sig: " + signature);
-
         return signature;
     }
 
@@ -61,8 +55,6 @@ public static class DideryInterface{
         string signature;
         string keyString = Convert.ToBase64String(encryptedKey);
 
-        //Debug.Log("Key string in makeDid(): " + keyString);
-
         int signed_bytes = LibSodiumManager.nacl_crypto_sign_BYTES();
 
         LibSodiumManager.nacl_crypto_sign_keypair(vk, sk);
@@ -71,9 +63,7 @@ public static class DideryInterface{
         dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.ffffffzzz");
         body = "{\"id\":\"" + did + "\",\"blob\":\"" + keyString + "\",\"changed\":\"" + dateTime + "\"}";
 
-        //byte[] sm = new byte[signed_bytes + body.Length];
         byte[] bodyByte = new byte[body.Length];
-
         bodyByte = Encoding.UTF8.GetBytes(body);
 
         byte[] sm = new byte[signed_bytes + bodyByte.Length];
@@ -108,25 +98,11 @@ public static class DideryInterface{
 
         string[] getData = getResult.Split(':');
 
-        // Debug.Log(getData[6]);
-        string blob = getData[5];
-        blob = blob.Replace("changed", string.Empty);
-        blob = blob.Replace(":", string.Empty);
-        blob = blob.Replace(",", string.Empty);
-        blob = blob.Replace(" ", string.Empty);
-        blob = blob.Replace("\"", string.Empty);
-        Debug.Log("Recieved blob: " + blob);
-
         dideryBlob getBlob = JsonUtility.FromJson<dideryBlob>(getResult);
-        Debug.Log("Blob: " + getBlob.otp_data.blob);
-
-        //Debug.Log(getResult);
+        //Debug.Log("Blob: " + getBlob.otp_data.blob);
 
         DideryDemoManager.demoBlob = getBlob.otp_data.blob;
     }
-
-    // dideryBlob getBlob = JsonUtility.FromJson<dideryBlob>(getResult);
-    // Debug.Log(getBlob.otp_data.blob);
 
     // Sends a POST request to didery at the url specified. 
     // Requires json body and signature from makePost()

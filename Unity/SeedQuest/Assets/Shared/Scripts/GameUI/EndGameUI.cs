@@ -19,7 +19,8 @@ public class EndGameUI : MonoBehaviour {
         if (GameManager.State == GameState.GameEnd)
         {
             seedString.text = SeedManager.RecoveredSeed;
-            otpWorker.getEncryptedKey();
+            if (!DideryDemoManager.isDemo)
+                otpWorker.getEncryptedKey();
         }
     }
 
@@ -37,8 +38,13 @@ public class EndGameUI : MonoBehaviour {
 
     public void decryptKey()
     {
-        byte[] keyByte = otpWorker.decryptFromBlob(SeedManager.RecoveredSeed);
-        string finalKey = Encoding.ASCII.GetString(keyByte);
-        keyString.text = finalKey;
+        if (DideryDemoManager.isDemo)
+            keyString.text = DideryDemoManager.demoBlob;
+        else
+        {
+            byte[] keyByte = otpWorker.decryptFromBlob(SeedManager.RecoveredSeed);
+            string finalKey = Encoding.ASCII.GetString(keyByte);
+            keyString.text = finalKey;
+        }
     }
 }
