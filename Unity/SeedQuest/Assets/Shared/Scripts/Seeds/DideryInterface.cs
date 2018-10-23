@@ -129,9 +129,9 @@ public static class DideryInterface{
 
     // Has not been configured for use with didery yet
     /*
-    public static IEnumerator PutRequest(string url)
+    public static IEnumerator PutRequest(string url, string body)
     {
-        byte[] dataToPut = System.Text.Encoding.UTF8.GetBytes("Hello, This is a test");
+        byte[] dataToPut = System.Text.Encoding.UTF8.GetBytes(body);
         UnityWebRequest uwr = UnityWebRequest.Put(url, dataToPut);
         yield return uwr.SendWebRequest();
 
