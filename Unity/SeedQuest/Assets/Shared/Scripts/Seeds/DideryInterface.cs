@@ -101,7 +101,7 @@ public static class DideryInterface{
         dideryBlob getBlob = JsonUtility.FromJson<dideryBlob>(getResult);
         //Debug.Log("Blob: " + getBlob.otp_data.blob);
 
-        DideryDemoManager.demoBlob = getBlob.otp_data.blob;
+        DideryDemoManager.DemoBlob = getBlob.otp_data.blob;
     }
 
     // Sends a POST request to didery at the url specified. 

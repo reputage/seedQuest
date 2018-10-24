@@ -22,7 +22,7 @@ public class EndGameUI : MonoBehaviour {
         if (GameManager.State == GameState.GameEnd)
         {
             seedString.text = SeedManager.RecoveredSeed;
-            if (!DideryDemoManager.isDemo)
+            if (!DideryDemoManager.IsDemo)
                 otpWorker.getEncryptedKey();
         }
     }
@@ -34,15 +34,15 @@ public class EndGameUI : MonoBehaviour {
 
     public void CopySeed() {
         TextEditor editor = new TextEditor();
-        editor.text = DideryDemoManager.demoBlob; //SeedManager.RecoveredSeed;
+        editor.text = DideryDemoManager.DemoBlob; //SeedManager.RecoveredSeed;
         editor.SelectAll();
         editor.Copy();
     }
 
     public void decryptKey()
     {
-        if (DideryDemoManager.isDemo) {
-            keyString.text = DideryDemoManager.demoBlob;
+        if (DideryDemoManager.IsDemo) {
+            keyString.text = DideryDemoManager.DemoBlob;
         }
         else
         {

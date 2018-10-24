@@ -19,7 +19,7 @@ public class startMenuDemo : MonoBehaviour {
 	void Start () 
     {
         otpWorker = FindObjectOfType<OTPworker>();
-        DideryDemoManager.isDemo = false;
+        DideryDemoManager.IsDemo = false;
         entered = false;
         allowEnter = false;
     }
@@ -63,8 +63,8 @@ public class startMenuDemo : MonoBehaviour {
 
     public void useDemoKey()
     {
-        DideryDemoManager.isDemo = true;
-        DideryDemoManager.demoBlob = keyInputField.text;
+        DideryDemoManager.IsDemo = true;
+        DideryDemoManager.DemoBlob = keyInputField.text;
         SeedManager.InputSeed = "A021E0A80264A33C08B6C2884AC0685C"; //"4040C1A90886218984850151AC123249";
         deactivateEncryptButtons();
     }

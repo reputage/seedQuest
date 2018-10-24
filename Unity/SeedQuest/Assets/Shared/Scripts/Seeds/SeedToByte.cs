@@ -21,13 +21,6 @@ using System.Collections.Specialized;
  * And access the functions like this:
  *  actions = seedScriptor.getActions(inputSeed);
  *  seed = seedScriptor.getSeed(intArrayOfActions);
- *
- * Alternatively, if this script is in it's own object, reference it this way:
- *  public GameObject seedScriptor
- *  
- * And access funcitons this way:
- *  int[] actionsFromASeed = seedScriptor.GetComponent<SeedToByte>().getActions(inputString);
- *  string seedFromActions = seedScriptor.GetComponent<SeedToByte>().getSeed(intArrayOfActions);
  * 
 */
 
@@ -331,7 +324,6 @@ public class SeedToByte : MonoBehaviour
                 // Yes, I know this is reading the bits in reverse, this is intentional
                 int bitValue = actionList[writeIndex] - (valueIndex + 1);
                 value += Convert.ToInt32(Math.Pow(2, bitValue));
-                //value += Convert.ToInt32(Math.Pow(2, valueIndex));
             }
             if (locator == (actionList[writeIndex] - 1))
             {
@@ -438,15 +430,3 @@ public class SeedToByte : MonoBehaviour
         return BitReverseTable[toReverse];
     }
 }
-
-/* For each action:
- * 
- * 4 bits for location
- * 4 bits for each "spot" at the location
- * 3 bits for each action at the location
- * 
- * 4 actions at each location = 4 * 7 = 28
- * 28 + 4 (for the location) = 32
- * 4 locations to be visited
- * 
- */
