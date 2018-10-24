@@ -23,7 +23,7 @@ public class OTPworker : MonoBehaviour {
 
 	private void Start()
 	{
-
+        //seedToByte = new SeedToByte();
     }
 
     // takes an inputKey string, generates a one time pad, encrypts the key,
