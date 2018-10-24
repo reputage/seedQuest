@@ -91,6 +91,8 @@ public class Interactable : MonoBehaviour {
     }
 
     public void clickOnInteractable() {
+        return;
+
         if (PauseManager.isPaused == true)
             return;
 
