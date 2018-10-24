@@ -23,10 +23,3 @@ public class dideryOtpData{
     public string id;
 
 }
-
-
-//{"otp_data": {"changed": "2018-10-22T13:09:44.393768-06:00", 
-// "blob": "RmUSZkwwfAfHiN5G", 
-// "id": "did:dad:2Xruj0zviOYBGUVK1vgQAedXH_Tx2XYC73nr0URqLBo="}, 
-// "signatures": 
-// {"signer": "4nzjj_9HH7HCXasmrkXoL9YZHQmMj7dRzYc5nKHXPfScB4ZYAwqNRergfl9FtvlvQp9ikAIO7KCaNF4YQ-aYAw=="}}

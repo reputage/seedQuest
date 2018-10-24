@@ -30,7 +30,7 @@ public class LibSodiumManager : MonoBehaviour {
 
     [DllImport("Assets/Lib/libsodium_wrapper.dylib")]
     public static extern int nacl_crypto_sign_keypair(byte[] pk, byte[] sk);
-    // Saves private key to pk, saves secret key to sk
+    // Saves public key to pk, saves secret key to sk
 
     [DllImport("Assets/Lib/libsodium_wrapper.dylib")]
     public static extern int nacl_crypto_sign(byte[] sm, byte[] m, ulong mlen, byte[] sk);

@@ -5,7 +5,8 @@ using UnityEngine;
 using System;
 using System.Text;
 
-public class OTPworker : MonoBehaviour {
+public class OTPworker : MonoBehaviour
+{
 
     // this class should be converted to a static class eventually, but
     //  coroutines can't be started in a class that's not a monobehavior.
@@ -17,9 +18,8 @@ public class OTPworker : MonoBehaviour {
     public byte[] formatKey = new byte[34];
     int size = 32;
     string url = "http://178.128.0.203:8080/blob/"; // change this to the url of the actual didery server
-    // Didery server URL: http://178.128.0.203:8080/blob/
-    // Local hosted server: http://localhost:8080/blob/
-
+                                                    // Didery server URL: http://178.128.0.203:8080/blob/
+                                                    // Local hosted server: http://localhost:8080/blob/
 
 	private void Start()
 	{
@@ -42,29 +42,23 @@ public class OTPworker : MonoBehaviour {
         // Check seed to see if it is within the demo parameters
         // Should remove this eventually
         //  changes the seed's bytes instead of generating a new one, since it's faster this way
-        seed = checkValidSeed(seedToByte.getActionsFromBytes(seed));
-       
-        /*
-        while ( checkVal > 1)
+        //seed = checkValidSeed(seedToByte.getActionsFromBytes(seed));
+
+        int checkVal = checkValidSeed(seedToByte.getActionsFromBytes(seed));
+        while (checkVal > 1)
         {
             Debug.Log("Generating new seed");
             for (int i = 0; i < seed.Length; i++)
             {
-                if(seed[i] > 0)
+                if (seed[i] > 0)
                 {
                     seed[i] -= 1;
                 }
             }
             checkVal = checkValidSeed(seedToByte.getActionsFromBytes(seed));
         }
-        */
 
-        /*
-        for (int i = 0; i < seed.Length; i++)
-        {
-            Debug.Log("Seed value " + i + ": " + seed[i]);
-        }
-        */
+        Debug.Log(ByteArrayToHex(seed));
 
         OTPGenerator(otp, size, seed);
         key = Encoding.ASCII.GetBytes(inputKey);
@@ -76,7 +70,7 @@ public class OTPworker : MonoBehaviour {
         signature = dideryData[1];
         postBody = dideryData[2];
 
-        Debug.Log( "Did: " + did + " signature: " + " postBody: " + postBody );
+        Debug.Log("Did: " + did + " signature: " + " postBody: " + postBody);
 
         SeedManager.InputSeed = ByteArrayToHex(seed);
         DideryDemoManager.demoDid = did;
@@ -99,7 +93,7 @@ public class OTPworker : MonoBehaviour {
     {
         //Debug.Log("Seed: " + seed);
         byte[] seedByte = HexStringToByteArray(seed);
-        Debug.Log(DideryDemoManager.demoBlob);
+        //Debug.Log(DideryDemoManager.demoBlob);
         byte[] demoBlob = Convert.FromBase64String(DideryDemoManager.demoBlob);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
         return decryptedKey;
@@ -124,9 +118,14 @@ public class OTPworker : MonoBehaviour {
     }
 
     // Generates the one-time pad from a seed
-	public void OTPGenerator(byte[] otp, int size, byte[] seed)
+    public void OTPGenerator(byte[] otp, int size, byte[] seed)
     {
         LibSodiumManager.nacl_randombytes_buf_deterministic(otp, size, seed);
+        for (int i = 0; i < 6; i++)
+        {
+            //Debug.Log("OTP " + i + ": " + otp[i] + " seed " + i + ": " + seed[i]);
+        }
+        //Debug.Log(seed.Length);
     }
 
     // Used to encrypt and decrypt the key using the one-time pad, using the xor method
@@ -177,51 +176,55 @@ public class OTPworker : MonoBehaviour {
     }
 
     //check to see if the seed is valid within what is currently available
-    public byte[] checkValidSeed(int[] actions)
+    public int checkValidSeed(int[] actions)
     {
         // reject seeds that use location id = 8-15, and site id=16-31. 
         //  Location id =0 -7 will be valid, as will site id = 0-15
-        int[] sites =  { 1, 3, 5, 7, 10, 12, 14, 16, 19, 21, 23, 25, 28, 30, 32, 34 };
+        int[] sites = { 1, 3, 5, 7, 10, 12, 14, 16, 19, 21, 23, 25, 28, 30, 32, 34 };
         //int[] posAct = { 2, 4, 6, 8, 11, 13, 15, 17, 20, 22, 24, 26, 29, 31, 33, 35 };
-        //Debug.Log("length of action list: " + actions.Length);
-        byte[] newSeed = new byte[16];
-        System.Random r = new System.Random();
-
+        //byte[] newSeed = new byte[16];
+        //System.Random r = new System.Random();
         //Debug.Log("Testing seed... ");
-
 
         for (int i = 0; i < actions.Length; i++)
         {
             if (i == 0 || i == 9 || i == 18 || i == 27)
             {
-                if (actions[i] > 7) 
+                if (actions[i] > 7)
                 {
-                    actions[i] = r.Next(0, 7);
-                    //Debug.Log("Randomly generating location with value: " + actions[i]);
+                    //Debug.Log("Bad location (>7): " + actions[i]);
+                    return i;
                 }
             }
             else if (sites.Contains(i))
             {
                 if (actions[i] > 15)
                 {
-                    actions[i] = r.Next(0, 15);
-                    //Debug.Log("Randomly generating site with value: " + actions[i]);
+                    //Debug.Log("Bad site (>15): " + actions[i]);
+                    return i;
                 }
             }
         }
-
-        newSeed = seedToByte.actionConverter(actions, seedToByte.actionList);
-
-        /*
-        for (int i = 0; i < actions.Length; i++)
-        {
-            Debug.Log("Action int: " + i + " value: " + actions[i]);
-        }
-        */
-
-        return newSeed;
+        //newSeed = seedToByte.actionConverter(actions, seedToByte.actionList);
+        //Debug.Log(newSeed.Length);
+        return 0;
     }
-
 }
 
 
+
+/* 239, 140
+ * 8,   133
+ * 249, 145
+ * 18,  101
+ * 37,  14
+ * 231, 146
+ * 
+ * 90,  140
+ * 90,  133
+ * 189, 145
+ * 106, 101
+ * 18,  14
+ * 61,  146
+ * 
+ */
