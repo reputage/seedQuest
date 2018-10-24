@@ -77,7 +77,7 @@ public class startMenuDemo : MonoBehaviour {
     public void testDecrypt()
     {
         string seed = SeedManager.InputSeed;
-        //Debug.Log("Seed: " + seed);
+        Debug.Log("Seed: " + seed);
         byte[] keyByte = otpWorker.decryptFromBlob(seed);
         string finalKey = Encoding.ASCII.GetString(keyByte);
         keyString.text = finalKey;
