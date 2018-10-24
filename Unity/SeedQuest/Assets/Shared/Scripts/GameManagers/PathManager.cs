@@ -77,7 +77,7 @@ public class PathManager : MonoBehaviour {
     /// <summary> Draws a PathSegment using a LineRenderer </summary>
     private void DrawPathSegment()
     {
-        if (Path == null || PathTarget == null)
+        if (Path == null || PathTarget == null || pathSegment == null)
             return;
 
         LineRenderer line = PathMesh.GetComponentInChildren<LineRenderer>();

@@ -64,8 +64,8 @@ public class startMenuDemo : MonoBehaviour {
     public void useDemoKey()
     {
         DideryDemoManager.isDemo = true;
-        DideryDemoManager.demoBlob = "4040C1A90886218984850151AC123249";
-        SeedManager.InputSeed = "1234";
+        DideryDemoManager.demoBlob = keyInputField.text;
+        SeedManager.InputSeed = "A021E0A80264A33C08B6C2884AC0685C"; //"4040C1A90886218984850151AC123249";
         deactivateEncryptButtons();
     }
 

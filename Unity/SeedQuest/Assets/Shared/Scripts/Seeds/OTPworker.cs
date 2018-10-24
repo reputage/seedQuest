@@ -38,6 +38,7 @@ public class OTPworker : MonoBehaviour
         string postBody = "";
 
         seed = randomSeedGenerator(seed);
+        //seed = HexStringToByteArray("4040C1A90886218984850151AC123249");
 
         // Check seed to see if it is within the demo parameters
         // Should remove this eventually

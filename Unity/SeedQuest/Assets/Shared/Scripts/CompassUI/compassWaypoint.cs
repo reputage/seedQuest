@@ -49,6 +49,10 @@ public class compassWaypoint : MonoBehaviour {
     {
         counter += 1;
 
+        setTarget(PathManager.PathTarget);
+        if (target == null)
+            return;
+        
         targetDir = target.transform.position - PlayerManager.Position;
 
         Transform angles = CameraStateController.Transform;
