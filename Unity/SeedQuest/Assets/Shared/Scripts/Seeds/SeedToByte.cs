@@ -145,10 +145,9 @@ public class SeedToByte : MonoBehaviour
     public int[] getActionsFromBytes(byte[] inputBytes)
     {
         actionList = listBuilder();
-        inputBits = byteToBits(inputBytes);
-        actionToDo = bitConverter(inputBits, actionList);
-        int[] returnActions = actionToDo;
-        return returnActions;
+        BitArray inputBits2 = byteToBits(inputBytes);
+        int[] actionToDo2 = bitConverter(inputBits2, actionList);
+        return actionToDo2;
     }
 
     // Get the return seed from a list of actions
