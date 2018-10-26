@@ -8,8 +8,7 @@ using System.Text;
 public class OTPworker : MonoBehaviour
 {
 
-    // this class should be converted to a static class eventually, but
-    //  coroutines can't be started in a class that's not a monobehavior.
+    public DideryDemoManager dideryDemoManager;
 
     public SeedToByte seedToByte;
     public byte[] otp = new byte[32];
@@ -77,7 +76,8 @@ public class OTPworker : MonoBehaviour
         DideryDemoManager.DemoDid = did;
         Debug.Log("Did: " + DideryDemoManager.DemoDid);
 
-        StartCoroutine(DideryInterface.PostRequest(url, postBody, signature));
+        dideryDemoManager.postRequest(url, postBody, signature);
+        //StartCoroutine(DideryInterface.PostRequest(url, postBody, signature));
     }
 
     // Takes the last used did from DideryDemoManager, retrieves the key
@@ -86,7 +86,9 @@ public class OTPworker : MonoBehaviour
     {
         string uri = url + DideryDemoManager.DemoDid;
         Debug.Log(uri);
-        StartCoroutine(DideryInterface.GetRequest(uri));
+
+        dideryDemoManager.getRequest(uri);
+        //StartCoroutine(DideryInterface.GetRequest(uri));
     }
 
     // Decrypts the blob saved at DideryDemoManager.demoBlob
@@ -168,10 +170,8 @@ public class OTPworker : MonoBehaviour
     //check to see if the seed is valid within what is currently available
     public int checkValidSeed(int[] actions)
     {
-        // reject seeds that use location id = 8-15, and site id=16-31. 
-        //  Location id =0 -7 will be valid, as will site id = 0-15
+
         int[] sites = { 1, 3, 5, 7, 10, 12, 14, 16, 19, 21, 23, 25, 28, 30, 32, 34 };
-        //int[] posAct = { 2, 4, 6, 8, 11, 13, 15, 17, 20, 22, 24, 26, 29, 31, 33, 35 };
 
         for (int i = 0; i < actions.Length; i++)
         {

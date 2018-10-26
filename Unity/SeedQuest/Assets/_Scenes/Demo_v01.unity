@@ -41654,6 +41654,7 @@ MonoBehaviour:
   seedString: {fileID: 803247085}
   keyString: {fileID: 996772463}
   otpWorker: {fileID: 1346610929}
+  copyButton: {fileID: 0}
 --- !u!222 &687077523
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -48814,7 +48815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformTarget: {fileID: 0}
-  stateData: {fileID: 11400000, guid: d880fab121f93b040b8345790cb6b979, type: 2}
+  stateData: {fileID: 0}
   ID:
     siteID: 2
     spotID: 1
@@ -60761,7 +60762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformTarget: {fileID: 0}
-  stateData: {fileID: 11400000, guid: 7421f6a028c2d4b4eaf6c1f48c531f50, type: 2}
+  stateData: {fileID: 0}
   ID:
     siteID: 2
     spotID: 0
@@ -77715,7 +77716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformTarget: {fileID: 0}
-  stateData: {fileID: 11400000, guid: eb947e4abb9be6347862c6f11a5c53e6, type: 2}
+  stateData: {fileID: 0}
   ID:
     siteID: 1
     spotID: 0
@@ -82446,6 +82447,7 @@ GameObject:
   - component: {fileID: 1346610927}
   - component: {fileID: 1346610928}
   - component: {fileID: 1346610929}
+  - component: {fileID: 1346610930}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -82612,11 +82614,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c8c38eb0a9d436b89005703d1f4fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dideryDemoManager: {fileID: 1346610930}
   seedToByte: {fileID: 438578815}
   otp: 0000000000000000000000000000000000000000000000000000000000000000
   seed: 0102030405060708090a0b0c0d0e0f10
   key: 0000000000000000000000000000000000000000000000000000000000000000
   formatKey: 00000000000000000000000000000000000000000000000000000000000000000000
+--- !u!114 &1346610930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1346610917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a531f32805881475fa66b9e586b94114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  demoDid: 
+  demoBlob: 
+  isDemo: 0
+  url: http://178.128.0.203:8080/blob/
 --- !u!1 &1347460395
 GameObject:
   m_ObjectHideFlags: 0
@@ -104213,7 +104231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformTarget: {fileID: 0}
-  stateData: {fileID: 11400000, guid: 120638f5422efe6449d6171a9359896e, type: 2}
+  stateData: {fileID: 0}
   ID:
     siteID: 0
     spotID: 1
