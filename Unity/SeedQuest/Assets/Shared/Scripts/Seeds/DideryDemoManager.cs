@@ -21,7 +21,7 @@ public class DideryDemoManager : MonoBehaviour {
     public string demoDid;
     public string demoBlob;
     public bool isDemo;
-    public string url = "http://178.128.0.203:8080/blob/";
+    //public string url = "http://178.128.0.203:8080/blob/";
 
     static public string DemoDid
     {
@@ -41,6 +41,7 @@ public class DideryDemoManager : MonoBehaviour {
         set { Instance.isDemo = value; }
     }
 
+    /*
     public void postRequest(string url, string postBody, string signature)
     {
         StartCoroutine(DideryInterface.PostRequest(url, postBody, signature));
@@ -50,5 +51,6 @@ public class DideryDemoManager : MonoBehaviour {
     {
         StartCoroutine(DideryInterface.GetRequest(uri));
     }
+    */
 
 }

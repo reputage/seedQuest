@@ -40,8 +40,6 @@ public class OTPworker : MonoBehaviour
         //seed = HexStringToByteArray("4040C1A90886218984850151AC123249");
 
         // Check seed to see if it is within the demo parameters
-        // Should remove this eventually
-        // changes the seed's bytes instead of generating a new one, since it's faster this way
         //seed = checkValidSeed(seedToByte.getActionsFromBytes(seed));
 
         int checkVal = checkValidSeed(seedToByte.getActionsFromBytes(seed));
@@ -58,7 +56,7 @@ public class OTPworker : MonoBehaviour
             checkVal = checkValidSeed(seedToByte.getActionsFromBytes(seed));
         }
 
-        Debug.Log(ByteArrayToHex(seed));
+        //Debug.Log(ByteArrayToHex(seed));
 
         OTPGenerator(otp, size, seed);
         key = Encoding.ASCII.GetBytes(inputKey);
@@ -76,8 +74,8 @@ public class OTPworker : MonoBehaviour
         DideryDemoManager.DemoDid = did;
         Debug.Log("Did: " + DideryDemoManager.DemoDid);
 
-        dideryDemoManager.postRequest(url, postBody, signature);
-        //StartCoroutine(DideryInterface.PostRequest(url, postBody, signature));
+        //dideryDemoManager.postRequest(url, postBody, signature);
+        StartCoroutine(DideryInterface.PostRequest(url, postBody, signature));
     }
 
     // Takes the last used did from DideryDemoManager, retrieves the key
@@ -87,8 +85,8 @@ public class OTPworker : MonoBehaviour
         string uri = url + DideryDemoManager.DemoDid;
         Debug.Log(uri);
 
-        dideryDemoManager.getRequest(uri);
-        //StartCoroutine(DideryInterface.GetRequest(uri));
+        //dideryDemoManager.getRequest(uri);
+        StartCoroutine(DideryInterface.GetRequest(uri));
     }
 
     // Decrypts the blob saved at DideryDemoManager.demoBlob
