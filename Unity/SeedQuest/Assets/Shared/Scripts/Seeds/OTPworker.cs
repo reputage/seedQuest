@@ -11,15 +11,11 @@ public class OTPworker : MonoBehaviour
     public DideryDemoManager dideryDemoManager;
 
     public SeedToByte seedToByte;
-    public byte[] otp = new byte[32];
-    public byte[] seed = new byte[16];
-    public byte[] key = new byte[32];
-    public byte[] formatKey = new byte[34];
-    int size = 32;
+
     string url = "http://178.128.0.203:8080/blob/"; // change this to the url of the actual didery server
                                                     // Didery server URL: http://178.128.0.203:8080/blob/
                                                     // Local hosted server: http://localhost:8080/blob/
-
+   
 	private void Start()
 	{
         seedToByte = new SeedToByte();
@@ -31,6 +27,13 @@ public class OTPworker : MonoBehaviour
     public void encryptKey(string inputKey)
     {
         string[] dideryData;
+
+        byte[] otp = new byte[32];
+        byte[] seed = new byte[16];
+        byte[] key = new byte[32];
+        byte[] formatKey = new byte[34];
+
+        int size = 32;
 
         string did = "";
         string signature = "";
@@ -100,8 +103,10 @@ public class OTPworker : MonoBehaviour
     }
 
     // Takes an encrypted key, and a seed, returns a byte array of the the otp decrypted seed
-    public byte[] decryptKey(byte[] getKey, byte[] getSeed)
+    public byte[] decryptKey(byte[] getKey, byte[] getSeed, int size = 32)
     {
+        byte[] otp = new byte[32];
+
         OTPGenerator(otp, size, getSeed);
         getKey = OTPxor(getKey, otp);
         return getKey;

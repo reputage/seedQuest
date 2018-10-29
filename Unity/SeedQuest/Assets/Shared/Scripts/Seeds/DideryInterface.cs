@@ -7,8 +7,6 @@ using UnityEngine.Networking;
 
 public static class DideryInterface{
 
-    public static string getResult;
-
     // Create a did using the verification key from makeKeyPair()
     public static string makeDid(byte[] vk, string method = "dad")
     {
@@ -82,6 +80,8 @@ public static class DideryInterface{
     // Send a GET request to the uri, saves the requested blob to demoBlob in DideryDemoManager
     public static IEnumerator GetRequest(string uri)
     {
+        string getResult;
+
         UnityWebRequest uwr = UnityWebRequest.Get(uri);
         yield return uwr.SendWebRequest();
 
