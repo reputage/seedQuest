@@ -91,7 +91,6 @@ public class DideryDemoManager : MonoBehaviour {
         }
 
         //Debug.Log(ByteArrayToHex(seed));
-
         OTPworker.OTPGenerator(otp, size, seed);
         key = Encoding.ASCII.GetBytes(inputKey);
 
@@ -103,12 +102,10 @@ public class DideryDemoManager : MonoBehaviour {
         postBody = dideryData[2];
 
         //Debug.Log("Did: " + did + " signature: " + " postBody: " + postBody);
-
         SeedManager.InputSeed = OTPworker.ByteArrayToHex(seed);
         DideryDemoManager.DemoDid = did;
         Debug.Log("Did: " + DideryDemoManager.DemoDid);
 
-        //dideryDemoManager.postRequest(url, postBody, signature);
         StartCoroutine(DideryInterface.PostRequest(url, postBody, signature));
     }
 
@@ -119,7 +116,6 @@ public class DideryDemoManager : MonoBehaviour {
         string uri = url + DideryDemoManager.DemoDid;
         Debug.Log(uri);
 
-        //dideryDemoManager.getRequest(uri);
         StartCoroutine(DideryInterface.GetRequest(uri));
     }
 

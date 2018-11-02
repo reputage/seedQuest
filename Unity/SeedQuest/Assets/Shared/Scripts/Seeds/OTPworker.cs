@@ -8,89 +8,9 @@ using System.Text;
 public static class OTPworker
 {
 
-    //public DideryDemoManager dideryDemoManager;
-    //public SeedToByte seedToByte;
-
-    //string url = "http://178.128.0.203:8080/blob/"; // change this to the url of the actual didery server
-                                                    // Didery server URL: http://178.128.0.203:8080/blob/
-                                                    // Local hosted server: http://localhost:8080/blob/
-	//private void Start()
-	//{
-    //    seedToByte = new SeedToByte();
-    //}
-
-    /*
-    // takes an inputKey string, generates a one time pad, encrypts the key,
-    // sends the encrypted key to didery, saves the did to a manager 
-    // to retrieve from didery later
-    public void encryptKey(string inputKey)
-    {
-        string[] dideryData;
-
-        byte[] otp = new byte[32];
-        byte[] seed = new byte[16];
-        byte[] key = new byte[32];
-        byte[] formatKey = new byte[34];
-
-        int size = 32;
-
-        string did = "";
-        string signature = "";
-        string postBody = "";
-
-        seed = randomSeedGenerator(seed);
-        //seed = HexStringToByteArray("4040C1A90886218984850151AC123249");
-
-        // Check seed to see if it is within the demo parameters
-        //seed = checkValidSeed(seedToByte.getActionsFromBytes(seed));
-
-        int checkVal = checkValidSeed(seedToByte.getActionsFromBytes(seed));
-        while (checkVal > 1)
-        {
-            Debug.Log("Generating new seed");
-            for (int i = 0; i < seed.Length; i++)
-            {
-                if (seed[i] > 0)
-                {
-                    seed[i] -= 1;
-                }
-            }
-            checkVal = checkValidSeed(seedToByte.getActionsFromBytes(seed));
-        }
-
-        //Debug.Log(ByteArrayToHex(seed));
-
-        OTPGenerator(otp, size, seed);
-        key = Encoding.ASCII.GetBytes(inputKey);
-
-        formatKey = OTPxor(key, otp);
-        dideryData = DideryInterface.makePost(formatKey);
-
-        did = dideryData[0];
-        signature = dideryData[1];
-        postBody = dideryData[2];
-
-        //Debug.Log("Did: " + did + " signature: " + " postBody: " + postBody);
-
-        SeedManager.InputSeed = ByteArrayToHex(seed);
-        DideryDemoManager.DemoDid = did;
-        Debug.Log("Did: " + DideryDemoManager.DemoDid);
-
-        //dideryDemoManager.postRequest(url, postBody, signature);
-        StartCoroutine(DideryInterface.PostRequest(url, postBody, signature));
-    }
-
-    // Takes the last used did from DideryDemoManager, retrieves the key
-    // from a didery server, and returns the encrypted key to DideryDemoManager.demoBlob
-    public void getEncryptedKey()
-    {
-        string uri = url + DideryDemoManager.DemoDid;
-        Debug.Log(uri);
-
-        //dideryDemoManager.getRequest(uri);
-        StartCoroutine(DideryInterface.GetRequest(uri));
-    }
-    */
+    // string url = "http://178.128.0.203:8080/blob/"; 
+    // Didery server URL: http://178.128.0.203:8080/blob/
+    // Local hosted server: http://localhost:8080/blob/
 
     // Decrypts the blob saved at DideryDemoManager.demoBlob
     public static byte[] decryptFromBlob(string seed, string blobString)

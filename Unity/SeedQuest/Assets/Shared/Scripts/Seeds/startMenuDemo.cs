@@ -9,7 +9,6 @@ public class startMenuDemo : MonoBehaviour {
 
     public InputField keyInputField;
     public Text keyString = null;
-    //public OTPworker otpWorker;
 
     public GameObject encryptButton;
     public GameObject demoKeyButton;
@@ -19,7 +18,6 @@ public class startMenuDemo : MonoBehaviour {
 
 	void Start () 
     {
-        //otpWorker = FindObjectOfType<OTPworker>();
         DideryDemoManager.IsDemo = false;
         entered = false;
         allowEnter = false;

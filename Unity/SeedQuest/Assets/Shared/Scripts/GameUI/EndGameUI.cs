@@ -9,14 +9,12 @@ public class EndGameUI : MonoBehaviour {
     public TextMeshProUGUI seedString = null;
     public TextMeshProUGUI keyString = null;
     public DideryDemoManager dideryDemoManager;
-    //public OTPworker otpWorker;
 
 
     public GameObject copyButton;
 
 	public void Start()
 	{
-        //otpWorker = FindObjectOfType<OTPworker>();
         copyButton.SetActive(false);
 	}
 
@@ -36,7 +34,7 @@ public class EndGameUI : MonoBehaviour {
 
     public void CopySeed() {
         TextEditor editor = new TextEditor();
-        editor.text = DideryDemoManager.DemoBlob; //SeedManager.RecoveredSeed;
+        editor.text = DideryDemoManager.DemoBlob;
         editor.SelectAll();
         editor.Copy();
     }
