@@ -5,22 +5,21 @@ using UnityEngine;
 using System;
 using System.Text;
 
-public class OTPworker : MonoBehaviour
+public static class OTPworker
 {
 
-    public DideryDemoManager dideryDemoManager;
+    //public DideryDemoManager dideryDemoManager;
+    //public SeedToByte seedToByte;
 
-    public SeedToByte seedToByte;
-
-    string url = "http://178.128.0.203:8080/blob/"; // change this to the url of the actual didery server
+    //string url = "http://178.128.0.203:8080/blob/"; // change this to the url of the actual didery server
                                                     // Didery server URL: http://178.128.0.203:8080/blob/
                                                     // Local hosted server: http://localhost:8080/blob/
-   
-	private void Start()
-	{
-        seedToByte = new SeedToByte();
-    }
+	//private void Start()
+	//{
+    //    seedToByte = new SeedToByte();
+    //}
 
+    /*
     // takes an inputKey string, generates a one time pad, encrypts the key,
     // sends the encrypted key to didery, saves the did to a manager 
     // to retrieve from didery later
@@ -91,29 +90,30 @@ public class OTPworker : MonoBehaviour
         //dideryDemoManager.getRequest(uri);
         StartCoroutine(DideryInterface.GetRequest(uri));
     }
+    */
 
     // Decrypts the blob saved at DideryDemoManager.demoBlob
-    public byte[] decryptFromBlob(string seed)
+    public static byte[] decryptFromBlob(string seed, string blobString)
     {
         //Debug.Log("Seed: " + seed);
         byte[] seedByte = HexStringToByteArray(seed);
-        byte[] demoBlob = Convert.FromBase64String(DideryDemoManager.DemoBlob);
+        byte[] demoBlob = Convert.FromBase64String(blobString);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
         return decryptedKey;
     }
 
     // Takes an encrypted key, and a seed, returns a byte array of the the otp decrypted seed
-    public byte[] decryptKey(byte[] getKey, byte[] getSeed, int size = 32)
+    public static byte[] decryptKey(byte[] key, byte[] seed, int size = 32)
     {
         byte[] otp = new byte[32];
 
-        OTPGenerator(otp, size, getSeed);
-        getKey = OTPxor(getKey, otp);
-        return getKey;
+        OTPGenerator(otp, size, seed);
+        key = OTPxor(key, otp);
+        return key;
     }
 
     // Generates a random 16-byte (or 128-bit) seed
-    public byte[] randomSeedGenerator(byte[] seed)
+    public static byte[] randomSeedGenerator(byte[] seed)
     {
         for (int i = 0; i < seed.Length; i++)
             seed[i] = (byte)LibSodiumManager.nacl_randombytes_random();
@@ -122,7 +122,7 @@ public class OTPworker : MonoBehaviour
     }
 
     // Generates the one-time pad from a seed
-    public void OTPGenerator(byte[] otp, int size, byte[] seed)
+    public static void OTPGenerator(byte[] otp, int size, byte[] seed)
     {
         LibSodiumManager.nacl_randombytes_buf_deterministic(otp, size, seed);
         //Debug.Log("Seed length: " + seed.Length + " Seed string: " + ByteArrayToHex(seed));
@@ -131,7 +131,7 @@ public class OTPworker : MonoBehaviour
     }
 
     // Used to encrypt and decrypt the key using the one-time pad, using the xor method
-    public byte[] OTPxor(byte[] key, byte[] otp)
+    public static byte[] OTPxor(byte[] key, byte[] otp)
     {
         byte[] result = new byte[key.Length];
         if (key.Length > otp.Length)
@@ -174,7 +174,7 @@ public class OTPworker : MonoBehaviour
     }
 
     //check to see if the seed is valid within what is currently available
-    public int checkValidSeed(int[] actions)
+    public static int checkValidSeed(int[] actions)
     {
 
         int[] sites = { 1, 3, 5, 7, 10, 12, 14, 16, 19, 21, 23, 25, 28, 30, 32, 34 };

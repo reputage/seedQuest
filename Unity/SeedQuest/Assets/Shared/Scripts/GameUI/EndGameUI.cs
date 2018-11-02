@@ -8,13 +8,15 @@ public class EndGameUI : MonoBehaviour {
 
     public TextMeshProUGUI seedString = null;
     public TextMeshProUGUI keyString = null;
-    public OTPworker otpWorker;
+    public DideryDemoManager dideryDemoManager;
+    //public OTPworker otpWorker;
+
 
     public GameObject copyButton;
 
 	public void Start()
 	{
-        otpWorker = FindObjectOfType<OTPworker>();
+        //otpWorker = FindObjectOfType<OTPworker>();
         copyButton.SetActive(false);
 	}
 
@@ -23,7 +25,7 @@ public class EndGameUI : MonoBehaviour {
         {
             seedString.text = SeedManager.RecoveredSeed;
             if (!DideryDemoManager.IsDemo)
-                otpWorker.getEncryptedKey();
+                dideryDemoManager.demoGetEncryptedKey();
         }
     }
 
@@ -46,7 +48,7 @@ public class EndGameUI : MonoBehaviour {
         }
         else
         {
-            byte[] keyByte = otpWorker.decryptFromBlob(SeedManager.RecoveredSeed);
+            byte[] keyByte = OTPworker.decryptFromBlob(SeedManager.RecoveredSeed, dideryDemoManager.demoBlob);
             string finalKey = Encoding.ASCII.GetString(keyByte);
             keyString.text = finalKey;
         }

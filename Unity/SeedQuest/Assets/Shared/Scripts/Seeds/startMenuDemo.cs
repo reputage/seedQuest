@@ -9,16 +9,17 @@ public class startMenuDemo : MonoBehaviour {
 
     public InputField keyInputField;
     public Text keyString = null;
-    public OTPworker otpWorker;
+    //public OTPworker otpWorker;
 
     public GameObject encryptButton;
     public GameObject demoKeyButton;
+    public DideryDemoManager dideryDemoManager;
     private bool allowEnter;
     private bool entered;
 
 	void Start () 
     {
-        otpWorker = FindObjectOfType<OTPworker>();
+        //otpWorker = FindObjectOfType<OTPworker>();
         DideryDemoManager.IsDemo = false;
         entered = false;
         allowEnter = false;
@@ -39,7 +40,7 @@ public class startMenuDemo : MonoBehaviour {
         if (!entered)
         {
             //Debug.Log(keyInputField.text);
-            otpWorker.encryptKey(keyInputField.text);
+            dideryDemoManager.demoEncryptKey(keyInputField.text);
             deactivateEncryptButtons();
             changeKeyToCensored();
             entered = true;
@@ -71,14 +72,14 @@ public class startMenuDemo : MonoBehaviour {
 
     public void testGetKey()
     {
-        otpWorker.getEncryptedKey();
+        dideryDemoManager.demoGetEncryptedKey();
     }
 
     public void testDecrypt()
     {
         string seed = SeedManager.InputSeed;
         Debug.Log("Seed: " + seed);
-        byte[] keyByte = otpWorker.decryptFromBlob(seed);
+        byte[] keyByte = OTPworker.decryptFromBlob(seed, DideryDemoManager.DemoBlob);
         string finalKey = Encoding.ASCII.GetString(keyByte);
         keyString.text = finalKey;
         Debug.Log("Decrypted key: " + finalKey);
