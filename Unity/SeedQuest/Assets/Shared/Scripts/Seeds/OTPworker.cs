@@ -8,10 +8,6 @@ using System.Text;
 public static class OTPworker
 {
 
-    // string url = "http://178.128.0.203:8080/blob/"; 
-    // Didery server URL: http://178.128.0.203:8080/blob/
-    // Local hosted server: http://localhost:8080/blob/
-
     // Decrypts the blob saved at DideryDemoManager.demoBlob
     public static byte[] decryptFromBlob(string seed, string blobString)
     {

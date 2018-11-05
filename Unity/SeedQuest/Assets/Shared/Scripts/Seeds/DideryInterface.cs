@@ -102,6 +102,7 @@ public static class DideryInterface{
         //Debug.Log("Blob: " + getBlob.otp_data.blob);
 
         DideryDemoManager.DemoBlob = getBlob.otp_data.blob;
+        Debug.Log("GET request coroutine finished");
     }
 
     // Sends a POST request to didery at the url specified. 
