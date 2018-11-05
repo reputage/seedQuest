@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class DideryDemoManager : MonoBehaviour {
 
-    // Note: coroutines can only be called from a MonoBehavior class, and 
-    //  can't be in a static function.
+    // Note: Coroutines can only be called from a MonoBehavior class, and 
+    //  can't be in a static function. GET, POST, and PUT requests must
+    //  be done in coroutines if using Unity's web request handler.
 
-    // string url = "http://178.128.0.203:8080/blob/"; 
     // Didery server URL: http://178.128.0.203:8080/blob/
     // Local hosted server: http://localhost:8080/blob/
 
@@ -92,7 +92,6 @@ public class DideryDemoManager : MonoBehaviour {
         Debug.Log("Did: " + DideryDemoManager.DemoDid);
 
         postRequest(url, postBody, signature);
-        //StartCoroutine(DideryInterface.PostRequest(url, postBody, signature));
     }
 
     // Takes the last used did from DideryDemoManager, retrieves the key
@@ -100,28 +99,21 @@ public class DideryDemoManager : MonoBehaviour {
     public void demoGetEncryptedKey()
     {
         string uri = url + DideryDemoManager.DemoDid;
-        //Debug.Log(uri);
-
         getRequest(uri);
-        //StartCoroutine(DideryInterface.GetRequest(uri));
     }
 
+    // Takes a string for a key as input, encrypts it, and returns a byte[] of the encrypted key
     public byte[] encryptKey(string inputKey)
     {
         byte[] otp = new byte[32];
         byte[] seed = new byte[16];
-        byte[] key = new byte[32];
         byte[] encryptedKey = new byte[34];
+        byte[] key = Encoding.ASCII.GetBytes(inputKey);
 
         int size = 32;
 
         seed = OTPworker.randomSeedGenerator(seed);
-        seed = checkSeed(seed);
-        //seed = HexStringToByteArray("4040C1A90886218984850151AC123249");
-
         OTPworker.OTPGenerator(otp, size, seed);
-        key = Encoding.ASCII.GetBytes(inputKey);
-
         encryptedKey = OTPworker.OTPxor(key, otp);
 
         return encryptedKey;
@@ -144,7 +136,6 @@ public class DideryDemoManager : MonoBehaviour {
         return did;
     }
 
-
     // Retrieves the string parameter 'did' from the didery server
     public void getEncryptedKey(string did)
     {
@@ -152,6 +143,7 @@ public class DideryDemoManager : MonoBehaviour {
         getRequest(uri);
     }
 
+    // Checks to see if the seed is within demo parameters. For demo use only
     public byte[] checkSeed(byte[] seed)
     {
         int checkVal = OTPworker.checkValidSeed(seedToByte.getActionsFromBytes(seed));
@@ -167,26 +159,7 @@ public class DideryDemoManager : MonoBehaviour {
             }
             checkVal = OTPworker.checkValidSeed(seedToByte.getActionsFromBytes(seed));
         }
-
         return seed;
     }
 
 }
-
-
-
-/*
-int checkVal = OTPworker.checkValidSeed(seedToByte.getActionsFromBytes(seed));
-while (checkVal > 1)
-{
-    Debug.Log("Generating new seed");
-    for (int i = 0; i < seed.Length; i++)
-    {
-        if (seed[i] > 0)
-        {
-            seed[i] -= 1;
-        }
-    }
-    checkVal = OTPworker.checkValidSeed(seedToByte.getActionsFromBytes(seed));
-}
-*/

@@ -14,14 +14,6 @@ using System.Collections.Specialized;
  * 
  * To get the seed from an int[] of actions:
  *  getSeed(int[] actionArray);
- * 
- * To use this in a different GameObject, you can make a reference to this script:
- *  public SeedToByte seedScriptor; 
- *
- * And access the functions like this:
- *  actions = seedScriptor.getActions(inputSeed);
- *  seed = seedScriptor.getSeed(intArrayOfActions);
- * 
 */
 
 public class SeedToByte : MonoBehaviour
