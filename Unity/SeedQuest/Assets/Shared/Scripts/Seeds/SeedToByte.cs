@@ -308,12 +308,11 @@ public class SeedToByte : MonoBehaviour
             return actionValues;
         }
 
-
         for (int i = 0; i < bits.Length; i++)
         {
             if (bits[i])
             {
-                // Yes, I know this is reading the bits in reverse, this is intentional
+                // Yes, I know this is reading the bits in reverse, this is intentional, manager wanted it done this way
                 int bitValue = actionList[writeIndex] - (valueIndex + 1);
                 value += Convert.ToInt32(Math.Pow(2, bitValue));
             }
@@ -321,7 +320,6 @@ public class SeedToByte : MonoBehaviour
             {
                 // Store the location/spot/action
                 actionValues[writeIndex] = value;
-
                 writeIndex += 1;
                 value = 0;
                 valueIndex = 0;
@@ -421,4 +419,119 @@ public class SeedToByte : MonoBehaviour
     {
         return BitReverseTable[toReverse];
     }
+
+    // Takes the list of actions, converts it back into bytes
+    public byte[] variableSizeConverter(int[] actions, List<int> actionList, int size)
+    {
+        // actionList contains the list of how many bit each value is
+        // actions contains the actions themselves to be converted back into the seed
+        if (actionList.Count == 0)
+            actionList = listBuilder();
+
+        var actionBits = new BitArray(size); // size = 128 in other function
+        ulong path1 = 0;
+        ulong path2 = 0;
+        int[] tempArray = new int[36];
+
+        int totalBits = 0;
+        for (int i = 0; i < actionList.Count; i++)
+        {
+            totalBits += actionList[i];
+        }
+
+        if (totalBits < 128)
+        {
+            // Convert action ints into two ulong ints
+            for (int i = 0; i < actions.Length; i++)
+            {
+                path1 += (ulong)actions[i];
+                if (i < actions.Length - 1)
+                    path1 = path1 << actionList[i + 1];
+            }
+            path1 = path1 << (128 - totalBits);
+        }
+        /*
+        else
+        {
+            for (int i = 0; i < 18; i++)
+            {
+                path1 += (ulong)actions[i];
+                path2 += (ulong)actions[i + 18];
+                if (i < 17)
+                {
+                    path1 = path1 << actionList[i + 1];
+                    path2 = path2 << actionList[i + 19];
+                }
+
+            }
+        }
+        */
+        else
+        {
+            int modBits  = totalBits % 64;
+            int numLongs = totalBits / 64;
+            int iterAct  = 0;
+            ulong path = 0;
+            byte[] bytes4 = new byte[0];
+
+            for (int i = 0; i < numLongs; i++)
+            {
+                for (int j = 0; i < 18; i++)
+                {
+                    path += (ulong)actions[iterAct];
+                    path = path << actionList[iterAct + 1];
+                    iterAct++;
+                }
+
+                byte[] bytesPath = BitConverter.GetBytes(path);
+                for (int j = 0; i < bytesPath.Length / 2; i++)
+                {
+                    byte tmp = bytesPath[j];
+                    bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
+                    bytesPath[bytesPath.Length - j - 1] = tmp;
+                }
+
+                int byteLength = bytes4.Length;
+                bytes4 = new byte[bytesPath.Length + bytes4.Length];
+
+
+
+            }
+        } 
+
+        // Convert ulong ints with actions into byte arrays
+        byte[] bytes1 = BitConverter.GetBytes(path1);
+        byte[] bytes2 = BitConverter.GetBytes(path2);
+
+        // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
+        //  Yes, I know we are reversing the bits to get the actions,
+        //  then reversing them again when extracting the bits.
+        //  The higer-ups wanted me to do it this way.
+        for (int i = 0; i < bytes1.Length / 2; i++)
+        {
+            byte tmp = bytes1[i];
+            bytes1[i] = bytes1[bytes1.Length - i - 1];
+            bytes1[bytes1.Length - i - 1] = tmp;
+        }
+        for (int i = 0; i < bytes2.Length / 2; i++)
+        {
+            byte tmp = bytes2[i];
+            bytes2[i] = bytes2[bytes2.Length - i - 1];
+            bytes2[bytes2.Length - i - 1] = tmp;
+        }
+
+        // Concatenate the bytearrays together into one
+        byte[] bytes3 = new byte[bytes1.Length + bytes2.Length];
+        System.Buffer.BlockCopy(bytes1, 0, bytes3, 0, bytes2.Length);
+        System.Buffer.BlockCopy(bytes2, 0, bytes3, bytes1.Length, bytes2.Length);
+
+        // Reverse the order of the bits within each byte (yes, this is also necessary)
+        for (int i = 0; i < bytes3.Length; i++)
+        {
+            bytes3[i] = ReverseWithLookupTable(bytes3[i]);
+        }
+
+        return bytes3;
+    }
+
 }
