@@ -34,6 +34,7 @@ public class SeedToByte : MonoBehaviour
     public int[] testActionToDo;
     public BitArray testBitArr;
     public byte[] actionToBits;
+    public byte[] actionToBitsSize;
     public List<int> actionList = new List<int>();
 
     public static string inputSeed;
@@ -112,6 +113,7 @@ public class SeedToByte : MonoBehaviour
 
         actionToBits = actionConverter(testActionToDo, actionList);
         testReturnStr3 = byteToSeed(actionToBits);
+        actionToBitsSize = variableSizeConverter(testActionToDo, actionList, 128);
     }
 
     // Take string for input, get the to-do list of actions
@@ -429,8 +431,6 @@ public class SeedToByte : MonoBehaviour
             actionList = listBuilder();
 
         var actionBits = new BitArray(size); // size = 128 in other function
-        ulong path1 = 0;
-        ulong path2 = 0;
         int[] tempArray = new int[36];
 
         int totalBits = 0;
@@ -439,44 +439,34 @@ public class SeedToByte : MonoBehaviour
             totalBits += actionList[i];
         }
 
+        byte[] bytesFin = new byte[0];
+
         if (totalBits < 128)
         {
-            // Convert action ints into two ulong ints
+            ulong path = 0;
             for (int i = 0; i < actions.Length; i++)
             {
-                path1 += (ulong)actions[i];
+                path += (ulong)actions[i];
                 if (i < actions.Length - 1)
-                    path1 = path1 << actionList[i + 1];
+                    path = path << actionList[i + 1];
             }
-            path1 = path1 << (128 - totalBits);
-        }
-        /*
-        else
-        {
-            for (int i = 0; i < 18; i++)
-            {
-                path1 += (ulong)actions[i];
-                path2 += (ulong)actions[i + 18];
-                if (i < 17)
-                {
-                    path1 = path1 << actionList[i + 1];
-                    path2 = path2 << actionList[i + 19];
-                }
 
-            }
+            path = path << (128 - totalBits);
+            byte[] bytesPath = BitConverter.GetBytes(path);
+
+            bytesFin = new byte[bytesPath.Length];
+            System.Buffer.BlockCopy(bytesPath, 0, bytesFin, 0, bytesPath.Length);
         }
-        */
         else
         {
             int modBits  = totalBits % 64;
             int numLongs = totalBits / 64;
             int iterAct  = 0;
             ulong path = 0;
-            byte[] bytes4 = new byte[0];
 
             for (int i = 0; i < numLongs; i++)
             {
-                for (int j = 0; i < 18; i++)
+                for (int j = 0; j < 18; j++)
                 {
                     path += (ulong)actions[iterAct];
                     path = path << actionList[iterAct + 1];
@@ -484,54 +474,34 @@ public class SeedToByte : MonoBehaviour
                 }
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
-                for (int j = 0; i < bytesPath.Length / 2; i++)
-                {
-                    byte tmp = bytesPath[j];
-                    bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
-                    bytesPath[bytesPath.Length - j - 1] = tmp;
-                }
+                int byteLength = bytesFin.Length;
+                byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
 
-                int byteLength = bytes4.Length;
-                bytes4 = new byte[bytesPath.Length + bytes4.Length];
+                // copy bytesFin to bytesTemp, copy bytesPath to bytesTemp
+                // copy bytesTemp to bytesFin
 
-
-
+                System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesFin.Length);
+                System.Buffer.BlockCopy(bytesPath, bytesFin.Length, bytesTemp, 0, bytesPath.Length);
+                bytesFin = new byte[bytesTemp.Length];
+                System.Buffer.BlockCopy(bytesTemp, 0, bytesFin, 0, bytesTemp.Length);
             }
         } 
 
-        // Convert ulong ints with actions into byte arrays
-        byte[] bytes1 = BitConverter.GetBytes(path1);
-        byte[] bytes2 = BitConverter.GetBytes(path2);
-
         // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
-        //  Yes, I know we are reversing the bits to get the actions,
-        //  then reversing them again when extracting the bits.
-        //  The higer-ups wanted me to do it this way.
-        for (int i = 0; i < bytes1.Length / 2; i++)
+        for (int i = 0; i < bytesFin.Length / 2; i++)
         {
-            byte tmp = bytes1[i];
-            bytes1[i] = bytes1[bytes1.Length - i - 1];
-            bytes1[bytes1.Length - i - 1] = tmp;
+            byte tmp = bytesFin[i];
+            bytesFin[i] = bytesFin[bytesFin.Length - i - 1];
+            bytesFin[bytesFin.Length - i - 1] = tmp;
         }
-        for (int i = 0; i < bytes2.Length / 2; i++)
-        {
-            byte tmp = bytes2[i];
-            bytes2[i] = bytes2[bytes2.Length - i - 1];
-            bytes2[bytes2.Length - i - 1] = tmp;
-        }
-
-        // Concatenate the bytearrays together into one
-        byte[] bytes3 = new byte[bytes1.Length + bytes2.Length];
-        System.Buffer.BlockCopy(bytes1, 0, bytes3, 0, bytes2.Length);
-        System.Buffer.BlockCopy(bytes2, 0, bytes3, bytes1.Length, bytes2.Length);
 
         // Reverse the order of the bits within each byte (yes, this is also necessary)
-        for (int i = 0; i < bytes3.Length; i++)
+        for (int i = 0; i < bytesFin.Length; i++)
         {
-            bytes3[i] = ReverseWithLookupTable(bytes3[i]);
+            bytesFin[i] = ReverseWithLookupTable(bytesFin[i]);
         }
 
-        return bytes3;
+        return bytesFin;
     }
 
 }
