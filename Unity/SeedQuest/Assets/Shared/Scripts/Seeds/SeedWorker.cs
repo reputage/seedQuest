@@ -11,8 +11,7 @@ public static class SeedWorker {
     //  the SeedToByte monobehavior, but new scenes should use this instead
 
     public static string testSeed1 = "C5E3D45D341A";
-    public static string testSeed2 = "||||||||||||||||";
-    public static string testSeed3 = "825A";
+    public static string testSeed2 = "825A";
 
     public static string a1234 = "a1234";
 
@@ -82,7 +81,7 @@ public static class SeedWorker {
     static void testRun()
     {
         // Just a test
-        testByteArr = seedToByte(testSeed3);
+        testByteArr = seedToByte(testSeed2);
         testReturnStr = byteToSeed(testByteArr);
         testBitArr = byteToBits(testByteArr);
         testReturnBytes = bitToByte(testBitArr);
@@ -103,7 +102,6 @@ public static class SeedWorker {
         inputBits = byteToBits(inputBytes);
         actionToDo = bitConverter(inputBits, actionList);
         int[] returnActions = actionToDo;
-        //Debug.Log(actionToDo);
         return returnActions;
     }
 
@@ -119,13 +117,8 @@ public static class SeedWorker {
     // Get the return seed from a list of actions
     public static string getSeed(int[] actionsPerformed)
     {
-        // Don't change the actionList - it will break everything
         returnBytes = actionConverter(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
-        // Just going to put these here for now... I'm not sure where else to put them
-        seedBase58 = ByteArrayToBase58(returnBytes);
-        seedBase64 = ByteArrayToBase64(returnBytes);
-        seedBinary = ByteArrayToBinary(returnBytes);
         return convertedSeed;
     }
 
@@ -153,9 +146,9 @@ public static class SeedWorker {
     // Convert bit array to byte array
     public static byte[] bitToByte(BitArray bits)
     {
-        byte[] returnBytes;
-        returnBytes = BitArrayToByteArray(bits);
-        return returnBytes;
+        byte[] returnArr;
+        returnArr = BitArrayToByteArray(bits);
+        return returnArr;
     }
 
     // Convert bit array to byte array
@@ -199,7 +192,6 @@ public static class SeedWorker {
     public static string ByteArrayToBinary(byte[] bytes)
     {
         string returnString = "";
-
         for (int i = 0; i < bytes.Length; i++)
         {
             returnString += Convert.ToString(bytes[i], 2).PadLeft(8, '0');
@@ -252,23 +244,22 @@ public static class SeedWorker {
         int numActions = SeedManager.ActionCount;
         int numTotalLocations = SeedManager.SiteCount;
 
-        List<int> actionList = new List<int>();
+        List<int> newList = new List<int>();
 
         for (int j = 0; j < numTotalLocations; j++)
         {
-            actionList.Add(numLocationBits);
+            newList.Add(numLocationBits);
 
             for (int i = 0; i < numActions; i++)
             {
-                actionList.Add(numSpotBits);
-                actionList.Add(numActionBits);
+                newList.Add(numSpotBits);
+                newList.Add(numActionBits);
             }
         }
-
         // Print total list items, and the values for location, spot, and action
         //Debug.Log("Total: " + actionList.Count + " Loc: " + actionList[0] + " Spot: " + actionList[1] + " Act: " + actionList[2]);
 
-        return actionList;
+        return newList;
     }
 
     // Convert bit array to int array representing the actions the player should take

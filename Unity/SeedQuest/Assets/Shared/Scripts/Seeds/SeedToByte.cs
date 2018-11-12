@@ -166,9 +166,9 @@ public class SeedToByte : MonoBehaviour
     // Convert bit array to byte array
     public byte[] bitToByte(BitArray bits)
     {
-        byte[] returnBytes;
-        returnBytes = BitArrayToByteArray(bits);
-        return returnBytes;
+        byte[] returnArr;
+        returnArr = BitArrayToByteArray(bits);
+        return returnArr;
     }
 
     // Convert bit array to byte array
@@ -257,30 +257,30 @@ public class SeedToByte : MonoBehaviour
     }
 
     // Construct the list of how many bits represent which parts of the Path to take
-    public List<int> listBuilder()
+    public static List<int> listBuilder()
     {
-        int numLocationBits = SeedManager.SiteBits ;        
-        int numSpotBits = SeedManager.SpotBits;            
-        int numActionBits = SeedManager.ActionBits;         
-        int numActions = SeedManager.ActionCount;           
-        int numTotalLocations = SeedManager.SiteCount;      
+        int numLocationBits = SeedManager.SiteBits;
+        int numSpotBits = SeedManager.SpotBits;
+        int numActionBits = SeedManager.ActionBits;
+        int numActions = SeedManager.ActionCount;
+        int numTotalLocations = SeedManager.SiteCount;
 
-        List<int> actionList = new List<int>();
+        List<int> newList = new List<int>();
 
         for (int j = 0; j < numTotalLocations; j++)
         {
-            actionList.Add(numLocationBits);
+            newList.Add(numLocationBits);
 
             for (int i = 0; i < numActions; i++)
             {
-                actionList.Add(numSpotBits);
-                actionList.Add(numActionBits);
+                newList.Add(numSpotBits);
+                newList.Add(numActionBits);
             }
         }
-
         // Print total list items, and the values for location, spot, and action
         //Debug.Log("Total: " + actionList.Count + " Loc: " + actionList[0] + " Spot: " + actionList[1] + " Act: " + actionList[2]);
-        return actionList;
+
+        return newList;
     }
 
     // Convert bit array to int array representing the actions the player should take
