@@ -43,7 +43,6 @@ public static class OTPworker
         LibSodiumManager.nacl_randombytes_buf_deterministic(otp, size, seed);
         //Debug.Log("Seed length: " + seed.Length + " Seed string: " + ByteArrayToHex(seed));
         //Debug.Log("OTP length: " + otp.Length + " OTP first bytes: " + otp[0] + " " + otp[1] + " " + otp[2] + " " + otp[3]);
-        //Debug.Log("OTP last bytes: " + otp[otp.Length - 4] + " " + otp[otp.Length - 3] + " " + otp[otp.Length - 2] + " " + otp[otp.Length - 1]);
     }
 
     // Used to encrypt and decrypt the key using the one-time pad, using the xor method
@@ -108,6 +107,7 @@ public static class OTPworker
                     return i;
             }
         }
+
         return 0;
     }
 

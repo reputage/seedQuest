@@ -280,7 +280,6 @@ public class SeedToByte : MonoBehaviour
 
         // Print total list items, and the values for location, spot, and action
         //Debug.Log("Total: " + actionList.Count + " Loc: " + actionList[0] + " Spot: " + actionList[1] + " Act: " + actionList[2]);
-
         return actionList;
     }
 
@@ -417,8 +416,8 @@ public class SeedToByte : MonoBehaviour
     // Takes the list of actions, converts it back into bytes
     public byte[] variableSizeConverter(int[] actions, List<int> actionList, int size)
     {
-        // actionList contains the list of how many bit each value is
-        // actions contains the actions themselves to be converted back into the seed
+        // This function won't work if you try to use a size larger than 128, 
+        //  and the actionList isn't large enough to have bit counts for each int
         if (actionList.Count == 0)
             actionList = listBuilder();
 
