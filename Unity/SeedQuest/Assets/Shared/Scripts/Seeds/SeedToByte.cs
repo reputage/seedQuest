@@ -104,8 +104,15 @@ public class SeedToByte : MonoBehaviour
         testActionToDo = bitConverter(testBitArr, actionList);
 
         actionToBits = actionConverter(testActionToDo, actionList);
-        actionToBitsVariant = variableSizeConverter(testActionToDo, actionList, 128);
+        actionToBitsVariant = variableSizeConverter(testActionToDo, actionList);
         testReturnStr3 = byteToSeed(actionToBits);
+
+        List<int> tempList = customList(1, 2, 3, 3, 3);
+        actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
+
+        tempList = customList(4, 4, 4, 5, 4);
+        actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
+
     }
 
     // Take string for input, get the to-do list of actions
@@ -277,8 +284,27 @@ public class SeedToByte : MonoBehaviour
                 newList.Add(numActionBits);
             }
         }
-        // Print total list items, and the values for location, spot, and action
-        //Debug.Log("Total: " + actionList.Count + " Loc: " + actionList[0] + " Spot: " + actionList[1] + " Act: " + actionList[2]);
+        //Debug.Log("Total: " + newList.Count + " Loc: " + newList[0] + " Spot: " + newList[1] + " Act: " + newList[2]);
+
+
+        return newList;
+    }
+
+    public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc)
+    {
+        List<int> newList = new List<int>();
+
+        for (int j = 0; j < numLoc; j++)
+        {
+            newList.Add(numLocBit);
+
+            for (int i = 0; i < numAct; i++)
+            {
+                newList.Add(numSpotBit);
+                newList.Add(numActBit);
+            }
+        }
+        Debug.Log("Total: " + newList.Count + " Loc: " + newList[0] + " Spot: " + newList[1] + " Act: " + newList[2]);
 
         return newList;
     }
@@ -414,35 +440,38 @@ public class SeedToByte : MonoBehaviour
     }
 
     // Takes the list of actions, converts it back into bytes
-    public byte[] variableSizeConverter(int[] actions, List<int> actionList, int size)
+    public static byte[] variableSizeConverter(int[] actions, List<int> varList)
     {
-        // This function won't work if you try to use a size larger than 128, 
-        //  and the actionList isn't large enough to have bit counts for each int
-        if (actionList.Count == 0)
-            actionList = listBuilder();
+        // The action list passed to this function must be the right size
+        if (varList.Count == 0)
+            varList = listBuilder();
 
-        var actionBits = new BitArray(size); // size = 128 in other function
+        //var actionBits = new BitArray(size); // size = 128 in other function
         int[] tempArray = new int[36];
 
         int totalBits = 0;
-        for (int i = 0; i < actionList.Count; i++)
+        for (int i = 0; i < varList.Count; i++)
         {
-            totalBits += actionList[i];
+            totalBits += varList[i];
         }
 
         byte[] bytesFin = new byte[0];
 
         Debug.Log("Total bit count: " + totalBits);
 
+        if (actions.Length != varList.Count)
+            Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
+
         if (totalBits < 128)
         {
             ulong path = 0;
-            Debug.Log("Actions.Length: " + actions.Length);
-            for (int i = 0; i < actions.Length; i++)
+            Debug.Log("Actions.Length: " + actions.Length + " List length: " + varList.Count);
+            for (int i = 0; i < varList.Count; i++)
             {
-                path += (ulong)actions[i];
-                if (i < actions.Length - 1)
-                    path = path << actionList[i + 1];
+                if (i < actions.Length)
+                    path += (ulong)actions[i];
+                if (i < (varList.Count - 1))
+                    path = path << varList[i + 1];
             }
 
             path = path << (128 - totalBits);
@@ -455,21 +484,26 @@ public class SeedToByte : MonoBehaviour
         {
             Debug.Log("Actions.Length: " + actions.Length);
 
-            int modBits  = totalBits % 64; // needs to be implemented
+            int modBits = totalBits % 64; 
             int numLongs = totalBits / 64;
             ulong path = 0;
 
             if (modBits > 0)
                 numLongs += 1;
-            
+
             for (int i = 0; i < numLongs; i++)
             {
                 int longOffset = i * 18;
                 for (int j = 0; j < 18; j++)
                 {
-                    path += (ulong)actions[j + longOffset];
-                    if (j < 17)
-                        path = path << actionList[j + 1 + longOffset];
+                    if (actions.Length < (j + longOffset + 1))
+                        Debug.Log("Warning! Not enough actions for this list!");
+                    else
+                        path += (ulong)actions[j + longOffset];
+                    if (varList.Count < j + 2 + longOffset)
+                        Debug.Log("Warning! List is not long enough for these actions!");
+                    else if (j < 17)
+                        path = path << varList[j + 1 + longOffset];
                 }
                 Debug.Log("path int: " + path);
 
@@ -490,7 +524,7 @@ public class SeedToByte : MonoBehaviour
                 bytesFin = new byte[bytesTemp.Length];
                 System.Buffer.BlockCopy(bytesTemp, 0, bytesFin, 0, bytesTemp.Length);
             }
-        } 
+        }
 
         // Reverse the order of the bits within each byte (yes, this is also necessary)
         for (int i = 0; i < bytesFin.Length; i++)
