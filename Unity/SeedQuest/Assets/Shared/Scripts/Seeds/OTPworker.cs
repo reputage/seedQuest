@@ -28,7 +28,7 @@ public static class OTPworker
         return key;
     }
 
-    // Generates a random 16-byte (or 128-bit) seed
+    // Generates a random seed based on the size of the byte array argument passed in
     public static byte[] randomSeedGenerator(byte[] seed)
     {
         for (int i = 0; i < seed.Length; i++)

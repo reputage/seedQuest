@@ -93,10 +93,13 @@ public static class SeedWorker {
         actionToBitsVariant = variableSizeConverter(testActionToDo, actionList);
         testReturnStr3 = byteToSeed(actionToBits);
 
+        // Test out retrieving a seed smaller than 128 bits
         List<int> tempList = customList(1, 2, 3, 3, 3);
-
         actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
 
+        // Test out retrieving a seed larger than 128 bits
+        tempList = customList(4, 4, 4, 5, 4);
+        actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
     }
 
     // Take string for input, get the to-do list of actions
@@ -433,7 +436,10 @@ public static class SeedWorker {
 
         byte[] bytesFin = new byte[0];
 
-        Debug.Log("Total bit count: " + totalBits);
+        //Debug.Log("Total bit count: " + totalBits);
+
+        if (totalBits % 8 != 0)
+            Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
 
         if (actions.Length != varList.Count)
             Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
@@ -441,7 +447,7 @@ public static class SeedWorker {
         if (totalBits < 128)
         {
             ulong path = 0;
-            Debug.Log("Actions.Length: " + actions.Length + " List length: " + varList.Count);
+            //Debug.Log("Actions.Length: " + actions.Length + " List length: " + varList.Count);
             for (int i = 0; i < varList.Count; i++)
             {
                 if (i < actions.Length)
@@ -458,7 +464,7 @@ public static class SeedWorker {
         }
         else
         {
-            Debug.Log("Actions.Length: " + actions.Length);
+            //Debug.Log("Actions.Length: " + actions.Length);
 
             int modBits = totalBits % 64;
             int numLongs = totalBits / 64;
@@ -481,7 +487,7 @@ public static class SeedWorker {
                     else if (j < 17)
                         path = path << varList[j + 1 + longOffset];
                 }
-                Debug.Log("path int: " + path);
+                //Debug.Log("path int: " + path);
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
                 byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
