@@ -25,6 +25,17 @@ public class PathManager : MonoBehaviour {
         }
     }
 
+    static public Interactable LastPathTarget {
+        get { 
+            if (Path == null || Path.Length == 0)
+                return null;
+            else if (Instance.pathSegmentIndex == 0)
+                return null;
+            else
+                return Path[Instance.pathSegmentIndex - 1];
+        }
+    }
+
     /// <summary> Reference to singleton Instance of PathManager </summary>
     static public PathManager instance = null;
 
