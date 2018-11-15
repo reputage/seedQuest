@@ -68,12 +68,17 @@ public class DideryDemoManager : MonoBehaviour {
         string[] dideryData;
 
         byte[] otp = new byte[32];
-        byte[] seed = new byte[16];
+        //byte[] seed = new byte[16];
+        byte[] seed = new byte[14];
         byte[] encryptedKey = new byte[34];
         byte[] key = Encoding.ASCII.GetBytes(inputKey);
 
         seed = OTPworker.randomSeedGenerator(seed);
         seed = checkSeed(seed);
+
+        // Used for demo puroses
+        if (seed[13] > 7)
+            seed[13] = (byte)((int)seed[13] % 7);
         //seed = HexStringToByteArray("4040C1A90886218984850151AC123249");
 
         OTPworker.OTPGenerator(otp, size, seed);
