@@ -12,13 +12,11 @@ public class startMenuDemo : MonoBehaviour {
 
     public GameObject encryptButton;
     public GameObject demoKeyButton;
-    public DideryDemoManager dideryDemoManager;
     private bool allowEnter;
     private bool entered;
 
 	void Start () 
     {
-        DideryDemoManager.IsDemo = false;
         entered = false;
         allowEnter = false;
     }
@@ -38,7 +36,7 @@ public class startMenuDemo : MonoBehaviour {
         if (!entered)
         {
             //Debug.Log(keyInputField.text);
-            dideryDemoManager.demoEncryptKey(keyInputField.text);
+            DideryDemoManager.Instance.demoEncryptKey(keyInputField.text);
             deactivateEncryptButtons();
             changeKeyToCensored();
             entered = true;
@@ -70,7 +68,7 @@ public class startMenuDemo : MonoBehaviour {
 
     public void testGetKey()
     {
-        dideryDemoManager.demoGetEncryptedKey();
+        DideryDemoManager.Instance.demoGetEncryptedKey();
     }
 
     public void testDecrypt()

@@ -26,10 +26,10 @@ public class DideryDemoManager : MonoBehaviour {
 
     public string demoDid;
     public string demoBlob;
-    public bool isDemo;
-    private string url = "http://178.128.0.203:8080/blob/";
+    public bool isDemo = false;
 
-    public SeedToByte seedToByte;
+    private string url = "http://178.128.0.203:8080/blob/";
+    private SeedToByte seedToByte = new SeedToByte();
 
     static public string DemoDid
     {
