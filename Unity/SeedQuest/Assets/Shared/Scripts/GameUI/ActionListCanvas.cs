@@ -24,10 +24,10 @@ public class ActionListCanvas : MonoBehaviour {
 
     /// <summary> Creates an action list for rehersal mode </summary>
     private void CreateRehersalActionList() {
-        if (actionItemList.Count > 0)
+        if (actionItemList.Count > 0) // Check if list has been populated
             return;
-
-        int count = PathManager.Path.Length;
+        
+        int count = 2; //PathManager.Path.Length;
         for (int i = 0; i < count; i++)
         {
             string name = PathManager.Path[i].Name;
@@ -51,13 +51,30 @@ public class ActionListCanvas : MonoBehaviour {
         ActionItem actionItem = item.AddComponent<ActionItem>();
         actionItem.SetItem(index, text, GameManager.GameUI.uncheckedBox);
         return item;
-    }
+    } 
 
     /// <summary> Updates the action list for rehersal mode based on the interactable log </summary>
     private void UpdateRehersalActionList() {
+        if(PathManager.LastPathTarget == null) {
+            string name_action = PathManager.PathTarget.Name + " : " + PathManager.PathTarget.RehersalActionName;
+            actionItemList[0].text.text = name_action;
+            actionItemList[1].transform.gameObject.SetActive(false);
+        } 
+        else {
+            string name_action_last = PathManager.LastPathTarget.Name + " : " + PathManager.LastPathTarget.RehersalActionName;
+            actionItemList[0].text.text = name_action_last; 
+            actionItemList[1].transform.gameObject.SetActive(true);
+            string name_action = PathManager.PathTarget.Name + " : " + PathManager.PathTarget.RehersalActionName;
+            actionItemList[1].text.text = name_action; 
+
+        }
+            
         int count = InteractableManager.Log.Length;
-        for (int i = 0; i < count; i++)
-            actionItemList[i].image.sprite = GameManager.GameUI.checkedBox;
+        if(count > 0)
+            actionItemList[0].image.sprite = GameManager.GameUI.checkedBox;
+        
+        //for (int i = 0; i < count; i++)
+        //    actionItemList[i].image.sprite = GameManager.GameUI.checkedBox;
     }
 
     /// <summary> Updates the action list for recall mode - Creates new items as interactable log grows </summary>
