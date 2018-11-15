@@ -115,7 +115,7 @@ public class SeedToByte : MonoBehaviour
         int[] variantToDo = bitConverter(testBitArr, tempList);
         varSizeToDo = bitConverter(testBitArr, tempList);
 
-        actionToBitsVariant = variableSizeConverter(variantToDo, tempList);
+        actionToBitsVariant = seed108Converter(variantToDo, tempList);
         Debug.Log("Test for 108 bit seed: " + byteToSeed(actionToBitsVariant));
 
         // Test out retrieving a seed larger than 128 bits
@@ -136,7 +136,7 @@ public class SeedToByte : MonoBehaviour
         BitArray seedBits = byteToBits(testRunSeed);
         int[] actions = bitConverter(seedBits, tempList);
 
-        byte[] finalSeed = variableSizeConverter(actions, tempList);
+        byte[] finalSeed = seed108Converter(actions, tempList);
 
         Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
         Debug.Log("Final  seed: " + byteToSeed(finalSeed));
@@ -475,7 +475,7 @@ public class SeedToByte : MonoBehaviour
     // Takes the list of actions, converts it back into bytes
     // This started as a "make a seed of any size" function, but now it's more like:
     // "It works for 108 bit seeds, not sure about any other size seed"
-    public static byte[] variableSizeConverter(int[] actions, List<int> varList)
+    public static byte[] seed108Converter(int[] actions, List<int> varList)
     {
         // The action list passed to this function must be the right size
         if (varList.Count == 0)
