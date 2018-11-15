@@ -9,7 +9,6 @@ public class startMenuDemo : MonoBehaviour {
 
     public InputField keyInputField;
     public Text keyString = null;
-    public OTPworker otpWorker;
 
     public GameObject encryptButton;
     public GameObject demoKeyButton;
@@ -18,8 +17,6 @@ public class startMenuDemo : MonoBehaviour {
 
 	void Start () 
     {
-        otpWorker = FindObjectOfType<OTPworker>();
-        DideryDemoManager.isDemo = false;
         entered = false;
         allowEnter = false;
     }
@@ -39,7 +36,7 @@ public class startMenuDemo : MonoBehaviour {
         if (!entered)
         {
             //Debug.Log(keyInputField.text);
-            otpWorker.encryptKey(keyInputField.text);
+            DideryDemoManager.Instance.demoEncryptKey(keyInputField.text);
             deactivateEncryptButtons();
             changeKeyToCensored();
             entered = true;
@@ -63,22 +60,22 @@ public class startMenuDemo : MonoBehaviour {
 
     public void useDemoKey()
     {
-        DideryDemoManager.isDemo = true;
-        DideryDemoManager.demoBlob = keyInputField.text;
+        DideryDemoManager.IsDemo = true;
+        DideryDemoManager.DemoBlob = keyInputField.text;
         SeedManager.InputSeed = "A021E0A80264A33C08B6C2884AC0685C"; //"4040C1A90886218984850151AC123249";
         deactivateEncryptButtons();
     }
 
     public void testGetKey()
     {
-        otpWorker.getEncryptedKey();
+        DideryDemoManager.Instance.demoGetEncryptedKey();
     }
 
     public void testDecrypt()
     {
         string seed = SeedManager.InputSeed;
         Debug.Log("Seed: " + seed);
-        byte[] keyByte = otpWorker.decryptFromBlob(seed);
+        byte[] keyByte = OTPworker.decryptFromBlob(seed, DideryDemoManager.DemoBlob);
         string finalKey = Encoding.ASCII.GetString(keyByte);
         keyString.text = finalKey;
         Debug.Log("Decrypted key: " + finalKey);
