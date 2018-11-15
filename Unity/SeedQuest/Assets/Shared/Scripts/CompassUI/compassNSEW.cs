@@ -9,6 +9,7 @@ public class compassNSEW : MonoBehaviour {
 
     void Update () 
     {
-        image.uvRect = new Rect(PlayerManager.Transform.localEulerAngles.y / 360f, 0, 1, 1);
+        Transform angles = CameraStateController.Transform;
+        image.uvRect = new Rect(angles.localEulerAngles.y / 360f, 0, 1, 1);
 	}
 }

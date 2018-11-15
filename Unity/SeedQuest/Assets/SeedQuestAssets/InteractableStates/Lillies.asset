@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
+  m_Name: Lillies
+  m_EditorClassIdentifier: 
+  interactableName: Lillies
+  labelPosOffset: {x: 0, y: 0.25, z: 0}
+  states:
+  - actionName: Buy Lillies
+    mesh: {fileID: 4300000, guid: a367bd7099a3041e886e4fe96159eb34, type: 3}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Money
+  - actionName: Steal Lillies
+    mesh: {fileID: 4300000, guid: a367bd7099a3041e886e4fe96159eb34, type: 3}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Whoosh
+  - actionName: Empty Vase
+    mesh: {fileID: 4300000, guid: df8a0ea957c6c403f93f6630de5c2daf, type: 3}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Whoosh
+  - actionName: Cut Flowers
+    mesh: {fileID: 4300000, guid: c986acc0d6b6542e7a59d4df60e7bd3b, type: 3}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Sword
+  effect: {fileID: 0}

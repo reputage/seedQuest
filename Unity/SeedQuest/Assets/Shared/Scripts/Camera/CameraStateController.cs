@@ -44,4 +44,11 @@ public class CameraStateController : MonoBehaviour {
                 break;
         }
     }
+
+
+    static public Transform Transform
+    {
+        get { return instance.MainCam.transform; }
+    }
+
 }

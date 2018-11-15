@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SeedManager : MonoBehaviour {
 
-    public int siteBits = 2;            // Number of bits used to determine location
-    public int spotBits = 1;            // Number of bits used to determine spots for each action
-    public int actionBits = 1;          // Number of bits used to determine action choice
-    public int actionCount = 1;         // Total actions the player needs to take at each location
+    public int siteBits = 4;            // Number of bits used to determine location
+    public int spotBits = 5;            // Number of bits used to determine spots for each action
+    public int actionBits = 2;          // Number of bits used to determine action choice
+    public int actionCount = 4;         // Total actions the player needs to take at each location
     public int siteCount = 4;           // Total number of locations the player needs to visit
     public string inputSeed = "41A5";
 
@@ -28,6 +28,7 @@ public class SeedManager : MonoBehaviour {
 
     static public string InputSeed {
         get { return Instance.inputSeed; }
+        set { Instance.inputSeed = value; }
     }
 
     static public string RecoveredSeed {
