@@ -47,6 +47,7 @@ public class SeedToByte : MonoBehaviour
     public static byte[] inputBytes;
     public static byte[] returnBytes;
     public static int[] actionToDo;
+    public int[] varSizeToDo;
     public static BitArray inputBits;
 
     // For reversing bits later
@@ -104,16 +105,21 @@ public class SeedToByte : MonoBehaviour
         testActionToDo = bitConverter(testBitArr, actionList);
 
         actionToBits = actionConverter(testActionToDo, actionList);
-        actionToBitsVariant = variableSizeConverter(testActionToDo, actionList);
+        //actionToBitsVariant = variableSizeConverter(testActionToDo, actionList);
         testReturnStr3 = byteToSeed(actionToBits);
 
         // Test out retrieving a seed smaller than 128 bits
-        List<int> tempList = customList(1, 2, 3, 3, 3);
-        actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
+        List<int> tempList = customList(3, 4, 2, 4, 4);
+
+        int[] variantToDo = bitConverter(testBitArr, tempList);
+        varSizeToDo = bitConverter(testBitArr, tempList);
+
+        actionToBitsVariant = variableSizeConverter(variantToDo, tempList);
+        Debug.Log("Test for 108 bit seed: " + byteToSeed(actionToBitsVariant));
 
         // Test out retrieving a seed larger than 128 bits
-        tempList = customList(4, 4, 4, 5, 4);
-        actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
+        //tempList = customList(4, 4, 4, 5, 4);
+        //actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
     }
 
     // Take string for input, get the to-do list of actions
@@ -287,7 +293,6 @@ public class SeedToByte : MonoBehaviour
         }
         //Debug.Log("Total: " + newList.Count + " Loc: " + newList[0] + " Spot: " + newList[1] + " Act: " + newList[2]);
 
-
         return newList;
     }
 
@@ -305,18 +310,18 @@ public class SeedToByte : MonoBehaviour
                 newList.Add(numActBit);
             }
         }
-        Debug.Log("Total: " + newList.Count + " Loc: " + newList[0] + " Spot: " + newList[1] + " Act: " + newList[2]);
+        //Debug.Log("Total: " + newList.Count + " Loc: " + newList[0] + " Spot: " + newList[1] + " Act: " + newList[2]);
 
         return newList;
     }
 
     // Convert bit array to int array representing the actions the player should take
-    public int[] bitConverter(BitArray bits, List<int> actionList)
+    public int[] bitConverter(BitArray bits, List<int> varList)
     { 
-        if (actionList.Count == 0)
-            actionList = listBuilder();
+        if (varList.Count == 0)
+            varList = listBuilder();
         
-        int[] actionValues = new int[actionList.Count];
+        int[] actionValues = new int[varList.Count];
         int value = 0;
         int valueIndex = 0;
         int locator = 0;
@@ -333,10 +338,10 @@ public class SeedToByte : MonoBehaviour
             if (bits[i])
             {
                 // Yes, I know this is reading the bits in reverse, this is intentional, manager wanted it done this way
-                int bitValue = actionList[writeIndex] - (valueIndex + 1);
+                int bitValue = varList[writeIndex] - (valueIndex + 1);
                 value += Convert.ToInt32(Math.Pow(2, bitValue));
             }
-            if (locator == (actionList[writeIndex] - 1))
+            if (locator == (varList[writeIndex] - 1))
             {
                 // Store the location/spot/action
                 actionValues[writeIndex] = value;
@@ -356,10 +361,10 @@ public class SeedToByte : MonoBehaviour
     }
 
     // Takes the list of actions, converts it back into bytes
-    public byte[] actionConverter(int[] actions, List<int> actionList)
+    public byte[] actionConverter(int[] actions, List<int> varList)
     {
-        if (actionList.Count == 0)
-            actionList = listBuilder();
+        if (varList.Count == 0)
+            varList = listBuilder();
 
         var actionBits = new BitArray(128);
         ulong path1 = 0;
@@ -367,8 +372,8 @@ public class SeedToByte : MonoBehaviour
         int[] tempArray = new int[36];
 
         int totalBits = 0;
-        for (int i = 0; i < actionList.Count; i++) {
-            totalBits += actionList[i];
+        for (int i = 0; i < varList.Count; i++) {
+            totalBits += varList[i];
         }
 
         if (totalBits < 128)
@@ -378,7 +383,7 @@ public class SeedToByte : MonoBehaviour
             { 
                 path1 += (ulong)actions[i];
                 if(i < actions.Length - 1)
-                    path1 = path1 << actionList[i + 1];
+                    path1 = path1 << varList[i + 1];
             }
             path1 = path1 << (128 - totalBits);
         }
@@ -390,12 +395,14 @@ public class SeedToByte : MonoBehaviour
                 path2 += (ulong)actions[i + 18];
                 if (i < 17)
                 {
-                    path1 = path1 << actionList[i + 1];
-                    path2 = path2 << actionList[i + 19];
+                    path1 = path1 << varList[i + 1];
+                    path2 = path2 << varList[i + 19];
+                    //Debug.Log("Current path1 value: " + path1);
                 }
             }
+
             Debug.Log("path1 int: " + path1);
-            Debug.Log("path2 int: " + path2);
+            //Debug.Log("path2 int: " + path2);
         }
 
         // Convert ulong ints with actions into byte arrays
@@ -458,7 +465,7 @@ public class SeedToByte : MonoBehaviour
 
         byte[] bytesFin = new byte[0];
 
-        //Debug.Log("Total bit count: " + totalBits);
+        Debug.Log("Total bit count: " + totalBits);
 
         if (totalBits % 8 != 0)
             Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
@@ -466,7 +473,7 @@ public class SeedToByte : MonoBehaviour
         if (actions.Length != varList.Count)
             Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
 
-        if (totalBits < 128)
+        if (totalBits < 64)
         {
             ulong path = 0;
             //Debug.Log("Actions.Length: " + actions.Length + " List length: " + varList.Count);
@@ -478,18 +485,22 @@ public class SeedToByte : MonoBehaviour
                     path = path << varList[i + 1];
             }
 
-            path = path << (128 - totalBits);
+            path = path << (64 - totalBits);
             byte[] bytesPath = BitConverter.GetBytes(path);
+            Debug.Log("path int: " + path);
 
             bytesFin = new byte[bytesPath.Length];
             System.Buffer.BlockCopy(bytesPath, 0, bytesFin, 0, bytesPath.Length);
         }
         else
         {
-            //Debug.Log("Actions.Length: " + actions.Length);
+            Debug.Log("Actions.Length: " + actions.Length + " List.Count" + varList.Count);
 
             int modBits = totalBits % 64; 
             int numLongs = totalBits / 64;
+            int numShifts = 0;
+            int remainder = 0;
+            int numTraverse = 0;
             ulong path = 0;
 
             if (modBits > 0)
@@ -497,19 +508,75 @@ public class SeedToByte : MonoBehaviour
 
             for (int i = 0; i < numLongs; i++)
             {
-                int longOffset = i * 18;
-                for (int j = 0; j < 18; j++)
+                path = 0;
+                numShifts = varList[numTraverse];
+
+                while (numShifts < 64)
+                {
+                    //4709076360369274880
+                    //Debug.Log("Numtraverse: " + numTraverse + " varlist length: " + varList.Count);
+                    if (varList.Count <= numTraverse + 1)
+                    {
+                        numShifts = 65;
+                    }
+                    else if (actions.Length < numTraverse)
+                    {
+                        numShifts = 65;
+                    }
+                    else if (numShifts + varList[numTraverse + 1] + remainder > 64)
+                    {
+                        /*
+                        for (int ijk = 0; ijk < (64 - numShifts); ijk++)
+                        {
+                            Debug.Log( "Shifting the remaining 4 bits.... " + (path << ijk) );
+                        }
+                        */
+                        path = path << (64 - numShifts); 
+                        remainder = numShifts + varList[numTraverse + 1] - 64;
+                        numShifts = 65;
+                        //numTraverse++;
+                    }
+                    else
+                    {
+                        path += (ulong)actions[numTraverse];
+                        path = path << varList[numTraverse + 1];
+                        numShifts += varList[numTraverse + 1];
+                        numTraverse++;
+                    }
+                    Debug.Log("path int: " + path + " numShifts: " + numShifts);
+                }
+
+                /*
+                int longOffset = i * numTraverse;
+                for (int j = 0; j < 64; j++)
                 {
                     if (actions.Length < (j + longOffset + 1))
                         Debug.Log("Warning! Not enough actions for this list!");
                     else
                         path += (ulong)actions[j + longOffset];
+                    Debug.Log("Current path value: " + path);
                     if (varList.Count < j + 2 + longOffset)
                         Debug.Log("Warning! List is not long enough for these actions!");
-                    else if (j < 17)
+                    else if ((numShifts + varList[j + 1 + longOffset]) <= 64)
+                    {
                         path = path << varList[j + 1 + longOffset];
+                        numShifts += varList[j + 1 + longOffset];
+                        numTraverse++;
+                    }
+                    else
+                    {
+                        remainder = numShifts + varList[j + 1 + longOffset] - 64;
+                        Debug.Log("remainder: " + remainder); 
+                        //path = path << (varList[j + 1 + longOffset] - remainder);
+                        path = path << (64 - numShifts);
+
+                        numShifts = 0;
+                        numTraverse++;
+                    }
                 }
-                //Debug.Log("path int: " + path);
+
+                */
+                Debug.Log("path int: " + path);
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
                 byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];

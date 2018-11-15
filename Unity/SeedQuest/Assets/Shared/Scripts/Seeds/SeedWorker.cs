@@ -94,7 +94,7 @@ public static class SeedWorker {
         testReturnStr3 = byteToSeed(actionToBits);
 
         // Test out retrieving a seed smaller than 128 bits
-        List<int> tempList = customList(1, 2, 3, 3, 3);
+        List<int> tempList = customList(3, 4, 2, 4, 4);
         actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
 
         // Test out retrieving a seed larger than 128 bits
@@ -270,6 +270,8 @@ public static class SeedWorker {
         return newList;
     }
 
+    // 8 locations = 3 bits, 16 interactables per location = 4 bits, 4 options per interactable = 2 bits
+    // list<int> listName = customList(3, 4, 2, 4, 4);
     public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc)
     {
         List<int> newList = new List<int>();
