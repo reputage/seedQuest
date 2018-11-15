@@ -89,7 +89,8 @@ public class SeedToByte : MonoBehaviour
 
     void Start()
     {
-        testRun(); 
+        //testRun();
+        testRun2();
     }
 
     // Test to make sure everything works
@@ -109,7 +110,7 @@ public class SeedToByte : MonoBehaviour
         testReturnStr3 = byteToSeed(actionToBits);
 
         // Test out retrieving a seed smaller than 128 bits
-        List<int> tempList = customList(3, 4, 2, 4, 4);
+        List<int> tempList = customList(3, 4, 2, 4, 4, 4);
 
         int[] variantToDo = bitConverter(testBitArr, tempList);
         varSizeToDo = bitConverter(testBitArr, tempList);
@@ -120,6 +121,27 @@ public class SeedToByte : MonoBehaviour
         // Test out retrieving a seed larger than 128 bits
         //tempList = customList(4, 4, 4, 5, 4);
         //actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
+    }
+
+    void testRun2()
+    {
+        byte[] testRunSeed = new byte[14];
+        testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
+
+        Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
+
+        if (testRunSeed[13] > 15)
+            testRunSeed[13] = 1;
+
+        List<int> tempList = customList(3, 4, 2, 4, 4);
+
+        BitArray seedBits = byteToBits(testRunSeed);
+        int[] actions = bitConverter(seedBits, tempList);
+
+        byte[] newStuff = variableSizeConverter(actions, tempList);
+
+        Debug.Log("Final  seed: " + byteToSeed(newStuff));
+
     }
 
     // Take string for input, get the to-do list of actions
@@ -246,7 +268,7 @@ public class SeedToByte : MonoBehaviour
         {
             bytesInt = bytesInt * 256 + bytes[i];
         }
-         
+
         while (bytesInt > 0)
         {
             int remainder = (int)(bytesInt % 58);
@@ -296,7 +318,7 @@ public class SeedToByte : MonoBehaviour
         return newList;
     }
 
-    public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc)
+    public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc, int trailingZeros = 0)
     {
         List<int> newList = new List<int>();
 
@@ -310,6 +332,13 @@ public class SeedToByte : MonoBehaviour
                 newList.Add(numActBit);
             }
         }
+
+        if (trailingZeros > 0)
+        {
+            for (int i = 0; i <= trailingZeros; i++)
+                newList.Add(0);
+        }
+
         //Debug.Log("Total: " + newList.Count + " Loc: " + newList[0] + " Spot: " + newList[1] + " Act: " + newList[2]);
 
         return newList;
@@ -317,10 +346,10 @@ public class SeedToByte : MonoBehaviour
 
     // Convert bit array to int array representing the actions the player should take
     public int[] bitConverter(BitArray bits, List<int> varList)
-    { 
+    {
         if (varList.Count == 0)
             varList = listBuilder();
-        
+
         int[] actionValues = new int[varList.Count];
         int value = 0;
         int valueIndex = 0;
@@ -341,7 +370,9 @@ public class SeedToByte : MonoBehaviour
                 int bitValue = varList[writeIndex] - (valueIndex + 1);
                 value += Convert.ToInt32(Math.Pow(2, bitValue));
             }
-            if (locator == (varList[writeIndex] - 1))
+            if (writeIndex > (varList.Count - 1))
+                Debug.Log("Warning: more bits in bitarray than in the list");
+            else if (locator == (varList[writeIndex] - 1))
             {
                 // Store the location/spot/action
                 actionValues[writeIndex] = value;
@@ -372,7 +403,8 @@ public class SeedToByte : MonoBehaviour
         int[] tempArray = new int[36];
 
         int totalBits = 0;
-        for (int i = 0; i < varList.Count; i++) {
+        for (int i = 0; i < varList.Count; i++)
+        {
             totalBits += varList[i];
         }
 
@@ -380,9 +412,9 @@ public class SeedToByte : MonoBehaviour
         {
             // Convert action ints into two ulong ints
             for (int i = 0; i < actions.Length; i++)
-            { 
+            {
                 path1 += (ulong)actions[i];
-                if(i < actions.Length - 1)
+                if (i < actions.Length - 1)
                     path1 = path1 << varList[i + 1];
             }
             path1 = path1 << (128 - totalBits);
@@ -401,7 +433,7 @@ public class SeedToByte : MonoBehaviour
                 }
             }
 
-            Debug.Log("path1 int: " + path1);
+            //Debug.Log("path1 int: " + path1);
             //Debug.Log("path2 int: " + path2);
         }
 
@@ -465,10 +497,10 @@ public class SeedToByte : MonoBehaviour
 
         byte[] bytesFin = new byte[0];
 
-        Debug.Log("Total bit count: " + totalBits);
+        //Debug.Log("Total bit count: " + totalBits);
 
-        if (totalBits % 8 != 0)
-            Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
+        //if (totalBits % 8 != 0)
+        //Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
 
         if (actions.Length != varList.Count)
             Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
@@ -494,9 +526,9 @@ public class SeedToByte : MonoBehaviour
         }
         else
         {
-            Debug.Log("Actions.Length: " + actions.Length + " List.Count" + varList.Count);
+            //Debug.Log("Actions.Length: " + actions.Length + " List.Count" + varList.Count);
 
-            int modBits = totalBits % 64; 
+            int modBits = totalBits % 64;
             int numLongs = totalBits / 64;
             int numShifts = 0;
             int remainder = 0;
@@ -509,29 +541,30 @@ public class SeedToByte : MonoBehaviour
             for (int i = 0; i < numLongs; i++)
             {
                 path = 0;
-                numShifts = varList[numTraverse];
+                numShifts = varList[numTraverse] + remainder;
+                //Debug.Log("Value of traverse int: " + numTraverse);
 
                 while (numShifts < 64)
                 {
-                    //4709076360369274880
                     //Debug.Log("Numtraverse: " + numTraverse + " varlist length: " + varList.Count);
                     if (varList.Count <= numTraverse + 1)
                     {
+                        //path = path << (modBits - numShifts); 
+                        path = path << (64 - (numShifts - (remainder * 2)));
+                        path += (ulong)actions[numTraverse];
                         numShifts = 65;
                     }
                     else if (actions.Length < numTraverse)
                     {
+                        //path = path << (modBits - numShifts);
+                        path = path << (64 - (numShifts - (remainder * 2)));
                         numShifts = 65;
                     }
                     else if (numShifts + varList[numTraverse + 1] + remainder > 64)
                     {
-                        /*
-                        for (int ijk = 0; ijk < (64 - numShifts); ijk++)
-                        {
-                            Debug.Log( "Shifting the remaining 4 bits.... " + (path << ijk) );
-                        }
-                        */
-                        path = path << (64 - numShifts); 
+                        path = path << (64 - numShifts);
+                        //path = path << varList[numTraverse + 1];
+                        //Debug.Log(64 - numShifts);
                         remainder = numShifts + varList[numTraverse + 1] - 64;
                         numShifts = 65;
                         //numTraverse++;
@@ -543,46 +576,20 @@ public class SeedToByte : MonoBehaviour
                         numShifts += varList[numTraverse + 1];
                         numTraverse++;
                     }
-                    Debug.Log("path int: " + path + " numShifts: " + numShifts);
+                    //Debug.Log("path int: " + path + " numShifts: " + numShifts);
                 }
 
-                /*
-                int longOffset = i * numTraverse;
-                for (int j = 0; j < 64; j++)
-                {
-                    if (actions.Length < (j + longOffset + 1))
-                        Debug.Log("Warning! Not enough actions for this list!");
-                    else
-                        path += (ulong)actions[j + longOffset];
-                    Debug.Log("Current path value: " + path);
-                    if (varList.Count < j + 2 + longOffset)
-                        Debug.Log("Warning! List is not long enough for these actions!");
-                    else if ((numShifts + varList[j + 1 + longOffset]) <= 64)
-                    {
-                        path = path << varList[j + 1 + longOffset];
-                        numShifts += varList[j + 1 + longOffset];
-                        numTraverse++;
-                    }
-                    else
-                    {
-                        remainder = numShifts + varList[j + 1 + longOffset] - 64;
-                        Debug.Log("remainder: " + remainder); 
-                        //path = path << (varList[j + 1 + longOffset] - remainder);
-                        path = path << (64 - numShifts);
+                // List<int> tempList = customList(3, 4, 2, 4, 4, 4);
+                // 3, 4, 2, 4, 2, 4, 2, 4, 2 x4
+                //  = 27 , 54, 57, 61, 63, 67
 
-                        numShifts = 0;
-                        numTraverse++;
-                    }
-                }
-
-                */
-                Debug.Log("path int: " + path);
+                //Debug.Log("path int: " + path);
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
                 byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
 
                 // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
-                for (int h = 0; h < bytesPath.Length / 2; h++)
+                for (int h = 0; h < (bytesPath.Length / 2); h++)
                 {
                     byte tmp = bytesPath[h];
                     bytesPath[h] = bytesPath[bytesPath.Length - h - 1];
@@ -608,3 +615,35 @@ public class SeedToByte : MonoBehaviour
 
 }
 
+
+
+/*
+int longOffset = i * numTraverse;
+for (int j = 0; j < 64; j++)
+{
+    if (actions.Length < (j + longOffset + 1))
+        Debug.Log("Warning! Not enough actions for this list!");
+    else
+        path += (ulong)actions[j + longOffset];
+    Debug.Log("Current path value: " + path);
+    if (varList.Count < j + 2 + longOffset)
+        Debug.Log("Warning! List is not long enough for these actions!");
+    else if ((numShifts + varList[j + 1 + longOffset]) <= 64)
+    {
+        path = path << varList[j + 1 + longOffset];
+        numShifts += varList[j + 1 + longOffset];
+        numTraverse++;
+    }
+    else
+    {
+        remainder = numShifts + varList[j + 1 + longOffset] - 64;
+        Debug.Log("remainder: " + remainder); 
+        //path = path << (varList[j + 1 + longOffset] - remainder);
+        path = path << (64 - numShifts);
+
+        numShifts = 0;
+        numTraverse++;
+    }
+}
+
+*/
