@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
         get {
             if (instance == null) {
                 instance = GameObject.FindObjectOfType<GameManager>();
-                //DontDestroyOnLoad(instance.gameObject);
+                DontDestroyOnLoad(instance.gameObject);
             }
             return instance;
         }

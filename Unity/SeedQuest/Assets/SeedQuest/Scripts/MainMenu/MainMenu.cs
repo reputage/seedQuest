@@ -29,15 +29,12 @@ public class MainMenu : MonoBehaviour {
         recover_info.onClick.AddListener(onClickRecoverInfo);
         about.onClick.AddListener(onClickAbout);
         quit.onClick.AddListener(onClickQuitGame);
-    }
-
-    public void onClickStart() {
-        SceneLoader.LoadGame();
-    }
+    } 
 
     public void onClickLearn()
     {
         icon.gameObject.SetActive(false);
+        SceneLoader.LoadGame();
     }
 
     public void onClickLearnInfo()
@@ -50,6 +47,7 @@ public class MainMenu : MonoBehaviour {
     public void onClickRecover()
     {
         icon.gameObject.SetActive(false);
+        SceneLoader.LoadGame();
     }
 
     public void onClickRecoverInfo()

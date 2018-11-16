@@ -22,6 +22,6 @@ public class SceneLoader : MonoBehaviour {
     }
 
     static public void LoadGame() {
-        SceneManager.LoadScene("Demo_v03");
+        SceneManager.LoadScene("Demo_v04");
     }
 }
