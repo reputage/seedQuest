@@ -46,9 +46,11 @@ public class MainMenu : MonoBehaviour {
 
     public void onClickRecover()
     {
+        GameManager.State = GameState.LoadingRecall;
+
         icon.gameObject.SetActive(false);
         SceneLoader.LoadGame();
-    }
+    } 
 
     public void onClickRecoverInfo()
     {

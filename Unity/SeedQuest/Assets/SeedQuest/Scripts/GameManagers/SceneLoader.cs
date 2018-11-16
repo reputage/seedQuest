@@ -24,4 +24,8 @@ public class SceneLoader : MonoBehaviour {
     static public void LoadGame() {
         SceneManager.LoadScene("Demo_v04");
     }
+
+    static public void LoadMainMenu() {
+        SceneManager.LoadScene("MainMenu");
+    }
 }

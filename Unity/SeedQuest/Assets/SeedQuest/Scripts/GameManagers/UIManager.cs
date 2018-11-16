@@ -39,6 +39,9 @@ public class UIManager : MonoBehaviour {
 
     void SetGameUIState() { 
         switch (GameManager.State) {
+            case GameState.LoadingRecall:
+                break;
+            /*
             case GameState.GameStart:
                 GameUI.CursorUI = false;
                 GameUI.StartMenuUI = true;
@@ -50,6 +53,7 @@ public class UIManager : MonoBehaviour {
                 GameUI.CompassUI = false;
                 GameUI.MinimapUI = false;
                 break;
+            */
             case GameState.Rehearsal:
                 GameUI.CursorUI = true;
                 GameUI.StartMenuUI = false;

@@ -6,7 +6,7 @@ public class InteractableManager : MonoBehaviour {
     public GameObject actionSpotIcon;
     private Interactable activeItem = null;
     public InteractableLog log;
-    public Interactable[] list;
+    public Interactable[] list = null;
 
     static public Interactable[] InteractableList
     {
@@ -28,7 +28,14 @@ public class InteractableManager : MonoBehaviour {
 
     private void Awake() {
         log = new InteractableLog();
-        list = InteractableList;
+        //list = InteractableList;
+    }
+
+    public void Update()
+    {
+        if(GameManager.State == GameState.Rehearsal || GameManager.State == GameState.Recall)
+            if(list == null)
+                list = InteractableList;
     }
 
     static Interactable[] findAllInteractables() {

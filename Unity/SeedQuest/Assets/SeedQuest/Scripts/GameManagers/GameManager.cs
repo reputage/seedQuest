@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState { GameStart, Rehearsal, Recall, Interact, Pause, GameEnd }
+public enum GameState { GameStart, LoadingRehersal, LoadingRecall, Rehearsal, Recall, Interact, Pause, GameEnd }
 
 public class GameManager : MonoBehaviour {
 

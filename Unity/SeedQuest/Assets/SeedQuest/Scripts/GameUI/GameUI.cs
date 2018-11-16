@@ -11,7 +11,14 @@ public class GameUI : MonoBehaviour {
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-    } 
+
+    }
+
+    public void Update()
+    {
+        if (GameManager.State == GameState.LoadingRecall)
+            GameManager.State = GameState.Recall;
+    }
 
     static public bool CursorUI { 
         set { instance.GetComponentInChildren<CursorUI>(true).gameObject.SetActive(value); }

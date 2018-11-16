@@ -59,6 +59,9 @@ public class PathManager : MonoBehaviour {
             //FindPathSegment();
             DrawPathSegment(); 
         }
+
+        if (GameManager.State == GameState.GameStart)
+            ClearPathSegments();
 	}
 
     /// <summary> Creates an Interactable Path from encoding a seed string </summary>
@@ -107,4 +110,9 @@ public class PathManager : MonoBehaviour {
         else
             GameManager.State = GameState.GameEnd;
     }
+
+    private void ClearPathSegments() {
+        LineRenderer line = PathMesh.GetComponentInChildren<LineRenderer>();
+        line.positionCount = 0;
+    } 
 }

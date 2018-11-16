@@ -59,6 +59,11 @@ public class PauseMenuCanvas : MonoBehaviour {
         UnityEngine.SceneManagement.SceneManager.LoadScene(0); 
     }
 
+    public void RestartGameToMainMenu() {
+        GameManager.State = GameState.GameStart;
+        SceneLoader.LoadMainMenu();
+    }
+
     public void GoToSettingsMenu()
     {
         State = MenuState.SettingsMenu;

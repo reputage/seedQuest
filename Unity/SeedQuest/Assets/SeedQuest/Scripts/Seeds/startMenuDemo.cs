@@ -66,6 +66,13 @@ public class startMenuDemo : MonoBehaviour {
         deactivateEncryptButtons();
     }
 
+    public void useDemoKeyAndStart() {
+        DideryDemoManager.IsDemo = true;
+        DideryDemoManager.DemoBlob = keyInputField.text;
+        SeedManager.InputSeed = "A021E0A80264A33C08B6C2884AC0685C"; //"4040C1A90886218984850151AC123249";
+        GameManager.State = GameState.Rehearsal;
+    }
+
     public void testGetKey()
     {
         DideryDemoManager.Instance.demoGetEncryptedKey();

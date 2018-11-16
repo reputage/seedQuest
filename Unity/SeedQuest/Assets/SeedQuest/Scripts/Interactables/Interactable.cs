@@ -18,11 +18,15 @@ public class Interactable : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        InitInteractable();
+        //InitInteractable();
 	}
 	
 	void Update () {
-        if(!PauseManager.isPaused && Camera.main != null) {
+        if(GameManager.State == GameState.Rehearsal || GameManager.State == GameState.Recall)
+            if(actionSpot == null)
+                InitInteractable();
+        
+        if(!PauseManager.isPaused && Camera.main != null && actionSpot != null) {
             BillboardInteractable();
             HoverOnInteractable();
             clickOnInteractable();
@@ -37,7 +41,8 @@ public class Interactable : MonoBehaviour {
             positionOffset = stateData.labelPosOffset;
         Vector3 position = transform.position + positionOffset;
         Quaternion rotate = Quaternion.identity;
-        actionSpot = Instantiate(InteractableManager.Instance.actionSpotIcon, position, rotate, InteractableManager.Instance.transform);
+        actionSpot = Instantiate(InteractableManager.Instance.actionSpotIcon, position, rotate);
+        //actionSpot = Instantiate(InteractableManager.Instance.actionSpotIcon, position, rotate, InteractableManager.Instance.transform);
         var text = actionSpot.GetComponentInChildren<TMPro.TextMeshProUGUI>();
 
         if (stateData != null)
