@@ -90,7 +90,7 @@ public class SeedToByte : MonoBehaviour
     void Start()
     {
         //testRun();
-        testRun2();
+        //testRun2();
     }
 
     // Test to make sure everything works
@@ -155,6 +155,16 @@ public class SeedToByte : MonoBehaviour
         return returnActions;
     }
 
+    // Same as getActions, but for the 108 bit seed, does not use global variables
+    public int[] getActions108(string inputStr)
+    {
+        byte[] bytes108 = seedToByte(inputStr);
+        BitArray bits108 = byteToBits(bytes108);
+        List<int> tempList = customList(3, 4, 2, 4, 4);
+        int[] returnActions = bitConverter(bits108, tempList);
+        return returnActions;
+    }
+
     // Take string for input, get the to-do list of actions
     public int[] getActionsFromBytes(byte[] inputBytes)
     {
@@ -174,6 +184,15 @@ public class SeedToByte : MonoBehaviour
         seedBase58 = ByteArrayToBase58(returnBytes);
         seedBase64 = ByteArrayToBase64(returnBytes);
         seedBinary = ByteArrayToBinary(returnBytes);
+        return convertedSeed;
+    }
+
+    // Get the return seed using 108 bits, does not use global variables
+    public string getSeed108(int[] actionsPerformed)
+    {
+        List<int> tempList = customList(3, 4, 2, 4, 4);
+        byte[] bytes108 = seed108Converter(actionsPerformed, tempList);
+        string convertedSeed = byteToSeed(bytes108);
         return convertedSeed;
     }
 
@@ -495,8 +514,8 @@ public class SeedToByte : MonoBehaviour
 
         //Debug.Log("Total bit count: " + totalBits);
 
-        //if (totalBits % 8 != 0)
-        //Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
+        if (totalBits % 8 != 0)
+            Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
 
         if (actions.Length != varList.Count)
             Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
@@ -618,7 +637,7 @@ public class SeedToByte : MonoBehaviour
         }
         if (problem > 0)
         {
-            Debug.Log("Solving problem... ");
+            //Debug.Log("Solving problem... ");
             bytesFin[7] += 128;
         }
 
