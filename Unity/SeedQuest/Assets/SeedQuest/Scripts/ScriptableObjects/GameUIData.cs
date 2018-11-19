@@ -19,4 +19,5 @@ public class GameUIData : ScriptableObject {
     public Font textFont;
     public TMP_FontAsset font;
     public Material fontMaterial;
+
 }
