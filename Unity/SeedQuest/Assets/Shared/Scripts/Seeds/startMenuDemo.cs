@@ -58,11 +58,13 @@ public class startMenuDemo : MonoBehaviour {
         keyInputField.text = censoredKey(keyInputField.text);
     }
 
-    public void useDemoKey()
+    public void useDemoSeed()
     {
         DideryDemoManager.IsDemo = true;
         DideryDemoManager.DemoBlob = keyInputField.text;
-        SeedManager.InputSeed = "A021E0A80264A33C08B6C2884AC0685C"; //"4040C1A90886218984850151AC123249";
+        SeedManager.InputSeed =  "148436BD13EEB72557080989DF01"; //"A021E0A80264A33C08B6C2884AC0685C";
+        //SeedManager.InputSeed = "838AA1B149A89EDD26C55C6C7501";
+
         deactivateEncryptButtons();
     }
 

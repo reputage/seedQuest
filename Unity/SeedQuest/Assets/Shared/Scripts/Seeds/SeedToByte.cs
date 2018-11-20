@@ -90,7 +90,7 @@ public class SeedToByte : MonoBehaviour
     void Start()
     {
         //testRun();
-        //testRun2();
+        testRun2();
     }
 
     // Test to make sure everything works
@@ -103,7 +103,7 @@ public class SeedToByte : MonoBehaviour
         testReturnBytes = bitToByte(testBitArr);
         testReturnStr2 = byteToSeed(testReturnBytes);
 
-        testActionToDo = bitConverter(testBitArr, actionList);
+        testActionToDo = bitToActions(testBitArr, actionList);
 
         actionToBits = actionConverter(testActionToDo, actionList);
         //actionToBitsVariant = variableSizeConverter(testActionToDo, actionList);
@@ -112,8 +112,8 @@ public class SeedToByte : MonoBehaviour
         // Test out retrieving a seed smaller than 128 bits
         List<int> tempList = customList(3, 4, 2, 4, 4, 4);
 
-        int[] variantToDo = bitConverter(testBitArr, tempList);
-        varSizeToDo = bitConverter(testBitArr, tempList);
+        int[] variantToDo = bitToActions(testBitArr, tempList);
+        varSizeToDo = bitToActions(testBitArr, tempList);
 
         actionToBitsVariant = seed108Converter(variantToDo, tempList);
         Debug.Log("Test for 108 bit seed: " + byteToSeed(actionToBitsVariant));
@@ -134,7 +134,7 @@ public class SeedToByte : MonoBehaviour
         List<int> tempList = customList(3, 4, 2, 4, 4);
 
         BitArray seedBits = byteToBits(testRunSeed);
-        int[] actions = bitConverter(seedBits, tempList);
+        int[] actions = bitToActions(seedBits, tempList);
 
         byte[] finalSeed = seed108Converter(actions, tempList);
 
@@ -149,7 +149,7 @@ public class SeedToByte : MonoBehaviour
         inputSeed = inputStr;
         inputBytes = seedToByte(inputSeed);
         inputBits = byteToBits(inputBytes);
-        actionToDo = bitConverter(inputBits, actionList);
+        actionToDo = bitToActions(inputBits, actionList);
         int[] returnActions = actionToDo;
         //Debug.Log(actionToDo);
         return returnActions;
@@ -161,7 +161,10 @@ public class SeedToByte : MonoBehaviour
         byte[] bytes108 = seedToByte(inputStr);
         BitArray bits108 = byteToBits(bytes108);
         List<int> tempList = customList(3, 4, 2, 4, 4);
-        int[] returnActions = bitConverter(bits108, tempList);
+        Debug.Log("Byte count: " + bytes108.Length + " Bits count: " + bits108.Length);
+        if (bytes108.Length > 14)
+            Debug.Log("Warning! Seed is longer than 108 bits!");
+        int[] returnActions = bitToActions(bits108, tempList);
         return returnActions;
     }
 
@@ -170,7 +173,7 @@ public class SeedToByte : MonoBehaviour
     {
         actionList = listBuilder();
         BitArray inputBits2 = byteToBits(inputBytes);
-        int[] actionToDo2 = bitConverter(inputBits2, actionList);
+        int[] actionToDo2 = bitToActions(inputBits2, actionList);
         return actionToDo2;
     }
 
@@ -362,7 +365,7 @@ public class SeedToByte : MonoBehaviour
     }
 
     // Convert bit array to int array representing the actions the player should take
-    public int[] bitConverter(BitArray bits, List<int> varList)
+    public int[] bitToActions(BitArray bits, List<int> varList)
     {
         if (varList.Count == 0)
             varList = listBuilder();

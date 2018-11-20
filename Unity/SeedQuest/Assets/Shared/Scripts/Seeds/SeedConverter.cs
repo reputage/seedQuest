@@ -28,7 +28,10 @@ public class SeedConverter {
     /// a series of interactable actions.
     /// </summary>
     private InteractableID[] getPathIDs(string seedString) {
-        int[] actions = converter.getActions(seedString);
+
+        //int[] actions = converter.getActions(seedString);
+        int[] actions = converter.getActions108(seedString);
+
         List<InteractableID> locationIDs = new List<InteractableID>();
 
         int count = 0;
@@ -123,6 +126,8 @@ public class SeedConverter {
         }
 
         int[] actionArray = actionLog.ToArray();
-        return converter.getSeed(actionArray);
+
+        return converter.getSeed108(actionArray);
+        // return converter.getSeed(actionArray);
     }
 }

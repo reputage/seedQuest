@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System;
 using UnityEngine;
 
 public class DideryDemoManager : MonoBehaviour {
@@ -74,12 +75,14 @@ public class DideryDemoManager : MonoBehaviour {
         byte[] key = Encoding.ASCII.GetBytes(inputKey);
 
         seed = OTPworker.randomSeedGenerator(seed);
-        seed = checkSeed(seed);
+        //seed = checkSeed(seed);
 
         // Used for demo puroses
         if (seed[13] > 7)
             seed[13] = (byte)((int)seed[13] % 7);
         //seed = HexStringToByteArray("4040C1A90886218984850151AC123249");
+
+        Debug.Log(BitConverter.ToString(seed).Replace("-", ""));
 
         OTPworker.OTPGenerator(otp, size, seed);
 
