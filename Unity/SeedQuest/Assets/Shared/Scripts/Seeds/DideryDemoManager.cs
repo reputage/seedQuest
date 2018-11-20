@@ -69,20 +69,20 @@ public class DideryDemoManager : MonoBehaviour {
         string[] dideryData;
 
         byte[] otp = new byte[32];
-        //byte[] seed = new byte[16];
-        byte[] seed = new byte[14];
+        //byte[] seed = new byte[16]; // used for 128 bit seed
+        byte[] seed = new byte[14]; // used for 108 bit seed
         byte[] encryptedKey = new byte[34];
         byte[] key = Encoding.ASCII.GetBytes(inputKey);
 
         seed = OTPworker.randomSeedGenerator(seed);
         //seed = checkSeed(seed);
 
-        // Used for demo puroses
+        // Used for demo puroses - required if trying to use 108 bit seed
         if (seed[13] > 7)
             seed[13] = (byte)((int)seed[13] % 7);
         //seed = HexStringToByteArray("4040C1A90886218984850151AC123249");
 
-        Debug.Log(BitConverter.ToString(seed).Replace("-", ""));
+        //Debug.Log(BitConverter.ToString(seed).Replace("-", ""));
 
         OTPworker.OTPGenerator(otp, size, seed);
 

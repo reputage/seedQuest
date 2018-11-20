@@ -35,7 +35,6 @@ public class startMenuDemo : MonoBehaviour {
     {
         if (!entered)
         {
-            //Debug.Log(keyInputField.text);
             DideryDemoManager.Instance.demoEncryptKey(keyInputField.text);
             deactivateEncryptButtons();
             changeKeyToCensored();
@@ -63,7 +62,6 @@ public class startMenuDemo : MonoBehaviour {
         DideryDemoManager.IsDemo = true;
         DideryDemoManager.DemoBlob = keyInputField.text;
         SeedManager.InputSeed =  "148436BD13EEB72557080989DF01"; //"A021E0A80264A33C08B6C2884AC0685C";
-        //SeedManager.InputSeed = "838AA1B149A89EDD26C55C6C7501";
 
         deactivateEncryptButtons();
     }

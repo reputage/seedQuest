@@ -339,6 +339,7 @@ public class SeedToByte : MonoBehaviour
         return newList;
     }
 
+    // Makes a list without using the variables in SeedManager
     public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc, int trailingZeros = 0)
     {
         List<int> newList = new List<int>();
@@ -494,9 +495,7 @@ public class SeedToByte : MonoBehaviour
         return BitReverseTable[toReverse];
     }
 
-    // Takes the list of actions, converts it back into bytes
-    // This started as a "make a seed of any size" function, but now it's more like:
-    // "It works for 108 bit seeds, not sure about any other size seed"
+    // Takes the list of actions, converts it back into bytes, only works for 108 bit seeds
     public static byte[] seed108Converter(int[] actions, List<int> varList)
     {
         // The action list passed to this function must be the right size
