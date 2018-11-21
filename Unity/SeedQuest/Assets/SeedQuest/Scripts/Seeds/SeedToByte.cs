@@ -90,7 +90,7 @@ public class SeedToByte : MonoBehaviour
     void Start()
     {
         //testRun();
-        testRun2();
+        //testRun2();
     }
 
     // Test to make sure everything works
@@ -117,10 +117,6 @@ public class SeedToByte : MonoBehaviour
 
         actionToBitsVariant = seed108Converter(variantToDo, tempList);
         Debug.Log("Test for 108 bit seed: " + byteToSeed(actionToBitsVariant));
-
-        // Test out retrieving a seed larger than 128 bits
-        //tempList = customList(4, 4, 4, 5, 4);
-        //actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
     }
 
     void testRun2()
@@ -140,7 +136,6 @@ public class SeedToByte : MonoBehaviour
 
         Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
         Debug.Log("Final  seed: " + byteToSeed(finalSeed));
-
     }
 
     // Take string for input, get the to-do list of actions

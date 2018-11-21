@@ -54,7 +54,6 @@ public static class OTPworker
             Debug.Log("Error: One time pad is not longer than key");
             return result;
         }
-
         for (int i = 0; i < key.Length; ++i)
             result[i] = (byte)(key[i] ^ otp[i]);
 
@@ -107,7 +106,6 @@ public static class OTPworker
                     return i;
             }
         }
-
         return 0;
     }
 

@@ -20,7 +20,8 @@ public class SeedConverter {
     public string DecodeSeed(InteractableLog log)
     {
         int[] encodedInteractions = EncodeInteractions(log);
-        return converter.getSeed(encodedInteractions);
+        //return converter.getSeed(encodedInteractions);
+        return converter.getSeed108(encodedInteractions);
     }
 
     /// <summary> 

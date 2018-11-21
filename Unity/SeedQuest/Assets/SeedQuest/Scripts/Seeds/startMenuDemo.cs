@@ -62,7 +62,6 @@ public class startMenuDemo : MonoBehaviour {
         DideryDemoManager.IsDemo = true;
         DideryDemoManager.DemoBlob = keyInputField.text;
         SeedManager.InputSeed =  "148436BD13EEB72557080989DF01"; //"A021E0A80264A33C08B6C2884AC0685C";
-
         deactivateEncryptButtons();
     }
 
@@ -94,7 +93,6 @@ public class startMenuDemo : MonoBehaviour {
         char[] newKey = new char[key.Length];
         for (int i = 0; i < oldKey.Length; i++)
         {
-            //Debug.Log("i: " + i + " other: " + (oldKey.Length - 5));
             if (i > oldKey.Length - 5)
             {
                 newKey[i] = oldKey[i];
