@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 using System.Text;
+using Nethereum.Signer;
 
 public static class OTPworker
 {
@@ -25,7 +26,18 @@ public static class OTPworker
 
         OTPGenerator(otp, size, seed);
         key = OTPxor(key, otp);
+        verifyKey(Encoding.ASCII.GetString(key));
         return key;
+    }
+
+    public static void verifyKey(string key)
+    {
+        var dummyMessage = "Hello! I'm a friendly dummy message to verify keys!";
+        var signer = new MessageSigner();
+        var signature = signer.HashAndSign(dummyMessage, key);
+
+        var address = signer.HashAndEcRecover(dummyMessage, signature);
+        Debug.Log("Varification successful: " + address + ". Private key appears to be valid.");
     }
 
     // Generates a random seed based on the size of the byte array argument passed in
