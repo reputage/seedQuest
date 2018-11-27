@@ -87,6 +87,16 @@ public class startMenuDemo : MonoBehaviour {
         Debug.Log("Decrypted key: " + finalKey);
     }
 
+    public void testBadDecrypt()
+    {
+        string seed = "A021E0A80264A33C08B6C2884AC0685C";
+        string badBlob = "aaaabbbbaaaabbbbaaaabbbbaaaabbbb";
+        byte[] keyByte = OTPworker.decryptFromBlob(seed, badBlob);
+        string finalKey = Encoding.ASCII.GetString(keyByte);
+        Debug.Log("Bad decrypted key: " + finalKey);
+
+    }
+
     public string censoredKey(string key)
     {
         char[] oldKey = key.ToCharArray();

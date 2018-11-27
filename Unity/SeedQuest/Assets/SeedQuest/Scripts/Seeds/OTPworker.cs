@@ -16,6 +16,7 @@ public static class OTPworker
         byte[] seedByte = HexStringToByteArray(seed);
         byte[] demoBlob = Convert.FromBase64String(blobString);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
+        verifyKey(Encoding.ASCII.GetString(decryptedKey));
         return decryptedKey;
     }
 
@@ -34,7 +35,15 @@ public static class OTPworker
     {
         var dummyMessage = "Hello! I'm a friendly dummy message to verify keys!";
         var signer = new MessageSigner();
-        var signature = signer.HashAndSign(dummyMessage, key);
+        var signature = "";
+        try
+        {
+            signature = signer.HashAndSign(dummyMessage, key);   
+        }
+        catch(Exception sig)
+        {
+            Debug.Log("Key appears to be invalid! Cannot sign data.");
+        }
 
         var address = signer.HashAndEcRecover(dummyMessage, signature);
         Debug.Log("Varification successful: " + address + ". Private key appears to be valid.");
