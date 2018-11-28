@@ -97,6 +97,7 @@ public class startMenuDemo : MonoBehaviour {
         Debug.Log("Bad decrypted key: " + finalKey);
     }
 
+    // Test that a valid key passes the key validation function
     public void testValidKey()
     {
         string key = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
@@ -114,8 +115,6 @@ public class startMenuDemo : MonoBehaviour {
         byte[] encryptedKey = new byte[34];
         byte[] keyByte = Encoding.ASCII.GetBytes(key);
         seedByte = Encoding.ASCII.GetBytes(seed);
-
-
         byte[] goodKey = OTPworker.OTPxor(seedByte, keyByte);
         byte[] decryptedKey = OTPworker.decryptFromBlob(seed, Convert.ToBase64String(goodKey));
         string finalKey = Encoding.ASCII.GetString(keyByte);

@@ -39,6 +39,7 @@ public static class OTPworker
         var signature = "";
         var address ="";
         Debug.Log("Verify key: " + key);
+
         try
         {
             signature = signer.HashAndSign(dummyMessage, key);   
@@ -46,6 +47,7 @@ public static class OTPworker
         catch(Exception sign)
         {
             Debug.Log("Key appears to be invalid! Cannot sign data. " + sign);
+            return;
         }
 
         try
@@ -55,8 +57,9 @@ public static class OTPworker
         catch (Exception recover)
         {
             Debug.Log("Key appears to be invalid! Cannot recover data. " + recover);
+            return;
         }
-        //address = signer.HashAndEcRecover(dummyMessage, signature);
+
         Debug.Log("Varification successful: " + address + ". Private key appears to be valid.");
     }
 
