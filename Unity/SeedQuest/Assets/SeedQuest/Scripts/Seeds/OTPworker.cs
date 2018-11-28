@@ -16,7 +16,7 @@ public static class OTPworker
         byte[] seedByte = HexStringToByteArray(seed);
         byte[] demoBlob = Convert.FromBase64String(blobString);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
-        verifyKey(Encoding.ASCII.GetString(decryptedKey));
+        VerifyKeys.verifyKey(Encoding.ASCII.GetString(decryptedKey));
         return decryptedKey;
     }
 
@@ -27,41 +27,11 @@ public static class OTPworker
 
         OTPGenerator(otp, size, seed);
         key = OTPxor(key, otp);
-        verifyKey(Encoding.ASCII.GetString(key));
+        VerifyKeys.verifyKey(Encoding.ASCII.GetString(key));
         return key;
     }
 
-    public static void verifyKey(string key)
-    {
-        key = addHexPrefix(key);
-        var dummyMessage = "test dummy message";
-        var signer = new MessageSigner();
-        var signature = "";
-        var address ="";
-        Debug.Log("Verify key: " + key);
 
-        try
-        {
-            signature = signer.HashAndSign(dummyMessage, key);   
-        }
-        catch(Exception sign)
-        {
-            Debug.Log("Key appears to be invalid! Cannot sign data. " + sign);
-            return;
-        }
-
-        try
-        {
-            address = signer.HashAndEcRecover(dummyMessage, signature);
-        }
-        catch (Exception recover)
-        {
-            Debug.Log("Key appears to be invalid! Cannot recover data. " + recover);
-            return;
-        }
-
-        Debug.Log("Varification successful: " + address + ". Private key appears to be valid.");
-    }
 
     // Generates a random seed based on the size of the byte array argument passed in
     public static byte[] randomSeedGenerator(byte[] seed)
