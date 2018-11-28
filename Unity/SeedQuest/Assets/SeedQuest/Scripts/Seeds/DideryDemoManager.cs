@@ -29,7 +29,7 @@ public class DideryDemoManager : MonoBehaviour {
     public string demoBlob;
     public bool isDemo = false;
 
-    private string url = "http://178.128.0.203:8080/blob/";
+    private string urlAddress = "http://178.128.0.203:8080/blob/";
     private SeedToByte seedToByte = new SeedToByte();
 
     static public string DemoDid
@@ -63,9 +63,11 @@ public class DideryDemoManager : MonoBehaviour {
     }
 
     // Takes a key as input, encrypts the key, sends it to didery in a POST request
-    public void demoEncryptKey(string inputKey)
+    public void demoEncryptKey(string inputKey, string url=null)
     {
         inputKey = VerifyKeys.removeHexPrefix(inputKey);
+        if (url == null)
+            url = urlAddress;
         int size = 32;
         string[] dideryData;
 
@@ -101,8 +103,10 @@ public class DideryDemoManager : MonoBehaviour {
 
     // Takes the last used did from DideryDemoManager, retrieves the key
     // from a didery server, and returns the encrypted key to DideryDemoManager.demoBlob
-    public void demoGetEncryptedKey()
+    public void demoGetEncryptedKey(string url=null)
     {
+        if (url == null)
+            url = urlAddress;
         string uri = url + DideryDemoManager.DemoDid;
         getRequest(uri);
     }
@@ -126,8 +130,10 @@ public class DideryDemoManager : MonoBehaviour {
     }
 
     // Sends the encrypted key to the didery server, returns a string with the did
-    public string postEncryptedKey(byte[] encryptedKey)
+    public string postEncryptedKey(byte[] encryptedKey, string url=null)
     {
+        if (url == null)
+            url = urlAddress;
         string[] dideryData;
         dideryData = DideryInterface.makePost(encryptedKey);
 
@@ -143,8 +149,10 @@ public class DideryDemoManager : MonoBehaviour {
     }
 
     // Retrieves the string parameter 'did' from the didery server
-    public void getEncryptedKey(string did)
+    public void getEncryptedKey(string did, string url=null)
     {
+        if (url == null)
+            url = urlAddress;
         string uri = url + did;
         getRequest(uri);
     }

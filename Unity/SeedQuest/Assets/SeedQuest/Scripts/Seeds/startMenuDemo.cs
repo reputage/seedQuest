@@ -109,7 +109,7 @@ public class startMenuDemo : MonoBehaviour {
     {
         string seed = "A021E0A80264A33C08B6C2884AC0685C";
         string key = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
-        key = OTPworker.removeHexPrefix(key);
+        key = VerifyKeys.removeHexPrefix(key);
         byte[] otp = new byte[32];
         byte[] seedByte = new byte[14];
         byte[] encryptedKey = new byte[34];
