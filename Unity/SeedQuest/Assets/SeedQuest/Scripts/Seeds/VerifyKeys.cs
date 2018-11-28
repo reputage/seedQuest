@@ -6,7 +6,9 @@ using Nethereum.Signer;
 
 public static class VerifyKeys {
 
-    public static void verifyKey(string key)
+
+    // Checks to see if the key is valid by signing dummy data. Returns 0 if valid, 1 otherwise.
+    public static int verifyKey(string key)
     {
         key = addHexPrefix(key);
         var dummyMessage = "test dummy message";
@@ -22,7 +24,7 @@ public static class VerifyKeys {
         catch (Exception sign)
         {
             Debug.Log("Key appears to be invalid! Cannot sign data. " + sign);
-            return;
+            return 1;
         }
 
         try
@@ -32,12 +34,14 @@ public static class VerifyKeys {
         catch (Exception recover)
         {
             Debug.Log("Key appears to be invalid! Cannot recover data. " + recover);
-            return;
+            return 1;
         }
 
         Debug.Log("Varification successful: " + address + ". Private key appears to be valid.");
+        return 0;
     }
 
+    // Adds a hex prefix to a string, if it is missing one
     public static string addHexPrefix(string hexString)
     {
         string prefixed = "";
@@ -48,6 +52,7 @@ public static class VerifyKeys {
         return prefixed;
     }
 
+    // Removes the hex prefix from a string, if it has one
     public static string removeHexPrefix(string hexString)
     {
         if (hexString != null && hexString.StartsWith("0x"))

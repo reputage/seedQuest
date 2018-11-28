@@ -65,6 +65,7 @@ public class DideryDemoManager : MonoBehaviour {
     // Takes a key as input, encrypts the key, sends it to didery in a POST request
     public void demoEncryptKey(string inputKey)
     {
+        inputKey = VerifyKeys.removeHexPrefix(inputKey);
         int size = 32;
         string[] dideryData;
 
@@ -109,6 +110,7 @@ public class DideryDemoManager : MonoBehaviour {
     // Takes a string for a key as input, encrypts it, and returns a byte[] of the encrypted key
     public byte[] encryptKey(string inputKey)
     {
+        inputKey = VerifyKeys.removeHexPrefix(inputKey);
         byte[] otp = new byte[32];
         byte[] seed = new byte[16];
         byte[] encryptedKey = new byte[34];

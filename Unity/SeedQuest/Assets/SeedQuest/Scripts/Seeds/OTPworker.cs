@@ -16,7 +16,7 @@ public static class OTPworker
         byte[] seedByte = HexStringToByteArray(seed);
         byte[] demoBlob = Convert.FromBase64String(blobString);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
-        VerifyKeys.verifyKey(Encoding.ASCII.GetString(decryptedKey));
+        int valid = VerifyKeys.verifyKey(Encoding.ASCII.GetString(decryptedKey));
         return decryptedKey;
     }
 
@@ -27,11 +27,9 @@ public static class OTPworker
 
         OTPGenerator(otp, size, seed);
         key = OTPxor(key, otp);
-        VerifyKeys.verifyKey(Encoding.ASCII.GetString(key));
+        int valid = VerifyKeys.verifyKey(Encoding.ASCII.GetString(key));
         return key;
     }
-
-
 
     // Generates a random seed based on the size of the byte array argument passed in
     public static byte[] randomSeedGenerator(byte[] seed)
@@ -114,21 +112,5 @@ public static class OTPworker
         return 0;
     }
 
-    public static string addHexPrefix(string hexString)
-    {
-        string prefixed = "";
-        if (hexString != null && !hexString.StartsWith("0x"))
-            prefixed = "0x" + hexString;
-        else
-            return hexString;
-        return prefixed;
-    }
-
-    public static string removeHexPrefix(string hexString)
-    {
-        if (hexString != null && hexString.StartsWith("0x"))
-            hexString = hexString.Substring(2);
-        return hexString;
-    }
 }
 
