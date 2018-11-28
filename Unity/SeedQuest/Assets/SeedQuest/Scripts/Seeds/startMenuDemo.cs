@@ -87,6 +87,7 @@ public class startMenuDemo : MonoBehaviour {
         Debug.Log("Decrypted key: " + finalKey);
     }
 
+    // Test that an invalid key fails the key validation function
     public void testBadDecrypt()
     {
         string seed = "A021E0A80264A33C08B6C2884AC0685C";
@@ -94,9 +95,34 @@ public class startMenuDemo : MonoBehaviour {
         byte[] keyByte = OTPworker.decryptFromBlob(seed, badBlob);
         string finalKey = Encoding.ASCII.GetString(keyByte);
         Debug.Log("Bad decrypted key: " + finalKey);
-
     }
 
+    public void testValidKey()
+    {
+        string key = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
+        OTPworker.verifyKey(key);
+    }
+
+    // Test that a valid key passes the key validation function
+    public void testGoodDecrypt()
+    {
+        string seed = "A021E0A80264A33C08B6C2884AC0685C";
+        string key = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
+        key = OTPworker.removeHexPrefix(key);
+        byte[] otp = new byte[32];
+        byte[] seedByte = new byte[14];
+        byte[] encryptedKey = new byte[34];
+        byte[] keyByte = Encoding.ASCII.GetBytes(key);
+        seedByte = Encoding.ASCII.GetBytes(seed);
+
+
+        byte[] goodKey = OTPworker.OTPxor(seedByte, keyByte);
+        byte[] decryptedKey = OTPworker.decryptFromBlob(seed, Convert.ToBase64String(goodKey));
+        string finalKey = Encoding.ASCII.GetString(keyByte);
+        Debug.Log("Bad decrypted key: " + finalKey);
+    }
+
+    // Censor all but the last 4 digits of the input key
     public string censoredKey(string key)
     {
         char[] oldKey = key.ToCharArray();
