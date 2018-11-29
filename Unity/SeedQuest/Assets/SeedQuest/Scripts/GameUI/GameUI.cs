@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameUI : MonoBehaviour {
-    public static GameUI instance = null;
 
-    private void Awake()
+    static private GameUI __instance = null;
+    static public GameUI instance
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-            Destroy(gameObject);
-
+        get
+        {
+            if (__instance == null)
+                __instance = GameObject.FindObjectOfType<GameUI>();
+            return __instance;
+        }
     }
 
     public void Update()
@@ -21,7 +22,12 @@ public class GameUI : MonoBehaviour {
     }
 
     static public bool CursorUI { 
-        set { instance.GetComponentInChildren<CursorUI>(true).gameObject.SetActive(value); }
+        set {
+            GameUI inst = instance;
+            CursorUI ele = instance.GetComponentInChildren<CursorUI>(true);
+            GameObject gameobj = ele.gameObject;
+            instance.GetComponentInChildren<CursorUI>(true).gameObject.SetActive(value); 
+        }
     }
 
     static public bool StartMenuUI {
@@ -56,5 +62,8 @@ public class GameUI : MonoBehaviour {
         set { instance.GetComponentInChildren<MinimapObjects>(true).gameObject.SetActive(value); }
     }
 
+    static public bool LoadingScreen {
+        set { instance.GetComponentInChildren<LoadingScreen>(true).gameObject.SetActive(value); }
+    }
 
 }

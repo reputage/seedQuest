@@ -26,6 +26,9 @@ public class ActionListCanvas : MonoBehaviour {
     private void CreateRehersalActionList() {
         if (actionItemList.Count > 0) // Check if list has been populated
             return;
+
+        if (PathManager.Path == null || PathManager.Path.Length == 0)
+            return;
         
         int count = 2; //PathManager.Path.Length;
         for (int i = 0; i < count; i++)
