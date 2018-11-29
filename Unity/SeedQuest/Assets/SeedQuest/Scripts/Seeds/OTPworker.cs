@@ -83,7 +83,7 @@ public static class OTPworker
         return bytes;
     }
 
-    // Get hex value from a char
+    // Get hex value from a char 
     public static int GetHexVal(char hex)
     {
         int val = (int)hex;

@@ -31,6 +31,7 @@ public class startMenuDemo : MonoBehaviour {
             allowEnter = keyInputField.isFocused;
     }
 
+    // Encrypt the key in the input field
     public void encryptKey()
     {
         if (!entered)
@@ -46,17 +47,20 @@ public class startMenuDemo : MonoBehaviour {
         }
     }
 
+    // Deactivate the encrypt buttons on the start screen
     public void deactivateEncryptButtons()
     {
         encryptButton.SetActive(false);
         demoKeyButton.SetActive(false);
     }
 
+    // Censor the text in the input field
     public void changeKeyToCensored()
     {
         keyInputField.text = censoredKey(keyInputField.text);
     }
 
+    // Use a set seed for demo purposes
     public void useDemoSeed()
     {
         DideryDemoManager.IsDemo = true;
@@ -72,11 +76,13 @@ public class startMenuDemo : MonoBehaviour {
         GameManager.State = GameState.Rehearsal;
     }
 
+    // Test getting an encrypted key
     public void testGetKey()
     {
         DideryDemoManager.Instance.demoGetEncryptedKey();
     }
 
+    // Test decrypting a key from a didery blob
     public void testDecrypt()
     {
         string seed = SeedManager.InputSeed;
