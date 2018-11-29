@@ -13,10 +13,10 @@ public class DebugCanvas : MonoBehaviour {
                 GetComponentInChildren<Text>().text = "Mode: GameStart";
                 break;
             case GameState.Rehearsal:
-                GetComponentInChildren<Text>().text = "Mode: Rehersal";
+                GetComponentInChildren<Text>().text = "Mode: Learn";
                 break;
             case GameState.Recall:
-                GetComponentInChildren<Text>().text = "Mode: Recall";
+                GetComponentInChildren<Text>().text = "Mode: Recover";
                 break;
             case GameState.GameEnd:
                 GetComponentInChildren<Text>().text = "Mode: GameEnd";

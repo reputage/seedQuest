@@ -22,10 +22,10 @@ public class SceneLoader : MonoBehaviour {
     }
 
     static public void LoadGame() {
-        SceneManager.LoadScene("Demo_v04");
+        SceneManager.LoadScene("Demo_v05");
     }
 
     static public void LoadMainMenu() {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu_v02");
     }
 }
