@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Nethereum.Signer;
+using Nethereum;
 
 public static class VerifyKeys {
 
@@ -39,6 +40,15 @@ public static class VerifyKeys {
 
         Debug.Log("Varification successful: " + address + ". Private key appears to be valid.");
         return 0;
+    }
+
+    // Regenerate public address from private key, so the user can check to see if their
+    // key was recovered correctly.
+    public static string regeneratePublicAddress(string privateKey)
+    {
+        privateKey = addHexPrefix(privateKey);
+        string account = Nethereum.Signer.EthECKey.GetPublicAddress(privateKey);
+        return account;
     }
 
     // Adds a hex prefix to a string, if it is missing one
