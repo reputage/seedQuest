@@ -103,6 +103,13 @@ public class startMenuDemo : MonoBehaviour {
         Debug.Log("Bad decrypted key: " + finalKey);
     }
 
+    public void testRegenerateAddress()
+    {
+        string privateKey = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
+        string address = VerifyKeys.regeneratePublicAddress(privateKey);
+        Debug.Log("Your public address is: " + address);
+    }
+
     // Test that a valid key passes the key validation function
     public void testValidKey()
     {
