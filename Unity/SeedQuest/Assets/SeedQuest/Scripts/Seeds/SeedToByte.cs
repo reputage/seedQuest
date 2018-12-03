@@ -119,7 +119,7 @@ public class SeedToByte : MonoBehaviour
         Debug.Log("Test for 108 bit seed: " + byteToSeed(actionToBitsVariant));
     }
 
-    void testRun2()
+    public void testRun2()
     {
         byte[] testRunSeed = new byte[14];
         testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
@@ -146,7 +146,6 @@ public class SeedToByte : MonoBehaviour
         inputBits = byteToBits(inputBytes);
         actionToDo = bitToActions(inputBits, actionList);
         int[] returnActions = actionToDo;
-        //Debug.Log(actionToDo);
         return returnActions;
     }
 
@@ -175,13 +174,8 @@ public class SeedToByte : MonoBehaviour
     // Get the return seed from a list of actions
     public string getSeed(int[] actionsPerformed)
     {
-        // Don't change the actionList - it will break everything
         returnBytes = actionConverter(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
-        // Just going to put these here for now... I'm not sure where else to put them
-        seedBase58 = ByteArrayToBase58(returnBytes);
-        seedBase64 = ByteArrayToBase64(returnBytes);
-        seedBinary = ByteArrayToBinary(returnBytes);
         return convertedSeed;
     }
 
@@ -628,7 +622,7 @@ public class SeedToByte : MonoBehaviour
 
         if (totalBits < 128)
         {
-            byte[] bytesTemp = new byte[bytesFin.Length -( (128 - totalBits) / 8 ) ];
+            byte[] bytesTemp = new byte[bytesFin.Length - ( (128 - totalBits) / 8 ) ];
             System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
             bytesFin = bytesTemp;
         }

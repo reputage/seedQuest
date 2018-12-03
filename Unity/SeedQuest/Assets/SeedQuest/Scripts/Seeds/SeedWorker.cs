@@ -10,24 +10,24 @@ public class SeedWorker {
     // Static class version of the SeedToByte script. Some Demo scenes still use 
     //  the SeedToByte monobehavior, but new scenes should use this instead
 
-    public static string testSeed1 = "C5E3D45D341A";
-    public static string testSeed2 = "825A";
-    public static string testSeed3 = "123456789abc";
+    public string testSeed1 = "C5E3D45D341A";
+    public string testSeed2 = "||||||||||||||||";
+    public string testSeed3 = "825A";
 
-    public static string a1234 = "a1234";
+    public string a1234 = "a1234";
 
-    public static string testReturnStr;
-    public static string testReturnStr2;
-    public static string testReturnStr3;
+    public string testReturnStr;
+    public string testReturnStr2;
+    public string testReturnStr3;
 
-    public static string testBitStr;
-    public static byte[] testByteArr;
-    public static byte[] testReturnBytes;
-    public static int[] testActionToDo;
-    public static BitArray testBitArr;
-    public static byte[] actionToBits;
-    public static byte[] actionToBitsVariant;
-    public static List<int> actionList = new List<int>();
+    public string testBitStr;
+    public byte[] testByteArr;
+    public byte[] testReturnBytes;
+    public int[] testActionToDo;
+    public BitArray testBitArr;
+    public byte[] actionToBits;
+    public byte[] actionToBitsVariant;
+    public List<int> actionList = new List<int>();
 
     public static string inputSeed;
     public static string returnSeed;
@@ -103,10 +103,6 @@ public class SeedWorker {
 
         actionToBitsVariant = seed108Converter(variantToDo, tempList);
         Debug.Log("Test for 108 bit seed: " + byteToSeed(actionToBitsVariant));
-
-        // Test out retrieving a seed larger than 128 bits
-        //tempList = customList(4, 4, 4, 5, 4);
-        //actionToBitsVariant = variableSizeConverter(testActionToDo, tempList);
     }
 
     public void testRun2()
@@ -126,7 +122,6 @@ public class SeedWorker {
 
         Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
         Debug.Log("Final  seed: " + byteToSeed(finalSeed));
-
     }
 
     // Take string for input, get the to-do list of actions
@@ -137,7 +132,6 @@ public class SeedWorker {
         inputBits = byteToBits(inputBytes);
         actionToDo = bitToActions(inputBits, actionList);
         int[] returnActions = actionToDo;
-        //Debug.Log(actionToDo);
         return returnActions;
     }
 
@@ -166,13 +160,8 @@ public class SeedWorker {
     // Get the return seed from a list of actions
     public string getSeed(int[] actionsPerformed)
     {
-        // Don't change the actionList - it will break everything
         returnBytes = actionConverter(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
-        // Just going to put these here for now... I'm not sure where else to put them
-        seedBase58 = ByteArrayToBase58(returnBytes);
-        seedBase64 = ByteArrayToBase64(returnBytes);
-        seedBinary = ByteArrayToBinary(returnBytes);
         return convertedSeed;
     }
 
@@ -618,7 +607,7 @@ public class SeedWorker {
 
         if (totalBits < 128)
         {
-            byte[] bytesTemp = new byte[bytesFin.Length - ((128 - totalBits) / 8)];
+            byte[] bytesTemp = new byte[bytesFin.Length - ( (128 - totalBits) / 8 ) ];
             System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
             bytesFin = bytesTemp;
         }
