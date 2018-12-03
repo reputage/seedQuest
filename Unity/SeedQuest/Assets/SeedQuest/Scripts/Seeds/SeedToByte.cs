@@ -417,7 +417,7 @@ public class SeedToByte : MonoBehaviour
             totalBits += varList[i];
         }
 
-        if (totalBits < 128)
+        if (totalBits < 64)
         {
             // Convert action ints into two ulong ints
             for (int i = 0; i < actions.Length; i++)
@@ -426,7 +426,7 @@ public class SeedToByte : MonoBehaviour
                 if (i < actions.Length - 1)
                     path1 = path1 << varList[i + 1];
             }
-            path1 = path1 << (128 - totalBits);
+            path1 = path1 << (64 - totalBits);
         }
         else
         {

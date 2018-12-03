@@ -402,7 +402,7 @@ public class SeedWorker {
             totalBits += varList[i];
         }
 
-        if (totalBits < 128)
+        if (totalBits < 64)
         {
             // Convert action ints into two ulong ints
             for (int i = 0; i < actions.Length; i++)
@@ -411,7 +411,7 @@ public class SeedWorker {
                 if (i < actions.Length - 1)
                     path1 = path1 << varList[i + 1];
             }
-            path1 = path1 << (128 - totalBits);
+            path1 = path1 << (64 - totalBits);
         }
         else
         {
@@ -513,7 +513,6 @@ public class SeedWorker {
         }
         else
         {
-
             int modBits = totalBits % 64;
             int numLongs = totalBits / 64;
             int numShifts = 0;
@@ -523,7 +522,7 @@ public class SeedWorker {
 
             if (modBits > 0)
                 numLongs += 1;
-
+            
             for (int i = 0; i < numLongs; i++)
             {
                 path = 0;
@@ -607,4 +606,109 @@ public class SeedWorker {
         return bytesFin;
     }
 
+    // Takes the list of actions, converts it back into bytes, only works for seeds 
+    //  where the bits divide evenly into chunks of 64 bits
+    public static byte[] seedConverterMod64(int[] actions, List<int> varList)
+    {
+        // The action list passed to this function must be the right size
+        if (varList.Count == 0)
+            varList = listBuilder();
+
+        int[] tempArray = new int[36];
+        byte[] bytesFin = new byte[0];
+        int totalBits = 0;
+
+        for (int i = 0; i < varList.Count; i++)
+        {
+            totalBits += varList[i];
+        }
+
+        if (totalBits % 8 != 0)
+            Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
+
+        if (actions.Length != varList.Count)
+            Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
+
+        if (totalBits < 64)
+        {
+            ulong path = 0;
+            for (int i = 0; i < varList.Count; i++)
+            {
+                if (i < actions.Length)
+                    path += (ulong)actions[i];
+                if (i < (varList.Count - 1))
+                    path = path << varList[i + 1];
+            }
+
+            path = path << (64 - totalBits);
+            byte[] bytesPath = BitConverter.GetBytes(path);
+            Debug.Log("path int: " + path);
+
+            bytesFin = new byte[bytesPath.Length];
+            System.Buffer.BlockCopy(bytesPath, 0, bytesFin, 0, bytesPath.Length);
+        }
+        else
+        {
+            int modBits = totalBits % 64;
+            int numLongs = totalBits / 64;
+            int break64 = 0;
+            int counter = 0;
+            ulong path = 0;
+
+            if (modBits > 0)
+                numLongs += 1;
+
+            for (int i = 0; i < varList.Count; i++)
+            {
+                counter += varList[i];
+                if (counter == 64)
+                    break64 = i;
+            }
+
+            if (break64 != 0)
+                Debug.Log("Warning! There does not appear to be a clean break in number of bytes for this action list!");
+
+            for (int i = 0; i < numLongs; i++)
+            {
+                for (int j = 0; j < break64; j++)
+                {
+                    path += (ulong)actions[j + (break64 * i)];
+                    if (j < break64 - 1)
+                        path = path << varList[j + 1 + (break64 * i)];
+                }
+
+                byte[] bytesPath = BitConverter.GetBytes(path);
+                byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
+
+                // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
+                for (int j = 0; j < (bytesPath.Length / 2); j++)
+                {
+                    byte tmp = bytesPath[j];
+                    bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
+                    bytesPath[bytesPath.Length - j - 1] = tmp;
+                }
+
+                System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesFin.Length);
+                System.Buffer.BlockCopy(bytesPath, 0, bytesTemp, bytesFin.Length, bytesPath.Length);
+
+                bytesFin = new byte[bytesTemp.Length];
+                System.Buffer.BlockCopy(bytesTemp, 0, bytesFin, 0, bytesTemp.Length);
+            }
+        }
+
+        // Reverse the order of the bits within each byte (yes, this is also necessary)
+        for (int i = 0; i < bytesFin.Length; i++)
+        {
+            bytesFin[i] = ReverseWithLookupTable(bytesFin[i]);
+        }
+
+        if (totalBits < 128)
+        {
+            byte[] bytesTemp = new byte[bytesFin.Length - ((128 - totalBits) / 8)];
+            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
+            bytesFin = bytesTemp;
+        }
+
+        return bytesFin;
+    }
 }
