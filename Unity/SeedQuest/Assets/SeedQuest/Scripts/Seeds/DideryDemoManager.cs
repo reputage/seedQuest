@@ -30,7 +30,7 @@ public class DideryDemoManager : MonoBehaviour {
     public bool isDemo = false;
 
     private string urlAddress = "http://178.128.0.203:8080/blob/";
-    private SeedToByte seedToByte = new SeedToByte();
+    private SeedWorker seedWorker = new SeedWorker();
 
     static public string DemoDid
     {
@@ -160,7 +160,7 @@ public class DideryDemoManager : MonoBehaviour {
     // Checks to see if the seed is within demo parameters. For demo use only
     public byte[] checkSeed(byte[] seed)
     {
-        int checkVal = OTPworker.checkValidSeed(seedToByte.getActionsFromBytes(seed));
+        int checkVal = OTPworker.checkValidSeed(seedWorker.getActionsFromBytes(seed));
         while (checkVal > 1)
         {
             Debug.Log("Generating new seed");
@@ -171,7 +171,7 @@ public class DideryDemoManager : MonoBehaviour {
                     seed[i] -= 1;
                 }
             }
-            checkVal = OTPworker.checkValidSeed(seedToByte.getActionsFromBytes(seed));
+            checkVal = OTPworker.checkValidSeed(seedWorker.getActionsFromBytes(seed));
         }
         return seed;
     }

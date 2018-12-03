@@ -476,7 +476,6 @@ public class SeedWorker {
         if (varList.Count == 0)
             varList = listBuilder();
 
-        //var actionBits = new BitArray(size); // size = 128 in other function
         int[] tempArray = new int[36];
 
         int totalBits = 0;
@@ -488,8 +487,6 @@ public class SeedWorker {
         byte[] bytesFin = new byte[0];
         int problem = 0;
 
-        //Debug.Log("Total bit count: " + totalBits);
-
         if (totalBits % 8 != 0)
             Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
 
@@ -499,7 +496,6 @@ public class SeedWorker {
         if (totalBits < 64)
         {
             ulong path = 0;
-            //Debug.Log("Actions.Length: " + actions.Length + " List length: " + varList.Count);
             for (int i = 0; i < varList.Count; i++)
             {
                 if (i < actions.Length)
@@ -517,7 +513,6 @@ public class SeedWorker {
         }
         else
         {
-            //Debug.Log("Actions.Length: " + actions.Length + " List.Count" + varList.Count);
 
             int modBits = totalBits % 64;
             int numLongs = totalBits / 64;
@@ -533,14 +528,11 @@ public class SeedWorker {
             {
                 path = 0;
                 numShifts = varList[numTraverse] + remainder;
-                //Debug.Log("Value of traverse int: " + numTraverse);
 
                 while (numShifts < 64)
                 {
-                    //Debug.Log("Numtraverse: " + numTraverse + " varlist length: " + varList.Count);
                     if (varList.Count <= numTraverse + 1)
                     {
-                        //Debug.Log("Ran out of bits in the list..." + (totalBits % 8));
                         path += (ulong)actions[numTraverse];
                         path = path << (64 - (numShifts - (remainder * 2)));
                         if (actions.Length < numTraverse - 1)
@@ -551,16 +543,12 @@ public class SeedWorker {
                     }
                     else if (actions.Length < numTraverse)
                     {
-                        //Debug.Log("Ran out of actions...");
                         path = path << (64 - (numShifts - (remainder * 2)));
                         numShifts = 65;
                     }
                     else if (numShifts + varList[numTraverse + 1] + remainder > 64)
                     {
-                        //Debug.Log("Numshifts: " + numShifts + " Final val of array: " + actions[numTraverse]);
-                        //Debug.Log("Second to last int: " + actions[numTraverse-1] + " Next int: " + actions[numTraverse + 1]);
                         remainder = numShifts + varList[numTraverse + 1] - 64;
-
                         path += (ulong)actions[numTraverse];
                         path = path << (64 - numShifts);
 
@@ -613,7 +601,6 @@ public class SeedWorker {
         }
         if (problem > 0)
         {
-            //Debug.Log("Solving problem... ");
             bytesFin[7] += 128;
         }
 
