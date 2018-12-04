@@ -91,6 +91,7 @@ public class SeedToByte : MonoBehaviour
     {
         //testRun();
         //testRun2();
+        testRun3();
     }
 
     // Test to make sure everything works
@@ -136,6 +137,23 @@ public class SeedToByte : MonoBehaviour
 
         Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
         Debug.Log("Final  seed: " + byteToSeed(finalSeed));
+    }
+
+    public void testRun3()
+    {
+        byte[] testRunSeed = new byte[14];
+        testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
+
+        List<int> tempList = customList(4, 4, 2, 4, 4);
+
+        BitArray seedBits = byteToBits(testRunSeed);
+        int[] actions = bitToActions(seedBits, tempList);
+
+        byte[] finalSeed = seedConverterMod64(actions, tempList);
+
+        Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
+        Debug.Log("Final  seed: " + byteToSeed(finalSeed));
+
     }
 
     // Take string for input, get the to-do list of actions
@@ -683,6 +701,8 @@ public class SeedToByte : MonoBehaviour
             int break64 = 0;
             int falseBreak = 0;
             int counter = 0;
+            int numTraverse = 0;
+            int numshifts = 0;
             ulong path = 0;
 
             if (modBits > 0)
@@ -700,13 +720,27 @@ public class SeedToByte : MonoBehaviour
             if (break64 == 0)
                 Debug.Log("Warning! There does not appear to be a clean break in number of bytes for this action list!");
 
+            Debug.Log("Total actions: " + actions.Length + " Total bit list: " + varList.Count);
             for (int i = 0; i < numLongs; i++)
             {
+                numshifts = varList[numTraverse];
+                Debug.Log("New uint64 " + i);
                 for (int j = 0; j < break64; j++)
                 {
-                    path += (ulong)actions[j + (break64 * i)];
-                    if (j < break64 - 1)
-                        path = path << varList[j + 1 + (break64 * i)];
+                    if (numTraverse < actions.Length)
+                    {
+                        Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) + " Total actions: " + actions.Length);
+                        path += (ulong)actions[numTraverse];
+                    }
+                    if ((numTraverse + 1) < varList.Count)
+                    {
+                        Debug.Log("Shifting: " + (numTraverse + 1) + " By: " + varList[numTraverse + 1]);
+                        path = path << varList[numTraverse + 1];
+                        numshifts += varList[numTraverse + 1];
+                    }
+                    else
+                        Debug.Log("Did not shift: " + (j + 1 + (break64 * i)));
+                    numTraverse++;
                 }
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
