@@ -53,7 +53,6 @@ public class ActionListCanvas : MonoBehaviour {
             string name = PathManager.Path[i].Name;
             string action = PathManager.Path[i].RehersalActionName;
             GameObject item = CreateActionItem(i, name + ": " + action);
-            item.transform.SetParent(actionListContainer.transform);
             actionItemList.Add(item.GetComponent<ActionItem>());
 
         }
@@ -72,6 +71,7 @@ public class ActionListCanvas : MonoBehaviour {
 
         ActionItem actionItem = item.AddComponent<ActionItem>();
         actionItem.SetItem(index, text, GameManager.GameUI.uncheckedBox);
+        item.transform.SetParent(actionListContainer.transform);
         return item;
     } 
 

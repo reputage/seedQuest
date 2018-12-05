@@ -66,7 +66,7 @@ public class MainMenu : MonoBehaviour {
         button_group.gameObject.SetActive(false);
         info_text.gameObject.SetActive(false);
         input_group.gameObject.SetActive(true);
-        title.text = "LEARN MODE";
+        title.text = "Learn Mode";
     }
 
     public void onClickStart()
@@ -107,7 +107,7 @@ public class MainMenu : MonoBehaviour {
         warning_text.gameObject.SetActive(false);
         icon.gameObject.SetActive(true);
         button_group.gameObject.SetActive(true);
-        title.text = "SEED QUEST"; 
+        title.text = "SeedQuest"; 
     }
 
     public void onClickLearnInfo()
