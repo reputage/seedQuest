@@ -714,32 +714,32 @@ public class SeedToByte : MonoBehaviour
             if (break64 == 0)
                 Debug.Log("Warning! There does not appear to be a clean break in number of bytes for this action list!");
 
-            Debug.Log("Total actions: " + actions.Length + " Total bit list: " + varList.Count);
+            //Debug.Log("Total actions: " + actions.Length + " Total bit list: " + varList.Count);
             for (int i = 0; i < numLongs; i++)
             {
                 path = 0;
                 numShifts = 0;//varList[numTraverse];
-                Debug.Log("New uint64 " + i);
+                //Debug.Log("New uint64 " + i);
                 for (int j = 0; j < break64; j++)
                 {
                     if (numTraverse < actions.Length)
                     {
-                        Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) + " Value: " + actions[numTraverse]);
+                        //Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) + " Value: " + actions[numTraverse]);
                         path += (ulong)actions[numTraverse];
                     }
                     if ((numTraverse + 1) < varList.Count )//&& numTraverse != break64-1)
                     {
-                        Debug.Log("Shifting: " + (numTraverse + 1) + " By: " + varList[numTraverse + 1]);
+                        //Debug.Log("Shifting: " + (numTraverse + 1) + " By: " + varList[numTraverse + 1]);
                         path = path << varList[numTraverse + 1];
                         numShifts += varList[numTraverse + 1];
                     }
                     else if(numTraverse == varList.Count-1)
                     {
-                        Debug.Log("Extra final shift " + (64-numShifts) );
+                        //Debug.Log("Extra final shift " + (64-numShifts) );
                         path = path << (64 - numShifts);
                     }
                     else
-                        Debug.Log("Did not shift: " + (numTraverse));
+                        //Debug.Log("Did not shift: " + (numTraverse));
                     if (j+1 == break64 && numTraverse+1 < actions.Length)
                     {
                         path += (ulong)actions[numTraverse+1];
@@ -762,7 +762,7 @@ public class SeedToByte : MonoBehaviour
                     bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
                     bytesPath[bytesPath.Length - j - 1] = tmp;
                 }
-                Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
+                //Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
 
                 System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesFin.Length);
                 System.Buffer.BlockCopy(bytesPath, 0, bytesTemp, bytesFin.Length, bytesPath.Length);
