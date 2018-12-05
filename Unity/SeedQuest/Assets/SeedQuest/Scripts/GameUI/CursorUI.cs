@@ -8,6 +8,6 @@ public class CursorUI : MonoBehaviour {
         if (GameManager.State == GameState.GameStart || GameManager.State == GameState.Pause || GameManager.State == GameState.Interact )
             Cursor.visible = true;
         else
-            Cursor.visible = false;
+            Cursor.visible = true;
     }
 }

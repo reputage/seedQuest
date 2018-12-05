@@ -29,7 +29,8 @@ public class EndGameUI : MonoBehaviour {
 
     public void RestartGame() {
         GameManager.State = GameState.GameStart;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        StartCoroutine(SceneLoader.LoadMainMenu());
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     public void CopySeed() {

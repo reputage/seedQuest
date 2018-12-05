@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour {
                 break;
  
             case GameState.Rehearsal:
-                GameUI.CursorUI = true;
+                GameUI.CursorUI = false;
                 GameUI.StartMenuUI = false;
                 GameUI.DebugCanvas = true;
                 GameUI.ActionListCanvas = true;
@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour {
                 }
                 break;
             case GameState.Recall:
-                GameUI.CursorUI = true;
+                GameUI.CursorUI = false;
                 GameUI.StartMenuUI = false;
                 GameUI.DebugCanvas = true;
                 GameUI.ActionListCanvas = true;

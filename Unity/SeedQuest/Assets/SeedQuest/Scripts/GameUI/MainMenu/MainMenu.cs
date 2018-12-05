@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviour {
     public TMP_InputField seed_input;
 
     private GameObject icon;
+    private GameObject loader;
     private TextMeshProUGUI info_text;
     private TextMeshProUGUI title;
     private GameObject button_group;
@@ -33,6 +34,8 @@ public class MainMenu : MonoBehaviour {
         info_text.gameObject.SetActive(false);
         warning_text.gameObject.SetActive(false);
         icon = GameObject.FindGameObjectWithTag("Menu Icon");
+        loader = GameObject.FindGameObjectWithTag("Loader");
+        loader.gameObject.GetComponent<Renderer>().enabled = false;
         input_group = GameObject.FindGameObjectWithTag("Input Group");
         input_group.gameObject.SetActive(false);
         button_group = GameObject.FindGameObjectWithTag("Menu Button Group");
@@ -64,7 +67,6 @@ public class MainMenu : MonoBehaviour {
         info_text.gameObject.SetActive(false);
         input_group.gameObject.SetActive(true);
         title.text = "LEARN MODE";
-        //SceneLoader.LoadGame();
     }
 
     public void onClickStart()
@@ -75,19 +77,27 @@ public class MainMenu : MonoBehaviour {
         }
         else
         {
+            title.gameObject.SetActive(false);
+            input_group.gameObject.SetActive(false);
+            warning_text.gameObject.SetActive(false);
+            loader.gameObject.GetComponent<Renderer>().enabled = true;
             DideryDemoManager.Instance.demoEncryptKey(seed_input.text);
-            GameManager.State = GameState.LoadingRecall;
-            SceneLoader.LoadGame();
+            GameManager.State = GameState.LoadingRehersal;
+            StartCoroutine(SceneLoader.LoadGame());
         }
     }
 
     public void onClickStartDemo()
     {
+        title.gameObject.SetActive(false);
+        input_group.gameObject.SetActive(false);
+        warning_text.gameObject.SetActive(false);
+        loader.gameObject.GetComponent<Renderer>().enabled = true;
         DideryDemoManager.IsDemo = true;
         DideryDemoManager.DemoBlob = "4040C1A90886218984850151AC123249";
         SeedManager.InputSeed = "A021E0A80264A33C08B6C2884AC0685C";
         GameManager.State = GameState.LoadingRehersal;
-        SceneLoader.LoadGame();
+        StartCoroutine(SceneLoader.LoadGame());
     }
 
     public void onClickBack()
@@ -117,9 +127,13 @@ public class MainMenu : MonoBehaviour {
 
     public void onClickRecover()
     {
+        title.gameObject.SetActive(false);
+        button_group.gameObject.SetActive(false);
+        info_text.gameObject.SetActive(false);
+        icon.gameObject.SetActive(false);
+        loader.gameObject.GetComponent<Renderer>().enabled = true;
         GameManager.State = GameState.LoadingRecall;
-        //icon.gameObject.SetActive(false);
-        SceneLoader.LoadGame();
+        StartCoroutine(SceneLoader.LoadGame());
     } 
 
     public void onClickRecoverInfo()

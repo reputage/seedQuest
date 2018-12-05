@@ -21,11 +21,19 @@ public class SceneLoader : MonoBehaviour {
         SceneManager.LoadScene(sceneName);
     }
 
-    static public void LoadGame() {
-        SceneManager.LoadScene("Demo_v05");
+    static public IEnumerator LoadGame() {
+        //SceneManager.LoadScene("Demo_v05");
+        AsyncOperation async = SceneManager.LoadSceneAsync("Demo_v05");
+        while(!async.isDone) {
+            yield return null;
+        }   
     }
 
-    static public void LoadMainMenu() {
-        SceneManager.LoadScene("MainMenu_v02");
+    static public IEnumerator LoadMainMenu() {
+        //SceneManager.LoadScene("MainMenu_v02");
+        AsyncOperation async = SceneManager.LoadSceneAsync("MainMenu_v02");
+        while(!async.isDone) {
+            yield return null;
+        }  
     }
 }
