@@ -107,17 +107,7 @@ public class SeedToByte : MonoBehaviour
         testActionToDo = bitToActions(testBitArr, actionList);
 
         actionToBits = actionConverter(testActionToDo, actionList);
-        //actionToBitsVariant = variableSizeConverter(testActionToDo, actionList);
         testReturnStr3 = byteToSeed(actionToBits);
-
-        // Test out retrieving a seed smaller than 128 bits
-        //List<int> tempList = customList(3, 4, 2, 4, 4, 4);
-
-        //int[] variantToDo = bitToActions(testBitArr, tempList);
-        //varSizeToDo = bitToActions(testBitArr, tempList);
-
-        //actionToBitsVariant = seed108Converter(variantToDo, tempList);
-        //Debug.Log("Test for 108 bit seed: " + byteToSeed(actionToBitsVariant));
     }
 
     public void testRun2()
@@ -141,6 +131,9 @@ public class SeedToByte : MonoBehaviour
 
     public void testRun3()
     {
+        
+        //string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
+        //byte[] testRunSeed = HexStringToByteArray(testHex);
         byte[] testRunSeed = new byte[14];
         testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
 
@@ -725,34 +718,42 @@ public class SeedToByte : MonoBehaviour
             for (int i = 0; i < numLongs; i++)
             {
                 path = 0;
-                numShifts = varList[numTraverse];
+                numShifts = 0;//varList[numTraverse];
                 Debug.Log("New uint64 " + i);
                 for (int j = 0; j < break64; j++)
                 {
                     if (numTraverse < actions.Length)
                     {
-                        Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) );
+                        Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) + " Value: " + actions[numTraverse]);
                         path += (ulong)actions[numTraverse];
                     }
-                    if ((numTraverse + 1) < varList.Count)
+                    if ((numTraverse + 1) < varList.Count )//&& numTraverse != break64-1)
                     {
                         Debug.Log("Shifting: " + (numTraverse + 1) + " By: " + varList[numTraverse + 1]);
                         path = path << varList[numTraverse + 1];
                         numShifts += varList[numTraverse + 1];
                     }
-                    else if(numTraverse == varList.Count)
+                    else if(numTraverse == varList.Count-1)
                     {
-                        Debug.Log("Extra final shift");
-                        path = path << 2;
+                        Debug.Log("Extra final shift " + (64-numShifts) );
+                        path = path << (64 - numShifts);
                     }
                     else
-                        Debug.Log("Did not shift: " + (j + 1 + (break64 * i)));
-                    
+                        Debug.Log("Did not shift: " + (numTraverse));
+                    if (j+1 == break64 && numTraverse+1 < actions.Length)
+                    {
+                        path += (ulong)actions[numTraverse+1];
+                    }
+
                     numTraverse++;
                 }
 
+                //Debug.Log("Path int: " + path + " Num shifts: " + numShifts);
+
                 byte[] bytesPath = BitConverter.GetBytes(path);
                 byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
+
+                //Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
 
                 // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
                 for (int j = 0; j < (bytesPath.Length / 2); j++)
@@ -761,6 +762,7 @@ public class SeedToByte : MonoBehaviour
                     bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
                     bytesPath[bytesPath.Length - j - 1] = tmp;
                 }
+                Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
 
                 System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesFin.Length);
                 System.Buffer.BlockCopy(bytesPath, 0, bytesTemp, bytesFin.Length, bytesPath.Length);
