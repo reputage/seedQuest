@@ -111,13 +111,13 @@ public class SeedToByte : MonoBehaviour
         testReturnStr3 = byteToSeed(actionToBits);
 
         // Test out retrieving a seed smaller than 128 bits
-        List<int> tempList = customList(3, 4, 2, 4, 4, 4);
+        //List<int> tempList = customList(3, 4, 2, 4, 4, 4);
 
-        int[] variantToDo = bitToActions(testBitArr, tempList);
-        varSizeToDo = bitToActions(testBitArr, tempList);
+        //int[] variantToDo = bitToActions(testBitArr, tempList);
+        //varSizeToDo = bitToActions(testBitArr, tempList);
 
-        actionToBitsVariant = seed108Converter(variantToDo, tempList);
-        Debug.Log("Test for 108 bit seed: " + byteToSeed(actionToBitsVariant));
+        //actionToBitsVariant = seed108Converter(variantToDo, tempList);
+        //Debug.Log("Test for 108 bit seed: " + byteToSeed(actionToBitsVariant));
     }
 
     public void testRun2()
@@ -456,6 +456,7 @@ public class SeedToByte : MonoBehaviour
                 {
                     path1 = path1 << varList[i + 1];
                     path2 = path2 << varList[i + 19];
+                    Debug.Log("Shift 1: " + (i + 1) + " Shift 2: " + (i + 19));
                 }
             }
         }
@@ -702,7 +703,7 @@ public class SeedToByte : MonoBehaviour
             int falseBreak = 0;
             int counter = 0;
             int numTraverse = 0;
-            int numshifts = 0;
+            int numShifts = 0;
             ulong path = 0;
 
             if (modBits > 0)
@@ -723,23 +724,30 @@ public class SeedToByte : MonoBehaviour
             Debug.Log("Total actions: " + actions.Length + " Total bit list: " + varList.Count);
             for (int i = 0; i < numLongs; i++)
             {
-                numshifts = varList[numTraverse];
+                path = 0;
+                numShifts = varList[numTraverse];
                 Debug.Log("New uint64 " + i);
                 for (int j = 0; j < break64; j++)
                 {
                     if (numTraverse < actions.Length)
                     {
-                        Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) + " Total actions: " + actions.Length);
+                        Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) );
                         path += (ulong)actions[numTraverse];
                     }
                     if ((numTraverse + 1) < varList.Count)
                     {
                         Debug.Log("Shifting: " + (numTraverse + 1) + " By: " + varList[numTraverse + 1]);
                         path = path << varList[numTraverse + 1];
-                        numshifts += varList[numTraverse + 1];
+                        numShifts += varList[numTraverse + 1];
+                    }
+                    else if(numTraverse == varList.Count)
+                    {
+                        Debug.Log("Extra final shift");
+                        path = path << 2;
                     }
                     else
                         Debug.Log("Did not shift: " + (j + 1 + (break64 * i)));
+                    
                     numTraverse++;
                 }
 
