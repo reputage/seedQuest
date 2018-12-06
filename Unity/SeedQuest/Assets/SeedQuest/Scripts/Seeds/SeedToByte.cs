@@ -87,11 +87,20 @@ public class SeedToByte : MonoBehaviour
             0x1f, 0x9f, 0x5f, 0xdf, 0x3f, 0xbf, 0x7f, 0xff
     };
 
+    public static string[] bitStrings =
+    {
+        "00000000", "00000001", "00000010", "00000011", "00000100",
+        "00000101", "00000110", "00000111", "00001000", "00001001",
+        "00001010", "00001011", "00001100", "00001101", "00001110", 
+        "00001111"
+    };
+
     void Start()
     {
         //testRun();
         //testRun2();
-        testRun3();
+        //testRun3();
+        //testRun4();
     }
 
     // Test to make sure everything works
@@ -147,6 +156,13 @@ public class SeedToByte : MonoBehaviour
         Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
         Debug.Log("Final  seed: " + byteToSeed(finalSeed));
 
+    }
+
+    public void testRun4()
+    {
+        Debug.Log("Leading bit value: " + findLeadingBitValue(2, 4, 12) + " Should be: 3");
+        Debug.Log("Leading bit value: " + findLeadingBitValue(3, 4, 12) + " Should be: 6");
+        Debug.Log("Leading bit value: " + findLeadingBitValue(4, 4, 12) + " Should be: 12");
     }
 
     // Take string for input, get the to-do list of actions
@@ -786,6 +802,31 @@ public class SeedToByte : MonoBehaviour
         }
 
         return bytesFin;
+    }
+
+
+    public int detectExtraBits(List<int> varList)
+    {
+
+
+        return 0;
+    }
+
+
+    public int findLeadingBitValue(int leadBits, int totalBits, int value)
+    {
+        if (value == 0)
+            return 0;
+        string bits = bitStrings[value];
+        if (totalBits + leadBits < bits.Length)
+            bits = bits.Substring(totalBits , leadBits);
+        else
+        {
+            Debug.Log("Error with 'findLeadingBitValue(), incorrect parameters passed.");
+            return 0;
+        }
+        int returnVal = Convert.ToInt32(bits, 2);
+        return returnVal;
     }
 
 }

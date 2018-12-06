@@ -51,6 +51,18 @@ public static class VerifyKeys {
         return account;
     }
 
+    //        Nethereum.Signer.EthECKey.GenerateKey(privateKey);
+    // Regenerate public key from private key, so the user can check to see if their
+    // key was recovered correctly.
+    /*
+    public static string regeneratePublicKey(string privateKey)
+    {
+        privateKey = addHexPrefix(privateKey);
+        string publicKey = privateKey;
+        return publicKey;
+    }
+    */
+
     // Adds a hex prefix to a string, if it is missing one
     public static string addHexPrefix(string hexString)
     {
