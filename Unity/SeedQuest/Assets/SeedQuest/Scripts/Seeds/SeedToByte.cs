@@ -804,6 +804,150 @@ public class SeedToByte : MonoBehaviour
         return bytesFin;
     }
 
+    // Takes the list of actions, converts it back into bytes, should
+    //  work for seeds of any bit size and configuration
+    public static byte[] seedConverterUniversal(int[] actions, List<int> varList)
+    {
+        // The action list passed to this function must be the right size
+        if (varList.Count == 0)
+            varList = listBuilder();
+
+        int[] tempArray = new int[36];
+        byte[] bytesFin = new byte[0];
+        int totalBits = 0;
+
+        for (int i = 0; i < varList.Count; i++)
+        {
+            totalBits += varList[i];
+        }
+
+        if (actions.Length != varList.Count)
+            Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
+
+        if (totalBits < 64)
+        {
+            ulong path = 0;
+            for (int i = 0; i < varList.Count; i++)
+            {
+                if (i < actions.Length)
+                    path += (ulong)actions[i];
+                if (i < (varList.Count - 1))
+                    path = path << varList[i + 1];
+            }
+
+            path = path << (64 - totalBits);
+            byte[] bytesPath = BitConverter.GetBytes(path);
+            Debug.Log("path int: " + path);
+
+            bytesFin = new byte[bytesPath.Length];
+            System.Buffer.BlockCopy(bytesPath, 0, bytesFin, 0, bytesPath.Length);
+        }
+        else
+        {
+            int modBits = totalBits % 64;
+            int numLongs = totalBits / 64;
+            int break64 = 0;
+            int falseBreak = 0;
+            int counter = 0;
+            int numTraverse = 0;
+            int numShifts = 0;
+            ulong path = 0;
+
+            if (modBits > 0)
+                numLongs += 1;
+
+            for (int i = 0; i < varList.Count; i++)
+            {
+                counter += varList[i];
+                if (counter == 64)
+                    break64 = i;
+                else if (counter > 64)
+                    falseBreak = i;
+            }
+
+            if (break64 == 0)
+                Debug.Log("Warning! There does not appear to be a clean break in number of bytes for this action list!");
+
+            //Debug.Log("Total actions: " + actions.Length + " Total bit list: " + varList.Count);
+            for (int i = 0; i < numLongs; i++)
+            {
+                path = 0;
+                numShifts = 0;//varList[numTraverse];
+                //Debug.Log("New uint64 " + i);
+                for (int j = 0; j < break64; j++)
+                {
+                    if (numTraverse < actions.Length)
+                    {
+                        //Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) + " Value: " + actions[numTraverse]);
+                        path += (ulong)actions[numTraverse];
+                    }
+                    if (numShifts + varList[numTraverse + 1] > 64)
+                    {
+                        int partialAction = findLeadingBitValue((64 - numShifts%64), varList[numTraverse + 1], actions[numTraverse+1]);
+                        path = path << (64 - numShifts%64);
+                        path += (ulong)partialAction;
+                        numShifts += (64 - numShifts%64);
+                    }
+                    else if ((numTraverse + 1) < varList.Count)//&& numTraverse != break64-1)
+                    {
+                        //Debug.Log("Shifting: " + (numTraverse + 1) + " By: " + varList[numTraverse + 1]);
+                        path = path << varList[numTraverse + 1];
+                        numShifts += varList[numTraverse + 1];
+                    }
+                    else if (numTraverse == varList.Count - 1)
+                    {
+                        //Debug.Log("Extra final shift " + (64-numShifts) );
+                        path = path << (64 - numShifts);
+                    }
+                    else
+                    //Debug.Log("Did not shift: " + (numTraverse));
+                    if (j + 1 == break64 && numTraverse + 1 < actions.Length)
+                    {
+                        path += (ulong)actions[numTraverse + 1];
+                    }
+
+                    numTraverse++;
+                }
+
+                //Debug.Log("Path int: " + path + " Num shifts: " + numShifts);
+
+                byte[] bytesPath = BitConverter.GetBytes(path);
+                byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
+
+                //Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
+
+                // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
+                for (int j = 0; j < (bytesPath.Length / 2); j++)
+                {
+                    byte tmp = bytesPath[j];
+                    bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
+                    bytesPath[bytesPath.Length - j - 1] = tmp;
+                }
+                //Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
+
+                System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesFin.Length);
+                System.Buffer.BlockCopy(bytesPath, 0, bytesTemp, bytesFin.Length, bytesPath.Length);
+
+                bytesFin = new byte[bytesTemp.Length];
+                System.Buffer.BlockCopy(bytesTemp, 0, bytesFin, 0, bytesTemp.Length);
+            }
+        }
+
+        // Reverse the order of the bits within each byte (yes, this is also necessary)
+        for (int i = 0; i < bytesFin.Length; i++)
+        {
+            bytesFin[i] = ReverseWithLookupTable(bytesFin[i]);
+        }
+
+        if (totalBits < 128)
+        {
+            byte[] bytesTemp = new byte[bytesFin.Length - ((128 - totalBits) / 8)];
+            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
+            bytesFin = bytesTemp;
+        }
+
+        return bytesFin;
+    }
 
     public int detectExtraBits(List<int> varList)
     {
@@ -813,7 +957,7 @@ public class SeedToByte : MonoBehaviour
     }
 
 
-    public int findLeadingBitValue(int leadBits, int totalBits, int value)
+    public static int findLeadingBitValue(int leadBits, int totalBits, int value)
     {
         if (value == 0)
             return 0;
