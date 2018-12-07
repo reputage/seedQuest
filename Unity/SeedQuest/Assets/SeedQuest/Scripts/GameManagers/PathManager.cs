@@ -54,6 +54,10 @@ public class PathManager : MonoBehaviour {
     }
 
     void Update () { 
+        if(GameManager.State == GameState.LoadingRehersal) {
+            //CreatePath();
+        }
+
         if(GameManager.State == GameState.Rehearsal) {
             CreatePath();
             //FindPathSegment();
@@ -116,3 +120,4 @@ public class PathManager : MonoBehaviour {
         line.positionCount = 0;
     } 
 }
+

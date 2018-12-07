@@ -8,8 +8,25 @@ public class ActionListCanvas : MonoBehaviour {
 
     /// <summary> List of current UI ActionItems </summary>
     public List<ActionItem> actionItemList = new List<ActionItem>();
+    public GameObject actionListContainer;
+    public ScrollRect scroll;
+    public Button upButton;
+    public Button downButton;
 
-	void Update () {
+    private int currentIndex;
+
+	private void Start()
+	{
+        actionListContainer = GameObject.FindGameObjectWithTag("Action List Container");
+        scroll = GameObject.FindGameObjectWithTag("Scroll View").GetComponent<ScrollRect>();
+        upButton = GameObject.FindGameObjectWithTag("Up Button").GetComponent<Button>();
+        downButton = GameObject.FindGameObjectWithTag("Down Button").GetComponent<Button>();
+        upButton.onClick.AddListener(onClickScrollUp);
+        downButton.onClick.AddListener(onClickScrollDown);
+        currentIndex = 0;
+	}
+
+	private void Update () {
         if(GameManager.State == GameState.GameStart) {
             ClearActionList();
         }
@@ -26,14 +43,18 @@ public class ActionListCanvas : MonoBehaviour {
     private void CreateRehersalActionList() {
         if (actionItemList.Count > 0) // Check if list has been populated
             return;
+
+        if (PathManager.Path == null || PathManager.Path.Length == 0)
+            return;
         
-        int count = 2; //PathManager.Path.Length;
+        int count = PathManager.Path.Length;
         for (int i = 0; i < count; i++)
         {
             string name = PathManager.Path[i].Name;
             string action = PathManager.Path[i].RehersalActionName;
             GameObject item = CreateActionItem(i, name + ": " + action);
             actionItemList.Add(item.GetComponent<ActionItem>());
+
         }
     }
 
@@ -50,12 +71,13 @@ public class ActionListCanvas : MonoBehaviour {
 
         ActionItem actionItem = item.AddComponent<ActionItem>();
         actionItem.SetItem(index, text, GameManager.GameUI.uncheckedBox);
+        item.transform.SetParent(actionListContainer.transform);
         return item;
     } 
 
     /// <summary> Updates the action list for rehersal mode based on the interactable log </summary>
     private void UpdateRehersalActionList() {
-        if(PathManager.LastPathTarget == null) {
+        /*if(PathManager.LastPathTarget == null) {
             string name_action = PathManager.PathTarget.Name + " : " + PathManager.PathTarget.RehersalActionName;
             actionItemList[0].text.text = name_action;
             actionItemList[1].transform.gameObject.SetActive(false);
@@ -67,11 +89,22 @@ public class ActionListCanvas : MonoBehaviour {
             string name_action = PathManager.PathTarget.Name + " : " + PathManager.PathTarget.RehersalActionName;
             actionItemList[1].text.text = name_action; 
 
-        }
+        }*/
             
         int count = InteractableManager.Log.Length;
-        if(count > 0)
-            actionItemList[0].image.sprite = GameManager.GameUI.checkedBox;
+        if(count > 0) {
+            actionItemList[count - 1].image.sprite = GameManager.GameUI.checkedBox;
+            if (currentIndex != count)
+            {
+                float decrement = 1 - (0.095f * count);
+                if (decrement < 0) {
+                    decrement = 0;
+                }
+                scroll.verticalNormalizedPosition = decrement;
+                currentIndex = count;
+            }
+        }
+
         
         //for (int i = 0; i < count; i++)
         //    actionItemList[i].image.sprite = GameManager.GameUI.checkedBox;
@@ -92,5 +125,14 @@ public class ActionListCanvas : MonoBehaviour {
             actionItemList.Add(item.GetComponent<ActionItem>());
         }
 
+    }
+
+    private void onClickScrollUp()
+    {
+        scroll.verticalNormalizedPosition -= 0.1f;
+    }
+
+    private void onClickScrollDown() {
+        scroll.verticalNormalizedPosition += 0.1f;
     }
 }
