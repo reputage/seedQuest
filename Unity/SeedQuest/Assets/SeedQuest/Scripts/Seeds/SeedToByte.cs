@@ -197,13 +197,20 @@ public class SeedToByte : MonoBehaviour
 
     public void testRun5()
     {
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 2, 15));
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 2, 14));
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 2, 1));
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 3, 15));
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 3, 14));
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 3, 1));
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(2, 3, 15)[0]);
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(2, 3, 14)[0]);
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(2, 3, 9)[0]);
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(2, 3, 1)[0]);
 
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 4, 15)[0]);
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 4, 14)[0]);
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 4, 9)[0]);
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 4, 1)[0]);
+
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 4, 15)[0]);
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 4, 14)[0]);
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 4, 9)[0]);
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 4, 1)[0]);
 
     }
 
@@ -944,9 +951,9 @@ public class SeedToByte : MonoBehaviour
                     else if (numShifts + varList[numTraverse + 1] > 64)
                     {
                         Debug.Log("Finding partial bit value: " + numTraverse);
-                        int partialAction = findLeadingBitValue((64 - numShifts), varList[numTraverse + 1], actions[numTraverse+1]);
+                        int[] partialAction = findLeadingBitValue((64 - numShifts), varList[numTraverse + 1], actions[numTraverse+1]);
                         path = path << (64 - numShifts);
-                        path += (ulong)partialAction;
+                        path += (ulong)partialAction[0];
                         numShifts += 64;
                     }
                     else if ((numTraverse + 1) < varList.Count)
@@ -1018,24 +1025,32 @@ public class SeedToByte : MonoBehaviour
     }
 
 
-    public static int findLeadingBitValue(int leadBits, int totalBits, int value)
+    public static int[] findLeadingBitValue(int leadBits, int totalBits, int value)
     {
-        Debug.Log("leadBits: " + leadBits + " totalBits: " + totalBits + " value: " + value);
+        int[] badReturn = new int[2];
+        //Debug.Log("leadBits: " + leadBits + " totalBits: " + totalBits + " value: " + value + " 8-total: " + (8-totalBits));
         if (value == 0)
-            return 0;
+            return badReturn;
         string bits = bitStrings[value];
-        if (totalBits + leadBits < bits.Length)
+        string bits2;
+        if ((8-totalBits) + leadBits <= bits.Length)
         {
-            bits = bits.Substring(totalBits, leadBits);
+            if ((8 - totalBits + leadBits) < 8)
+                bits2 = bits.Substring(8 - totalBits + leadBits);
+            else
+                bits2 = "0";
+            bits = bits.Substring(8 - totalBits, leadBits);
             //string bits2 = "0";
         }
         else
         {
             Debug.Log("Error with 'findLeadingBitValue(), incorrect parameters passed.");
-            return 0;
+            return badReturn;
         }
-        int returnVal = Convert.ToInt32(bits, 2);
-        Debug.Log("Leading bit value found to be: " + returnVal);
+
+        int[] returnVal = new int[2];
+        returnVal[0] = Convert.ToInt32(bits, 2);
+        returnVal[1] = Convert.ToInt32(bits2, 2);
         return returnVal;
     }
 
