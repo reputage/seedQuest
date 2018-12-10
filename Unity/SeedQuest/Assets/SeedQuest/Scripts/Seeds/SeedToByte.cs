@@ -97,10 +97,11 @@ public class SeedToByte : MonoBehaviour
 
     void Start()
     {
+        testRun5();
         //testRun();
         //testRun2();
         //testRun3();
-        //testRun4();
+        testRun4();
     }
 
     // Test to make sure everything works
@@ -117,6 +118,9 @@ public class SeedToByte : MonoBehaviour
 
         actionToBits = actionConverter(testActionToDo, actionList);
         testReturnStr3 = byteToSeed(actionToBits);
+
+        Debug.Log("Initial seed: " + testSeed3);
+        Debug.Log("Final  seed: " + testReturnStr3);
     }
 
     public void testRun2()
@@ -141,10 +145,10 @@ public class SeedToByte : MonoBehaviour
     public void testRun3()
     {
         
-        //string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
-        //byte[] testRunSeed = HexStringToByteArray(testHex);
-        byte[] testRunSeed = new byte[14];
-        testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
+        string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
+        byte[] testRunSeed = HexStringToByteArray(testHex);
+        //byte[] testRunSeed = new byte[14];
+        //testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
 
         List<int> tempList = customList(4, 4, 2, 4, 4);
 
@@ -153,6 +157,7 @@ public class SeedToByte : MonoBehaviour
 
         byte[] finalSeed = seedConverterMod64(actions, tempList);
 
+
         Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
         Debug.Log("Final  seed: " + byteToSeed(finalSeed));
 
@@ -160,9 +165,46 @@ public class SeedToByte : MonoBehaviour
 
     public void testRun4()
     {
-        Debug.Log("Leading bit value: " + findLeadingBitValue(2, 4, 12) + " Should be: 3");
-        Debug.Log("Leading bit value: " + findLeadingBitValue(3, 4, 12) + " Should be: 6");
-        Debug.Log("Leading bit value: " + findLeadingBitValue(4, 4, 12) + " Should be: 12");
+        //string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
+        //string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
+        //string testHex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+        string testHex = "EEEEEEEEEEEEEEEEEEEEEEEEEEEE";
+
+        byte[] testHexSeed = HexStringToByteArray(testHex);
+        byte[] testRunSeed = new byte[14];
+        testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
+
+        List<int> tempList1 = customList(4, 4, 2, 4, 4);
+        //List<int> tempList2 = customList(3, 4, 2, 4, 4);
+
+        BitArray seedBits1 = byteToBits(testRunSeed);
+        BitArray seedBits2 = byteToBits(testHexSeed);
+
+        int[] actions1 = bitToActions(seedBits1, tempList1);
+        int[] actions2 = bitToActions(seedBits2, tempList1);
+
+        byte[] finalSeed1 = seedConverterUniversal(actions1, tempList1);
+        byte[] finalSeed2 = seedConverterUniversal(actions2, tempList1);
+
+        Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
+        Debug.Log("Final  seed: " + byteToSeed(finalSeed1));
+
+        Debug.Log("Initial seed: " + byteToSeed(testHexSeed));
+        Debug.Log("Final  seed: " + byteToSeed(finalSeed2));
+
+        //seedConverterUniversal
+    }
+
+    public void testRun5()
+    {
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 2, 15));
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 2, 14));
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 2, 1));
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 3, 15));
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 3, 14));
+        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 3, 1));
+
+
     }
 
     // Take string for input, get the to-do list of actions
@@ -399,13 +441,17 @@ public class SeedToByte : MonoBehaviour
             return actionValues;
         }
 
+        // NOTE TO SELF: Need to account for if the writeIndex is > varlist.length
+
         for (int i = 0; i < bits.Length; i++)
         {
-            if (bits[i])
+            if (writeIndex >= (varList.Count))
+                Debug.Log("Warning: more bits in bitarray than in the list");
+            else if (bits[i])
             {
                 // Yes, I know this is reading the bits in reverse, this is intentional, manager wanted it done this way
-                int bitValue = varList[writeIndex] - (valueIndex + 1);
-                value += Convert.ToInt32(Math.Pow(2, bitValue));
+                    int bitValue = varList[writeIndex] - (valueIndex + 1);
+                    value += Convert.ToInt32(Math.Pow(2, bitValue));
             }
             if (writeIndex > (varList.Count - 1))
                 Debug.Log("Warning: more bits in bitarray than in the list");
@@ -465,7 +511,7 @@ public class SeedToByte : MonoBehaviour
                 {
                     path1 = path1 << varList[i + 1];
                     path2 = path2 << varList[i + 19];
-                    Debug.Log("Shift 1: " + (i + 1) + " Shift 2: " + (i + 19));
+                    //Debug.Log("Shift 1: " + (i + 1) + " Shift 2: " + (i + 19));
                 }
             }
         }
@@ -846,49 +892,64 @@ public class SeedToByte : MonoBehaviour
         {
             int modBits = totalBits % 64;
             int numLongs = totalBits / 64;
-            int break64 = 0;
-            int falseBreak = 0;
-            int counter = 0;
             int numTraverse = 0;
             int numShifts = 0;
+            int count = 0;
+            int remainder = 0;
             ulong path = 0;
 
             if (modBits > 0)
                 numLongs += 1;
 
-            for (int i = 0; i < varList.Count; i++)
+            int[] breakPoints = new int[numLongs];
+
+            for (int i = 0; i < breakPoints.Length; i++)
             {
-                counter += varList[i];
-                if (counter == 64)
-                    break64 = i;
-                else if (counter > 64)
-                    falseBreak = i;
+                //find the breakpoints
+                count += varList[i];
+                if (count > 64)
+                {
+                    breakPoints[0] = i;
+                    Debug.Log("Breakpoint: " + inputSeed + " bits: " + count);
+                }
             }
 
-            if (break64 == 0)
-                Debug.Log("Warning! There does not appear to be a clean break in number of bytes for this action list!");
+            count = 0;
 
             //Debug.Log("Total actions: " + actions.Length + " Total bit list: " + varList.Count);
             for (int i = 0; i < numLongs; i++)
             {
                 path = 0;
                 numShifts = 0;//varList[numTraverse];
+
+                if (i > 0)
+                {
+                    // add up the remainder value, and shift by the remainder shift, add to numShifts
+                }
+
                 //Debug.Log("New uint64 " + i);
-                for (int j = 0; j < break64; j++)
+                //for (int j = 0; j < 64; j++)
+                while (numShifts < 64)
                 {
                     if (numTraverse < actions.Length)
                     {
-                        //Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) + " Value: " + actions[numTraverse]);
                         path += (ulong)actions[numTraverse];
                     }
-                    if (numShifts + varList[numTraverse + 1] > 64)
+                    if (numTraverse + 1 >= varList.Count)
                     {
-                        int partialAction = findLeadingBitValue((64 - numShifts%64), varList[numTraverse + 1], actions[numTraverse+1]);
-                        path = path << (64 - numShifts%64);
-                        path += (ulong)partialAction;
-                        numShifts += (64 - numShifts%64);
+                        Debug.Log("End of the list");
+                        //path = path << (64 - numShifts);
+                        numShifts += 64;
                     }
-                    else if ((numTraverse + 1) < varList.Count)//&& numTraverse != break64-1)
+                    else if (numShifts + varList[numTraverse + 1] > 64)
+                    {
+                        Debug.Log("Finding partial bit value: " + numTraverse);
+                        int partialAction = findLeadingBitValue((64 - numShifts), varList[numTraverse + 1], actions[numTraverse+1]);
+                        path = path << (64 - numShifts);
+                        path += (ulong)partialAction;
+                        numShifts += 64;
+                    }
+                    else if ((numTraverse + 1) < varList.Count)
                     {
                         //Debug.Log("Shifting: " + (numTraverse + 1) + " By: " + varList[numTraverse + 1]);
                         path = path << varList[numTraverse + 1];
@@ -896,17 +957,17 @@ public class SeedToByte : MonoBehaviour
                     }
                     else if (numTraverse == varList.Count - 1)
                     {
-                        //Debug.Log("Extra final shift " + (64-numShifts) );
+                        Debug.Log("Extra final shift " + (64-numShifts) );
                         path = path << (64 - numShifts);
                     }
-                    else
-                    //Debug.Log("Did not shift: " + (numTraverse));
-                    if (j + 1 == break64 && numTraverse + 1 < actions.Length)
-                    {
-                        path += (ulong)actions[numTraverse + 1];
-                    }
 
+                    count++;
                     numTraverse++;
+                    if (count > 1000)
+                    {
+                        Debug.Log("While loop problem - count > 1000");
+                        break;
+                    }
                 }
 
                 //Debug.Log("Path int: " + path + " Num shifts: " + numShifts);
@@ -959,17 +1020,22 @@ public class SeedToByte : MonoBehaviour
 
     public static int findLeadingBitValue(int leadBits, int totalBits, int value)
     {
+        Debug.Log("leadBits: " + leadBits + " totalBits: " + totalBits + " value: " + value);
         if (value == 0)
             return 0;
         string bits = bitStrings[value];
         if (totalBits + leadBits < bits.Length)
-            bits = bits.Substring(totalBits , leadBits);
+        {
+            bits = bits.Substring(totalBits, leadBits);
+            //string bits2 = "0";
+        }
         else
         {
             Debug.Log("Error with 'findLeadingBitValue(), incorrect parameters passed.");
             return 0;
         }
         int returnVal = Convert.ToInt32(bits, 2);
+        Debug.Log("Leading bit value found to be: " + returnVal);
         return returnVal;
     }
 
