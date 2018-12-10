@@ -92,12 +92,12 @@ public class SeedToByte : MonoBehaviour
         "00000000", "00000001", "00000010", "00000011", "00000100",
         "00000101", "00000110", "00000111", "00001000", "00001001",
         "00001010", "00001011", "00001100", "00001101", "00001110", 
-        "00001111"
+        "00001111", "00010000", "00010001"
     };
 
     void Start()
     {
-        testRun5();
+        //testRun5();
         //testRun();
         //testRun2();
         //testRun3();
@@ -167,8 +167,8 @@ public class SeedToByte : MonoBehaviour
     {
         //string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
         //string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
-        //string testHex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
-        string testHex = "EEEEEEEEEEEEEEEEEEEEEEEEEEEE";
+        string testHex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+        //string testHex = "EEEEEEEEEEEEEEEEDDDDEEEEEEEE";
 
         byte[] testHexSeed = HexStringToByteArray(testHex);
         byte[] testRunSeed = new byte[14];
@@ -179,6 +179,9 @@ public class SeedToByte : MonoBehaviour
 
         BitArray seedBits1 = byteToBits(testRunSeed);
         BitArray seedBits2 = byteToBits(testHexSeed);
+
+        //byte[] hexByte = bitToByte(seedBits2);
+        //Debug.Log("Bits returned to string: " + byteToSeed(hexByte));
 
         int[] actions1 = bitToActions(seedBits1, tempList1);
         int[] actions2 = bitToActions(seedBits2, tempList1);
@@ -903,6 +906,7 @@ public class SeedToByte : MonoBehaviour
             int numShifts = 0;
             int count = 0;
             int remainder = 0;
+            int remainderBits = 0;
             ulong path = 0;
 
             if (modBits > 0)
@@ -927,11 +931,18 @@ public class SeedToByte : MonoBehaviour
             for (int i = 0; i < numLongs; i++)
             {
                 path = 0;
-                numShifts = 0;//varList[numTraverse];
+                numShifts = 0;
 
                 if (i > 0)
                 {
-                    // add up the remainder value, and shift by the remainder shift, add to numShifts
+                    if (remainder > 0)
+                    {
+                        path += (ulong)remainder;
+                        path = path << varList[numTraverse];
+                        numShifts += varList[numTraverse+1];
+                        numTraverse += 1;
+                        Debug.Log("Adding remainder to new path int: " + remainder + " Shift: " + varList[numTraverse]);
+                    }
                 }
 
                 //Debug.Log("New uint64 " + i);
@@ -940,25 +951,31 @@ public class SeedToByte : MonoBehaviour
                 {
                     if (numTraverse < actions.Length)
                     {
+                        Debug.Log("Adding to 'path' " + numTraverse);
                         path += (ulong)actions[numTraverse];
                     }
                     if (numTraverse + 1 >= varList.Count)
                     {
                         Debug.Log("End of the list");
-                        //path = path << (64 - numShifts);
+                        path = path << (64 - numShifts);
                         numShifts += 64;
                     }
                     else if (numShifts + varList[numTraverse + 1] > 64)
                     {
-                        Debug.Log("Finding partial bit value: " + numTraverse);
+                        Debug.Log("Finding partial bit value: " + numTraverse + " bits: " + varList[numTraverse + 1]);
+                        Debug.Log("Num shifts - 64 : " + (64 - numShifts));
                         int[] partialAction = findLeadingBitValue((64 - numShifts), varList[numTraverse + 1], actions[numTraverse+1]);
+                        remainder = partialAction[1];
+                        remainderBits = varList[numTraverse + 1] - (64 - numShifts);
                         path = path << (64 - numShifts);
                         path += (ulong)partialAction[0];
                         numShifts += 64;
                     }
                     else if ((numTraverse + 1) < varList.Count)
                     {
-                        //Debug.Log("Shifting: " + (numTraverse + 1) + " By: " + varList[numTraverse + 1]);
+                        Debug.Log("Shifting: " + (numTraverse) + " By: " + varList[numTraverse + 1]);
+                        //Debug.Log("Shifting by: " + varList[numTraverse + 1]);
+
                         path = path << varList[numTraverse + 1];
                         numShifts += varList[numTraverse + 1];
                     }
@@ -966,6 +983,7 @@ public class SeedToByte : MonoBehaviour
                     {
                         Debug.Log("Extra final shift " + (64-numShifts) );
                         path = path << (64 - numShifts);
+                        numShifts += 64;
                     }
 
                     count++;
@@ -977,12 +995,12 @@ public class SeedToByte : MonoBehaviour
                     }
                 }
 
-                //Debug.Log("Path int: " + path + " Num shifts: " + numShifts);
+                //Debug.Log("Path int: " + path + " Num shifts: " + (numShifts - 64));
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
                 byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
 
-                //Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
+                Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
 
                 // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
                 for (int j = 0; j < (bytesPath.Length / 2); j++)
@@ -1040,7 +1058,6 @@ public class SeedToByte : MonoBehaviour
             else
                 bits2 = "0";
             bits = bits.Substring(8 - totalBits, leadBits);
-            //string bits2 = "0";
         }
         else
         {
@@ -1048,10 +1065,10 @@ public class SeedToByte : MonoBehaviour
             return badReturn;
         }
 
-        int[] returnVal = new int[2];
-        returnVal[0] = Convert.ToInt32(bits, 2);
-        returnVal[1] = Convert.ToInt32(bits2, 2);
-        return returnVal;
+        int[] returnArr = new int[2];
+        returnArr[0] = Convert.ToInt32(bits, 2);
+        returnArr[1] = Convert.ToInt32(bits2, 2);
+        return returnArr;
     }
 
 }
