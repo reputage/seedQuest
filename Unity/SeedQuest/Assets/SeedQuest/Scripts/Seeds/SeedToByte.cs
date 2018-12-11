@@ -933,15 +933,22 @@ public class SeedToByte : MonoBehaviour
                 path = 0;
                 numShifts = 0;
 
-                if (i > 0)
+                if (i == 0)
+                {
+                    numShifts += varList[0];
+                }
+                else if (i > 0)
                 {
                     if (remainder > 0)
                     {
                         path += (ulong)remainder;
                         path = path << varList[numTraverse];
-                        numShifts += varList[numTraverse+1];
-                        numTraverse += 1;
+                        numShifts += varList[numTraverse + 1];
+                        numShifts += remainderBits;
                         Debug.Log("Adding remainder to new path int: " + remainder + " Shift: " + varList[numTraverse]);
+
+                        remainder = 0;
+                        remainderBits = 0;
                     }
                 }
 
@@ -951,13 +958,14 @@ public class SeedToByte : MonoBehaviour
                 {
                     if (numTraverse < actions.Length)
                     {
-                        Debug.Log("Adding to 'path' " + numTraverse);
+                        Debug.Log("Adding to 'path' " + numTraverse + " value: " + actions[numTraverse]);
                         path += (ulong)actions[numTraverse];
                     }
                     if (numTraverse + 1 >= varList.Count)
                     {
                         Debug.Log("End of the list");
                         path = path << (64 - numShifts);
+                        //path += 3;
                         numShifts += 64;
                     }
                     else if (numShifts + varList[numTraverse + 1] > 64)
@@ -966,10 +974,18 @@ public class SeedToByte : MonoBehaviour
                         Debug.Log("Num shifts - 64 : " + (64 - numShifts));
                         int[] partialAction = findLeadingBitValue((64 - numShifts), varList[numTraverse + 1], actions[numTraverse+1]);
                         remainder = partialAction[1];
-                        remainderBits = varList[numTraverse + 1] - (64 - numShifts);
+                        remainderBits = partialAction[2];
                         path = path << (64 - numShifts);
                         path += (ulong)partialAction[0];
                         numShifts += 64;
+                    }
+                    else if (numShifts + varList[numTraverse + 1] == 64)
+                    {
+                        Debug.Log("Shifting to 64 and adding... " + actions[numTraverse]);
+                        path = path << varList[numTraverse + 1];
+                        path += (ulong)actions[numTraverse + 1];
+                        numShifts += varList[numTraverse + 1];
+                        //numTraverse++;
                     }
                     else if ((numTraverse + 1) < varList.Count)
                     {
@@ -991,11 +1007,12 @@ public class SeedToByte : MonoBehaviour
                     if (count > 1000)
                     {
                         Debug.Log("While loop problem - count > 1000");
+                        numShifts += 64;
                         break;
                     }
                 }
 
-                //Debug.Log("Path int: " + path + " Num shifts: " + (numShifts - 64));
+                Debug.Log("Path int: " + path + " Num shifts: " + (numShifts - 64));
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
                 byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
@@ -1065,9 +1082,10 @@ public class SeedToByte : MonoBehaviour
             return badReturn;
         }
 
-        int[] returnArr = new int[2];
+        int[] returnArr = new int[3];
         returnArr[0] = Convert.ToInt32(bits, 2);
         returnArr[1] = Convert.ToInt32(bits2, 2);
+        returnArr[2] = totalBits - leadBits;
         return returnArr;
     }
 
