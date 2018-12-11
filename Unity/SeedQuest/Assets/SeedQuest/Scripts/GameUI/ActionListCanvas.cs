@@ -96,7 +96,7 @@ public class ActionListCanvas : MonoBehaviour {
             actionItemList[count - 1].image.sprite = GameManager.GameUI.checkedBox;
             if (currentIndex != count)
             {
-                float decrement = 1 - (0.095f * count);
+                float decrement = 1 - (0.095f * (count-1));
                 if (decrement < 0) {
                     decrement = 0;
                 }
