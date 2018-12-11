@@ -451,8 +451,6 @@ public class SeedToByte : MonoBehaviour
             return actionValues;
         }
 
-        // NOTE TO SELF: Need to account for if the writeIndex is > varlist.length
-
         for (int i = 0; i < bits.Length; i++)
         {
             if (writeIndex >= (varList.Count))
@@ -921,7 +919,7 @@ public class SeedToByte : MonoBehaviour
                 if (count > 64)
                 {
                     breakPoints[0] = i;
-                    Debug.Log("Breakpoint: " + inputSeed + " bits: " + count);
+                    //Debug.Log("Breakpoint: " + inputSeed + " bits: " + count);
                 }
             }
 
@@ -945,8 +943,7 @@ public class SeedToByte : MonoBehaviour
                         path = path << varList[numTraverse];
                         numShifts += varList[numTraverse + 1];
                         numShifts += remainderBits;
-                        Debug.Log("Adding remainder to new path int: " + remainder + " Shift: " + varList[numTraverse]);
-
+                        //Debug.Log("Adding remainder to new path int: " + remainder + " Shift: " + varList[numTraverse]);
                         remainder = 0;
                         remainderBits = 0;
                     }
@@ -958,20 +955,20 @@ public class SeedToByte : MonoBehaviour
                 {
                     if (numTraverse < actions.Length)
                     {
-                        Debug.Log("Adding to 'path' " + numTraverse + " value: " + actions[numTraverse]);
+                        //Debug.Log("Adding to 'path' " + numTraverse + " value: " + actions[numTraverse]);
                         path += (ulong)actions[numTraverse];
                     }
                     if (numTraverse + 1 >= varList.Count)
                     {
-                        Debug.Log("End of the list");
+                        //Debug.Log("End of the list");
                         path = path << (64 - numShifts);
                         //path += 3;
                         numShifts += 64;
                     }
                     else if (numShifts + varList[numTraverse + 1] > 64)
                     {
-                        Debug.Log("Finding partial bit value: " + numTraverse + " bits: " + varList[numTraverse + 1]);
-                        Debug.Log("Num shifts - 64 : " + (64 - numShifts));
+                        //Debug.Log("Finding partial bit value: " + numTraverse + " bits: " + varList[numTraverse + 1]);
+                        //Debug.Log("Num shifts - 64 : " + (64 - numShifts));
                         int[] partialAction = findLeadingBitValue((64 - numShifts), varList[numTraverse + 1], actions[numTraverse+1]);
                         remainder = partialAction[1];
                         remainderBits = partialAction[2];
@@ -981,15 +978,14 @@ public class SeedToByte : MonoBehaviour
                     }
                     else if (numShifts + varList[numTraverse + 1] == 64)
                     {
-                        Debug.Log("Shifting to 64 and adding... " + actions[numTraverse]);
+                        //Debug.Log("Shifting to 64 and adding... " + actions[numTraverse]);
                         path = path << varList[numTraverse + 1];
                         path += (ulong)actions[numTraverse + 1];
                         numShifts += varList[numTraverse + 1];
-                        //numTraverse++;
                     }
                     else if ((numTraverse + 1) < varList.Count)
                     {
-                        Debug.Log("Shifting: " + (numTraverse) + " By: " + varList[numTraverse + 1]);
+                        //Debug.Log("Shifting: " + (numTraverse) + " By: " + varList[numTraverse + 1]);
                         //Debug.Log("Shifting by: " + varList[numTraverse + 1]);
 
                         path = path << varList[numTraverse + 1];
@@ -997,7 +993,7 @@ public class SeedToByte : MonoBehaviour
                     }
                     else if (numTraverse == varList.Count - 1)
                     {
-                        Debug.Log("Extra final shift " + (64-numShifts) );
+                        //Debug.Log("Extra final shift " + (64-numShifts) );
                         path = path << (64 - numShifts);
                         numShifts += 64;
                     }
@@ -1006,18 +1002,18 @@ public class SeedToByte : MonoBehaviour
                     numTraverse++;
                     if (count > 1000)
                     {
-                        Debug.Log("While loop problem - count > 1000");
+                        //Debug.Log("While loop problem - count > 1000");
                         numShifts += 64;
                         break;
                     }
                 }
 
-                Debug.Log("Path int: " + path + " Num shifts: " + (numShifts - 64));
+                //Debug.Log("Path int: " + path + " Num shifts: " + (numShifts - 64));
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
                 byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
 
-                Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
+                //Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
 
                 // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
                 for (int j = 0; j < (bytesPath.Length / 2); j++)
