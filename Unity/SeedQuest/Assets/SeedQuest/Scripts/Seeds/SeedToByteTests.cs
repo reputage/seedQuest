@@ -30,10 +30,10 @@ public class SeedToByteTests : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-        testRun();
-        testRun2();
+        //testRun();
+        //testRun2();
         testRun3();
-        testRun4();
+        //testRun4();
 	}
 	
 	// Update is called once per frame

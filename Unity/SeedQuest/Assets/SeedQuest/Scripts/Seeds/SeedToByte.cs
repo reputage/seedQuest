@@ -245,6 +245,13 @@ public class SeedToByte : MonoBehaviour
         return returnString;
     }
 
+    // Reverse the order of bits
+    // This method is used since it's faster than other bit-reversal methods
+    public static byte ReverseWithLookupTable(byte toReverse)
+    {
+        return BitReverseTable[toReverse];
+    }
+
     // Construct the list of how many bits represent which parts of the Path to take
     public static List<int> listBuilder()
     {
@@ -346,6 +353,7 @@ public class SeedToByte : MonoBehaviour
     }
 
     // Takes the list of actions, converts it back into bytes
+    //  May be removed in favor of the universal function soon
     public byte[] actionConverter(int[] actions, List<int> varList)
     {
         if (varList.Count == 0)
@@ -423,14 +431,8 @@ public class SeedToByte : MonoBehaviour
         return bytes3;
     }
 
-    // Reverse the order of bits
-    // This method is used since it's faster than other bit-reversal methods
-    public static byte ReverseWithLookupTable(byte toReverse)
-    {
-        return BitReverseTable[toReverse];
-    }
-
     // Takes the list of actions, converts it back into bytes, only works for 108 bit seeds
+    //  This function will soon be removed in favor of the universal one 
     public static byte[] seed108Converter(int[] actions, List<int> varList)
     {
         // The action list passed to this function must be the right size
@@ -460,7 +462,6 @@ public class SeedToByte : MonoBehaviour
         if (totalBits < 64)
         {
             ulong path = 0;
-            //Debug.Log("Actions.Length: " + actions.Length + " List length: " + varList.Count);
             for (int i = 0; i < varList.Count; i++)
             {
                 if (i < actions.Length)
@@ -478,7 +479,6 @@ public class SeedToByte : MonoBehaviour
         }
         else
         {
-            //Debug.Log("Actions.Length: " + actions.Length + " List.Count" + varList.Count);
 
             int modBits = totalBits % 64;
             int numLongs = totalBits / 64;
@@ -494,14 +494,11 @@ public class SeedToByte : MonoBehaviour
             {
                 path = 0;
                 numShifts = varList[numTraverse] + remainder;
-                //Debug.Log("Value of traverse int: " + numTraverse);
 
                 while (numShifts < 64)
                 {
-                    //Debug.Log("Numtraverse: " + numTraverse + " varlist length: " + varList.Count);
                     if (varList.Count <= numTraverse + 1)
                     {
-                        //Debug.Log("Ran out of bits in the list..." + (totalBits % 8));
                         path += (ulong)actions[numTraverse];
                         path = path << (64 - (numShifts - (remainder * 2)));
                         if (actions.Length < numTraverse - 1)
@@ -512,16 +509,12 @@ public class SeedToByte : MonoBehaviour
                     }
                     else if (actions.Length < numTraverse)
                     {
-                        //Debug.Log("Ran out of actions...");
                         path = path << (64 - (numShifts - (remainder * 2)));
                         numShifts = 65;
                     }
                     else if (numShifts + varList[numTraverse + 1] + remainder > 64)
                     {
-                        //Debug.Log("Numshifts: " + numShifts + " Final val of array: " + actions[numTraverse]);
-                        //Debug.Log("Second to last int: " + actions[numTraverse-1] + " Next int: " + actions[numTraverse + 1]);
                         remainder = numShifts + varList[numTraverse + 1] - 64;
-
                         path += (ulong)actions[numTraverse];
                         path = path << (64 - numShifts);
 
@@ -538,7 +531,6 @@ public class SeedToByte : MonoBehaviour
                         numShifts += varList[numTraverse + 1];
                         numTraverse++;
                     }
-                    //Debug.Log("path int: " + path + " numShifts: " + numShifts);
                 }
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
@@ -560,7 +552,6 @@ public class SeedToByte : MonoBehaviour
             }
         }
 
-        // Reverse the order of the bits within each byte (yes, this is also necessary)
         for (int i = 0; i < bytesFin.Length; i++)
         {
             bytesFin[i] = ReverseWithLookupTable(bytesFin[i]);
@@ -574,15 +565,14 @@ public class SeedToByte : MonoBehaviour
         }
         if (problem > 0)
         {
-            //Debug.Log("Solving problem... ");
             bytesFin[7] += 128;
         }
 
         return bytesFin;
     }
 
-    // Takes the list of actions, converts it back into bytes, should
-    //  work for seeds of any bit size and configuration
+    // Takes the list of actions, converts it back into bytes,
+    //  works for seeds of any bit size and configuration
     public static byte[] seedConverterUniversal(int[] actions, List<int> varList)
     {
         // The action list passed to this function must be the right size
@@ -601,6 +591,7 @@ public class SeedToByte : MonoBehaviour
         if (actions.Length != varList.Count)
             Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
 
+        // If the total bits are less than 64, it is easy to find the bytes of the actions
         if (totalBits < 64)
         {
             ulong path = 0;
@@ -633,19 +624,6 @@ public class SeedToByte : MonoBehaviour
             if (modBits > 0)
                 numLongs += 1;
 
-            int[] breakPoints = new int[numLongs];
-
-            for (int i = 0; i < breakPoints.Length; i++)
-            {
-                //find the breakpoints
-                count += varList[i];
-                if (count > 64)
-                {
-                    breakPoints[0] = i;
-                    //Debug.Log("Breakpoint: " + inputSeed + " bits: " + count);
-                }
-            }
-
             count = 0;
 
             //Debug.Log("Total actions: " + actions.Length + " Total bit list: " + varList.Count);
@@ -658,7 +636,7 @@ public class SeedToByte : MonoBehaviour
                 {
                     numShifts += varList[0];
                 }
-                else if (i > 0)
+                else if (i > 0) // If not the first int, add remainder bits from the previous one
                 {
                     if (remainder > 0)
                     {
@@ -673,22 +651,21 @@ public class SeedToByte : MonoBehaviour
                 }
 
                 //Debug.Log("New uint64 " + i);
-                //for (int j = 0; j < 64; j++)
                 while (numShifts < 64)
                 {
-                    if (numTraverse < actions.Length)
+                    if (numTraverse < actions.Length) // Add actions to the int64
                     {
                         //Debug.Log("Adding to 'path' " + numTraverse + " value: " + actions[numTraverse]);
                         path += (ulong)actions[numTraverse];
                     }
-                    if (numTraverse + 1 >= varList.Count)
+                    if (numTraverse + 1 >= varList.Count) // if there are no more ints in the list, shift to 64 bits
                     {
                         //Debug.Log("End of the list");
                         path = path << (64 - numShifts);
                         //path += 3;
                         numShifts += 64;
                     }
-                    else if (numShifts + varList[numTraverse + 1] > 64)
+                    else if (numShifts + varList[numTraverse + 1] > 64) // if about to overflow 64 bits
                     {
                         //Debug.Log("Finding partial bit value: " + numTraverse + " bits: " + varList[numTraverse + 1]);
                         //Debug.Log("Num shifts - 64 : " + (64 - numShifts));
@@ -699,14 +676,14 @@ public class SeedToByte : MonoBehaviour
                         path += (ulong)partialAction[0];
                         numShifts += 64;
                     }
-                    else if (numShifts + varList[numTraverse + 1] == 64)
+                    else if (numShifts + varList[numTraverse + 1] == 64) // if the bits divide evenly into 64 bits
                     {
                         //Debug.Log("Shifting to 64 and adding... " + actions[numTraverse]);
                         path = path << varList[numTraverse + 1];
                         path += (ulong)actions[numTraverse + 1];
                         numShifts += varList[numTraverse + 1];
                     }
-                    else if ((numTraverse + 1) < varList.Count)
+                    else if ((numTraverse + 1) < varList.Count) // shift the bits of the int64
                     {
                         //Debug.Log("Shifting: " + (numTraverse) + " By: " + varList[numTraverse + 1]);
                         //Debug.Log("Shifting by: " + varList[numTraverse + 1]);
@@ -714,7 +691,7 @@ public class SeedToByte : MonoBehaviour
                         path = path << varList[numTraverse + 1];
                         numShifts += varList[numTraverse + 1];
                     }
-                    else if (numTraverse == varList.Count - 1)
+                    else if (numTraverse == varList.Count - 1) // if the list has reached the end
                     {
                         //Debug.Log("Extra final shift " + (64-numShifts) );
                         path = path << (64 - numShifts);
@@ -735,8 +712,6 @@ public class SeedToByte : MonoBehaviour
 
                 byte[] bytesPath = BitConverter.GetBytes(path);
                 byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
-
-                //Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
 
                 // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
                 for (int j = 0; j < (bytesPath.Length / 2); j++)
@@ -771,13 +746,12 @@ public class SeedToByte : MonoBehaviour
         return bytesFin;
     }
 
-    public int detectExtraBits(List<int> varList)
-    {
 
-
-        return 0;
-    }
-
+    // This function is used to handle cases where the bits in a list of actions
+    //  do not divide evenly across 64 bit integers. Returns an int array, with
+    //  the first int representing the value of the leading bits, the second int
+    //  representing the trailing ints, and the third int for the number of bits of 
+    //  the trailing int
     public static int[] findLeadingBitValue(int leadBits, int totalBits, int value)
     {
         int[] badReturn = new int[2];
