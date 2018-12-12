@@ -165,23 +165,18 @@ public class SeedToByte : MonoBehaviour
 
     public void testRun4()
     {
-        //string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
-        //string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
-        string testHex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
-        //string testHex = "EEEEEEEEEEEEEEEEDDDDEEEEEEEE";
+        string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
+        //string testHex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 
         byte[] testHexSeed = HexStringToByteArray(testHex);
         byte[] testRunSeed = new byte[14];
         testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
 
         List<int> tempList1 = customList(4, 4, 2, 4, 4);
-        //List<int> tempList2 = customList(3, 4, 2, 4, 4);
+        List<int> tempList2 = customList(3, 4, 2, 4, 4);
 
         BitArray seedBits1 = byteToBits(testRunSeed);
         BitArray seedBits2 = byteToBits(testHexSeed);
-
-        //byte[] hexByte = bitToByte(seedBits2);
-        //Debug.Log("Bits returned to string: " + byteToSeed(hexByte));
 
         int[] actions1 = bitToActions(seedBits1, tempList1);
         int[] actions2 = bitToActions(seedBits2, tempList1);
@@ -195,7 +190,20 @@ public class SeedToByte : MonoBehaviour
         Debug.Log("Initial seed: " + byteToSeed(testHexSeed));
         Debug.Log("Final  seed: " + byteToSeed(finalSeed2));
 
-        //seedConverterUniversal
+
+        testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
+
+        if (testRunSeed[13] > 15)
+            testRunSeed[13] = (byte)((int)testRunSeed[13] % 7);
+        
+        BitArray seedBits = byteToBits(testRunSeed);
+        int[] actions3 = bitToActions(seedBits, tempList2);
+
+        byte[] finalSeed3 = seed108Converter(actions3, tempList2);
+
+        Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
+        Debug.Log("Final  seed: " + byteToSeed(finalSeed3));
+
     }
 
     public void testRun5()
