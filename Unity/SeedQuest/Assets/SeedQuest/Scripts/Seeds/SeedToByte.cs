@@ -18,36 +18,14 @@ using System.Collections.Specialized;
 
 public class SeedToByte : MonoBehaviour
 {
-    public string testSeed1 = "C5E3D45D341A";
-    public string testSeed2 = "||||||||||||||||";
-    public string testSeed3 = "825A";
-
-    public string a1234 = "a1234";
-
-    public string testReturnStr;
-    public string testReturnStr2;
-    public string testReturnStr3;
-
-    public string testBitStr;
-    public byte[] testByteArr;
-    public byte[] testReturnBytes;
-    public int[] testActionToDo;
-    public BitArray testBitArr;
-    public byte[] actionToBits;
-    public byte[] actionToBitsVariant;
     public List<int> actionList = new List<int>();
 
     public static string inputSeed;
     public static string returnSeed;
 
-    public static string seedBase58;
-    public static string seedBase64;
-    public static string seedBinary;
-
     public static byte[] inputBytes;
     public static byte[] returnBytes;
     public static int[] actionToDo;
-    public int[] varSizeToDo;
     public static BitArray inputBits;
 
     // For reversing bits later
@@ -92,136 +70,14 @@ public class SeedToByte : MonoBehaviour
         "00000000", "00000001", "00000010", "00000011", "00000100",
         "00000101", "00000110", "00000111", "00001000", "00001001",
         "00001010", "00001011", "00001100", "00001101", "00001110", 
-        "00001111", "00010000", "00010001"
+        "00001111", "00010000", "00010001", "00010010", "00010011",
+        "00010100", "00010101", "00010110", "00010111", "00011000",
+        "00011001", "00011010", "00011011", "00011100", "00011101",
+        "00011110", "00011111", "00100000"
     };
 
     void Start()
     {
-        //testRun5();
-        //testRun();
-        //testRun2();
-        //testRun3();
-        testRun4();
-    }
-
-    // Test to make sure everything works
-    void testRun()
-    {
-        // Just a test
-        testByteArr = seedToByte(testSeed3);
-        testReturnStr = byteToSeed(testByteArr);
-        testBitArr = byteToBits(testByteArr);
-        testReturnBytes = bitToByte(testBitArr);
-        testReturnStr2 = byteToSeed(testReturnBytes);
-
-        testActionToDo = bitToActions(testBitArr, actionList);
-
-        actionToBits = actionConverter(testActionToDo, actionList);
-        testReturnStr3 = byteToSeed(actionToBits);
-
-        Debug.Log("Initial seed: " + testSeed3);
-        Debug.Log("Final  seed: " + testReturnStr3);
-    }
-
-    public void testRun2()
-    {
-        byte[] testRunSeed = new byte[14];
-        testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
-
-        if (testRunSeed[13] > 15)
-            testRunSeed[13] = (byte)( (int)testRunSeed[13] % 7);
-
-        List<int> tempList = customList(3, 4, 2, 4, 4);
-
-        BitArray seedBits = byteToBits(testRunSeed);
-        int[] actions = bitToActions(seedBits, tempList);
-
-        byte[] finalSeed = seed108Converter(actions, tempList);
-
-        Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
-        Debug.Log("Final  seed: " + byteToSeed(finalSeed));
-    }
-
-    public void testRun3()
-    {
-        
-        string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
-        byte[] testRunSeed = HexStringToByteArray(testHex);
-        //byte[] testRunSeed = new byte[14];
-        //testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
-
-        List<int> tempList = customList(4, 4, 2, 4, 4);
-
-        BitArray seedBits = byteToBits(testRunSeed);
-        int[] actions = bitToActions(seedBits, tempList);
-
-        byte[] finalSeed = seedConverterMod64(actions, tempList);
-
-
-        Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
-        Debug.Log("Final  seed: " + byteToSeed(finalSeed));
-
-    }
-
-    public void testRun4()
-    {
-        string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
-        //string testHex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
-
-        byte[] testHexSeed = HexStringToByteArray(testHex);
-        byte[] testRunSeed = new byte[14];
-        testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
-
-        List<int> tempList1 = customList(4, 4, 2, 4, 4);
-        List<int> tempList2 = customList(3, 4, 2, 4, 4);
-
-        BitArray seedBits1 = byteToBits(testRunSeed);
-        BitArray seedBits2 = byteToBits(testHexSeed);
-
-        int[] actions1 = bitToActions(seedBits1, tempList1);
-        int[] actions2 = bitToActions(seedBits2, tempList1);
-
-        byte[] finalSeed1 = seedConverterUniversal(actions1, tempList1);
-        byte[] finalSeed2 = seedConverterUniversal(actions2, tempList1);
-
-        Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
-        Debug.Log("Final  seed: " + byteToSeed(finalSeed1));
-
-        Debug.Log("Initial seed: " + byteToSeed(testHexSeed));
-        Debug.Log("Final  seed: " + byteToSeed(finalSeed2));
-
-
-        testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
-
-        if (testRunSeed[13] > 15)
-            testRunSeed[13] = (byte)((int)testRunSeed[13] % 7);
-        
-        BitArray seedBits = byteToBits(testRunSeed);
-        int[] actions3 = bitToActions(seedBits, tempList2);
-
-        byte[] finalSeed3 = seed108Converter(actions3, tempList2);
-
-        Debug.Log("Initial seed: " + byteToSeed(testRunSeed));
-        Debug.Log("Final  seed: " + byteToSeed(finalSeed3));
-
-    }
-
-    public void testRun5()
-    {
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(2, 3, 15)[0]);
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(2, 3, 14)[0]);
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(2, 3, 9)[0]);
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(2, 3, 1)[0]);
-
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 4, 15)[0]);
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 4, 14)[0]);
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 4, 9)[0]);
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(3, 4, 1)[0]);
-
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 4, 15)[0]);
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 4, 14)[0]);
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 4, 9)[0]);
-        Debug.Log("Test finding leading bit value: " + findLeadingBitValue(4, 4, 1)[0]);
 
     }
 
@@ -725,147 +581,6 @@ public class SeedToByte : MonoBehaviour
         return bytesFin;
     }
 
-    // Takes the list of actions, converts it back into bytes, only works for seeds 
-    //  where the bits divide evenly into chunks of 64 bits
-    public static byte[] seedConverterMod64(int[] actions, List<int> varList)
-    {
-        // The action list passed to this function must be the right size
-        if (varList.Count == 0)
-            varList = listBuilder();
-
-        int[] tempArray = new int[36];
-        byte[] bytesFin = new byte[0];
-        int totalBits = 0;
-
-        for (int i = 0; i < varList.Count; i++)
-        {
-            totalBits += varList[i];
-        }
-
-        if (totalBits % 8 != 0)
-            Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
-
-        if (actions.Length != varList.Count)
-            Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
-
-        if (totalBits < 64)
-        {
-            ulong path = 0;
-            for (int i = 0; i < varList.Count; i++)
-            {
-                if (i < actions.Length)
-                    path += (ulong)actions[i];
-                if (i < (varList.Count - 1))
-                    path = path << varList[i + 1];
-            }
-
-            path = path << (64 - totalBits);
-            byte[] bytesPath = BitConverter.GetBytes(path);
-            Debug.Log("path int: " + path);
-
-            bytesFin = new byte[bytesPath.Length];
-            System.Buffer.BlockCopy(bytesPath, 0, bytesFin, 0, bytesPath.Length);
-        }
-        else
-        {
-            int modBits = totalBits % 64;
-            int numLongs = totalBits / 64;
-            int break64 = 0;
-            int falseBreak = 0;
-            int counter = 0;
-            int numTraverse = 0;
-            int numShifts = 0;
-            ulong path = 0;
-
-            if (modBits > 0)
-                numLongs += 1;
-
-            for (int i = 0; i < varList.Count; i++)
-            {
-                counter += varList[i];
-                if (counter == 64)
-                    break64 = i;
-                else if (counter > 64)
-                    falseBreak = i;
-            }
-
-            if (break64 == 0)
-                Debug.Log("Warning! There does not appear to be a clean break in number of bytes for this action list!");
-
-            //Debug.Log("Total actions: " + actions.Length + " Total bit list: " + varList.Count);
-            for (int i = 0; i < numLongs; i++)
-            {
-                path = 0;
-                numShifts = 0;//varList[numTraverse];
-                //Debug.Log("New uint64 " + i);
-                for (int j = 0; j < break64; j++)
-                {
-                    if (numTraverse < actions.Length)
-                    {
-                        //Debug.Log("Break64: " + break64 + " current iteration: " + (numTraverse) + " Value: " + actions[numTraverse]);
-                        path += (ulong)actions[numTraverse];
-                    }
-                    if ((numTraverse + 1) < varList.Count )//&& numTraverse != break64-1)
-                    {
-                        //Debug.Log("Shifting: " + (numTraverse + 1) + " By: " + varList[numTraverse + 1]);
-                        path = path << varList[numTraverse + 1];
-                        numShifts += varList[numTraverse + 1];
-                    }
-                    else if(numTraverse == varList.Count-1)
-                    {
-                        //Debug.Log("Extra final shift " + (64-numShifts) );
-                        path = path << (64 - numShifts);
-                    }
-                    else
-                        //Debug.Log("Did not shift: " + (numTraverse));
-                    if (j+1 == break64 && numTraverse+1 < actions.Length)
-                    {
-                        path += (ulong)actions[numTraverse+1];
-                    }
-
-                    numTraverse++;
-                }
-
-                //Debug.Log("Path int: " + path + " Num shifts: " + numShifts);
-
-                byte[] bytesPath = BitConverter.GetBytes(path);
-                byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
-
-                //Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
-
-                // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
-                for (int j = 0; j < (bytesPath.Length / 2); j++)
-                {
-                    byte tmp = bytesPath[j];
-                    bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
-                    bytesPath[bytesPath.Length - j - 1] = tmp;
-                }
-                //Debug.Log("Path to hex: " + ByteArrayToHex(bytesPath));
-
-                System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesFin.Length);
-                System.Buffer.BlockCopy(bytesPath, 0, bytesTemp, bytesFin.Length, bytesPath.Length);
-
-                bytesFin = new byte[bytesTemp.Length];
-                System.Buffer.BlockCopy(bytesTemp, 0, bytesFin, 0, bytesTemp.Length);
-            }
-        }
-
-        // Reverse the order of the bits within each byte (yes, this is also necessary)
-        for (int i = 0; i < bytesFin.Length; i++)
-        {
-            bytesFin[i] = ReverseWithLookupTable(bytesFin[i]);
-        }
-
-        if (totalBits < 128)
-        {
-            byte[] bytesTemp = new byte[bytesFin.Length - ((128 - totalBits) / 8)];
-            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
-            bytesFin = bytesTemp;
-        }
-
-        return bytesFin;
-    }
-
     // Takes the list of actions, converts it back into bytes, should
     //  work for seeds of any bit size and configuration
     public static byte[] seedConverterUniversal(int[] actions, List<int> varList)
@@ -1062,7 +777,6 @@ public class SeedToByte : MonoBehaviour
 
         return 0;
     }
-
 
     public static int[] findLeadingBitValue(int leadBits, int totalBits, int value)
     {
