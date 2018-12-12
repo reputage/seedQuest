@@ -73,7 +73,8 @@ public class Interactable : MonoBehaviour {
     public void HoverOnInteractable() {
         Camera c = Camera.main;
         RaycastHit hit;
-        Ray ray = new Ray(c.transform.position, c.transform.forward);
+        //Ray ray = new Ray(c.transform.position, c.transform.forward);
+        Ray ray = c.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit, 100.0f))
         {
@@ -84,7 +85,7 @@ public class Interactable : MonoBehaviour {
                     toggleHighlight(true);
                 isOnHover = true;
 
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
                     InteractableManager.showActions(this);
             }
             else {

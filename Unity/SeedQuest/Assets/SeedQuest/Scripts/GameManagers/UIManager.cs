@@ -21,8 +21,14 @@ public class UIManager : MonoBehaviour {
     }
 
     void Start() { 
-        InitGameUI();
-        SetGameUIState();
+        //InitGameUI();
+        //SetGameUIState();
+    }
+
+    private void Update() {
+        if (GameManager.State == GameState.LoadingRehersal)
+            if (GameUI.instance != null)
+                GameManager.State = GameState.Rehearsal;
     }
 
     void InitGameUI() {
@@ -37,31 +43,47 @@ public class UIManager : MonoBehaviour {
         */
     }
 
-    void SetGameUIState() { 
+    static public bool CheckUILoaded() {
+        if (instance.GetComponentInChildren<CursorUI>(true) == null)
+            return false;
+        return true;
+    }
+
+    void SetGameUIState() {
+        if (GameUI.instance == null) {
+            Debug.Log("GAME UI NULL!! BAD NEWS!");
+            return;
+        }
+
         switch (GameManager.State) {
+             /*
+             case GameState.GameStart:
+                 GameUI.CursorUI = false;
+                 GameUI.StartMenuUI = true;
+                 GameUI.DebugCanvas = true;
+                 GameUI.ActionListCanvas = false;
+                 GameUI.InteractiableUI = false;
+                 GameUI.PauseMenuCanvas = false;
+                 GameUI.EndGameUI = false;
+                 GameUI.CompassUI = false;
+                 GameUI.MinimapUI = false;
+                 break;
+             */
+
             case GameState.LoadingRecall:
                 break;
-            /*
-            case GameState.GameStart:
-                GameUI.CursorUI = false;
-                GameUI.StartMenuUI = true;
-                GameUI.DebugCanvas = true;
-                GameUI.ActionListCanvas = false;
-                GameUI.InteractiableUI = false;
-                GameUI.PauseMenuCanvas = false;
-                GameUI.EndGameUI = false;
-                GameUI.CompassUI = false;
-                GameUI.MinimapUI = false;
+            case GameState.LoadingRehersal:
                 break;
-            */
+ 
             case GameState.Rehearsal:
-                GameUI.CursorUI = true;
+                GameUI.CursorUI = false;
                 GameUI.StartMenuUI = false;
                 GameUI.DebugCanvas = true;
                 GameUI.ActionListCanvas = true;
                 GameUI.InteractiableUI = false;
                 GameUI.PauseMenuCanvas = false;
                 GameUI.CompassUI = true;
+                GameUI.LoadingScreen = false;
                 if (Application.platform == RuntimePlatform.OSXPlayer)
                 {
                     GameUI.MinimapUI = true;
@@ -72,7 +94,7 @@ public class UIManager : MonoBehaviour {
                 }
                 break;
             case GameState.Recall:
-                GameUI.CursorUI = true;
+                GameUI.CursorUI = false;
                 GameUI.StartMenuUI = false;
                 GameUI.DebugCanvas = true;
                 GameUI.ActionListCanvas = true;
@@ -80,6 +102,7 @@ public class UIManager : MonoBehaviour {
                 GameUI.PauseMenuCanvas = false;
                 GameUI.CompassUI = false;
                 GameUI.MinimapUI = false;
+                GameUI.LoadingScreen = false;
                 break;
             case GameState.Interact:
                 GameUI.ActionListCanvas = false;

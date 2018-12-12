@@ -21,7 +21,8 @@ public class ActionItem : MonoBehaviour {
         text = textObj.AddComponent<TextMeshProUGUI>();
 
         // Set ActionItem Position 
-        this.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -100.0F - index * 75.0F, 0);
+        //this.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -100.0F - index * 75.0F, 0);
+        this.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -225.0F - index * 75.0F, 0);
 
         // Set image properties
         image.transform.localScale = Vector3.one;
