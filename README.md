@@ -8,6 +8,10 @@ Human memory is often incapable of remembering long strings of random characters
 
 [Unity](https://unity3d.com/get-unity/download) for MacOS or Windows (Version 2018.2.0 or greater)
 
-## Note about Unity assets
+## SeedQuest Community
 
-If you are a collaborator wishing to work on the 3D assets, please contact weston.bodily@consensys.net or michael.mendoza@consensys.net for access to the repository with assets.
+SeedQuest is an open source project and we want to grow a community of people who want to work on and activately improve the SeedQuest. We welcome feedback on the project. To facilitate this we have created a Slack channel (seedquest.slack.com) that anyone can join. Join the Slack channel [here](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWQwYmIwMjIyYTEwZGJjYzNhY2RhNjlhZWE2MDVkOThmMTU5MDhlMTkyZGViNGUyNjYyNTVkYjYyNmRmM2YyZTI). 
+
+## Collaboration
+
+If you are wishing to be a collaborator to work on the 3D assets, please contact michael.mendoza@consensys.net or weston.bodily@consensys.net for information and access to the assets.
