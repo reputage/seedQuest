@@ -479,7 +479,6 @@ public class SeedToByte : MonoBehaviour
         }
         else
         {
-
             int modBits = totalBits % 64;
             int numLongs = totalBits / 64;
             int numShifts = 0;
@@ -750,14 +749,22 @@ public class SeedToByte : MonoBehaviour
     // This function is used to handle cases where the bits in a list of actions
     //  do not divide evenly across 64 bit integers. Returns an int array, with
     //  the first int representing the value of the leading bits, the second int
-    //  representing the trailing ints, and the third int for the number of bits of 
+    //  representing the trailing int, and the third int for the number of bits of 
     //  the trailing int
     public static int[] findLeadingBitValue(int leadBits, int totalBits, int value)
     {
-        int[] badReturn = new int[2];
+        int[] badReturn = new int[3];
         //Debug.Log("leadBits: " + leadBits + " totalBits: " + totalBits + " value: " + value + " 8-total: " + (8-totalBits));
         if (value == 0)
             return badReturn;
+        else if (leadBits == 0)
+        {
+            Debug.Log("Warning: leadBits field of findLeadingBitValue is 0 - check your function call");
+            badReturn[0] = 0;
+            badReturn[1] = value;
+            badReturn[2] = totalBits;
+            return badReturn;
+        }
         string bits = bitStrings[value];
         string bits2;
         if ((8-totalBits) + leadBits <= bits.Length)
