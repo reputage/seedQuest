@@ -756,6 +756,22 @@ public class SeedToByte : MonoBehaviour
             System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
             bytesFin = bytesTemp;
         }
+        else if (totalBits < 192 && totalBits > 128)
+        {
+            byte[] bytesTemp = new byte[bytesFin.Length - ((192 - totalBits) / 8)];
+            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
+            bytesFin = bytesTemp;
+        }
+
+        /*
+        if (totalBits % 64 != 0)
+        {
+            int size = (totalBits / 64 + 1 * 64);
+            byte[] bytesTemp = new byte[bytesFin.Length - ((192 - totalBits) / 8)];
+            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
+            bytesFin = bytesTemp;
+        }
+        */
 
         return bytesFin;
     }

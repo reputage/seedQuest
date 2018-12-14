@@ -116,11 +116,11 @@ public class SeedToByteTests : MonoBehaviour {
         byte[] finalSeed1 = SeedToByte.seedConverterUniversal(actions1, tempList1);
         byte[] finalSeed2 = SeedToByte.seedConverterUniversal(actions2, tempList1);
 
-        Debug.Log("Initial seed: " + seedToByte.byteToSeed(testRunSeed));
-        Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed1));
+        //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testRunSeed));
+        //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed1));
 
-        Debug.Log("Initial seed: " + seedToByte.byteToSeed(testHexSeed));
-        Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed2));
+        //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testHexSeed));
+        //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed2));
 
         if (seedToByte.byteToSeed(testRunSeed) == seedToByte.byteToSeed(finalSeed1))
             Debug.Log("Test 1 for converting 112 bit seed to action list and back passed");
