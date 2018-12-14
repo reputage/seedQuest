@@ -6,23 +6,8 @@ public class SeedToByteTests : MonoBehaviour {
 
 
     public string testSeed1 = "C5E3D45D341A";
-    public string testSeed2 = "||||||||||||||||";
-    public string testSeed3 = "825A";
+    public string testSeed2 = "825A";
 
-    public string a1234 = "a1234";
-    /*
-    public string testReturnStr;
-    public string testReturnStr2;
-    public string testReturnStr3;
-
-    public string testBitStr;
-    public byte[] testByteArr;
-    public byte[] testReturnBytes;
-    public int[] testActionToDo;
-    public BitArray testBitArr;
-    public byte[] actionToBits;
-    public byte[] actionToBitsVariant;
-    */
     public List<int> actionList = new List<int>();
 
     private SeedToByte seedToByte = new SeedToByte();
@@ -53,14 +38,14 @@ public class SeedToByteTests : MonoBehaviour {
     void testByteBitConversion()
     {
         // Just a test
-        byte[] testByteArr = seedToByte.seedToByte(testSeed3);
+        byte[] testByteArr = seedToByte.seedToByte(testSeed2);
         string testReturnStr = seedToByte.byteToSeed(testByteArr);
         BitArray testBitArr = seedToByte.byteToBits(testByteArr);
         byte[] testReturnBytes = seedToByte.bitToByte(testBitArr);
         string testReturnStr2 = seedToByte.byteToSeed(testReturnBytes);
         int[] testActionToDo = seedToByte.bitToActions(testBitArr, actionList);
 
-        if (testSeed3 == testReturnStr)
+        if (testSeed2 == testReturnStr)
             Debug.Log("Test for conversion from byte array to string passed");
         else
             Debug.Log("Test for conversion from byte array to string failed");
@@ -143,8 +128,8 @@ public class SeedToByteTests : MonoBehaviour {
 
         byte[] finalSeed3 = SeedToByte.seed108Converter(actions3, tempList2);
 
-        Debug.Log("Initial seed: " + seedToByte.byteToSeed(testRunSeed));
-        Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed3));
+        //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testRunSeed));
+        //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed3));
 
         if (seedToByte.byteToSeed(testRunSeed) == seedToByte.byteToSeed(finalSeed3))
             Debug.Log("Test for converting 108 bit seed to action list and back passed");
@@ -162,8 +147,8 @@ public class SeedToByteTests : MonoBehaviour {
         int[] actions = seedToByte.bitToActions(seedBits, tempList);
         byte[] finalSeed = SeedToByte.seedConverterUniversal(actions, tempList);
 
-        Debug.Log("Initial seed: " + seedToByte.byteToSeed(testHexSeed));
-        Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed));
+        //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testHexSeed));
+        //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed));
 
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
             Debug.Log("Test 2 for converting 16 bit seed to action list and back passed");
