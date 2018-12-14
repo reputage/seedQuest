@@ -472,7 +472,7 @@ public class SeedToByte : MonoBehaviour
 
             path = path << (64 - totalBits);
             byte[] bytesPath = BitConverter.GetBytes(path);
-            Debug.Log("path int: " + path);
+            //Debug.Log("path int: " + path);
 
             bytesFin = new byte[bytesPath.Length];
             System.Buffer.BlockCopy(bytesPath, 0, bytesFin, 0, bytesPath.Length);
@@ -606,8 +606,17 @@ public class SeedToByte : MonoBehaviour
             byte[] bytesPath = BitConverter.GetBytes(path);
             Debug.Log("path int: " + path);
 
+            // Reverse the endian of the bytes
+            for (int j = 0; j < (bytesPath.Length / 2); j++)
+            {
+                byte tmp = bytesPath[j];
+                bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
+                bytesPath[bytesPath.Length - j - 1] = tmp;
+            }
+
             bytesFin = new byte[bytesPath.Length];
             System.Buffer.BlockCopy(bytesPath, 0, bytesFin, 0, bytesPath.Length);
+
         }
         else
         {
@@ -735,7 +744,13 @@ public class SeedToByte : MonoBehaviour
             bytesFin[i] = ReverseWithLookupTable(bytesFin[i]);
         }
 
-        if (totalBits < 128)
+        if(totalBits < 64)
+        {
+            byte[] bytesTemp = new byte[bytesFin.Length - ((64 - totalBits) / 8)];
+            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
+            bytesFin = bytesTemp;
+        }
+        else if (totalBits < 128 && totalBits > 64)
         {
             byte[] bytesTemp = new byte[bytesFin.Length - ((128 - totalBits) / 8)];
             System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
