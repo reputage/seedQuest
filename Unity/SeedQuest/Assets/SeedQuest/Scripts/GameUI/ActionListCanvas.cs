@@ -206,6 +206,9 @@ public class ActionListCanvas : MonoBehaviour
 
     private void onClickUndo()
     {
+
+        minAnimator.enabled = false;
+        maxAnimator.enabled = false;
         if (GameManager.State == GameState.Rehearsal)
         {
             InteractableManager.Log.Pop();
@@ -239,7 +242,7 @@ public class ActionListCanvas : MonoBehaviour
 
     private IEnumerator transformPanelOut()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         minAnimator.enabled = false;
         maxAnimator.enabled = false;
         RectTransform maxTransfrom = maxPanel.GetComponent<RectTransform>();
@@ -250,7 +253,7 @@ public class ActionListCanvas : MonoBehaviour
 
     private IEnumerator transformPanelIn()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         minAnimator.enabled = false;
         maxAnimator.enabled = false;
         RectTransform maxTransfrom = maxPanel.GetComponent<RectTransform>();

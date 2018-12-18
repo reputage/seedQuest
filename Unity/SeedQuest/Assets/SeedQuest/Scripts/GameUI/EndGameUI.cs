@@ -41,12 +41,12 @@ public class EndGameUI : MonoBehaviour {
     }
 
 	public void Update() {
-        if (GameManager.State == GameState.GameEnd)
+        /*if (GameManager.State == GameState.GameEnd)
         {
             seedString.text = SeedManager.RecoveredSeed;
             if (!DideryDemoManager.IsDemo)
                 dideryDemoManager.demoGetEncryptedKey();
-        }
+        }*/
     }
 
     public void onClickMainMenu() {
