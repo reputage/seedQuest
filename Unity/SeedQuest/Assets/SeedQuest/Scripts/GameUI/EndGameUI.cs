@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Text;
 
@@ -10,13 +11,34 @@ public class EndGameUI : MonoBehaviour {
     public TextMeshProUGUI keyString = null;
     public DideryDemoManager dideryDemoManager;
 
+    public Button copy;
+    public Button menu;
+    public Button quit;
 
-    public GameObject copyButton;
+    public TextMeshProUGUI copied;
 
-	public void Start()
+    private string finalKey;
+    public void Start()
 	{
-        copyButton.SetActive(false);
-	}
+
+        copied = GameObject.FindGameObjectWithTag("Copied Text").GetComponent<TextMeshProUGUI>();
+        copied.text = "";
+        copied.gameObject.SetActive(false);
+        if (DideryDemoManager.IsDemo)
+        {
+            keyString.text = DideryDemoManager.DemoBlob;
+        }
+        else
+        {
+            byte[] keyByte = OTPworker.decryptFromBlob(SeedManager.RecoveredSeed, dideryDemoManager.demoBlob);
+            finalKey = Encoding.ASCII.GetString(keyByte);
+            keyString.text = finalKey;
+        }
+        copy.onClick.AddListener(onClickCopyKey);
+        menu.onClick.AddListener(onClickMainMenu);
+        quit.onClick.AddListener(onClickQuit);
+        //copyButton.SetActive(false);
+    }
 
 	public void Update() {
         if (GameManager.State == GameState.GameEnd)
@@ -27,17 +49,19 @@ public class EndGameUI : MonoBehaviour {
         }
     }
 
-    public void RestartGame() {
+    public void onClickMainMenu() {
         GameManager.State = GameState.GameStart;
         StartCoroutine(SceneLoader.LoadMainMenu());
         //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
-    public void CopySeed() {
+    public void onClickCopyKey() {
         TextEditor editor = new TextEditor();
-        editor.text = DideryDemoManager.DemoBlob;
+        editor.text = finalKey;//DideryDemoManager.DemoBlob;
         editor.SelectAll();
         editor.Copy();
+        copied.text = "Your key has been copied to your clipboard.";
+        copied.gameObject.SetActive(true);
     }
 
     public void decryptKey()
@@ -48,10 +72,15 @@ public class EndGameUI : MonoBehaviour {
         else
         {
             byte[] keyByte = OTPworker.decryptFromBlob(SeedManager.RecoveredSeed, dideryDemoManager.demoBlob);
-            string finalKey = Encoding.ASCII.GetString(keyByte);
+            finalKey = Encoding.ASCII.GetString(keyByte);
             keyString.text = finalKey;
         }
 
-        copyButton.SetActive(true);
+        //copyButton.SetActive(true);
+    }
+
+    public void onClickQuit()
+    {
+        Application.Quit();
     }
 }

@@ -115,6 +115,17 @@ public class PathManager : MonoBehaviour {
             GameManager.State = GameState.GameEnd;
     }
 
+    static public void PreviousPathSegment()
+    {
+        if (GameManager.State != GameState.Rehearsal)
+            return;
+
+        if (Instance.pathSegmentIndex - 1 >= 0)
+            Instance.pathSegmentIndex--;
+        else
+            return;
+    }
+
     private void ClearPathSegments() {
         LineRenderer line = PathMesh.GetComponentInChildren<LineRenderer>();
         line.positionCount = 0;
