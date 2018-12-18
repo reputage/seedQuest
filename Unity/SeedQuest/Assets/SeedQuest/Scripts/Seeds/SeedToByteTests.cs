@@ -5,13 +5,12 @@ using UnityEngine;
 public class SeedToByteTests : MonoBehaviour {
 
 
-    public string testSeed1 = "C5E3D45D341A";
-    public string testSeed2 = "825A";
+    private string testSeed1 = "C5E3D45D341A";
+    private string testSeed2 = "AAAA";
 
     public List<int> actionList = new List<int>();
 
     private SeedToByte seedToByte = new SeedToByte();
-
 
 	// Use this for initialization
 	void Start () 
@@ -20,24 +19,31 @@ public class SeedToByteTests : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+    {
 		
 	}
 
-
+    // Run all tests at once
     void runAllTests()
     {
-        testByteBitConversion();
-        //test108BitSeed();
-        testMultipleSizeSeeds();
-        //testFindLeadingBits();
-        testSmallSeeds();
+        int[] passed = new int[2];
+        int[] test1 = testByteBitConversion();
+        int[] test2 = testMultipleSizeSeeds();
+        int[] test3 = testFindLeadingBits();
+        int[] test4 = testSmallSeeds();
+
+        passed[0] = test1[0] + test2[0] + test3[0] + test4[0];
+        passed[1] = test1[1] + test2[1] + test3[1] + test4[1];
+
+        Debug.Log("Successfully passed " + passed[0] + " of " + passed[1] + " tests.");
     }
 
     // Test to make sure everything works
-    void testByteBitConversion()
+    public int[] testByteBitConversion()
     {
-        // Just a test
+        int[] passed = new int[2];
+
         byte[] testByteArr = seedToByte.seedToByte(testSeed2);
         string testReturnStr = seedToByte.byteToSeed(testByteArr);
         BitArray testBitArr = seedToByte.byteToBits(testByteArr);
@@ -45,43 +51,33 @@ public class SeedToByteTests : MonoBehaviour {
         string testReturnStr2 = seedToByte.byteToSeed(testReturnBytes);
         int[] testActionToDo = seedToByte.bitToActions(testBitArr, actionList);
 
+        //Debug.Log("Test seed: " + testSeed2 + " return str: " + testReturnStr);
+
+        passed[1] += 1;
         if (testSeed2 == testReturnStr)
-            Debug.Log("Test for conversion from byte array to string passed");
+        {
+            //Debug.Log("Test for conversion from byte array to string passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Test for conversion from byte array to string failed");
 
+        passed[1] += 1;
         if (seedToByte.byteToSeed(testByteArr) == seedToByte.byteToSeed(testReturnBytes))
-            Debug.Log("Test for conversion from bit array to byte array passed");
+        {
+            //Debug.Log("Test for conversion from bit array to byte array passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Test for conversion from bit array to byte array failed");
+
+        return passed;
     }
 
-    public void test108BitSeed()
+    public int[] testMultipleSizeSeeds()
     {
-        byte[] testRunSeed = new byte[14];
-        testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
+        int[] passed = new int[2];
 
-        if (testRunSeed[13] > 15)
-            testRunSeed[13] = (byte)((int)testRunSeed[13] % 7);
-
-        List<int> tempList = SeedToByte.customList(3, 4, 2, 4, 4);
-
-        BitArray seedBits = seedToByte.byteToBits(testRunSeed);
-        int[] actions = seedToByte.bitToActions(seedBits, tempList);
-
-        byte[] finalSeed = SeedToByte.seed108Converter(actions, tempList);
-
-        //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testRunSeed));
-        //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed));
-
-        if (testRunSeed == finalSeed)
-            Debug.Log("Test for converting 108 bit seed to action list and back passed");
-        else
-            Debug.Log("Test for converting 108 bit seed to action list and back failed");
-    }
-
-    public void testMultipleSizeSeeds()
-    {
         string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
         //string testHex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 
@@ -107,16 +103,23 @@ public class SeedToByteTests : MonoBehaviour {
         //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testHexSeed));
         //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed2));
 
+        passed[1] += 1;
         if (seedToByte.byteToSeed(testRunSeed) == seedToByte.byteToSeed(finalSeed1))
+        {
             Debug.Log("Test 1 for converting 112 bit seed to action list and back passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Test 1 for converting 112 bit seed to action list and back failed");
 
+        passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed2))
+        {
             Debug.Log("Test 2 for converting 112 bit seed to action list and back passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Test 2 for converting 112 bit seed to action list and back failed");
-
 
         testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
 
@@ -131,15 +134,22 @@ public class SeedToByteTests : MonoBehaviour {
         //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testRunSeed));
         //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed3));
 
+        passed[1] += 1;
         if (seedToByte.byteToSeed(testRunSeed) == seedToByte.byteToSeed(finalSeed3))
+        {
             Debug.Log("Test for converting 108 bit seed to action list and back passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Test for converting 108 bit seed to action list and back failed");
 
+        return passed;
     }
 
-    public void testSmallSeeds()
+    public int[] testSmallSeeds()
     {
+        int[] passed = new int[2];
+
         string testHex = "FFFF";
         byte[] testHexSeed = SeedToByte.HexStringToByteArray(testHex);
         List<int> tempList = SeedToByte.customList(6, 6, 4, 1, 1);
@@ -150,100 +160,181 @@ public class SeedToByteTests : MonoBehaviour {
         //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testHexSeed));
         //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed));
 
+        passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
-            Debug.Log("Test 2 for converting 16 bit seed to action list and back passed");
+        {
+            Debug.Log("Test for converting 16 bit seed to action list and back passed");
+            passed[0] += 1;
+        }
         else
-            Debug.Log("Test 2 for converting 16 bit seed to action list and back failed");
+            Debug.Log("Test for converting 16 bit seed to action list and back failed");
+        
+        testHex = "FFFFFF";
+        testHexSeed = SeedToByte.HexStringToByteArray(testHex);
+        tempList = SeedToByte.customList(2, 3, 2, 2, 2);
+        seedBits = seedToByte.byteToBits(testHexSeed);
+        actions = seedToByte.bitToActions(seedBits, tempList);
+        finalSeed = SeedToByte.seedConverterUniversal(actions, tempList);
 
+        passed[1] += 1;
+        if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
+        {
+            Debug.Log("Test for converting 24 bit seed to action list and back passed");
+            passed[0] += 1;
+        }
+        else
+            Debug.Log("Test for converting 24 bit seed to action list and back failed");
+
+        return passed;
     }
 
-    public void testFindLeadingBits()
+    public int[] testFindLeadingBits()
     {
+        int[] passed = new int[2];
         int[] leadingBits = new int[3];
 
         leadingBits = SeedToByte.findLeadingBitValue(2, 3, 15);
+        passed[1] += 1;
         if (leadingBits[0] == 3 && leadingBits[1] == 1 && leadingBits[2] == 1)
+        {
             Debug.Log("Leading bits test 1 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 1 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(2, 3, 14);
+        passed[1] += 1;
         if (leadingBits[0] == 3 && leadingBits[1] == 0 && leadingBits[2] == 1)
+        {
             Debug.Log("Leading bits test 2 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 2 failed");
-
+        
         leadingBits = SeedToByte.findLeadingBitValue(2, 3, 9);
+        passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 1 && leadingBits[2] == 1)
+        {
             Debug.Log("Leading bits test 3 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 3 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(2, 3, 1);
+        passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 1 && leadingBits[2] == 1)
+        {
             Debug.Log("Leading bits test 4 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 4 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(3, 4, 15);
+        passed[1] += 1;
         if (leadingBits[0] == 7 && leadingBits[1] == 1 && leadingBits[2] == 1)
+        {
             Debug.Log("Leading bits test 5 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 5 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(3, 4, 14);
+        passed[1] += 1;
         if (leadingBits[0] == 7 && leadingBits[1] == 0 && leadingBits[2] == 1)
-            Debug.Log("Leading bits test 6 passed");
+        {
+            Debug.Log("Leading bits test 6 passed"); 
+            passed[0] += 1;
+        }
+
         else
             Debug.Log("Leading bits test 6 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(3, 4, 9);
+        passed[1] += 1;
         if (leadingBits[0] == 4 && leadingBits[1] == 1 && leadingBits[2] == 1)
+        {
             Debug.Log("Leading bits test 7 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 7 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(3, 4, 1);
+        passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 1 && leadingBits[2] == 1)
+        {
             Debug.Log("Leading bits test 8 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 8 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(4, 4, 15);
+        passed[1] += 1;
         if (leadingBits[0] == 15 && leadingBits[1] == 0 && leadingBits[2] == 0)
+        {
             Debug.Log("Leading bits test 9 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 9 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(4, 4, 14);
+        passed[1] += 1;
         if (leadingBits[0] == 14 && leadingBits[1] == 0 && leadingBits[2] == 0)
+        {
             Debug.Log("Leading bits test 10 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 10 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(4, 4, 9);
+        passed[1] += 1;
         if (leadingBits[0] == 9 && leadingBits[1] == 0 && leadingBits[2] == 0)
+        {
             Debug.Log("Leading bits test 11 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 11 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(4, 4, 1);
+        passed[1] += 1;
         if (leadingBits[0] == 1 && leadingBits[1] == 0 && leadingBits[2] == 0)
+        {
             Debug.Log("Leading bits test 12 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 12 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(2, 3, 0);
+        passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 0 && leadingBits[2] == 0)
+        {
             Debug.Log("Leading bits test 13 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 13 failed");
 
         leadingBits = SeedToByte.findLeadingBitValue(0, 4, 9);
+        passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 9 && leadingBits[2] == 4)
+        {
             Debug.Log("Leading bits test 14 passed");
+            passed[0] += 1;
+        }
         else
             Debug.Log("Leading bits test 14 failed");
+
+        return passed;
     }
 
 }
