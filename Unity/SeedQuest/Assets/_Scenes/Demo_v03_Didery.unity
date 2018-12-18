@@ -46411,6 +46411,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionItemList: []
+  actionListContainer: {fileID: 0}
+  scroll: {fileID: 0}
+  upButton: {fileID: 0}
+  downButton: {fileID: 0}
 --- !u!1 &1026831733
 GameObject:
   m_ObjectHideFlags: 0
@@ -50215,6 +50219,47 @@ Transform:
   m_Father: {fileID: 1216271658}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1132672275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1132672276}
+  - component: {fileID: 1132672277}
+  m_Layer: 0
+  m_Name: TestObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1132672276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132672275}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 520, y: 332, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2060397072}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1132672277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1132672275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80f311517bb47491c97c8ebaf33bc0b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionList: 
 --- !u!1 &1133718754
 GameObject:
   m_ObjectHideFlags: 0
@@ -86637,21 +86682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96df34427206a46a9ae6b6db559481d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testSeed1: C5E3D45D341A7
-  testSeed2: '||||||||||||||||'
-  testSeed3: 825A
-  a1234: a1234
-  testReturnStr: 
-  testReturnStr2: 
-  testReturnStr3: 
-  testBitStr: 
-  testByteArr: 
-  testReturnBytes: 
-  testActionToDo: 
-  actionToBits: 
-  actionToBitsVariant: 
   actionList: 
-  varSizeToDo: 
 --- !u!114 &1981015954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90208,6 +90239,7 @@ Transform:
   - {fileID: 214517556}
   - {fileID: 2140710677}
   - {fileID: 1981015952}
+  - {fileID: 1132672276}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

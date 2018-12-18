@@ -31,10 +31,11 @@ public class SeedToByteTests : MonoBehaviour {
         int[] test1 = testByteBitConversion();
         int[] test2 = testMultipleSizeSeeds();
         int[] test3 = testFindLeadingBits();
-        int[] test4 = testSmallSeeds();
+        int[] test4 = testBreakPoints();
+        int[] test5 = testSmallSeeds();
 
-        passed[0] = test1[0] + test2[0] + test3[0] + test4[0];
-        passed[1] = test1[1] + test2[1] + test3[1] + test4[1];
+        passed[0] = test1[0] + test2[0] + test3[0] + test4[0] + test5[0];
+        passed[1] = test1[1] + test2[1] + test3[1] + test4[1] + test5[1];
 
         Debug.Log("Successfully passed " + passed[0] + " of " + passed[1] + " tests.");
     }
@@ -121,12 +122,15 @@ public class SeedToByteTests : MonoBehaviour {
         else
             Debug.Log("Test 2 for converting 112 bit seed to action list and back failed");
 
+        testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
+        testHexSeed = SeedToByte.HexStringToByteArray(testHex);
+
         testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
 
-        if (testRunSeed[13] > 15)
-            testRunSeed[13] = (byte)((int)testRunSeed[13] % 7);
+        if (testHexSeed[13] > 15)
+            testHexSeed[13] = (byte)((int)testHexSeed[13] % 7);
 
-        BitArray seedBits = seedToByte.byteToBits(testRunSeed);
+        BitArray seedBits = seedToByte.byteToBits(testHexSeed);
         int[] actions3 = seedToByte.bitToActions(seedBits, tempList2);
 
         byte[] finalSeed3 = SeedToByte.seed108Converter(actions3, tempList2);
@@ -135,7 +139,7 @@ public class SeedToByteTests : MonoBehaviour {
         //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed3));
 
         passed[1] += 1;
-        if (seedToByte.byteToSeed(testRunSeed) == seedToByte.byteToSeed(finalSeed3))
+        if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed3))
         {
             Debug.Log("Test for converting 108 bit seed to action list and back passed");
             passed[0] += 1;
@@ -184,6 +188,45 @@ public class SeedToByteTests : MonoBehaviour {
         }
         else
             Debug.Log("Test for converting 24 bit seed to action list and back failed");
+
+        return passed;
+    }
+
+    public int[] testBreakPoints()
+    {
+        int[] passed = new int[2];
+
+        string testHex = "FFFFAAAAFFFFAAAA";
+        byte[] testHexSeed = SeedToByte.HexStringToByteArray(testHex);
+        List<int> tempList = SeedToByte.customList(4, 8, 6, 2, 2);
+        BitArray seedBits = seedToByte.byteToBits(testHexSeed);
+        int[] actions = seedToByte.bitToActions(seedBits, tempList);
+        byte[] finalSeed = SeedToByte.seedConverterUniversal(actions, tempList);
+
+        passed[1] += 1;
+        if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
+        {
+            Debug.Log("Test for converting 64 bit seed to action list and back passed");
+            passed[0] += 1;
+        }
+        else
+            Debug.Log("Test for converting 64 bit seed to action list and back failed");
+
+        testHex = "FFFFAAAAFFFFAAAAFFFFAAAAFFFFAAAA";
+        testHexSeed = SeedToByte.HexStringToByteArray(testHex);
+        tempList = SeedToByte.customList(4, 8, 6, 2, 4);
+        seedBits = seedToByte.byteToBits(testHexSeed);
+        actions = seedToByte.bitToActions(seedBits, tempList);
+        finalSeed = SeedToByte.seedConverterUniversal(actions, tempList);
+
+        passed[1] += 1;
+        if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
+        {
+            Debug.Log("Test for converting 128 bit seed to action list and back passed");
+            passed[0] += 1;
+        }
+        else
+            Debug.Log("Test for converting 128 bit seed to action list and back failed");
 
         return passed;
     }
