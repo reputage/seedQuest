@@ -16,6 +16,7 @@ public class PathManager : MonoBehaviour {
     /// <summary> Path that represents the order of correct interactions to be completed </summary>
     static public Interactable[] Path { get { return Instance.path; } } 
 
+
     /// <summary> Current path target interactable </summary>
     static public Interactable PathTarget {
         get {
@@ -130,5 +131,13 @@ public class PathManager : MonoBehaviour {
         LineRenderer line = PathMesh.GetComponentInChildren<LineRenderer>();
         line.positionCount = 0;
     } 
+
+    public void ResetPathManager()
+    {
+        PathMesh = null;
+        path = null;
+        pathSegmentIndex = 0;
+        pathSegment = null;
+    }
 }
 

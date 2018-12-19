@@ -75,6 +75,7 @@ public class ActionListCanvas : MonoBehaviour
         int count = PathManager.Path.Length;
         for (int i = 0; i < count; i++)
         {
+            Debug.Log(PathManager.Path.Length);
             string name = PathManager.Path[i].Name;
             string action = PathManager.Path[i].RehersalActionName;
             GameObject item = CreateActionItem(i, name + ": " + action);
@@ -146,7 +147,7 @@ public class ActionListCanvas : MonoBehaviour
 
         int listCount = actionItemList.Count;
         int logCount = InteractableManager.Log.Length;
-        for (int i = listCount; listCount < logCount; i++)
+        for (int i = listCount ; i < logCount; i++)
         {
             string name = InteractableManager.Log.interactableLog[i].Name;
             int actionID = InteractableManager.Log.actionLog[i];

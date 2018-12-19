@@ -37,6 +37,8 @@ public class EndGameUI : MonoBehaviour {
         copy.onClick.AddListener(onClickCopyKey);
         menu.onClick.AddListener(onClickMainMenu);
         quit.onClick.AddListener(onClickQuit);
+
+        //PathManager.ResetPathManager();
         //copyButton.SetActive(false);
     }
 
