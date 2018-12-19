@@ -117,7 +117,7 @@ public class SeedToByte : MonoBehaviour
     // Get the return seed from a list of actions
     public string getSeed(int[] actionsPerformed)
     {
-        returnBytes = actionConverter(actionsPerformed, actionList);
+        returnBytes = seedConverterUniversal(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
         return convertedSeed;
     }
@@ -126,7 +126,7 @@ public class SeedToByte : MonoBehaviour
     public string getSeed108(int[] actionsPerformed)
     {
         List<int> tempList = customList(3, 4, 2, 4, 4);
-        byte[] bytes108 = seed108Converter(actionsPerformed, tempList);
+        byte[] bytes108 = seedConverterUniversal(actionsPerformed, tempList);
         string convertedSeed = byteToSeed(bytes108);
         return convertedSeed;
     }
@@ -172,7 +172,7 @@ public class SeedToByte : MonoBehaviour
     public static byte[] HexStringToByteArray(string hex)
     {
         if (hex.Length % 2 == 1)
-            throw new Exception("The binary key cannot have an odd number of digits");
+            throw new Exception("The binary key cannot have an odd number of digits: " + hex.Length);
 
         byte[] bytes = new byte[hex.Length >> 1];
 
@@ -431,145 +431,6 @@ public class SeedToByte : MonoBehaviour
         return bytes3;
     }
 
-    // Takes the list of actions, converts it back into bytes, only works for 108 bit seeds
-    //  This function will soon be removed in favor of the universal one 
-    public static byte[] seed108Converter(int[] actions, List<int> varList)
-    {
-        // The action list passed to this function must be the right size
-        if (varList.Count == 0)
-            varList = listBuilder();
-
-        //var actionBits = new BitArray(size); // size = 128 in other function
-        int[] tempArray = new int[36];
-
-        int totalBits = 0;
-        for (int i = 0; i < varList.Count; i++)
-        {
-            totalBits += varList[i];
-        }
-
-        byte[] bytesFin = new byte[0];
-        int problem = 0;
-
-        //Debug.Log("Total bit count: " + totalBits);
-
-        if (totalBits % 8 != 0)
-            Debug.Log("Warning! Bits not divisible by 8 - does not divide evenly into bytes!");
-
-        if (actions.Length != varList.Count)
-            Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
-
-        if (totalBits < 64)
-        {
-            ulong path = 0;
-            for (int i = 0; i < varList.Count; i++)
-            {
-                if (i < actions.Length)
-                    path += (ulong)actions[i];
-                if (i < (varList.Count - 1))
-                    path = path << varList[i + 1];
-            }
-
-            path = path << (64 - totalBits);
-            byte[] bytesPath = BitConverter.GetBytes(path);
-            //Debug.Log("path int: " + path);
-
-            bytesFin = new byte[bytesPath.Length];
-            System.Buffer.BlockCopy(bytesPath, 0, bytesFin, 0, bytesPath.Length);
-        }
-        else
-        {
-            int modBits = totalBits % 64;
-            int numLongs = totalBits / 64;
-            int numShifts = 0;
-            int remainder = 0;
-            int numTraverse = 0;
-            ulong path = 0;
-
-            if (modBits > 0)
-                numLongs += 1;
-
-            for (int i = 0; i < numLongs; i++)
-            {
-                path = 0;
-                numShifts = varList[numTraverse] + remainder;
-
-                while (numShifts < 64)
-                {
-                    if (varList.Count <= numTraverse + 1)
-                    {
-                        path += (ulong)actions[numTraverse];
-                        path = path << (64 - (numShifts - (remainder * 2)));
-                        if (actions.Length < numTraverse - 1)
-                        {
-                            path += (ulong)actions[numTraverse + 1];
-                        }
-                        numShifts = 65;
-                    }
-                    else if (actions.Length < numTraverse)
-                    {
-                        path = path << (64 - (numShifts - (remainder * 2)));
-                        numShifts = 65;
-                    }
-                    else if (numShifts + varList[numTraverse + 1] + remainder > 64)
-                    {
-                        remainder = numShifts + varList[numTraverse + 1] - 64;
-                        path += (ulong)actions[numTraverse];
-                        path = path << (64 - numShifts);
-
-                        if (actions[numTraverse + 1] > 8)
-                        {
-                            problem += 1;
-                        }
-                        numShifts = 65;
-                    }
-                    else
-                    {
-                        path += (ulong)actions[numTraverse];
-                        path = path << varList[numTraverse + 1];
-                        numShifts += varList[numTraverse + 1];
-                        numTraverse++;
-                    }
-                }
-
-                byte[] bytesPath = BitConverter.GetBytes(path);
-                byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
-
-                // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
-                for (int j = 0; j < ( bytesPath.Length / 2 ); j++)
-                {
-                    byte tmp = bytesPath[j];
-                    bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
-                    bytesPath[bytesPath.Length - j - 1] = tmp;
-                }
-
-                System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesFin.Length);
-                System.Buffer.BlockCopy(bytesPath, 0, bytesTemp, bytesFin.Length, bytesPath.Length);
-
-                bytesFin = new byte[bytesTemp.Length];
-                System.Buffer.BlockCopy(bytesTemp, 0, bytesFin, 0, bytesTemp.Length);
-            }
-        }
-
-        for (int i = 0; i < bytesFin.Length; i++)
-        {
-            bytesFin[i] = ReverseWithLookupTable(bytesFin[i]);
-        }
-
-        if (totalBits < 128)
-        {
-            byte[] bytesTemp = new byte[bytesFin.Length - ( (128 - totalBits) / 8 ) ];
-            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
-            bytesFin = bytesTemp;
-        }
-        if (problem > 0)
-        {
-            bytesFin[7] += 128;
-        }
-
-        return bytesFin;
-    }
-
     // Takes the list of actions, converts it back into bytes,
     //  works for seeds of any bit size and configuration
     public static byte[] seedConverterUniversal(int[] actions, List<int> varList)
@@ -604,7 +465,7 @@ public class SeedToByte : MonoBehaviour
 
             path = path << (64 - totalBits);
             byte[] bytesPath = BitConverter.GetBytes(path);
-            Debug.Log("path int: " + path);
+            //Debug.Log("path int: " + path);
 
             // Reverse the endian of the bytes
             for (int j = 0; j < (bytesPath.Length / 2); j++)
