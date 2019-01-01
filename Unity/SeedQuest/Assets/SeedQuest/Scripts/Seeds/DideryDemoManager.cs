@@ -28,9 +28,9 @@ public class DideryDemoManager : MonoBehaviour
 
     public string demoDid;
     public string demoBlob;
-
-    public List<string> userDids;
     public bool isDemo = false;
+
+    public Dictionary<string, string> userDids = new Dictionary<string, string>();
 
     private string urlAddress = "http://178.128.0.203:8080/blob/";
     private SeedToByte seedToByte = new SeedToByte();
@@ -53,7 +53,7 @@ public class DideryDemoManager : MonoBehaviour
         set { Instance.isDemo = value; }
     }
 
-    static public List<string> UserDids
+    static public Dictionary<string, string> UserDids
     {
         get { return Instance.userDids; }
         set { Instance.userDids = value; }
@@ -185,4 +185,41 @@ public class DideryDemoManager : MonoBehaviour
         return seed;
     }
 
+    // Adds a did with a label name to the dictionary of user dids, then saves the data in a file
+    public void saveDidData(string name, string did)
+    {
+
+        if(userDids.ContainsKey(name))
+        {
+            Debug.Log("Error: A did with that name already exists");
+            return;
+        }
+        else if (name == "" || did == "")
+        {
+            Debug.Log("Error: Name or did seems to be empty");
+            return;
+        }
+        else
+        {
+            userDids.Add(name, did);
+        }
+        SaveSettings.saveSettings();
+    }
+
+    // Sets the did to be recovered at the end of the game
+    public void setDid(string name)
+    {
+        if (userDids.ContainsKey(name))
+        {
+            if (userDids[name] == "")
+                Debug.Log("Error: Name is found in user dids, but the did appears to be an empty string!");
+            else
+                demoDid = userDids[name];
+        }
+        else
+        {
+            Debug.Log("Error: Did with specified name does not appear to exist in user dids");
+            return;
+        }
+    }
 }
