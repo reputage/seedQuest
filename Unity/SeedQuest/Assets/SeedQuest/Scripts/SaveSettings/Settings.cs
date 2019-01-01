@@ -12,4 +12,6 @@ public class Settings
     public float SoundEffectVolume;
     public float CameraSensitivity;
     public bool IsVolumeMuted;
+
+    public List<string> userDids;
 }

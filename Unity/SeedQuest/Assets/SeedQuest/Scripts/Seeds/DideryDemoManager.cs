@@ -4,7 +4,8 @@ using System.Text;
 using System;
 using UnityEngine;
 
-public class DideryDemoManager : MonoBehaviour {
+public class DideryDemoManager : MonoBehaviour
+{
 
     // Note: Coroutines can only be called from a MonoBehavior class, and 
     //  can't be in a static function. GET, POST, and PUT requests must
@@ -27,6 +28,8 @@ public class DideryDemoManager : MonoBehaviour {
 
     public string demoDid;
     public string demoBlob;
+
+    public List<string> userDids;
     public bool isDemo = false;
 
     private string urlAddress = "http://178.128.0.203:8080/blob/";
@@ -34,20 +37,26 @@ public class DideryDemoManager : MonoBehaviour {
 
     static public string DemoDid
     {
-        get { return Instance.demoDid;  }
+        get { return Instance.demoDid; }
         set { Instance.demoDid = value; }
     }
 
     static public string DemoBlob
     {
-        get { return Instance.demoBlob;  }
+        get { return Instance.demoBlob; }
         set { Instance.demoBlob = value; }
     }
 
     static public bool IsDemo
     {
-        get { return Instance.isDemo;  }
+        get { return Instance.isDemo; }
         set { Instance.isDemo = value; }
+    }
+
+    static public List<string> UserDids
+    {
+        get { return Instance.userDids; }
+        set { Instance.userDids = value; }
     }
 
     // Send POST request to didery
