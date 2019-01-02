@@ -97,8 +97,8 @@ public static class SaveDids
     {
         string seed = "qwertyuiopasdfghjklzxcvbnm";
         string empty = "";
-        string pad1 = "mnbvcxzasdfghjpoiuyqwertlk";
-        string pad2 = "poiuytrewqlkjhgfdsa";
+        string pad1 = "whenthewearyworldwasyoungthestruggleoftheancientsfirstbegan";
+        string pad2 = "rocinantesailsbynight";
 
         string xorSeed1 = xorSeed(seed, pad1);
         string xorSeed2 = xorSeed(xorSeed1, pad1);

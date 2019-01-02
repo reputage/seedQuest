@@ -30,6 +30,7 @@ public class DideryDemoManager : MonoBehaviour
     public string demoBlob;
     public bool isDemo = false;
 
+    public string saveFileVersion;
     public Dictionary<string, string> userDids = new Dictionary<string, string>();
     public Dictionary<string, string> userSeeds = new Dictionary<string, string>();
 
@@ -52,6 +53,12 @@ public class DideryDemoManager : MonoBehaviour
     {
         get { return Instance.isDemo; }
         set { Instance.isDemo = value; }
+    }
+
+    static public string SaveFileVersion
+    {
+        get { return Instance.saveFileVersion; }
+        set { Instance.saveFileVersion = value; }
     }
 
     static public Dictionary<string, string> UserDids

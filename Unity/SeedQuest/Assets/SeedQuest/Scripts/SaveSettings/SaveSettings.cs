@@ -83,11 +83,13 @@ public static class SaveSettings
     public static void retrieveSeeds(Settings settings)
     {
         settings.userSeeds = DideryDemoManager.UserSeeds;
+        settings.saveFileVersion = DideryDemoManager.SaveFileVersion;
     }
 
     public static void setSeeds(Settings settings)
     {
         DideryDemoManager.UserSeeds = settings.userSeeds;
+        DideryDemoManager.SaveFileVersion = settings.saveFileVersion;
     }
 
 }

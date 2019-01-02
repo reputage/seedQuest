@@ -13,6 +13,8 @@ public class Settings
     public float CameraSensitivity;
     public bool IsVolumeMuted;
 
+    public string saveFileVersion;
+
     public Dictionary<string, string> userDids;
     public Dictionary<string, string> userSeeds;
 }
