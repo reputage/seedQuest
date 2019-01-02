@@ -16,6 +16,7 @@ public class SeedToByteTests : MonoBehaviour {
 	void Start () 
     {
         runAllTests();
+        //SaveDids.testXorSeed();
 	}
 	
 	// Update is called once per frame

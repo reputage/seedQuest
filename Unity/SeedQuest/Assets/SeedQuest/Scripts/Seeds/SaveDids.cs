@@ -64,17 +64,73 @@ public static class SaveDids
     }
 
     // Encrypt the seed before saving to file
-    static public string encryptSeed(string seed)
+    static public string xorSeed(string seed, string pad)
     {
         // encrypt the seed in some way
         // seed = encryption(seed);
-        return seed;
+        if(seed.Length <= 0)
+        {
+            Debug.Log("Error: Seed length is zero!");
+            return seed;
+        }
+        if(seed.Length > pad.Length)
+        {
+            Debug.Log("Error: Encryption pad is not long enough for this seed!");
+            return seed;
+        }
+        else
+        {
+            char[] seedArray = seed.ToCharArray();
+            char[] padArray = pad.ToCharArray();
+            char[] result = new char[seedArray.Length];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = (char)(seedArray[i] ^ padArray[i]);
+            }
+            return result.ToString();
+        }
     }
 
-    // Decrypt the seed
-    static public string decryptSeed(string seed)
+
+    static public void testXorSeed()
     {
-        // seed = decrypt(seed);
-        return seed;
+        string seed = "qwertyuiopasdfghjklzxcvbnm";
+        string empty = "";
+        string pad1 = "mnbvcxzasdfghjpoiuyqwertlk";
+        string pad2 = "poiuytrewqlkjhgfdsa";
+
+        string xorSeed1 = xorSeed(seed, pad1);
+        string xorSeed2 = xorSeed(xorSeed1, pad1);
+
+        string xorFail1 = xorSeed(seed, pad2);
+        string xorFail2 = xorSeed(empty, pad1);
+
+        if (xorSeed1 == xorSeed2)
+        {
+            Debug.Log("xorSeed test for seed encryption and decryption passed");
+        }
+        else
+        {
+            Debug.Log("xorSeed test for seed encryption and decryption failed");    
+        }
+
+        if (xorFail1 == seed)
+        {
+            Debug.Log("xorSeed test for handling short pad passed");
+        }
+        else
+        {
+            Debug.Log("xorSeed test for handling short pad failed");
+        }
+
+        if(xorFail2 == empty)
+        {
+            Debug.Log("xorSeed test for handling empty seed passed");
+        }
+        else
+        {
+            Debug.Log("xorSeed test for handling empty seed failed");    
+        }
     }
 }

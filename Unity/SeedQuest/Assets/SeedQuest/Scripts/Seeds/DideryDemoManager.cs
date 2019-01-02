@@ -62,7 +62,7 @@ public class DideryDemoManager : MonoBehaviour
 
     static public Dictionary<string, string> UserSeeds
     {
-        get { return Instance.userseeds; }
+        get { return Instance.userSeeds; }
         set { Instance.userSeeds = value; }
     }
 
