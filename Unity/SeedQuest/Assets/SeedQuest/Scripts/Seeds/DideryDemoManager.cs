@@ -31,6 +31,7 @@ public class DideryDemoManager : MonoBehaviour
     public bool isDemo = false;
 
     public Dictionary<string, string> userDids = new Dictionary<string, string>();
+    public Dictionary<string, string> userSeeds = new Dictionary<string, string>();
 
     private string urlAddress = "http://178.128.0.203:8080/blob/";
     private SeedToByte seedToByte = new SeedToByte();
@@ -57,6 +58,12 @@ public class DideryDemoManager : MonoBehaviour
     {
         get { return Instance.userDids; }
         set { Instance.userDids = value; }
+    }
+
+    static public Dictionary<string, string> UserSeeds
+    {
+        get { return Instance.userseeds; }
+        set { Instance.userSeeds = value; }
     }
 
     // Send POST request to didery
@@ -185,27 +192,6 @@ public class DideryDemoManager : MonoBehaviour
         return seed;
     }
 
-    // Adds a did with a label name to the dictionary of user dids, then saves the data in a file
-    public void saveDidData(string name, string did)
-    {
-
-        if(userDids.ContainsKey(name))
-        {
-            Debug.Log("Error: A did with that name already exists");
-            return;
-        }
-        else if (name == "" || did == "")
-        {
-            Debug.Log("Error: Name or did seems to be empty");
-            return;
-        }
-        else
-        {
-            userDids.Add(name, did);
-        }
-        SaveSettings.saveSettings();
-    }
-
     // Sets the did to be recovered at the end of the game
     public void setDid(string name)
     {
@@ -222,4 +208,25 @@ public class DideryDemoManager : MonoBehaviour
             return;
         }
     }
+
+    // Adds a did with a label name to the dictionary of user dids, then saves the data in a file
+    public void saveDidData(string name, string did)
+    {
+        SaveDids.saveDidData(userDids, name, did);
+    }
+
+    // Save seed data - necessary to rehearse the seed's route later
+    //  Note to self: should probably encrypt this in some way, just so it isn't stored in plain text
+    public void saveSeedData(string name, string seed)
+    {
+        SaveDids.saveSeedData(userSeeds, name, seed);
+    }
+
+    // Remove the seed data from the saved data file - this will render rehearse mode 
+    //  impossible for the chosen seed once this is performed
+    public void removeSeedData(string name)
+    {
+        SaveDids.removeSeedData(userSeeds, name);
+    }
+
 }

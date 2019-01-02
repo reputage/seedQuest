@@ -14,4 +14,5 @@ public class Settings
     public bool IsVolumeMuted;
 
     public Dictionary<string, string> userDids;
+    public Dictionary<string, string> userSeeds;
 }

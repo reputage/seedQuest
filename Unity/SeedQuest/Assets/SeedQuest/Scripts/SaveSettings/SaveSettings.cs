@@ -13,6 +13,7 @@ public static class SaveSettings
         Settings settings = new Settings();
         retrieveSettings(settings);
         retrieveDids(settings);
+        retrieveSeeds(settings);
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/savedSettings.gd");
         bf.Serialize(file, settings);
@@ -33,6 +34,7 @@ public static class SaveSettings
             file.Close();
             setSettings(settings);
             setDids(settings);
+            setSeeds(settings);
         }
         else
         {
@@ -76,6 +78,16 @@ public static class SaveSettings
     public static void setDids(Settings settings)
     {
         DideryDemoManager.UserDids = settings.userDids;
+    }
+
+    public static void retrieveSeeds(Settings settings)
+    {
+        settings.userSeeds = DideryDemoManager.UserSeeds;
+    }
+
+    public static void setSeeds(Settings settings)
+    {
+        DideryDemoManager.UserSeeds = settings.userSeeds;
     }
 
 }
