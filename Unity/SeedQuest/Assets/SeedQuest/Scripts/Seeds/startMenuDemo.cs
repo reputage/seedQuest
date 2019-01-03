@@ -9,9 +9,15 @@ public class startMenuDemo : MonoBehaviour {
 
     public InputField keyInputField;
     public Text keyString = null;
+    public Text nameString = null;
 
     public GameObject encryptButton;
     public GameObject demoKeyButton;
+
+    public GameObject rehearseKeys;
+    public GameObject recallKeys;
+    public GameObject encryptElements;
+
     private bool allowEnter;
     private bool entered;
 
@@ -153,4 +159,52 @@ public class startMenuDemo : MonoBehaviour {
         return returnStr;
     }
 
+    public void showEncryptElements()
+    {
+        encryptElements.SetActive(true);
+        hideRecallKeys();
+        hideRehearseKeys();
+    }
+
+    public void hideEncryptElements()
+    {
+        encryptElements.SetActive(false);
+    }
+
+    public void showRehearseKeys()
+    {
+        rehearseKeys.SetActive(true);
+        hideEncryptElements();
+        hideRecallKeys();
+    }
+
+    public void hideRehearseKeys()
+    {
+        rehearseKeys.SetActive(false);
+    }
+
+    public void showRecallKeys()
+    {
+        recallKeys.SetActive(true);
+        hideEncryptElements();
+        hideRehearseKeys();
+    }
+
+    public void hideRecallKeys()
+    {
+        recallKeys.SetActive(false);
+    }
+
+    public void quitGame()
+    {
+        Application.Quit();
+    }
+
 }
+
+/*
+foreach(KeyValuePair<string, string> entry in myDictionary)
+{
+    // do something with entry.Value or entry.Key
+}
+*/
