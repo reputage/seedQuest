@@ -159,6 +159,12 @@ public class startMenuDemo : MonoBehaviour {
         return returnStr;
     }
 
+    // to do:
+    // function to load seed and did into diderydemomanager
+    // function that calls above function and sets rehearsal/recall mode
+    // function that loads in the list of did names and seed names from save file
+    // function that sets the text of the buttons
+
     public void showEncryptElements()
     {
         encryptElements.SetActive(true);
@@ -174,6 +180,7 @@ public class startMenuDemo : MonoBehaviour {
     public void showRehearseKeys()
     {
         rehearseKeys.SetActive(true);
+        // Get the key names and assign to each button's text
         hideEncryptElements();
         hideRecallKeys();
     }
@@ -186,6 +193,7 @@ public class startMenuDemo : MonoBehaviour {
     public void showRecallKeys()
     {
         recallKeys.SetActive(true);
+        // Get the key names and assign to each button's text
         hideEncryptElements();
         hideRehearseKeys();
     }
@@ -203,8 +211,8 @@ public class startMenuDemo : MonoBehaviour {
 }
 
 /*
-foreach(KeyValuePair<string, string> entry in myDictionary)
+foreach(KeyValuePair<string, string> entry in thisDictionary)
 {
-    // do something with entry.Value or entry.Key
+    // do something: entry.Value or entry.Key
 }
 */
