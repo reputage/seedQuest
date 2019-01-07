@@ -4,13 +4,37 @@ using UnityEngine;
 
 public class KeyButton : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+    public int keyIndex;
+    public string keyName;
+    public
+
+    void Start () 
+    {
+        //getKeyName();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void getKeyName()
+    {
+        int i = 1;
+        foreach (KeyValuePair<string, string> entry in DideryDemoManager.UserDids)
+        {
+            if (i == keyIndex)
+            {
+                keyName = entry.Key;
+                return;
+            }
+            i++;
+        }
+        keyName = "";
+    }
+
+    public bool isEmpty()
+    {
+        getKeyName();
+        if (keyName == "")
+            return true;
+        else
+            return false;
+    }
+
 }

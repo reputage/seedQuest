@@ -25,6 +25,7 @@ public class startMenuDemo : MonoBehaviour {
     {
         entered = false;
         allowEnter = false;
+        hideAllSubMenus();
     }
 	
 	void Update () 
@@ -180,7 +181,6 @@ public class startMenuDemo : MonoBehaviour {
     public void showRehearseKeys()
     {
         rehearseKeys.SetActive(true);
-        // Get the key names and assign to each button's text
         hideEncryptElements();
         hideRecallKeys();
     }
@@ -193,7 +193,6 @@ public class startMenuDemo : MonoBehaviour {
     public void showRecallKeys()
     {
         recallKeys.SetActive(true);
-        // Get the key names and assign to each button's text
         hideEncryptElements();
         hideRehearseKeys();
     }
@@ -203,16 +202,38 @@ public class startMenuDemo : MonoBehaviour {
         recallKeys.SetActive(false);
     }
 
+    public void hideAllSubMenus()
+    {
+        hideEncryptElements();
+        hideRecallKeys();
+        hideRehearseKeys();
+    }
+
     public void quitGame()
     {
         Application.Quit();
     }
 
-}
+    public void hideEmptyRecallKeys()
+    {
+        Component[] recallKeyButtons;
+        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>();
+        foreach(KeyButton button in recallKeyButtons)
+        {
+            if (button.isEmpty() == true)
+                button.gameObject.SetActive(false);
+        }
+    }
 
-/*
-foreach(KeyValuePair<string, string> entry in thisDictionary)
-{
-    // do something: entry.Value or entry.Key
+    public void hideEmptyRehearseKeys()
+    {
+        Component[] rehearseKeyButtons;
+        rehearseKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>();
+        foreach (KeyButton button in rehearseKeyButtons)
+        {
+            if (button.isEmpty() == true)
+                button.gameObject.SetActive(false);
+        }
+    }
+
 }
-*/
