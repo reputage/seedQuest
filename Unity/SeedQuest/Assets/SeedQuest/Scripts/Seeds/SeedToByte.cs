@@ -122,6 +122,14 @@ public class SeedToByte : MonoBehaviour
         return convertedSeed;
     }
 
+    // Get the return seed from a list of actions
+    public string getSeedCustomList(int[] actionsPerformed, List<int> customList)
+    {
+        returnBytes = seedConverterUniversal(actionsPerformed, customList);
+        string convertedSeed = byteToSeed(returnBytes);
+        return convertedSeed;
+    }
+
     // Get the return seed using 108 bits, does not use global variables
     public string getSeed108(int[] actionsPerformed)
     {
