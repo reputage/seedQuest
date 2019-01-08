@@ -164,12 +164,6 @@ public class startMenuDemo : MonoBehaviour {
         return returnStr;
     }
 
-    // to do:
-    // function to load seed and did into diderydemomanager
-    // function that calls above function and sets rehearsal/recall mode
-    // function that loads in the list of did names and seed names from save file
-    // function that sets the text of the buttons
-
     public void showEncryptElements()
     {
         encryptElements.SetActive(true);
@@ -206,7 +200,6 @@ public class startMenuDemo : MonoBehaviour {
         hideEmptyRecallKeys();
         if (didTestDict.Count == 0)
             noKeysWarning.SetActive(true);
-
     }
 
     public void hideRecallKeys()

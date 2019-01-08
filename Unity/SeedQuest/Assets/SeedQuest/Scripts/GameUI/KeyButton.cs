@@ -44,4 +44,22 @@ public class KeyButton : MonoBehaviour {
             return false;
     }
 
+    // Set the seed that the user will practice, and begin rehearse mode
+    public void rehearsalStart()
+    {
+        if(keyName != "")
+            SeedManager.InputSeed = DideryDemoManager.UserSeeds[keyName];
+        GameManager.State = GameState.Rehearsal;
+    }
+
+    // Set the did that will be retrieved from didery, and begin recall mode
+    public void recallStart()
+    {
+        if (keyName != "")
+        {
+            DideryDemoManager.DemoDid = DideryDemoManager.UserSeeds[keyName];
+        }
+        GameManager.State = GameState.Recall;
+    }
+
 }
