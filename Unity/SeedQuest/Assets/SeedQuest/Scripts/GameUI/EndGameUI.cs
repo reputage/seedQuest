@@ -52,6 +52,9 @@ public class EndGameUI : MonoBehaviour {
     }
 
     public void onClickMainMenu() {
+        DideryDemoManager.Instance.Reset();
+        PathManager.Instance.Reset();
+        InteractableManager.Instance.Reset();
         GameManager.State = GameState.GameStart;
         StartCoroutine(SceneLoader.LoadMainMenu());
         //UnityEngine.SceneManagement.SceneManager.LoadScene(0);

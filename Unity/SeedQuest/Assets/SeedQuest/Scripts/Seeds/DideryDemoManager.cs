@@ -49,6 +49,8 @@ public class DideryDemoManager : MonoBehaviour {
         set { Instance.isDemo = value; }
     }
 
+    public void Reset()     {         demoDid = null;         demoBlob = null;         isDemo = false;     }
+
     // Send POST request to didery
     public void postRequest(string url, string postBody, string signature)
     {
