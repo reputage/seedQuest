@@ -17,6 +17,8 @@ public class startMenuDemo : MonoBehaviour {
     public GameObject rehearseKeys;
     public GameObject recallKeys;
     public GameObject encryptElements;
+    public GameObject noKeysWarning;
+    public Dictionary<string, string> didTestDict;
 
     private bool allowEnter;
     private bool entered;
@@ -26,6 +28,8 @@ public class startMenuDemo : MonoBehaviour {
         entered = false;
         allowEnter = false;
         hideAllSubMenus();
+
+        didTestDict = DideryDemoManager.UserDids;
     }
 	
 	void Update () 
@@ -183,11 +187,15 @@ public class startMenuDemo : MonoBehaviour {
         rehearseKeys.SetActive(true);
         hideEncryptElements();
         hideRecallKeys();
+        hideEmptyRehearseKeys();
+        if (didTestDict.Count == 0)
+            noKeysWarning.SetActive(true);
     }
 
     public void hideRehearseKeys()
     {
         rehearseKeys.SetActive(false);
+        noKeysWarning.SetActive(false);
     }
 
     public void showRecallKeys()
@@ -195,11 +203,16 @@ public class startMenuDemo : MonoBehaviour {
         recallKeys.SetActive(true);
         hideEncryptElements();
         hideRehearseKeys();
+        hideEmptyRecallKeys();
+        if (didTestDict.Count == 0)
+            noKeysWarning.SetActive(true);
+
     }
 
     public void hideRecallKeys()
     {
         recallKeys.SetActive(false);
+        noKeysWarning.SetActive(false);
     }
 
     public void hideAllSubMenus()
@@ -220,7 +233,7 @@ public class startMenuDemo : MonoBehaviour {
         recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>();
         foreach(KeyButton button in recallKeyButtons)
         {
-            if (button.isEmpty() == true)
+            if (button.isEmpty(didTestDict) == true)
                 button.gameObject.SetActive(false);
         }
     }
@@ -228,10 +241,10 @@ public class startMenuDemo : MonoBehaviour {
     public void hideEmptyRehearseKeys()
     {
         Component[] rehearseKeyButtons;
-        rehearseKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>();
+        rehearseKeyButtons = rehearseKeys.GetComponentsInChildren<KeyButton>();
         foreach (KeyButton button in rehearseKeyButtons)
         {
-            if (button.isEmpty() == true)
+            if (button.isEmpty(didTestDict) == true)
                 button.gameObject.SetActive(false);
         }
     }

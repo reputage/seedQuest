@@ -6,17 +6,24 @@ public class KeyButton : MonoBehaviour {
 
     public int keyIndex;
     public string keyName;
-    public
+    //public DideryDemoManager dideryDemoManager;
 
     void Start () 
     {
         //getKeyName();
 	}
-	
-    void getKeyName()
+
+    void getKeyName(Dictionary<string, string> userDids)
     {
         int i = 1;
-        foreach (KeyValuePair<string, string> entry in DideryDemoManager.UserDids)
+
+        // This causes an object reference error for some reason
+        if (userDids.Count == 0)
+        {
+            keyName = "";
+            return;
+        }
+        foreach (KeyValuePair<string, string> entry in userDids)
         {
             if (i == keyIndex)
             {
@@ -28,9 +35,9 @@ public class KeyButton : MonoBehaviour {
         keyName = "";
     }
 
-    public bool isEmpty()
+    public bool isEmpty(Dictionary<string, string> userDids)
     {
-        getKeyName();
+        getKeyName(userDids);
         if (keyName == "")
             return true;
         else
