@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 //[ExecuteInEditMode] 
@@ -62,7 +63,26 @@ public class Interactable : MonoBehaviour {
         buttons[0].onClick.AddListener(onClickNext);
         buttons[1].onClick.AddListener(onClickPrev);
         hideActions();
+
+        // Create Triggers for HoverEvents
+        setButtonHoverEvents(actionOne);
+        setButtonHoverEvents(actionTwo);
     } 
+
+    // Create TriggerEntry and add callback
+    public void setButtonHoverEvents(Button button) {
+        EventTrigger trigger = button.GetComponent<EventTrigger>();
+
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerEnter;
+        entry.callback.AddListener((data) => { GameManager.State = GameState.Interact; });
+        trigger.triggers.Add(entry);
+
+        EventTrigger.Entry exit = new EventTrigger.Entry();
+        exit.eventID = EventTriggerType.PointerExit;
+        exit.callback.AddListener((data) => { GameManager.State = GameState.Sandbox; });
+        trigger.triggers.Add(exit); 
+    }
 
     public void hideActions()
     {
@@ -80,22 +100,22 @@ public class Interactable : MonoBehaviour {
     }
 
     public void onClickNext() {
-        GameManager.State = GameState.Interact;
+        //GameManager.State = GameState.Interact;
         currentStateID = mod(currentStateID + 1, 4);
         Debug.Log("Next " + currentStateID);
         InteractableState state = stateData.states[currentStateID];
         state.enterState(this);
-        GameManager.State = GameState.Sandbox;
+        //GameManager.State = GameState.Sandbox;
     }
 
     public void onClickPrev() {
-        GameManager.State = GameState.Interact;
+        //GameManager.State = GameState.Interact;
         currentStateID = mod(currentStateID - 1, 4);
         Debug.Log("Prev " + currentStateID);
         InteractableState state = stateData.states[currentStateID];
         state.enterState(this);
-        GameManager.State = GameState.Sandbox;
-    }
+        //GameManager.State = GameState.Sandbox;
+    } 
 
     public void BillboardInteractable() {
         Vector3 targetPosition = IsometricCamera.Camera.transform.position;
@@ -117,7 +137,7 @@ public class Interactable : MonoBehaviour {
     }
 
     public void HoverOnInteractable() {
-        /*
+        
         Camera c = Camera.main;
         RaycastHit hit;
         //Ray ray = new Ray(c.transform.position, c.transform.forward);
@@ -127,21 +147,25 @@ public class Interactable : MonoBehaviour {
         {
             bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
             if (hitThisInteractable) {
-              
+
+                /*
                 if (!isOnHover)
                     toggleHighlight(true);
                 isOnHover = true;
 
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
                     InteractableManager.showActions(this);
+                    */
             }
             else {
+                /*
                 if (isOnHover)
                     toggleHighlight(false);
                 isOnHover = false;
+                */
             }
         }
-        */
+
     }
 
     public void clickOnInteractable() {
@@ -167,6 +191,11 @@ public class Interactable : MonoBehaviour {
             }
         }
 
+    }
+
+    public void startEffect() {
+        ParticleSystem effect = InteractableManager.getEffect();
+        effect.Play();
     }
 
     public void toggleHighlight(bool highlight) {

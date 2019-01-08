@@ -62,8 +62,7 @@ public class InteractableManager : MonoBehaviour {
         
     }
 
-    /*
-    static ParticleSystem getEffect() {
+    static public ParticleSystem getEffect() {
         ParticleSystem effect;
 
         InteractableStateData data = Instance.activeItem.stateData;
@@ -76,7 +75,6 @@ public class InteractableManager : MonoBehaviour {
 
         return effect;
     }
-    */
 
     /*
     static public void showActions(Interactable interactable) {
