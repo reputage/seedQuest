@@ -3,7 +3,7 @@
 public class InteractableManager : MonoBehaviour {
 
     public float nearDistance = 2.0f;
-    public GameObject actionSpotIcon;
+    public GameObject[] actionSpotIcons;
     private Interactable activeItem = null;
     //public InteractableLog log;
     public Interactable[] list = null;

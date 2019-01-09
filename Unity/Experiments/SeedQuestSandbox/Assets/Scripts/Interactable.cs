@@ -12,35 +12,26 @@ public class Interactable : MonoBehaviour {
     public InteractableStateData stateData = null;
     public InteractableID ID;
     public int currentStateID = 0;
+    public int InteractableUI = 0; 
 
     [HideInInspector]
     public float interactDistance = 2.0f;
     private bool isOnHover = false;
     private GameObject actionSpot = null;
-    private Button actionOne = null;
-    private Button actionTwo = null;
+    private Button[] actionButtons;
 
     // Use this for initialization
     void Start () {
-        //InitInteractable();
         InitInteractable();
 	}
 	
 	void Update () {
-        /*
-        if(GameManager.State == GameState.Rehearsal || GameManager.State == GameState.Recall)
-            if(actionSpot == null)
-                InitInteractable();*/
-        
-        //if(!PauseManager.isPaused && Camera.main != null && actionSpot != null) {
         if (actionSpot != null)
         {
             BillboardInteractable();
             HoverOnInteractable();
             clickOnInteractable();
         }
-
-        //HighlightPathTarget();
 	} 
 
     public void InitInteractable() {
@@ -49,24 +40,37 @@ public class Interactable : MonoBehaviour {
             positionOffset = stateData.labelPosOffset;
         Vector3 position = transform.position + positionOffset;
         Quaternion rotate = Quaternion.identity;
-        actionSpot = Instantiate(InteractableManager.Instance.actionSpotIcon, position, rotate, InteractableManager.Instance.transform);
-        var text = actionSpot.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        actionSpot = Instantiate(InteractableManager.Instance.actionSpotIcons[InteractableUI], position, rotate, InteractableManager.Instance.transform);
+        var text = actionSpot.GetComponentInChildren<TMPro.TextMeshProUGUI>(); 
 
         if (stateData != null)
             text.text = stateData.interactableName;
         else
             text.text = "Error: Require StateData";
+        
+        actionButtons = actionSpot.GetComponentsInChildren<Button>();
+        if(InteractableUI == 0) {
+            actionButtons[0].onClick.AddListener(onClickNext);
+            actionButtons[1].onClick.AddListener(onClickPrev);
+        }
+        else if(InteractableUI == 1) { 
+            for (int i = 0; i < 4; i++) {
+                var actionText = actionButtons[i].GetComponentInChildren<TMPro.TextMeshProUGUI>();
+                actionText.text = stateData.getStateName(i);
+            }
 
-        Button[] buttons = actionSpot.GetComponentsInChildren<Button>();
-        actionOne = buttons[0];
-        actionTwo = buttons[1];
-        buttons[0].onClick.AddListener(onClickNext);
-        buttons[1].onClick.AddListener(onClickPrev);
+            actionButtons[0].onClick.AddListener(delegate { doAction(0); });
+            actionButtons[1].onClick.AddListener(delegate { doAction(1); });
+            actionButtons[2].onClick.AddListener(delegate { doAction(2); });
+            actionButtons[3].onClick.AddListener(delegate { doAction(3); });
+        }
+
         hideActions();
 
         // Create Triggers for HoverEvents
-        setButtonHoverEvents(actionOne);
-        setButtonHoverEvents(actionTwo);
+        foreach (Button button in actionButtons) {
+            setButtonHoverEvents(button);
+        }
     } 
 
     // Create TriggerEntry and add callback
@@ -84,41 +88,45 @@ public class Interactable : MonoBehaviour {
         trigger.triggers.Add(exit); 
     }
 
-    public void hideActions()
-    {
-        actionOne.transform.gameObject.SetActive(false);
-        actionTwo.transform.gameObject.SetActive(false);
+    public void hideActions() {
+        foreach (Button button in actionButtons) {
+            button.transform.gameObject.SetActive(false);
+        }
     }
 
     public void showActions() {
-        actionOne.transform.gameObject.SetActive(true);
-        actionTwo.transform.gameObject.SetActive(true);
+        foreach (Button button in actionButtons) {
+            button.transform.gameObject.SetActive(true);
+        }
     }
-
+    
     int mod(int x, int m) {
         return (x % m + m) % m;
     }
 
     public void onClickNext() {
-        //GameManager.State = GameState.Interact;
         currentStateID = mod(currentStateID + 1, 4);
         Debug.Log("Next " + currentStateID);
         InteractableState state = stateData.states[currentStateID];
         state.enterState(this);
-        //GameManager.State = GameState.Sandbox;
     }
 
     public void onClickPrev() {
-        //GameManager.State = GameState.Interact;
         currentStateID = mod(currentStateID - 1, 4);
         Debug.Log("Prev " + currentStateID);
         InteractableState state = stateData.states[currentStateID];
         state.enterState(this);
-        //GameManager.State = GameState.Sandbox;
     } 
 
+    public void doAction(int actionIndex) {
+        Debug.Log("DO Action - " + actionIndex);
+        InteractableState state = stateData.states[actionIndex];
+        state.enterState(this);
+
+    }
+
     public void BillboardInteractable() {
-        Vector3 targetPosition = IsometricCamera.Camera.transform.position;
+        Vector3 targetPosition = Camera.main.transform.position;
         Vector3 interactablePosition = actionSpot.transform.position;
         Vector3 lookAtDir = targetPosition - interactablePosition;
         //lookAtDir.y = 0;
@@ -173,20 +181,22 @@ public class Interactable : MonoBehaviour {
         if (PauseManager.isPaused == true)
             return; 
 
-        Camera c = Camera.main;
-
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("BtnDown Interactable"); 
+
             RaycastHit hit;
-            Ray ray = new Ray(c.transform.position, c.transform.forward);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, 100.0f))
             {
+                Debug.Log("Ray Interactable " + hit.transform.name + " " + transform.name);
+
                 bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
                 if (hitThisInteractable) {
                     //InteractableManager.showActions(this);
                     showActions();
-                    Debug.Log("Click Interactable");
+                    Debug.Log("Click Interactable"); 
                 }
             }
         }
@@ -227,21 +237,6 @@ public class Interactable : MonoBehaviour {
             toggleHighlight(false);
     }
     */
-
-    public void doAction(int actionIndex) {
-        if(stateData == null) {
-            Debug.Log(this.name + " Error: StateData is null");
-            return;
-        }
-        else if(stateData.states.Count == 0) {
-            Debug.Log(this.name + " Error: States is empty");
-            return;
-        }
-        else {
-            InteractableState state = stateData.states[actionIndex];
-            state.enterState(this);
-        }
-    }
 
     public string getInteractableName()
     {
