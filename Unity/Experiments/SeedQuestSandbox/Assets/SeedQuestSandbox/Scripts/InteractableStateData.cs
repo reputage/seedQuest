@@ -18,6 +18,9 @@ public class InteractableState {
 
     public void enterState(Interactable item)
     {
+        foreach (Transform child in item.transform)
+            GameObject.Destroy(child.gameObject); 
+
         if(prefab != null) {
             GameObject _prefab = GameObject.Instantiate(prefab, item.transform);
             _prefab.transform.position += positionOffset;
@@ -25,8 +28,6 @@ public class InteractableState {
         }
         else {
             item.transform.position += positionOffset;
-            foreach (Transform child in item.transform)
-                GameObject.Destroy(child.gameObject);
         }
 
         if (mesh != null)
