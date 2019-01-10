@@ -6,7 +6,6 @@ public class KeyButton : MonoBehaviour {
 
     public int keyIndex;
     public string keyName;
-    //public DideryDemoManager dideryDemoManager;
 
     void Start () 
     {
@@ -48,7 +47,7 @@ public class KeyButton : MonoBehaviour {
     public void rehearsalStart()
     {
         if(keyName != "")
-            SeedManager.InputSeed = DideryDemoManager.UserSeeds[keyName];
+            SeedManager.InputSeed = DideryDemoManager.UserSeeds[keyName]; // fix this
         GameManager.State = GameState.Rehearsal;
     }
 

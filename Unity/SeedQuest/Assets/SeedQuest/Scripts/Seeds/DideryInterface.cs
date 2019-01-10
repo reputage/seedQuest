@@ -29,7 +29,7 @@ public static class DideryInterface{
         int success = LibSodiumManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
         if (success == 0)
         {
-            Debug.Log("Signing successful");
+            //Debug.Log("Signing successful");
         }
         else
         {

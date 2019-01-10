@@ -31,13 +31,13 @@ public class DideryDemoManager : MonoBehaviour
     public bool isDemo = false;
 
     public string saveFileVersion;
-    public Dictionary<string, string> userDids = new Dictionary<string, string>();
-    public Dictionary<string, string> userSeeds = new Dictionary<string, string>();
+    public static Dictionary<string, string> userDids = new Dictionary<string, string>();
+    public static Dictionary<string, string> userSeeds = new Dictionary<string, string>();
 
     private string urlAddress = "http://178.128.0.203:8080/blob/";
     private SeedToByte seedToByte = new SeedToByte();
 
-    static public string DemoDid
+	static public string DemoDid
     {
         get { return Instance.demoDid; }
         set { Instance.demoDid = value; }
@@ -63,14 +63,14 @@ public class DideryDemoManager : MonoBehaviour
 
     static public Dictionary<string, string> UserDids
     {
-        get { return Instance.userDids; }
-        set { Instance.userDids = value; }
+        get { return userDids; }
+        set { userDids = value; }
     }
 
     static public Dictionary<string, string> UserSeeds
     {
-        get { return Instance.userSeeds; }
-        set { Instance.userSeeds = value; }
+        get { return userSeeds; }
+        set { userSeeds = value; }
     }
 
     // Send POST request to didery
@@ -236,4 +236,62 @@ public class DideryDemoManager : MonoBehaviour
         SaveDids.removeSeedData(userSeeds, name);
     }
 
+
+    public static void addDid(string name, string did, string seed)
+    {
+        userDids.Add(name, did);
+        userSeeds.Add(name, seed);
+
+        Debug.Log("Added to userDids: " + userDids[name]);
+        Debug.Log("Added to userSeeds: " + userSeeds[name]);
+
+        // Add code here to save the data using SaveSettings.saveSettings();
+    }
+
+    public static string encryptAndSaveKey(string name, string inputKey, string url = null)
+    {
+        string urlAddress = "http://178.128.0.203:8080/blob/";
+
+        inputKey = VerifyKeys.removeHexPrefix(inputKey);
+        if (url == null)
+            url = urlAddress;
+        int size = 32;
+        string[] dideryData;
+
+        byte[] otp = new byte[32];
+        //byte[] seed = new byte[16]; // used for 128 bit seed
+        byte[] seed = new byte[14]; // used for 108 bit seed
+        byte[] encryptedKey = new byte[34];
+        byte[] key = Encoding.ASCII.GetBytes(inputKey);
+
+        seed = OTPworker.randomSeedGenerator(seed);
+
+        // Used for demo puroses - required if trying to use 108 bit seed
+        if (seed[13] > 7)
+            seed[13] = (byte)((int)seed[13] % 7);
+
+        OTPworker.OTPGenerator(otp, size, seed);
+
+        encryptedKey = OTPworker.OTPxor(key, otp);
+
+        dideryData = DideryInterface.makePost(encryptedKey);
+
+        string did = dideryData[0];
+        string signature = dideryData[1];
+        string postBody = dideryData[2];
+
+        //Debug.Log("Did: " + did + " signature: " + " postBody: " + postBody);
+        SeedManager.InputSeed = OTPworker.ByteArrayToHex(seed);
+        DideryDemoManager.DemoDid = did;
+        //Debug.Log("Did: " + DideryDemoManager.DemoDid);
+
+
+        // Temporarily disabling this for testing purposes
+        //postRequest(url, postBody, signature);
+
+        string seedString = BitConverter.ToString(seed).Replace("-", "");
+
+        //addDid(name, did, seedString);
+        return seedString;
+    }
 }

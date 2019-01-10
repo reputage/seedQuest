@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text;
 using System;
+using TMPro;
 
 public class startMenuDemo : MonoBehaviour {
 
     public InputField keyInputField;
+    public InputField nameInputField;
+
     public Text keyString = null;
     public Text nameString = null;
 
@@ -18,7 +21,8 @@ public class startMenuDemo : MonoBehaviour {
     public GameObject recallKeys;
     public GameObject encryptElements;
     public GameObject noKeysWarning;
-    public Dictionary<string, string> didTestDict;
+    public Dictionary<string, string> didDict;
+    public Dictionary<string, string> seedDict;
 
     private bool allowEnter;
     private bool entered;
@@ -29,7 +33,8 @@ public class startMenuDemo : MonoBehaviour {
         allowEnter = false;
         hideAllSubMenus();
 
-        didTestDict = DideryDemoManager.UserDids;
+        didDict = DideryDemoManager.UserDids;
+        seedDict = DideryDemoManager.UserSeeds;
     }
 	
 	void Update () 
@@ -56,6 +61,17 @@ public class startMenuDemo : MonoBehaviour {
         {
             deactivateEncryptButtons();
         }
+    }
+
+    public void encryptAndSaveKey()
+    {
+        //DideryDemoManager.encryptAndSaveKey(keyInputField.text, nameInputField.text);
+        didDict.Add(nameInputField.text, keyInputField.text);
+        string keySeed = DideryDemoManager.encryptAndSaveKey(nameInputField.text, keyInputField.text);
+        seedDict.Add(nameInputField.text, keySeed);
+        DideryDemoManager.UserDids = didDict;
+        DideryDemoManager.UserSeeds = seedDict;
+        changeKeyToCensored();
     }
 
     // Deactivate the encrypt buttons on the start screen
@@ -182,7 +198,7 @@ public class startMenuDemo : MonoBehaviour {
         hideEncryptElements();
         hideRecallKeys();
         hideEmptyRehearseKeys();
-        if (didTestDict.Count == 0)
+        if (didDict.Count == 0)
             noKeysWarning.SetActive(true);
     }
 
@@ -198,7 +214,7 @@ public class startMenuDemo : MonoBehaviour {
         hideEncryptElements();
         hideRehearseKeys();
         hideEmptyRecallKeys();
-        if (didTestDict.Count == 0)
+        if (didDict.Count == 0)
             noKeysWarning.SetActive(true);
     }
 
@@ -226,8 +242,13 @@ public class startMenuDemo : MonoBehaviour {
         recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>();
         foreach(KeyButton button in recallKeyButtons)
         {
-            if (button.isEmpty(didTestDict) == true)
+            if (button.isEmpty(didDict) == true)
                 button.gameObject.SetActive(false);
+            else
+            {
+                button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
+                button.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -237,8 +258,13 @@ public class startMenuDemo : MonoBehaviour {
         rehearseKeyButtons = rehearseKeys.GetComponentsInChildren<KeyButton>();
         foreach (KeyButton button in rehearseKeyButtons)
         {
-            if (button.isEmpty(didTestDict) == true)
+            if (button.isEmpty(didDict) == true)
                 button.gameObject.SetActive(false);
+            else
+            {
+                button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
+                button.gameObject.SetActive(true);
+            }
         }
     }
 
