@@ -134,4 +134,9 @@ public class InteractableUI {
     public void SetPositionOffset() {
         actionUI.GetComponent<RectTransform>().Translate(positionOffset);
     }
+
+    public void SetText(string text) {
+        var textMesh = actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        textMesh.text = text;
+    }
 }
