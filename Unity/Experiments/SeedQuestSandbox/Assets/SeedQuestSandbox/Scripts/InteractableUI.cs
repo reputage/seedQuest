@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public enum InteractableUIMode { LeftRight, List };
+public enum InteractableUIMode { LeftRightButtons, ButtonList };
 
 [System.Serializable]
 public class InteractableUI {
@@ -13,6 +13,9 @@ public class InteractableUI {
     public int fontSize = 36;
     public float scaleSize = 1;
     public InteractableUIMode mode;
+    public bool useRotateToCamera = true;
+    public Vector3 rotationOffset = new Vector3(0, 0, 0);
+    public Vector3 positionOffset = new Vector3(0, 0, 0);
 
     private GameObject actionUI = null;
     private Button[] actionButtons;
@@ -24,10 +27,10 @@ public class InteractableUI {
         Vector3 position = interactable.transform.position + positionOffset;
         Quaternion rotate = Quaternion.identity;
 
-        int modeIndex = mode == InteractableUIMode.LeftRight ? 0 : 1;
+        int modeIndex = mode == InteractableUIMode.LeftRightButtons ? 0 : 1;
         actionUI = GameObject.Instantiate(InteractableManager.Instance.actionSpotIcons[modeIndex], position, rotate, InteractableManager.Instance.transform);
-
-        setScale();
+        SetScale();
+        SetPositionOffset();
 
         var text = actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         text.fontSize = fontSize; 
@@ -38,11 +41,11 @@ public class InteractableUI {
             text.text = "Error: Missing StateData";
         
         actionButtons = actionUI.GetComponentsInChildren<Button>();
-        if (mode == InteractableUIMode.LeftRight) {
+        if (mode == InteractableUIMode.LeftRightButtons) {
             actionButtons[0].onClick.AddListener(interactable.NextAction);
             actionButtons[1].onClick.AddListener(interactable.PrevAction);
         }
-        else if (mode == InteractableUIMode.List) {
+        else if (mode == InteractableUIMode.ButtonList) {
             for (int i = 0; i < 4; i++) {
                 var actionText = actionButtons[i].GetComponentInChildren<TMPro.TextMeshProUGUI>();
                 actionText.text = interactable.stateData.getStateName(i);
@@ -63,8 +66,14 @@ public class InteractableUI {
     }
 
     public void Update() {
-        if(actionUI != null) {
-            BillboardInteractable();
+        if(isReady()) {
+            if(useRotateToCamera) {
+                BillboardInteractable();
+                SetRotationOffset();
+            }
+            else {
+                SetRotation(); 
+            }
         }
     }
 
@@ -110,8 +119,19 @@ public class InteractableUI {
         actionUI.transform.rotation = rotate;
     }
 
-    public void setScale() {
+    public void SetScale() {
         actionUI.GetComponent<RectTransform>().localScale = new Vector3(-0.01f * scaleSize, 0.01f * scaleSize, 0.01f * scaleSize);
     }
 
+    public void SetRotation() {
+        actionUI.GetComponent<RectTransform>().rotation = Quaternion.Euler(rotationOffset);
+    }
+
+    public void SetRotationOffset() {
+        actionUI.GetComponent<RectTransform>().Rotate(rotationOffset);
+    }
+
+    public void SetPositionOffset() {
+        actionUI.GetComponent<RectTransform>().Translate(positionOffset);
+    }
 }
