@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -18,32 +17,42 @@ public class InteractableState {
 
     public void enterState(Interactable item)
     {
+        // Remove Children GameObjects to Remove Assocaited Prefabs
         foreach (Transform child in item.transform)
             GameObject.Destroy(child.gameObject); 
 
+        // Update with Prefab
         if(prefab != null) {
             GameObject _prefab = GameObject.Instantiate(prefab, item.transform);
             _prefab.transform.position += positionOffset;
-            item.GetComponent<MeshFilter>().sharedMesh = null;
+
+            if(item.GetComponent<MeshFilter>() != null)
+                item.GetComponent<MeshFilter>().sharedMesh = null;
         }
         else {
             item.transform.position += positionOffset;
-        }
+        } 
 
+        // Update Mesh
         if (mesh != null)
             item.GetComponent<MeshFilter>().sharedMesh = mesh;
 
+        // Update Material and Material Index
         if (material != null) {
             Material[] materials = item.GetComponent<Renderer>().materials;
             materials[materialIndex] = material;
             item.GetComponent<Renderer>().materials = materials;
         } 
 
-        item.GetComponent<Renderer>().materials[materialIndex].SetTextureOffset("_MainTex", uvOffset);
+        // Set UVOffset for current material/material index
+        if(item.GetComponent<Renderer>() != null)
+           item.GetComponent<Renderer>().materials[materialIndex].SetTextureOffset("_MainTex", uvOffset);
 
+        // Update animation controller
         if (animatorController != null)
             item.GetComponentInChildren<Animator>().runtimeAnimatorController = animatorController;
 
+        // Play sound effect clip
         if (soundEffectName != "")
             AudioManager.Play(soundEffectName);
 
