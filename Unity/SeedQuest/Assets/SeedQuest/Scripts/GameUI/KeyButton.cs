@@ -58,7 +58,7 @@ public class KeyButton : MonoBehaviour {
         {
             DideryDemoManager.DemoDid = DideryDemoManager.UserSeeds[keyName];
         }
-        GameManager.State = GameState.Recall;
+        GameManager.State = GameState.Recall; // fix this too
     }
 
 }

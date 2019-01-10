@@ -65,7 +65,24 @@ public class startMenuDemo : MonoBehaviour {
 
     public void encryptAndSaveKey()
     {
-        //DideryDemoManager.encryptAndSaveKey(keyInputField.text, nameInputField.text);
+
+        if (keyInputField.text == "")
+        {
+            // warn the user
+            keyInputField.placeholder.color = Color.red;
+            if (nameInputField.text == "")
+                nameInputField.placeholder.color = Color.red;
+            return;
+        }
+        if (nameInputField.text == "")
+        {
+            // warn the user
+            nameInputField.placeholder.color = Color.red;
+            return;
+        }
+
+        // Check to make sure a seed/did with this name does not already exist
+
         didDict.Add(nameInputField.text, keyInputField.text);
         string keySeed = DideryDemoManager.encryptAndSaveKey(nameInputField.text, keyInputField.text);
         seedDict.Add(nameInputField.text, keySeed);
@@ -99,7 +116,7 @@ public class startMenuDemo : MonoBehaviour {
     public void useDemoKeyAndStart() {
         DideryDemoManager.IsDemo = true;
         DideryDemoManager.DemoBlob = keyInputField.text;
-        SeedManager.InputSeed = "A021E0A80264A33C08B6C2884AC0685C"; //"4040C1A90886218984850151AC123249";
+        SeedManager.InputSeed = "148436BD13EEB72557080989DF01"; //"4040C1A90886218984850151AC123249";
         GameManager.State = GameState.Rehearsal;
     }
 
@@ -183,6 +200,8 @@ public class startMenuDemo : MonoBehaviour {
     public void showEncryptElements()
     {
         encryptElements.SetActive(true);
+        keyInputField.text = "";
+        nameInputField.text = "";
         hideRecallKeys();
         hideRehearseKeys();
     }
@@ -239,14 +258,17 @@ public class startMenuDemo : MonoBehaviour {
     public void hideEmptyRecallKeys()
     {
         Component[] recallKeyButtons;
-        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>();
+        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>(true);
         foreach(KeyButton button in recallKeyButtons)
         {
             if (button.isEmpty(didDict) == true)
                 button.gameObject.SetActive(false);
             else
             {
-                button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
+                if(button.keyName.Length > 10)
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName.Substring(0, 10);
+                else
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
                 button.gameObject.SetActive(true);
             }
         }
@@ -255,14 +277,17 @@ public class startMenuDemo : MonoBehaviour {
     public void hideEmptyRehearseKeys()
     {
         Component[] rehearseKeyButtons;
-        rehearseKeyButtons = rehearseKeys.GetComponentsInChildren<KeyButton>();
+        rehearseKeyButtons = rehearseKeys.GetComponentsInChildren<KeyButton>(true);
         foreach (KeyButton button in rehearseKeyButtons)
         {
             if (button.isEmpty(didDict) == true)
                 button.gameObject.SetActive(false);
             else
             {
-                button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
+                if(button.keyName.Length > 10)
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName.Substring(0, 10);
+                else
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
                 button.gameObject.SetActive(true);
             }
         }
