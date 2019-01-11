@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public enum InteractableUIMode { LeftRightButtons, ButtonList };
+public enum InteractableUIMode { NextPrevSelect, GridSelect, ListSelect };
 
 [System.Serializable]
 public class InteractableUI {
@@ -27,7 +27,10 @@ public class InteractableUI {
         Vector3 position = interactable.transform.position + positionOffset;
         Quaternion rotate = Quaternion.identity;
 
-        int modeIndex = mode == InteractableUIMode.LeftRightButtons ? 0 : 1;
+        int modeIndex = 0;
+        modeIndex = mode == InteractableUIMode.GridSelect ? 1 : modeIndex;
+        modeIndex = mode == InteractableUIMode.ListSelect ? 2 : modeIndex;
+
         actionUI = GameObject.Instantiate(InteractableManager.Instance.actionSpotIcons[modeIndex], position, rotate, InteractableManager.Instance.transform);
         SetScale();
         SetPositionOffset();
@@ -41,11 +44,11 @@ public class InteractableUI {
             text.text = "Error: Missing StateData";
         
         actionButtons = actionUI.GetComponentsInChildren<Button>();
-        if (mode == InteractableUIMode.LeftRightButtons) {
+        if (mode == InteractableUIMode.NextPrevSelect) {
             actionButtons[0].onClick.AddListener(interactable.NextAction);
             actionButtons[1].onClick.AddListener(interactable.PrevAction);
         }
-        else if (mode == InteractableUIMode.ButtonList) {
+        else if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
             for (int i = 0; i < 4; i++) {
                 var actionText = actionButtons[i].GetComponentInChildren<TMPro.TextMeshProUGUI>();
                 actionText.text = interactable.stateData.getStateName(i);
