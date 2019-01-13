@@ -64,7 +64,6 @@ public class GameManager : MonoBehaviour {
                 PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
                 if (clickHandler != null) {
                     clickHandler.OnPointerClick(pointerEventData);
-                    //Debug.Log("Click - " + hit.transform.name);
                 }
             }
         }

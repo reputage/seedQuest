@@ -21,22 +21,27 @@ public class LevelSelect : MonoBehaviour {
     private GameObject levelsCanvas;
     private int currentLevel = 0;
 
-    private void Start()
-    { 
+    private void Start() { 
+        // Get LevelListCanvas
         levelsCanvas = GameObject.FindGameObjectWithTag("LevelListCanvas");
 
+        // Destroy unnecessary gameobjects
         foreach (Transform child in levelsCanvas.transform)
             GameObject.Destroy(child.gameObject);
+        RemoveInteractables(); 
 
+        // Create LevelButtons
         int i = 0;
         foreach(LevelInfo level in levelList) {
             createLevelButton(levelsCanvas.transform, new Vector3(0, -i * (height + padding), 0), new Vector2(512, 512), level.levelImage);
             i++;
         }
 
+        // Add Button Listeners to LevelButtons
         GameObject.FindGameObjectWithTag("NextButton").GetComponent<Button>().onClick.AddListener(nextLevel);
         GameObject.FindGameObjectWithTag("PrevButton").GetComponent<Button>().onClick.AddListener(prevLevel);
 
+        // Setup Text and Background Color
         setBackgroundColor();
         setCurrentLevelText();
     }
@@ -46,7 +51,7 @@ public class LevelSelect : MonoBehaviour {
         SceneManager.LoadScene(sceneName);
     }
 
-    private void nextLevel(){
+    private void nextLevel() {
         if (currentLevel >= levelList.Length - 1) return;
 
         currentLevel++;
@@ -89,4 +94,10 @@ public class LevelSelect : MonoBehaviour {
         return button;
     }
 
+    private void RemoveInteractables() {
+        GameObject[] interactables = GameObject.FindGameObjectsWithTag("InteractableUI");
+        foreach (GameObject child in interactables)
+            if (child.layer == LayerMask.NameToLayer("UI"))
+                GameObject.Destroy(child);        
+    }
 }
