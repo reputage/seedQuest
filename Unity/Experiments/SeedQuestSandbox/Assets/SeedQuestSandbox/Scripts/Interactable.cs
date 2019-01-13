@@ -109,7 +109,7 @@ public class Interactable : MonoBehaviour {
 
             if (Physics.Raycast(ray, out hit, 100.0f))
             {
-                Debug.Log("Ray Interactable " + hit.transform.name + " " + transform.name);
+                //Debug.Log("Ray Interactable " + hit.transform.name + " " + transform.name);
 
                 bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
                 if (hitThisInteractable) {

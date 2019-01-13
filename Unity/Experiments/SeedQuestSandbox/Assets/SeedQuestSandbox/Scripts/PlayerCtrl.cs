@@ -34,7 +34,7 @@ public class PlayerCtrl : MonoBehaviour {
         if (PauseManager.isPaused)
             return;
 
-        if(Input.GetMouseButton(0)) {
+        if(Input.GetMouseButtonDown(0)) {
             Camera camera = IsometricCamera.Camera;
 
             RaycastHit hit;

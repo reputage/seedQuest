@@ -58,6 +58,9 @@ public class InteractableUI {
 
         Button[] buttons = actionUI.GetComponentsInChildren<Button>();
         buttons[0].onClick.AddListener(showActions);
+
+        BoxCollider collider = buttons[0].gameObject.AddComponent<BoxCollider>();
+        collider.size = new Vector3(200, 40, 10);
     }
 
     public void SetupActionButtons()
@@ -96,6 +99,12 @@ public class InteractableUI {
         {
             setButtonHoverEvents(button);
         }
+
+        foreach(Button button in actionButtons) {
+            BoxCollider collider = button.gameObject.AddComponent<BoxCollider>();
+            collider.size = new Vector3(40, 40, 10);
+        }
+
     }
 
     // Create TriggerEntry and add callback
@@ -160,4 +169,5 @@ public class InteractableUI {
         var textMesh = actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         textMesh.text = text;
     }
+
 }

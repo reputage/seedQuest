@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum GameState { Sandbox, Pause, Interact }
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour {
     public static GameSoundData GameSound { get { return Instance.gameSound; } }
 
     public void Update() {
+        CheckButtonClick();
         ListenForKeyDown();
         CheckForEndGame();
     }
@@ -40,9 +42,31 @@ public class GameManager : MonoBehaviour {
     }
 
     public void ListenForKeyDown() {
-        if (Input.GetKeyDown("escape"))
-        {
+        if (Input.GetKeyDown("escape")) {
 
+        }
+    }
+
+    public void CheckButtonClick() {
+        if (Cursor.lockState == CursorLockMode.Locked) {
+            ClickButtons();
+        }
+    }
+
+    public void ClickButtons()
+    {
+        if (Input.GetMouseButtonDown(0)) {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, 100.0f)) {
+                IPointerClickHandler clickHandler = hit.transform.gameObject.GetComponent<IPointerClickHandler>();
+                PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+                if (clickHandler != null) {
+                    clickHandler.OnPointerClick(pointerEventData);
+                    //Debug.Log("Click - " + hit.transform.name);
+                }
+            }
         }
     }
 }
