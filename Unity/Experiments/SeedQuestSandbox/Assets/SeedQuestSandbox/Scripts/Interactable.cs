@@ -100,10 +100,7 @@ public class Interactable : MonoBehaviour {
         if (PauseManager.isPaused == true)
             return; 
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("BtnDown Interactable"); 
-
+        if (Input.GetMouseButtonDown(0)) { 
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
