@@ -9,8 +9,8 @@ public class KeyButton : MonoBehaviour {
 
     void Start () 
     {
-        //getKeyName();
-	}
+
+    }
 
     void getKeyName(Dictionary<string, string> userDids)
     {
@@ -46,9 +46,12 @@ public class KeyButton : MonoBehaviour {
     // Set the seed that the user will practice, and begin rehearse mode
     public void rehearsalStart()
     {
-        if(keyName != "")
-            SeedManager.InputSeed = DideryDemoManager.UserSeeds[keyName]; // fix this
-        GameManager.State = GameState.Rehearsal;
+        if (keyName != "")
+        {
+            Debug.Log("Key name: " + keyName + " returns user seed value: " + DideryDemoManager.UserSeeds[keyName] + " Input seed in SeedManager: " + SeedManager.InputSeed);
+            SeedManager.InputSeed = DideryDemoManager.UserSeeds[keyName]; 
+        }
+        GameManager.State = GameState.Rehearsal; 
     }
 
     // Set the did that will be retrieved from didery, and begin recall mode
@@ -56,9 +59,10 @@ public class KeyButton : MonoBehaviour {
     {
         if (keyName != "")
         {
+            Debug.Log("Key name: " + keyName + " returns user seed value: " + DideryDemoManager.UserSeeds[keyName] + " Input seed in SeedManager: " + SeedManager.InputSeed);
             DideryDemoManager.DemoDid = DideryDemoManager.UserSeeds[keyName];
         }
-        GameManager.State = GameState.Recall; // fix this too
+        GameManager.State = GameState.Recall; 
     }
 
 }

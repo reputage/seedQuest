@@ -82,13 +82,30 @@ public class startMenuDemo : MonoBehaviour {
         }
 
         // Check to make sure a seed/did with this name does not already exist
+        if (didDict.ContainsKey(nameInputField.text) == true)
+        {
+            Debug.Log("Warning! A did with this name already exists!");
+            // show UI telling user that a did already exists
 
-        didDict.Add(nameInputField.text, keyInputField.text);
-        string keySeed = DideryDemoManager.encryptAndSaveKey(nameInputField.text, keyInputField.text);
-        seedDict.Add(nameInputField.text, keySeed);
+            nameInputField.text = "";
+            keyInputField.text = "";
+
+            return;
+        }
+
+        // should probably add code here to make sure that the text from the input 
+        //  field contains only valid characters
+
+        string[] keyData = DideryDemoManager.encryptAndSaveKey(nameInputField.text, keyInputField.text);
+        seedDict.Add(nameInputField.text, keyData[0]);
+        didDict.Add(nameInputField.text, keyData[1]);
         DideryDemoManager.UserDids = didDict;
         DideryDemoManager.UserSeeds = seedDict;
-        changeKeyToCensored();
+        //changeKeyToCensored();
+
+        // Remove the text from the input boxes
+        nameInputField.text = "";
+        keyInputField.text = "";
     }
 
     // Deactivate the encrypt buttons on the start screen
@@ -118,6 +135,12 @@ public class startMenuDemo : MonoBehaviour {
         DideryDemoManager.DemoBlob = keyInputField.text;
         SeedManager.InputSeed = "148436BD13EEB72557080989DF01"; //"4040C1A90886218984850151AC123249";
         GameManager.State = GameState.Rehearsal;
+    }
+
+    // start the game in recover mode without setting a did
+    public void recoverModeNoDid()
+    {
+        GameManager.State = GameState.Recall;
     }
 
     // Test getting an encrypted key

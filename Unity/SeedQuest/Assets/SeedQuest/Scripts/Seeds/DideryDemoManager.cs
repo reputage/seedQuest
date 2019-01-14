@@ -237,18 +237,7 @@ public class DideryDemoManager : MonoBehaviour
     }
 
 
-    public static void addDid(string name, string did, string seed)
-    {
-        userDids.Add(name, did);
-        userSeeds.Add(name, seed);
-
-        Debug.Log("Added to userDids: " + userDids[name]);
-        Debug.Log("Added to userSeeds: " + userSeeds[name]);
-
-        // Add code here to save the data using SaveSettings.saveSettings();
-    }
-
-    public static string encryptAndSaveKey(string name, string inputKey, string url = null)
+    public static string[] encryptAndSaveKey(string name, string inputKey, string url = null)
     {
         string urlAddress = "http://178.128.0.203:8080/blob/";
 
@@ -290,8 +279,10 @@ public class DideryDemoManager : MonoBehaviour
         //postRequest(url, postBody, signature);
 
         string seedString = BitConverter.ToString(seed).Replace("-", "");
+        string[] keyData = new string[2];
+        keyData[0] = seedString;
+        keyData[1] = SeedToByte.ByteArrayToHex(encryptedKey); // temporariyl only saving the encrypted key - later on should store the entire did
 
-        //addDid(name, did, seedString);
-        return seedString;
+        return keyData;
     }
 }
