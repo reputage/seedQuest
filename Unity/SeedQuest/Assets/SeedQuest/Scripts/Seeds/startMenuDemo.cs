@@ -19,6 +19,8 @@ public class startMenuDemo : MonoBehaviour {
 
     public GameObject rehearseKeys;
     public GameObject recallKeys;
+    public GameObject deleteSeedsButton;
+    public GameObject deleteDidsButton;
     public GameObject encryptElements;
     public GameObject noKeysWarning;
     public Dictionary<string, string> didDict;
@@ -106,6 +108,9 @@ public class startMenuDemo : MonoBehaviour {
         // Remove the text from the input boxes
         nameInputField.text = "";
         keyInputField.text = "";
+
+        // when not demo-ing, should use the save function here
+        //SaveSettings.saveSettings();
     }
 
     // Deactivate the encrypt buttons on the start screen
@@ -225,8 +230,8 @@ public class startMenuDemo : MonoBehaviour {
         encryptElements.SetActive(true);
         keyInputField.text = "";
         nameInputField.text = "";
-        hideRecallKeys();
-        hideRehearseKeys();
+        hideRecoverMenu();
+        hideLearnMenu();
     }
 
     public void hideEncryptElements()
@@ -234,33 +239,53 @@ public class startMenuDemo : MonoBehaviour {
         encryptElements.SetActive(false);
     }
 
-    public void showRehearseKeys()
+    public void showLearnMenu()
     {
         rehearseKeys.SetActive(true);
         hideEncryptElements();
-        hideRecallKeys();
-        hideEmptyRehearseKeys();
-        if (didDict.Count == 0)
+        hideRecoverMenu();
+        setupRehearseKeys();
+        if (seedDict.Count == 0)
             noKeysWarning.SetActive(true);
     }
 
-    public void hideRehearseKeys()
+    public void showSeedPurgeMenu()
+    {
+        rehearseKeys.SetActive(true);
+        hideEncryptElements();
+        hideRecoverMenu();
+        setupSeedPurge();
+        if (seedDict.Count == 0)
+            noKeysWarning.SetActive(true);
+    }
+
+    public void hideLearnMenu()
     {
         rehearseKeys.SetActive(false);
         noKeysWarning.SetActive(false);
     }
 
-    public void showRecallKeys()
+    public void showRecoverMenu()
     {
         recallKeys.SetActive(true);
         hideEncryptElements();
-        hideRehearseKeys();
-        hideEmptyRecallKeys();
+        hideLearnMenu();
+        setupRecallKeys();
         if (didDict.Count == 0)
             noKeysWarning.SetActive(true);
     }
 
-    public void hideRecallKeys()
+    public void showDidPurgeMenu()
+    {
+        recallKeys.SetActive(true);
+        hideEncryptElements();
+        hideLearnMenu();
+        setupDidPurge();
+        if (didDict.Count == 0)
+            noKeysWarning.SetActive(true);
+    }
+
+    public void hideRecoverMenu()
     {
         recallKeys.SetActive(false);
         noKeysWarning.SetActive(false);
@@ -269,8 +294,8 @@ public class startMenuDemo : MonoBehaviour {
     public void hideAllSubMenus()
     {
         hideEncryptElements();
-        hideRecallKeys();
-        hideRehearseKeys();
+        hideRecoverMenu();
+        hideLearnMenu();
     }
 
     public void quitGame()
@@ -278,7 +303,8 @@ public class startMenuDemo : MonoBehaviour {
         Application.Quit();
     }
 
-    public void hideEmptyRecallKeys()
+    // Show the menu for recovering a did's seed
+    public void setupRecallKeys()
     {
         Component[] recallKeyButtons;
         recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>(true);
@@ -293,15 +319,19 @@ public class startMenuDemo : MonoBehaviour {
                 else
                     button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
                 button.gameObject.SetActive(true);
+                button.setMenuMode("recover");
+
+                Debug.Log("Showing recover menu");
             }
         }
     }
 
-    public void hideEmptyRehearseKeys()
+    // Show the menu for learning a key's seed
+    public void setupRehearseKeys()
     {
-        Component[] rehearseKeyButtons;
-        rehearseKeyButtons = rehearseKeys.GetComponentsInChildren<KeyButton>(true);
-        foreach (KeyButton button in rehearseKeyButtons)
+        Component[] recallKeyButtons;
+        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>(true);
+        foreach (KeyButton button in recallKeyButtons)
         {
             if (button.isEmpty(didDict) == true)
                 button.gameObject.SetActive(false);
@@ -312,8 +342,76 @@ public class startMenuDemo : MonoBehaviour {
                 else
                     button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
                 button.gameObject.SetActive(true);
+                button.setMenuMode("learn");
+
+                Debug.Log("Showing learn menu");
             }
         }
     }
 
+    // Show the menu for deleting saved dids
+    public void setupDidPurge()
+    {
+        Component[] recallKeyButtons;
+        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>(true);
+        foreach (KeyButton button in recallKeyButtons)
+        {
+            if (button.isEmpty(didDict) == true)
+                button.gameObject.SetActive(false);
+            else
+            {
+                if (button.keyName.Length > 10)
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName.Substring(0, 10);
+                else
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
+                button.gameObject.SetActive(true);
+                button.setMenuMode("purgeDid");
+                button.GetComponent<Button>().onClick.AddListener(delegate { purgeDid(button.keyName); } );
+
+                Debug.Log("Showing did purge menu");
+            }
+        }
+    }
+
+    // Show the menu for deleting saved seeds
+    public void setupSeedPurge()
+    {
+        Component[] recallKeyButtons;
+        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>(true);
+        foreach (KeyButton button in recallKeyButtons)
+        {
+            if (button.isEmpty(didDict) == true)
+                button.gameObject.SetActive(false);
+            else
+            {
+                if (button.keyName.Length > 10)
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName.Substring(0, 10);
+                else
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
+                button.gameObject.SetActive(true);
+                button.setMenuMode("purgeSeed");
+                button.GetComponent<Button>().onClick.AddListener(delegate { purgeSeed(button.keyName); });
+
+                Debug.Log("Showing seed purge menu");
+            }
+        }
+    }
+
+    // Deletes a seed from the user seed dictionary, and removes it from the saved file as well
+    public void purgeSeed(string keyName)
+    {
+        seedDict.Remove(keyName);
+        DideryDemoManager.UserSeeds = seedDict;
+        setupSeedPurge();
+        //SaveSettings.saveSettings();
+    }
+
+    // Deletes a did from the user did dictionary, and removes it from the saced file as well
+    public void purgeDid(string keyName)
+    {
+        didDict.Remove(keyName);
+        DideryDemoManager.UserDids = didDict;
+        setupDidPurge();
+        //SaveSettings.saveSettings();
+    }
 }
