@@ -247,6 +247,8 @@ public class startMenuDemo : MonoBehaviour {
         setupRehearseKeys();
         if (seedDict.Count == 0)
             noKeysWarning.SetActive(true);
+        else
+            deleteSeedsButton.SetActive(true);
     }
 
     public void showSeedPurgeMenu()
@@ -267,6 +269,8 @@ public class startMenuDemo : MonoBehaviour {
         setupRecallKeys();
         if (didDict.Count == 0)
             noKeysWarning.SetActive(true);
+        else
+            deleteDidsButton.SetActive(true);
     }
 
     public void showDidPurgeMenu()
@@ -294,9 +298,10 @@ public class startMenuDemo : MonoBehaviour {
 
     public void hideAllSubMenus()
     {
-        hideEncryptElements();
-        hideRecoverMenu();
-        hideLearnMenu();
+        encryptElements.SetActive(false);
+        recallKeys.SetActive(false);
+        noKeysWarning.SetActive(false);
+        demoKeyButton.SetActive(false);
     }
 
     public void quitGame()
@@ -321,10 +326,12 @@ public class startMenuDemo : MonoBehaviour {
                     button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
                 button.gameObject.SetActive(true);
                 button.setMenuMode("recover");
+                button.GetComponent<Button>().onClick.RemoveAllListeners();
+                button.GetComponent<Button>().onClick.AddListener(delegate { button.recallStart(); });
 
-                Debug.Log("Showing recover menu");
             }
         }
+        Debug.Log("Showing recover menu");
     }
 
     // Show the menu for learning a key's seed
@@ -344,10 +351,11 @@ public class startMenuDemo : MonoBehaviour {
                     button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
                 button.gameObject.SetActive(true);
                 button.setMenuMode("learn");
-
-                Debug.Log("Showing learn menu");
+                button.GetComponent<Button>().onClick.RemoveAllListeners();
+                button.GetComponent<Button>().onClick.AddListener(delegate { button.rehearsalStart(); });
             }
         }
+        Debug.Log("Showing learn menu");
     }
 
     // Show the menu for deleting saved dids
@@ -367,6 +375,7 @@ public class startMenuDemo : MonoBehaviour {
                     button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
                 button.gameObject.SetActive(true);
                 button.setMenuMode("purgeDid");
+                button.GetComponent<Button>().onClick.RemoveAllListeners();
                 button.GetComponent<Button>().onClick.AddListener(delegate { purgeDid(button.keyName); } );
 
                 Debug.Log("Showing did purge menu");
@@ -391,6 +400,7 @@ public class startMenuDemo : MonoBehaviour {
                     button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
                 button.gameObject.SetActive(true);
                 button.setMenuMode("purgeSeed");
+                button.GetComponent<Button>().onClick.RemoveAllListeners();
                 button.GetComponent<Button>().onClick.AddListener(delegate { purgeSeed(button.keyName); });
 
                 Debug.Log("Showing seed purge menu");
@@ -403,6 +413,8 @@ public class startMenuDemo : MonoBehaviour {
     {
         seedDict.Remove(keyName);
         DideryDemoManager.UserSeeds = seedDict;
+        hideAllSubMenus();
+        showLearnMenu();
         setupSeedPurge();
         //SaveSettings.saveSettings();
     }
@@ -412,6 +424,8 @@ public class startMenuDemo : MonoBehaviour {
     {
         didDict.Remove(keyName);
         DideryDemoManager.UserDids = didDict;
+        hideAllSubMenus();
+        showRecoverMenu();
         setupDidPurge();
         //SaveSettings.saveSettings();
     }

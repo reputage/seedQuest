@@ -49,7 +49,7 @@ public class KeyButton : MonoBehaviour {
     // Set the seed that the user will practice, and begin rehearse mode
     public void rehearsalStart()
     {
-        if (keyName != "")
+        if (keyName != "" && menuMode == "learn")
         {
             Debug.Log("Key name: " + keyName + " returns user seed value: " + DideryDemoManager.UserSeeds[keyName] + " Input seed in SeedManager: " + SeedManager.InputSeed);
             SeedManager.InputSeed = DideryDemoManager.UserSeeds[keyName]; 
@@ -60,7 +60,7 @@ public class KeyButton : MonoBehaviour {
     // Set the did that will be retrieved from didery, and begin recall mode
     public void recallStart()
     {
-        if (keyName != "")
+        if (keyName != "" && menuMode == "recover")
         {
             Debug.Log("Key name: " + keyName + " returns user did value: " + DideryDemoManager.UserDids[keyName] + " Demo blob in DideryDemoManager: " + DideryDemoManager.DemoBlob);
             DideryDemoManager.DemoDid = DideryDemoManager.UserDids[keyName];
