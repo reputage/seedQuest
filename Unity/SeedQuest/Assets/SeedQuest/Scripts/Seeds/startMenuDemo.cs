@@ -17,7 +17,6 @@ public class startMenuDemo : MonoBehaviour {
     public GameObject encryptButton;
     public GameObject demoKeyButton;
 
-    public GameObject rehearseKeys;
     public GameObject recallKeys;
     public GameObject deleteSeedsButton;
     public GameObject deleteDidsButton;
@@ -117,7 +116,7 @@ public class startMenuDemo : MonoBehaviour {
     public void deactivateEncryptButtons()
     {
         encryptButton.SetActive(false);
-        demoKeyButton.SetActive(false);
+        //demoKeyButton.SetActive(false);
     }
 
     // Censor the text in the input field
@@ -241,9 +240,10 @@ public class startMenuDemo : MonoBehaviour {
 
     public void showLearnMenu()
     {
-        rehearseKeys.SetActive(true);
         hideEncryptElements();
         hideRecoverMenu();
+        recallKeys.SetActive(true);
+        demoKeyButton.SetActive(true);
         setupRehearseKeys();
         if (seedDict.Count == 0)
             noKeysWarning.SetActive(true);
@@ -251,25 +251,19 @@ public class startMenuDemo : MonoBehaviour {
 
     public void showSeedPurgeMenu()
     {
-        rehearseKeys.SetActive(true);
         hideEncryptElements();
         hideRecoverMenu();
+        recallKeys.SetActive(true);
         setupSeedPurge();
         if (seedDict.Count == 0)
             noKeysWarning.SetActive(true);
     }
 
-    public void hideLearnMenu()
-    {
-        rehearseKeys.SetActive(false);
-        noKeysWarning.SetActive(false);
-    }
-
     public void showRecoverMenu()
     {
-        recallKeys.SetActive(true);
         hideEncryptElements();
         hideLearnMenu();
+        recallKeys.SetActive(true);
         setupRecallKeys();
         if (didDict.Count == 0)
             noKeysWarning.SetActive(true);
@@ -277,9 +271,9 @@ public class startMenuDemo : MonoBehaviour {
 
     public void showDidPurgeMenu()
     {
-        recallKeys.SetActive(true);
         hideEncryptElements();
         hideLearnMenu();
+        recallKeys.SetActive(true);
         setupDidPurge();
         if (didDict.Count == 0)
             noKeysWarning.SetActive(true);
@@ -289,6 +283,13 @@ public class startMenuDemo : MonoBehaviour {
     {
         recallKeys.SetActive(false);
         noKeysWarning.SetActive(false);
+    }
+
+    public void hideLearnMenu()
+    {
+        recallKeys.SetActive(false);
+        noKeysWarning.SetActive(false);
+        demoKeyButton.SetActive(false);
     }
 
     public void hideAllSubMenus()

@@ -53,8 +53,8 @@ public class KeyButton : MonoBehaviour {
         {
             Debug.Log("Key name: " + keyName + " returns user seed value: " + DideryDemoManager.UserSeeds[keyName] + " Input seed in SeedManager: " + SeedManager.InputSeed);
             SeedManager.InputSeed = DideryDemoManager.UserSeeds[keyName]; 
+            GameManager.State = GameState.Rehearsal; 
         }
-        GameManager.State = GameState.Rehearsal; 
     }
 
     // Set the did that will be retrieved from didery, and begin recall mode
@@ -64,8 +64,8 @@ public class KeyButton : MonoBehaviour {
         {
             Debug.Log("Key name: " + keyName + " returns user did value: " + DideryDemoManager.UserDids[keyName] + " Demo blob in DideryDemoManager: " + DideryDemoManager.DemoBlob);
             DideryDemoManager.DemoDid = DideryDemoManager.UserDids[keyName];
+            GameManager.State = GameState.Recall; 
         }
-        GameManager.State = GameState.Recall; 
     }
 
     // set which menu the button is acting for
