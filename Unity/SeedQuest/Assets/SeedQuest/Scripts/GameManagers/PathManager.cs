@@ -117,7 +117,14 @@ public class PathManager : MonoBehaviour {
         if (Instance.pathSegmentIndex + 1 < Path.Length)
             Instance.pathSegmentIndex++;
         else
-            GameManager.State = GameState.GameEnd;
+            Instance.StartCoroutine(endGame());
+    }
+
+    static private IEnumerator endGame()
+    {
+        yield return new WaitForSeconds(1f);
+
+        GameManager.State = GameState.GameEnd;
     }
 
     static public void PreviousPathSegment()
