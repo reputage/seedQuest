@@ -154,7 +154,18 @@ public class ActionListCanvas : MonoBehaviour
             string action = InteractableManager.Log.interactableLog[i].stateData.states[actionID].actionName;
             GameObject item = CreateActionItem(i, name + ": " + action);
             item.GetComponent<ActionItem>().image.sprite = GameManager.GameUI.checkedBox;
+            item.transform.localPosition = new Vector3(28, 525 - (75 * (logCount - 1)), 0);
             actionItemList.Add(item.GetComponent<ActionItem>());
+            if (currentIndex != logCount)
+            {
+                float decrement = 1 - (0.095f * (logCount - 1));
+                if (decrement < 0)
+                {
+                    decrement = 0;
+                }
+                scroll.verticalNormalizedPosition = decrement;
+                currentIndex = logCount;
+            }
         }
     }
 
