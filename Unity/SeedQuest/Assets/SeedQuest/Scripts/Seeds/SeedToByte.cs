@@ -82,8 +82,10 @@ public class SeedToByte : MonoBehaviour
     }
 
     // Take string for input, get the to-do list of actions
-    public int[] getActions(string inputStr)
+    public int[] getActions(string inputStr, List<int> actionList=null)
     {
+        if (actionList == null)
+            actionList = listBuilder();
         inputSeed = inputStr;
         inputBytes = seedToByte(inputSeed);
         inputBits = byteToBits(inputBytes);
@@ -106,17 +108,20 @@ public class SeedToByte : MonoBehaviour
     }
 
     // Take string for input, get the to-do list of actions
-    public int[] getActionsFromBytes(byte[] inputBytes)
+    public int[] getActionsFromBytes(byte[] inputBytes, List<int> actionList = null)
     {
-        actionList = listBuilder();
+        if(actionList == null)
+            actionList = listBuilder();
         BitArray inputBits2 = byteToBits(inputBytes);
         int[] actionToDo2 = bitToActions(inputBits2, actionList);
         return actionToDo2;
     }
 
     // Get the return seed from a list of actions
-    public string getSeed(int[] actionsPerformed)
+    public string getSeed(int[] actionsPerformed, List<int> actionList = null)
     {
+        if (actionList == null)
+            actionList = listBuilder();
         returnBytes = seedConverterUniversal(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
         return convertedSeed;
@@ -133,7 +138,7 @@ public class SeedToByte : MonoBehaviour
     // Get the return seed using 108 bits, does not use global variables
     public string getSeed108(int[] actionsPerformed)
     {
-        List<int> tempList = customList(3, 4, 2, 4, 4);
+        List<int> tempList = customList(3, 4, 2, 4, 4); //this probably shouldn't be hard-coded, but was necessary for the demo
         byte[] bytes108 = seedConverterUniversal(actionsPerformed, tempList);
         string convertedSeed = byteToSeed(bytes108);
         return convertedSeed;
