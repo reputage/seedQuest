@@ -242,13 +242,18 @@ public class startMenuDemo : MonoBehaviour {
     {
         hideEncryptElements();
         hideRecoverMenu();
-        recallKeys.SetActive(true);
+        //recallKeys.SetActive(true);
         demoKeyButton.SetActive(true);
-        setupRehearseKeys();
+        //setupRehearseKeys();
         if (seedDict.Count == 0)
             noKeysWarning.SetActive(true);
         else
+        {
             deleteSeedsButton.SetActive(true);
+            recallKeys.SetActive(true);
+            setupRehearseKeys();
+            demoKeyButton.SetActive(true);
+        }
     }
 
     public void showSeedPurgeMenu()
@@ -270,7 +275,11 @@ public class startMenuDemo : MonoBehaviour {
         if (didDict.Count == 0)
             noKeysWarning.SetActive(true);
         else
-            deleteDidsButton.SetActive(true);
+        { 
+            deleteDidsButton.SetActive(true); 
+            recallKeys.SetActive(true);
+            setupRecallKeys();
+        }
     }
 
     public void showDidPurgeMenu()
@@ -302,6 +311,8 @@ public class startMenuDemo : MonoBehaviour {
         recallKeys.SetActive(false);
         noKeysWarning.SetActive(false);
         demoKeyButton.SetActive(false);
+        deleteSeedsButton.SetActive(false);
+        deleteDidsButton.SetActive(false); 
     }
 
     public void quitGame()
