@@ -8,7 +8,7 @@ public class SettingsManager : MonoBehaviour {
     public float masterVolume = 1.0f;
     public float musicVolume = 1.0f;
     public float soundEffectVolume = 1.0f;
-    public float cameraSensitivity = 0.5f;
+    public float cameraSensitivity = 1.0f;
     public bool muteVolume = false;
 
     static private SettingsManager __instance = null;

@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 
-    /// <summary> Reference to singleton instance of PlayerManager </summary>
-    static private PlayerManager instance = null;
     /// <summary> Reference to Player Transform </summary>
-    private Transform player;
+    static private Transform player;
 
-    void Awake() {
-        instance = this;
+    private void Awake() {
+        player = GameObject.FindWithTag("Player").transform;
     }
 
     /// <summary> Transform attached to Player gameobject </summary>
     static public Transform Transform {
-        get { return instance.player; }
+        get { return player;  }
+        set { player = value; }
     }
 
     /// <summary> Position of player in world space </summary>
     static public Vector3 Position {
-        get { return instance.player.position; }
+        get { return player.position; }
     }
 
-    /// <summary> Sets transform attached to Player gameobject </summary>
-    static public void SetPlayer(Transform transform) {
-        instance.player = transform;
+    /// <summary> Forward direction of player </summary>
+    static public Vector3 Forward
+    {
+        get { return player.forward; }
     }
 }

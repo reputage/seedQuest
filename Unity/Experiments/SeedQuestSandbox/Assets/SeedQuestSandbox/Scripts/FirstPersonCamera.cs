@@ -26,7 +26,7 @@ public class FirstPersonCamera : MonoBehaviour {
     public void UpdateRotation() {
         float horizontal = Input.GetAxis("Mouse X") * mouseSpeed * SettingsManager.CameraSensitivity;
         float vertical = Input.GetAxis("Mouse Y") * mouseSpeed * SettingsManager.CameraSensitivity;
-        vertical = Mathf.Clamp(vertical, -80, 80);
+        vertical = Mathf.Clamp(vertical, -90f, 90f);
 
         characterTransform = transform;
         cameraTransform = GetComponentInChildren<Camera>().transform;
