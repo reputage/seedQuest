@@ -26,7 +26,7 @@ public class SeedToByteTests : MonoBehaviour {
 	}
 
     // Run all tests at once
-    void runAllTests()
+    public void runAllTests()
     {
         int[] passed = new int[2];
         int[] test1 = testByteBitConversion();

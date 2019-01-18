@@ -14,12 +14,12 @@ public class SurveyTests : MonoBehaviour {
 
     SurveyDataHandler surveyDataHandler = new SurveyDataHandler();
 
-    void runTests()
+    public void runTests()
     {
         testPostRequest();
     }
 
-    void testPostRequest()
+    private void testPostRequest()
     {
         surveyDataHandler.postRequest(url, apiHeader, apiToken, surveyId, fileBytes);
     }
