@@ -14,17 +14,16 @@ public class KeyButton : MonoBehaviour {
     }
 
     // finds the key name for this button
-    void getKeyName(Dictionary<string, string> userDids)
+    void getKeyName(Dictionary<string, string> userSeeds)
     {
         int i = 1;
 
-        // This causes an object reference error for some reason
-        if (userDids.Count == 0)
+        if (userSeeds.Count == 0)
         {
             keyName = "";
             return;
         }
-        foreach (KeyValuePair<string, string> entry in userDids)
+        foreach (KeyValuePair<string, string> entry in userSeeds)
         {
             if (i == keyIndex)
             {
@@ -57,17 +56,6 @@ public class KeyButton : MonoBehaviour {
         }
     }
 
-    // Set the did that will be retrieved from didery, and begin recall mode
-    public void recallStart()
-    {
-        if (keyName != "" && menuMode == "recover")
-        {
-            Debug.Log("Key name: " + keyName + " returns user did value: " + DideryDemoManager.UserDids[keyName] + " Demo blob in DideryDemoManager: " + DideryDemoManager.DemoBlob);
-            DideryDemoManager.DemoDid = DideryDemoManager.UserDids[keyName];
-            GameManager.State = GameState.Recall; 
-        }
-    }
-
     // set which menu the button is acting for
     public void setMenuMode(string menuType)
     {
@@ -80,10 +68,6 @@ public class KeyButton : MonoBehaviour {
         if(menuMode == "learn")
         {
             rehearsalStart();
-        }
-        else if (menuMode == "recover")
-        {
-            recallStart();
         }
     }
 

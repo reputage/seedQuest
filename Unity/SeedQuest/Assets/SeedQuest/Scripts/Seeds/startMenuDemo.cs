@@ -4,41 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text;
 using System;
-using TMPro;
 
-public class startMenuDemo : MonoBehaviour {
+public class startMenuDemo : MonoBehaviour
+{
 
     public InputField keyInputField;
-    public InputField nameInputField;
-
     public Text keyString = null;
-    public Text nameString = null;
 
     public GameObject encryptButton;
     public GameObject demoKeyButton;
-
-    public GameObject recallKeys;
-    public GameObject deleteSeedsButton;
-    public GameObject deleteDidsButton;
-    public GameObject encryptElements;
-    public GameObject noKeysWarning;
-    public Dictionary<string, string> didDict;
-    public Dictionary<string, string> seedDict;
-
     private bool allowEnter;
     private bool entered;
 
-	void Start () 
+    void Start()
     {
         entered = false;
         allowEnter = false;
-        hideAllSubMenus();
-
-        didDict = DideryDemoManager.UserDids;
-        seedDict = DideryDemoManager.UserSeeds;
     }
-	
-	void Update () 
+
+    void Update()
     {
         if (allowEnter && keyInputField.text != "" && Input.GetKey(KeyCode.Return))
         {
@@ -64,59 +48,11 @@ public class startMenuDemo : MonoBehaviour {
         }
     }
 
-    public void encryptAndSaveKey()
-    {
-
-        if (keyInputField.text == "")
-        {
-            // warn the user
-            keyInputField.placeholder.color = Color.red;
-            if (nameInputField.text == "")
-                nameInputField.placeholder.color = Color.red;
-            return;
-        }
-        if (nameInputField.text == "")
-        {
-            // warn the user
-            nameInputField.placeholder.color = Color.red;
-            return;
-        }
-
-        // Check to make sure a seed/did with this name does not already exist
-        if (didDict.ContainsKey(nameInputField.text) == true)
-        {
-            Debug.Log("Warning! A did with this name already exists!");
-            // show UI telling user that a did already exists
-
-            nameInputField.text = "";
-            keyInputField.text = "";
-
-            return;
-        }
-
-        // should probably add code here to make sure that the text from the input 
-        //  field contains only valid characters
-
-        string[] keyData = DideryDemoManager.encryptAndSaveKey(nameInputField.text, keyInputField.text);
-        seedDict.Add(nameInputField.text, keyData[0]);
-        didDict.Add(nameInputField.text, keyData[1]);
-        DideryDemoManager.UserDids = didDict;
-        DideryDemoManager.UserSeeds = seedDict;
-        //changeKeyToCensored();
-
-        // Remove the text from the input boxes
-        nameInputField.text = "";
-        keyInputField.text = "";
-
-        // when not demo-ing, should use the save function here
-        //SaveSettings.saveSettings();
-    }
-
     // Deactivate the encrypt buttons on the start screen
     public void deactivateEncryptButtons()
     {
         encryptButton.SetActive(false);
-        //demoKeyButton.SetActive(false);
+        demoKeyButton.SetActive(false);
     }
 
     // Censor the text in the input field
@@ -130,21 +66,16 @@ public class startMenuDemo : MonoBehaviour {
     {
         DideryDemoManager.IsDemo = true;
         DideryDemoManager.DemoBlob = keyInputField.text;
-        SeedManager.InputSeed =  "148436BD13EEB72557080989DF01"; //"A021E0A80264A33C08B6C2884AC0685C";
+        SeedManager.InputSeed = "148436BD13EEB72557080989DF01"; //"A021E0A80264A33C08B6C2884AC0685C";
         deactivateEncryptButtons();
     }
 
-    public void useDemoKeyAndStart() {
+    public void useDemoKeyAndStart()
+    {
         DideryDemoManager.IsDemo = true;
         DideryDemoManager.DemoBlob = keyInputField.text;
-        SeedManager.InputSeed = "148436BD13EEB72557080989DF01"; //"4040C1A90886218984850151AC123249";
+        SeedManager.InputSeed = "A021E0A80264A33C08B6C2884AC0685C"; //"4040C1A90886218984850151AC123249";
         GameManager.State = GameState.Rehearsal;
-    }
-
-    // start the game in recover mode without setting a did
-    public void recoverModeNoDid()
-    {
-        GameManager.State = GameState.Recall;
     }
 
     // Test getting an encrypted key
@@ -224,220 +155,4 @@ public class startMenuDemo : MonoBehaviour {
         return returnStr;
     }
 
-    public void showEncryptElements()
-    {
-        encryptElements.SetActive(true);
-        keyInputField.text = "";
-        nameInputField.text = "";
-        hideRecoverMenu();
-        hideLearnMenu();
-    }
-
-    public void hideEncryptElements()
-    {
-        encryptElements.SetActive(false);
-    }
-
-    public void showLearnMenu()
-    {
-        hideEncryptElements();
-        hideRecoverMenu();
-        //recallKeys.SetActive(true);
-        demoKeyButton.SetActive(true);
-        //setupRehearseKeys();
-        if (seedDict.Count == 0)
-            noKeysWarning.SetActive(true);
-        else
-        {
-            deleteSeedsButton.SetActive(true);
-            recallKeys.SetActive(true);
-            setupRehearseKeys();
-            demoKeyButton.SetActive(true);
-        }
-    }
-
-    public void showSeedPurgeMenu()
-    {
-        hideEncryptElements();
-        hideRecoverMenu();
-        recallKeys.SetActive(true);
-        setupSeedPurge();
-        if (seedDict.Count == 0)
-            noKeysWarning.SetActive(true);
-    }
-
-    public void showRecoverMenu()
-    {
-        hideEncryptElements();
-        hideLearnMenu();
-        recallKeys.SetActive(true);
-        setupRecallKeys();
-        if (didDict.Count == 0)
-            noKeysWarning.SetActive(true);
-        else
-        { 
-            deleteDidsButton.SetActive(true); 
-            recallKeys.SetActive(true);
-            setupRecallKeys();
-        }
-    }
-
-    public void showDidPurgeMenu()
-    {
-        hideEncryptElements();
-        hideLearnMenu();
-        recallKeys.SetActive(true);
-        setupDidPurge();
-        if (didDict.Count == 0)
-            noKeysWarning.SetActive(true);
-    }
-
-    public void hideRecoverMenu()
-    {
-        recallKeys.SetActive(false);
-        noKeysWarning.SetActive(false);
-    }
-
-    public void hideLearnMenu()
-    {
-        recallKeys.SetActive(false);
-        noKeysWarning.SetActive(false);
-        demoKeyButton.SetActive(false);
-    }
-
-    public void hideAllSubMenus()
-    {
-        encryptElements.SetActive(false);
-        recallKeys.SetActive(false);
-        noKeysWarning.SetActive(false);
-        demoKeyButton.SetActive(false);
-        deleteSeedsButton.SetActive(false);
-        deleteDidsButton.SetActive(false); 
-    }
-
-    public void quitGame()
-    {
-        Application.Quit();
-    }
-
-    // Show the menu for recovering a did's seed
-    public void setupRecallKeys()
-    {
-        Component[] recallKeyButtons;
-        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>(true);
-        foreach(KeyButton button in recallKeyButtons)
-        {
-            if (button.isEmpty(didDict) == true)
-                button.gameObject.SetActive(false);
-            else
-            {
-                if(button.keyName.Length > 10)
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName.Substring(0, 10);
-                else
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
-                button.gameObject.SetActive(true);
-                button.setMenuMode("recover");
-                button.GetComponent<Button>().onClick.RemoveAllListeners();
-                button.GetComponent<Button>().onClick.AddListener(delegate { button.recallStart(); });
-
-            }
-        }
-        Debug.Log("Showing recover menu");
-    }
-
-    // Show the menu for learning a key's seed
-    public void setupRehearseKeys()
-    {
-        Component[] recallKeyButtons;
-        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>(true);
-        foreach (KeyButton button in recallKeyButtons)
-        {
-            if (button.isEmpty(didDict) == true)
-                button.gameObject.SetActive(false);
-            else
-            {
-                if(button.keyName.Length > 10)
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName.Substring(0, 10);
-                else
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
-                button.gameObject.SetActive(true);
-                button.setMenuMode("learn");
-                button.GetComponent<Button>().onClick.RemoveAllListeners();
-                button.GetComponent<Button>().onClick.AddListener(delegate { button.rehearsalStart(); });
-            }
-        }
-        Debug.Log("Showing learn menu");
-    }
-
-    // Show the menu for deleting saved dids
-    public void setupDidPurge()
-    {
-        Component[] recallKeyButtons;
-        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>(true);
-        foreach (KeyButton button in recallKeyButtons)
-        {
-            if (button.isEmpty(didDict) == true)
-                button.gameObject.SetActive(false);
-            else
-            {
-                if (button.keyName.Length > 10)
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName.Substring(0, 10);
-                else
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
-                button.gameObject.SetActive(true);
-                button.setMenuMode("purgeDid");
-                button.GetComponent<Button>().onClick.RemoveAllListeners();
-                button.GetComponent<Button>().onClick.AddListener(delegate { purgeDid(button.keyName); } );
-
-                Debug.Log("Showing did purge menu");
-            }
-        }
-    }
-
-    // Show the menu for deleting saved seeds
-    public void setupSeedPurge()
-    {
-        Component[] recallKeyButtons;
-        recallKeyButtons = recallKeys.GetComponentsInChildren<KeyButton>(true);
-        foreach (KeyButton button in recallKeyButtons)
-        {
-            if (button.isEmpty(didDict) == true)
-                button.gameObject.SetActive(false);
-            else
-            {
-                if (button.keyName.Length > 10)
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName.Substring(0, 10);
-                else
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = button.keyName;
-                button.gameObject.SetActive(true);
-                button.setMenuMode("purgeSeed");
-                button.GetComponent<Button>().onClick.RemoveAllListeners();
-                button.GetComponent<Button>().onClick.AddListener(delegate { purgeSeed(button.keyName); });
-
-                Debug.Log("Showing seed purge menu");
-            }
-        }
-    }
-
-    // Deletes a seed from the user seed dictionary, and removes it from the saved file as well
-    public void purgeSeed(string keyName)
-    {
-        seedDict.Remove(keyName);
-        DideryDemoManager.UserSeeds = seedDict;
-        hideAllSubMenus();
-        showLearnMenu();
-        setupSeedPurge();
-        //SaveSettings.saveSettings();
-    }
-
-    // Deletes a did from the user did dictionary, and removes it from the saced file as well
-    public void purgeDid(string keyName)
-    {
-        didDict.Remove(keyName);
-        DideryDemoManager.UserDids = didDict;
-        hideAllSubMenus();
-        showRecoverMenu();
-        setupDidPurge();
-        //SaveSettings.saveSettings();
-    }
 }
