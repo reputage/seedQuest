@@ -12,8 +12,10 @@ public class sqSurveyStarter : MonoBehaviour {
 
 	public void sendRequestData()
     {
+        string textResponse = "Hello from unity!";
+
         Debug.Log("Starting Request.");
-        StartCoroutine(sqSurveyInterface.postRequest());
+        StartCoroutine(sqSurveyInterface.postRequest(textResponse));
         Debug.Log("Request Finished.");
     }
 

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public static class sqSurveyInterface
 {
 
-    public static IEnumerator postRequest(string url=null)
+    public static IEnumerator postRequest(string url=null, string textResponse=null)
     {
         if (url==null)
             url = "http://localhost:8080/surveys";
@@ -37,12 +37,10 @@ public static class sqSurveyInterface
     public static string jsonBodyBuilder(string textResponseOne)
     {
         string dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss");
-        string ipAddress = "127.0.0.1";
         string testName = "xyz";
         string testEmail = "xyz@domain.com";
 
         Debug.Log("Date: " + dateTime);
-        Debug.Log("IP adress: " + ipAddress);
 
         string body;
 
@@ -50,7 +48,6 @@ public static class sqSurveyInterface
 
         body += "\"Name\": \"" + testName + "\",";
         body += "\"Email\": \"" + testEmail + "\",";
-        body += "\"ipaddress\": \"" + ipAddress + "\",";
         body += "\"Response\": \"" + textResponseOne + "\"";
 
         body += "}";
@@ -58,5 +55,35 @@ public static class sqSurveyInterface
 
         return body;
     }
+
+
+    public static string responseFormatter(string questionId, string userResponse)
+    {
+        string json = "\"" + questionId + "\": \"" + userResponse + "\"";
+        return json;
+    }
+
+    public static string groupResponses(List<string> questions, List<string> responses)
+    {
+        if (questions.Count != responses.Count)
+        {
+            Debug.Log("Error: insufficient responses for number of questions");
+            return "";
+        }
+
+        string json = "{";
+
+        for (int i = 0; i < questions.Count; i++)
+        {
+            json += responseFormatter(questions[i], responses[i]);
+            if (i + 1 != questions.Count)
+                json += ",";
+        }
+
+        Debug.Log("Json group formatted: " + json);
+
+        return json;
+    }
+
 
 }
