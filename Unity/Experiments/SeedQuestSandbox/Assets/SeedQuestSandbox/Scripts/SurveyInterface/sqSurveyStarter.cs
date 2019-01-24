@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SurveyMonkeyTest : MonoBehaviour {
+public class sqSurveyStarter : MonoBehaviour {
 
 
 	private void Start()
@@ -13,7 +13,7 @@ public class SurveyMonkeyTest : MonoBehaviour {
 	public void sendRequestData()
     {
         Debug.Log("Starting Request.");
-        StartCoroutine(HttpTest.postRequest());
+        StartCoroutine(sqSurveyInterface.postRequest());
         Debug.Log("Request Finished.");
     }
 
