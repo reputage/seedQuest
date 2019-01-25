@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 public static class sqSurveyInterface
 {
 
+    // POSTs the survey response data to the server. Will need to have the URL changed eventually
     public static IEnumerator postRequest(string url=null, string textResponse=null)
     {
         if (url==null)
@@ -33,7 +34,7 @@ public static class sqSurveyInterface
         }
     }
 
-
+    // Sends a GET request to the survey server 
     public static IEnumerator getRequest(string url=null)
     {
         string getResult;
@@ -58,7 +59,9 @@ public static class sqSurveyInterface
     
     }
 
-    public static string jsonBodyBuilder(string textResponseOne)
+    // I'm not 100% sure what the final survey will look like, but here's a preliminary 
+    //  function for formatting the JSON for the POST request
+    public static string jsonBodyBuilder(List<string> questions, List<string> responses)
     {
         string dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss");
         string testName = "xyz";
@@ -67,6 +70,9 @@ public static class sqSurveyInterface
         Debug.Log("Date: " + dateTime);
 
         string body;
+        string textResponseOne;
+
+        textResponseOne = groupResponses(questions, responses);
 
         body = "{";
 
@@ -80,13 +86,14 @@ public static class sqSurveyInterface
         return body;
     }
 
-
+    // Another JSON formatter function. Again, don't know what the survey will look like yet
     public static string responseFormatter(string questionId, string userResponse)
     {
         string json = "\"" + questionId + "\": \"" + userResponse + "\"";
         return json;
     }
 
+    // Another JSON formatter function. Again, don't know what the survey will look like yet
     public static string groupResponses(List<string> questions, List<string> responses)
     {
         if (questions.Count != responses.Count)

@@ -10,6 +10,7 @@ public class sqSurveyStarter : MonoBehaviour {
         sendRequestData();
 	}
 
+    // Send survey data to the server
 	public void sendRequestData()
     {
         string textResponse = "Hello from unity!";
