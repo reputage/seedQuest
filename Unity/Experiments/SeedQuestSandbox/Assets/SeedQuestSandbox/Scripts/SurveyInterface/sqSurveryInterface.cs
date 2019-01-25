@@ -14,7 +14,17 @@ public static class sqSurveyInterface
         if (url==null)
             url = "http://localhost:8080/surveys";
 
-        string json = jsonBodyBuilder("hello from unity");
+        Debug.Log("url: " + url);
+
+        List<string> questions = new List<string>();
+        List<string> responses = new List<string>();
+
+        questions.Add("q1");
+        questions.Add("q2");
+        responses.Add("r1");
+        responses.Add("r2");
+
+        string json = jsonBodyBuilder(questions, responses);
 
         var uwr = new UnityWebRequest(url, "POST");
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
@@ -78,7 +88,7 @@ public static class sqSurveyInterface
 
         body += "\"Name\": \"" + testName + "\",";
         body += "\"Email\": \"" + testEmail + "\",";
-        body += "\"Response\": \"" + textResponseOne + "\"";
+        body += "\"Response\": " + textResponseOne ;
 
         body += "}";
         Debug.Log("Json body: " + body);
@@ -111,6 +121,7 @@ public static class sqSurveyInterface
                 json += ",";
         }
 
+        json += "}";
         Debug.Log("Json group formatted: " + json);
 
         return json;
