@@ -34,6 +34,30 @@ public static class sqSurveyInterface
     }
 
 
+    public static IEnumerator getRequest(string url=null)
+    {
+        string getResult;
+        if (url == null)
+            url = "http://localhost:8080/surveys";
+
+        UnityWebRequest uwr = UnityWebRequest.Get(url);
+        yield return uwr.SendWebRequest();
+
+        getResult = uwr.downloadHandler.text;
+
+        if (uwr.isNetworkError)
+        {
+            Debug.Log("Error While Sending: " + uwr.error);
+        }
+        else
+        {
+            Debug.Log("Received: " + uwr.downloadHandler.text);
+        }
+
+        string[] getData = getResult.Split(':');
+    
+    }
+
     public static string jsonBodyBuilder(string textResponseOne)
     {
         string dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss");
