@@ -12,26 +12,29 @@ public class DemoInfo {
     public string demoTitle;
     public string demoText;
     public Sprite demoImage;
+    public string[] demoPopupInfo;
+
+    [HideInInspector]
+    public Button select;
 }
 
 public class DemoSelectUI : MonoBehaviour {
 
     public DemoInfo[] demoList;
     public DemoInfo selectedDemo;
-    public GameObject selectButtonPrefab;
+    public GameObject selectButtonPrefab; 
     public Vector3 buttonOffset = new Vector3(170, 250, 0);
     public int buttonPadding = 60;
 
     private void Start() {
-
-        selectedDemo = demoList[0];
         GameObject sideNav = GameObject.FindGameObjectWithTag("SideNav");
 
         for (int i = 0; i < demoList.Length; i++) {
             Vector3 position = buttonOffset + new Vector3(0, -i * buttonPadding, 0);
-            Debug.Log(position);
-            createLevelButton(demoList[i], sideNav.transform, position);
+            demoList[i].select = createLevelButton(demoList[i], sideNav.transform, position);
         }
+
+        demoList[0].select.onClick.Invoke();
     }
 
     private void selectDemo(DemoInfo info) {
@@ -39,18 +42,33 @@ public class DemoSelectUI : MonoBehaviour {
         TextMeshProUGUI infoTitle = GameObject.FindGameObjectWithTag("InfoTitle").GetComponentInChildren<TextMeshProUGUI>();
         TextMeshProUGUI infoText = GameObject.FindGameObjectWithTag("InfoText").GetComponentInChildren<TextMeshProUGUI>();
         Image infoImage = GameObject.FindGameObjectWithTag("InfoImage").GetComponent<Image>();
-       
+        PopupUI popup = PopupUI.Instance;
+
+        // Set demo title, info text, and image
         infoTitle.text = info.demoTitle;
         infoText.text = info.demoText;
         infoImage.sprite = info.demoImage;
 
-        //string sceneName = info.sceneName;
-        //SceneManager.LoadScene(sceneName);
+        // Set popup text
+        popup.popupText = "";
+        foreach (string text in info.demoPopupInfo)
+            popup.popupText += text + "\n";
+
+        // Set button image highlight for selected demo button
+        foreach (DemoInfo _ in demoList) {
+            _.select.image.sprite = null;
+        }
+        info.select.image.sprite = info.select.spriteState.highlightedSprite;
     }
 
-    private GameObject createLevelButton(DemoInfo info, Transform parent, Vector3 position) {
+    private void startDemo() {
+        string sceneName = selectedDemo.sceneName;
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private Button createLevelButton(DemoInfo info, Transform parent, Vector3 position) {
         GameObject buttonObj = Instantiate(selectButtonPrefab);
-        buttonObj.transform.parent = parent;
+        buttonObj.transform.SetParent(parent);
         buttonObj.GetComponent<RectTransform>().anchoredPosition3D = position;
         buttonObj.name = info.name + " Button";
 
@@ -59,7 +77,6 @@ public class DemoSelectUI : MonoBehaviour {
 
         Button button = buttonObj.GetComponent<Button>();
         button.onClick.AddListener( delegate { selectDemo(info); } );
-        return buttonObj;
+        return button;
     }
-
 }
