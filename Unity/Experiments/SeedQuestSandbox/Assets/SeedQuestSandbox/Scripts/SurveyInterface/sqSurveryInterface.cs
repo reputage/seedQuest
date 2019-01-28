@@ -46,10 +46,10 @@ public static class sqSurveyInterface
     }
 
     // POSTs the survey response data to the server. Will need to have the URL changed eventually
-    public static IEnumerator postRequest(string url = null, List<string> questions, List<string> responses)
+    public static IEnumerator postRequest(List<string> questions, List<string> responses, string url = null)
     {
         if (url == null)
-            url = "http://localhost:8080/surveys";
+            url = "http://178.128.0.208:8080/";
 
         string json = jsonBodyBuilder(questions, responses);
 
