@@ -114,9 +114,9 @@ namespace MaterialUI
 
 		public void UpdateText ()
 		{
-			if (textHasDecimal)
+		/*if (textHasDecimal)
 				popupText.text = slider.value.ToString("0.0");
-			else
+			else*/
 				popupText.text = slider.value.ToString("0");
 		}
 

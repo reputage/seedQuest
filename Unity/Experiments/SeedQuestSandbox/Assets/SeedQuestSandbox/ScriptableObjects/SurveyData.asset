@@ -12,15 +12,39 @@ MonoBehaviour:
   m_Name: SurveyData
   m_EditorClassIdentifier: 
   surveyData:
-  - question: Testing 1?
-    questionType: 
+  - type: 2
+    question: This is a test of the ranked question system.
+    scaleStart: 1
+    scaleDefault: 3
+    scaleStop: 5
+    ranks:
+    - Option 1
+    - Option 2
+    - Option 3
+    - Option 4
+    - Option 5
     answer: 
-  - question: Testing 2?
-    questionType: 
+  - type: 1
+    question: This is a test of the scaled question system.
+    scaleStart: 1
+    scaleDefault: 3
+    scaleStop: 5
+    ranks:
+    - Option 1
+    - Option 2
+    - Option 3
+    - Option 4
+    - Option 5
     answer: 
-  - question: Testing 3?
-    questionType: 
-    answer: 
-  - question: Testing 4?
-    questionType: 
+  - type: 0
+    question: This is a test of the open question system.
+    scaleStart: 1
+    scaleDefault: 3
+    scaleStop: 5
+    ranks:
+    - Option 1
+    - Option 2
+    - Option 3
+    - Option 4
+    - Option 5
     answer: 
