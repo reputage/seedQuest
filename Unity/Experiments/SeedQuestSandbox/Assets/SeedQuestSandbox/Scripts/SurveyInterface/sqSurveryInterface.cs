@@ -9,7 +9,8 @@ public static class sqSurveyInterface
 {
 
     // POSTs the survey response data to the server. Will need to have the URL changed eventually
-    public static IEnumerator postRequest(string url=null, string textResponse=null)
+    //  used for testing purposes
+    public static IEnumerator testPostRequest(string url=null, string textResponse=null)
     {
         if (url==null)
             url = "http://localhost:8080/surveys";
@@ -44,7 +45,33 @@ public static class sqSurveyInterface
         }
     }
 
-    // Sends a GET request to the survey server 
+    // POSTs the survey response data to the server. Will need to have the URL changed eventually
+    public static IEnumerator postRequest(string url = null, List<string> questions, List<string> responses)
+    {
+        if (url == null)
+            url = "http://localhost:8080/surveys";
+
+        string json = jsonBodyBuilder(questions, responses);
+
+        var uwr = new UnityWebRequest(url, "POST");
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        uwr.SetRequestHeader("Content-Type", "application/json");
+
+        yield return uwr.SendWebRequest();
+
+        if (uwr.isNetworkError)
+        {
+            Debug.Log("Error While Sending: " + uwr.error);
+        }
+        else
+        {
+            Debug.Log("Received: " + uwr.downloadHandler.text);
+        }
+    }
+
+    // Sends a GET request to the survey server - probably not needed within Unity
     public static IEnumerator getRequest(string url=null)
     {
         string getResult;
@@ -125,6 +152,13 @@ public static class sqSurveyInterface
         Debug.Log("Json group formatted: " + json);
 
         return json;
+    }
+
+    // I'm not sure what format the responses will be in - this may be helpful
+    public static void addToLists(List<string> questions, List<string>responses, string quetsionToAdd, string responseToAdd)
+    {
+        questions.Add(quetsionToAdd);
+        responses.Add(responseToAdd);
     }
 
 
