@@ -54,6 +54,12 @@ public class SurveyManager : MonoBehaviour
                 Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<Text>();
                 text.text = data.surveyData[i].question;
 
+                TMP_InputField input = newCard.transform.GetChild(1).GetChild(2).GetComponent<TMP_InputField>();
+                int tempI = i;
+                input.onValueChanged.AddListener(delegate
+                {
+                    data.surveyData[tempI].answer = input.text;
+                });
                 text = newCard.transform.GetChild(1).GetChild(0).GetComponent<Text>();
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
             }
@@ -67,6 +73,8 @@ public class SurveyManager : MonoBehaviour
                 xOffset += 4000;
                 Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<Text>();
                 text.text = data.surveyData[i].question;
+
+                data.surveyData[i].answers = new string[data.surveyData[i].questions.Length];
 
                 text = newCard.transform.GetChild(1).GetChild(0).GetComponent<Text>();
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
@@ -119,6 +127,15 @@ public class SurveyManager : MonoBehaviour
                         newToggle.transform.parent = rows[j].transform.GetChild(1).GetChild(0).parent;
                         newToggle.transform.localPosition = new Vector3(columns[k].transform.localPosition.x, rowYOffset, 0);
                         newToggle.transform.localScale = new Vector3(1, 1, 1);
+                        newToggle.name = columns[k].text;
+                        int tempI = i;
+                        int tempJ = j;
+                        newToggle.onValueChanged.AddListener(delegate {
+                            if (newToggle.isOn)
+                            {
+                                data.surveyData[tempI].answers[tempJ] = newToggle.name;
+                            }
+                        });
                         newToggle.group = rows[j].transform.GetChild(1).gameObject.GetComponent<ToggleGroup>();
                     }
                     Destroy(rows[j].transform.GetChild(1).GetChild(0).gameObject);
