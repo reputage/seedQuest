@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class sqSurveyStarter : MonoBehaviour {
 
+    public SurveyData surveyData;
 
 	private void Start()
 	{
-        testRequestData();
+        //testRequestData();
 	}
 
+    // test post request with the actual server
     public void postTestList()
     {
         List<string> questions = new List<string>();
@@ -24,6 +26,14 @@ public class sqSurveyStarter : MonoBehaviour {
         responses.Add("r3");
 
         sendRequestData(questions, responses);
+    }
+
+    // test the get questions function
+    public void testGetQuestions()
+    {
+        List<string> questions = getQuestionsFromSurvey(surveyData);
+        for (int i = 0; i < questions.Count; i++)
+            Debug.Log("Question " + i + ": " + questions[i]);
     }
 
     // Send survey data to the server
@@ -47,4 +57,36 @@ public class sqSurveyStarter : MonoBehaviour {
         Debug.Log("Request Finished.");
     }
 
+    // Get the questions from the scriptable object
+    public List<string> getQuestionsFromSurvey(SurveyData data)
+    {
+        List<string> questions = new List<string>();
+        for (int i = 0; i < data.surveyData.Count; i++)
+        {
+            if (data.surveyData[i].questions.Length > 0)
+            {
+                // add all questions
+                for (int j = 0; j < data.surveyData[i].questions.Length; j ++)
+                {
+                    string comboQuestion = data.surveyData[i].question + "-" + data.surveyData[i].questions[j];
+                    questions.Add(comboQuestion);
+                }
+            }
+            else
+            {
+                questions.Add(data.surveyData[i].question);
+            }
+        }
+        return questions;
+    }
+
+    // to do - front end is still in progress?
+    public List<string> getAnswersFromSurvey()
+    {
+        List<string> responses = new List<string>();
+
+        // get responses
+
+        return responses;
+    }
 }
