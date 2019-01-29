@@ -31,7 +31,7 @@ public class PlayerCtrl : MonoBehaviour {
     } 
 
     public void MoveWithClick() {
-        if (PauseManager.isPaused)
+        if (PauseManager.isPaused || PauseManager.isInteracting)
             return;
 
         if(Input.GetMouseButtonDown(0)) {

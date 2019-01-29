@@ -5,187 +5,212 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-//[ExecuteInEditMode] 
-[RequireComponent(typeof(BoxCollider))]
-public class Interactable : MonoBehaviour {
+namespace SeedQuest.Interactables
+{
 
-    public InteractableStateData stateData = null;
-    public InteractableUI interactableUI; 
-    public InteractableID ID;
-    public int currentStateID = 0;
+    //[ExecuteInEditMode] 
+    [RequireComponent(typeof(BoxCollider))]
+    public class Interactable : MonoBehaviour {
 
-    [HideInInspector]
-    public float interactDistance = 2.0f;
-    private bool isOnHover = false;
- 
-    // Use this for initialization
-    void Start () {
-        interactableUI.Initialize(this);
-	}
-	
-	void Update () {
-        if(interactableUI.isReady()) {
-            interactableUI.Update();
-            HoverOnInteractable();
-            ClickOnInteractable();
-        }
-	} 
+        public InteractableStateData stateData = null;
+        public InteractableUI interactableUI;
+        public InteractableID ID;
+        public int currentStateID = 0;
 
-    int Mod(int x, int m) {
-        return (x % m + m) % m;
-    }
+        [HideInInspector]
+        public float interactDistance = 2.0f;
+        private bool isOnHover = false;
 
-    public void NextAction() {
-        currentStateID = Mod(currentStateID + 1, 4);
-        InteractableState state = stateData.states[currentStateID];
-        state.enterState(this);
-        interactableUI.SetText(state.actionName);
-    }
-
-    public void PrevAction() {
-        currentStateID = Mod(currentStateID - 1, 4);
-        InteractableState state = stateData.states[currentStateID];
-        state.enterState(this);
-        interactableUI.SetText(state.actionName);
-    } 
-
-    public void DoAction(int actionIndex) {
-        InteractableState state = stateData.states[actionIndex];
-        state.enterState(this);
-        interactableUI.SetText(state.actionName);
-    }
-
-    private bool PlayerIsNear() {
-        Vector3 playerPosition = PlayerCtrl.PlayerTransform.position;
-        float dist = (transform.position - playerPosition).magnitude;
-        if (dist < interactDistance)
-            return true;
-        else
-            return false;
-    }
-
-    public void HoverOnInteractable() {
-        
-        Camera c = Camera.main;
-        RaycastHit hit;
-        Ray ray = c.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out hit, 100.0f))
+        // Use this for initialization
+        void Start()
         {
-            bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
-            if (hitThisInteractable) {
+            interactableUI.Initialize(this);
+        }
 
-                /*
-                if (!isOnHover)
-                    toggleHighlight(true);
-                isOnHover = true;
-
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
-                    InteractableManager.showActions(this);
-                    */
-            }
-            else {
-                /*
-                if (isOnHover)
-                    toggleHighlight(false);
-                isOnHover = false;
-                */
+        void Update()
+        {
+            if (interactableUI.isReady())
+            {
+                interactableUI.Update();
+                HoverOnInteractable();
+                ClickOnInteractable();
             }
         }
 
-    }
+        int Mod(int x, int m)
+        {
+            return (x % m + m) % m;
+        }
 
-    public void ClickOnInteractable() {
+        public void NextAction()
+        {
+            currentStateID = Mod(currentStateID + 1, 4);
+            InteractableState state = stateData.states[currentStateID];
+            state.enterState(this);
+            interactableUI.SetText(state.actionName);
+        }
 
-        if (PauseManager.isPaused == true)
-            return; 
+        public void PrevAction()
+        {
+            currentStateID = Mod(currentStateID - 1, 4);
+            InteractableState state = stateData.states[currentStateID];
+            state.enterState(this);
+            interactableUI.SetText(state.actionName);
+        }
 
-        if (Input.GetMouseButtonDown(0)) { 
+        public void DoAction(int actionIndex)
+        {
+            InteractableState state = stateData.states[actionIndex];
+            state.enterState(this);
+            interactableUI.SetText(state.actionName);
+        }
+
+        public void SelectAction(int actionIndex)
+        {
+            InteractableLog.Add(this, actionIndex);
+        }
+
+        private bool PlayerIsNear()
+        {
+            Vector3 playerPosition = PlayerCtrl.PlayerTransform.position;
+            float dist = (transform.position - playerPosition).magnitude;
+            if (dist < interactDistance)
+                return true;
+            else
+                return false;
+        }
+
+        public void HoverOnInteractable()
+        {
+            Camera c = Camera.main;
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = c.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, 100.0f))
             {
-                //Debug.Log("Ray Interactable " + hit.transform.name + " " + transform.name);
-
                 bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
-                if (hitThisInteractable) {
-                    //InteractableManager.showActions(this);
-                    interactableUI.showActions();
-                    Debug.Log("Click Interactable"); 
+                
+                if (hitThisInteractable)
+                {
+                    
+                    interactableUI.showCurrentActions();
+
+                    if (!isOnHover)  {
+                        GameManager.State = GameState.Interact;
+                        //toggleHighlight(true);
+                    }
+                    isOnHover = true;
+
+                    /*
+                    if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
+                        InteractableManager.showActions(this);
+                        */
+                }
+                else {
+                    if (isOnHover) {
+                        GameManager.State = GameState.Sandbox;
+                        //toggleHighlight(false);
+                    }
+                    isOnHover = false;
+
                 }
             }
         }
 
-    }
+        public void ClickOnInteractable()
+        {
+            if (PauseManager.isPaused == true)
+                return;
 
-    public void startEffect() {
-        ParticleSystem effect = InteractableManager.getEffect();
-        effect.Play();
-    }
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-    public void toggleHighlight(bool highlight) {
-        Renderer rend = transform.GetComponent<Renderer>();
-        if (rend == null)
-            return;
+                if (Physics.Raycast(ray, out hit, 100.0f))
+                {
+                    bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
 
-        Shader shaderDefault = Shader.Find("Standard");
-        Shader shader = Shader.Find("Custom/Outline + Rim");
+                    if (hitThisInteractable)
+                    {
+                        NextAction();
+                    }
+                }
+            }
 
-        Material[] materials = rend.materials;
-        for (int i = 0; i < materials.Length; i++) {
-
-            if (highlight)
-                rend.materials[i].shader = shader;
-            else
-                rend.materials[i].shader = shaderDefault;
         }
-    }
 
-    /*
-    public void HighlightPathTarget() {
-        if (GameManager.State != GameState.Rehearsal)
-            return;
-        
-        if (PathManager.PathTarget == this)
-            toggleHighlight(true);
-        else if(!isOnHover)
-            toggleHighlight(false);
-    }
-    */
+        public void startEffect()
+        {
+            ParticleSystem effect = InteractableManager.getEffect();
+            effect.Play();
+        }
 
-    public string getInteractableName()
-    {
-        if (stateData == null)
-            return "Interactable Name";
-        else
-            return this.stateData.interactableName;
-    }
+        public void toggleHighlight(bool highlight)
+        {
+            Renderer rend = transform.GetComponent<Renderer>();
+            if (rend == null)
+                return;
 
-    public string Name
-    {
-        get { return getInteractableName(); }
-    }
+            Shader shaderDefault = Shader.Find("Standard");
+            Shader shader = Shader.Find("Custom/Outline + Rim");
 
-    public string getStateName(int index)
-    {
-        if (stateData == null)
-            return "Action #" + index;
-        else
-            return this.stateData.getStateName(index);
-    }
+            Material[] materials = rend.materials;
+            for (int i = 0; i < materials.Length; i++)
+            {
 
-    public string RehersalActionName
-    {
-        get { return getStateName(ID.actionID); }
-    }
+                if (highlight)
+                    rend.materials[i].shader = shader;
+                else
+                    rend.materials[i].shader = shaderDefault;
+            }
+        }
 
-    public int getStateCount()
-    {
-        if (stateData == null)
-            return 0;
-        else
-            return this.stateData.states.Count;
-    }
+        /*
+        public void HighlightPathTarget() {
+            if (GameManager.State != GameState.Rehearsal)
+                return;
 
-} 
+            if (PathManager.PathTarget == this)
+                toggleHighlight(true);
+            else if(!isOnHover)
+                toggleHighlight(false);
+        }
+        */
+
+        public string getInteractableName()
+        {
+            if (stateData == null)
+                return "Interactable Name";
+            else
+                return this.stateData.interactableName;
+        }
+
+        public string Name
+        {
+            get { return getInteractableName(); }
+        }
+
+        public string getStateName(int index)
+        {
+            if (stateData == null)
+                return "Action #" + index;
+            else
+                return this.stateData.getStateName(index);
+        }
+
+        public string RehersalActionName
+        {
+            get { return getStateName(ID.actionID); }
+        }
+
+        public int getStateCount()
+        {
+            if (stateData == null)
+                return 0;
+            else
+                return this.stateData.states.Count;
+        }
+
+    }
+}

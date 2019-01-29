@@ -8,7 +8,7 @@ public class ThirdPersonCamera : MonoBehaviour {
     public bool lockCursor = true;
 
     private void LateUpdate() {
-        if(!PauseManager.isPaused) {
+        if(!PauseManager.isPaused) { 
             CameraRotate();
             UpdateCursorLock();
         }
