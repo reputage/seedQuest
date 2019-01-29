@@ -13,7 +13,7 @@ public static class sqSurveyInterface
     public static IEnumerator testPostRequest(string url=null, string textResponse=null)
     {
         if (url==null)
-            url = "http://localhost:8080/surveys";
+            url = "http://localhost:8000/surveys";
 
         Debug.Log("url: " + url);
 
