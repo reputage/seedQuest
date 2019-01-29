@@ -20,6 +20,7 @@ public class SurveyManager : MonoBehaviour
     public Sprite ring;
     public Sprite dot;
 
+    private string serverUrl = "http://178.128.0.208:8080/surveys";
     private int xOffset = 0;
     private int imageXOffset = -34;
     private float cardContainerSize = 0;
@@ -314,11 +315,6 @@ public class SurveyManager : MonoBehaviour
         NextButton.enabled = true;
     }
 
-    public void debugMessage()
-    {
-        Debug.Log("Testing");
-    }
-
     // Send the survey data to the server
     public void sendSurveyData()
     {
@@ -331,9 +327,6 @@ public class SurveyManager : MonoBehaviour
     // Send survey data to the server
     public void sendRequestData(List<string> questions, List<string> responses)
     {
-        //string textResponse = "Hello from unity!";
-        string serverUrl = "http://178.128.0.208:8080/surveys";
-
         Debug.Log("Starting Request.");
         StartCoroutine(sqSurveyInterface.postRequest(questions, responses, serverUrl));
         Debug.Log("Request Finished.");
