@@ -29,11 +29,17 @@ public class sqSurveyStarter : MonoBehaviour {
     }
 
     // test the get questions function
-    public void testGetQuestions()
+    public void testGetSurveyData()
     {
         List<string> questions = getQuestionsFromSurvey(surveyData);
+        List<string> responses = getAnswersFromSurvey(surveyData);
         for (int i = 0; i < questions.Count; i++)
             Debug.Log("Question " + i + ": " + questions[i]);
+
+        for (int i = 0; i < responses.Count; i++)
+            Debug.Log("Answer " + i + ": " + responses[i]);
+
+        sendRequestData(questions, responses);
     }
 
     // Send survey data to the server
@@ -81,12 +87,26 @@ public class sqSurveyStarter : MonoBehaviour {
     }
 
     // to do - front end is still in progress?
-    public List<string> getAnswersFromSurvey()
+    public List<string> getAnswersFromSurvey(SurveyData data)
     {
         List<string> responses = new List<string>();
 
-        // get responses
-
+        for (int i = 0; i < data.surveyData.Count; i++)
+        {
+            if (data.surveyData[i].answers.Length > 0)
+            {
+                // add all questions
+                for (int j = 0; j < data.surveyData[i].answers.Length; j++)
+                {
+                    string answer = data.surveyData[i].answers[j];
+                    responses.Add(answer);
+                }
+            }
+            else
+            {
+                responses.Add(data.surveyData[i].answer);
+            }
+        }
         return responses;
     }
 }

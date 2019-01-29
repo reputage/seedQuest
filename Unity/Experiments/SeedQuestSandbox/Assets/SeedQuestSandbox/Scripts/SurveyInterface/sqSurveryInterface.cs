@@ -135,16 +135,16 @@ public static class sqSurveyInterface
     {
         if (questions.Count != responses.Count)
         {
-            Debug.Log("Error: insufficient responses for number of questions");
-            return "";
+            Debug.Log("Warning: insufficient responses for number of questions");
         }
 
+        int maxResponses = Math.Min(questions.Count, responses.Count);
         string json = "{";
 
-        for (int i = 0; i < questions.Count; i++)
+        for (int i = 0; i < maxResponses; i++)
         {
             json += responseFormatter(questions[i], responses[i]);
-            if (i + 1 != questions.Count)
+            if (i + 1 != maxResponses)
                 json += ",";
         }
 
