@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEditor;
 
 [System.Serializable]
 public class SurveyDataItem {
-    public enum QuestionType { Open, Scale, Rank }
+    public enum QuestionType { Open, Scale } //, Rank }
     public QuestionType type = QuestionType.Open;
     public string question;
-    public int scaleStart = 1;
+    public string[] headers;
+    public string[] questions;
+    /*public int scaleStart = 1;
     public int scaleDefault = 3;
     public int scaleStop = 5;
-    public List<string> ranks;
+    public List<string> ranks;*/
     public string answer;
 }
 

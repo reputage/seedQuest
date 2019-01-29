@@ -114,10 +114,7 @@ namespace MaterialUI
 
 		public void UpdateText ()
 		{
-		/*if (textHasDecimal)
-				popupText.text = slider.value.ToString("0.0");
-			else*/
-				popupText.text = slider.value.ToString("0");
+            popupText.text = slider.value.ToString("0");
 		}
 
 		public void OnPointerDown (PointerEventData data)

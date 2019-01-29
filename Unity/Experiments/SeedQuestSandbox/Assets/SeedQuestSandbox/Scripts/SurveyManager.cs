@@ -12,7 +12,7 @@ public class SurveyManager : MonoBehaviour
     public GameObject dotContainer;
     public GameObject CardTemplateOpen;
     public GameObject CardTemplateScale;
-    public GameObject CardTemplateRank;
+    //public GameObject CardTemplateRank;
     public Button PreviousButton;
     public Button NextButton;
 
@@ -20,7 +20,7 @@ public class SurveyManager : MonoBehaviour
     public Sprite dot;
 
     private int xOffset = 0;
-    private int imageXOffset = -84;
+    private int imageXOffset = -34;
     private float cardContainerSize = 0;
     private int currentCardIndex = 0;
 
@@ -58,7 +58,79 @@ public class SurveyManager : MonoBehaviour
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
             }
 
-            else if (data.surveyData[i].type == SurveyDataItem.QuestionType.Scale)
+            else
+            {
+                var newCard = Instantiate(CardTemplateScale);
+                newCard.SetActive(true);
+                newCard.transform.parent = cardContainer.transform;
+                newCard.transform.localPosition = new Vector3(xOffset, 0, 0);
+                xOffset += 4000;
+                Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<Text>();
+                text.text = data.surveyData[i].question;
+
+                text = newCard.transform.GetChild(1).GetChild(0).GetComponent<Text>();
+                text.text = (i + 1).ToString() + "/" + surveyQuestions;
+
+                var column = newCard.transform.GetChild(1).GetChild(4).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+                var row = newCard.transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).gameObject;
+                List<GameObject> rows = new List<GameObject>();
+                List<TMP_Text> columns = new List<TMP_Text>();
+                float columnXOffset = -112f;
+                float columnWidth = 436f / (float)data.surveyData[i].headers.Length;
+                float rowYOffset = 28f;
+                float rowHeight = 245f / (float)data.surveyData[i].questions.Length;
+
+                foreach (string header in data.surveyData[i].headers)
+                {
+                    TMP_Text newColumn = Instantiate(column);
+                    newColumn.transform.parent = column.transform.parent;
+                    newColumn.transform.localPosition = new Vector3(columnXOffset, 66, 0);
+                    newColumn.transform.localScale = new Vector3(1, 1, 1);
+                    newColumn.GetComponent<RectTransform>().sizeDelta = new Vector2(columnWidth, 32);
+                    newColumn.text = header;
+                    columns.Add(newColumn);
+
+                    columnXOffset += columnWidth;              
+                }
+
+                Destroy(column.gameObject);
+
+                foreach (string header in data.surveyData[i].questions)
+                {
+                    GameObject newRow = Instantiate(row);
+                    newRow.transform.parent = row.transform.parent;
+                    newRow.transform.localPosition = new Vector3(0, 0, 0);
+                    newRow.transform.localScale = new Vector3(1, 1, 1);
+                    rows.Add(newRow);
+                }
+
+                // I tried to include this in the above loop, but position data wasn't being saved for some reason.
+                for (int j = 0; j < rows.Count; j++)
+                {
+                    TMP_Text question = rows[j].transform.GetChild(0).GetComponent<TMP_Text>();
+                    question.transform.localPosition = new Vector3(-218, rowYOffset, 0);
+                    question.transform.localScale = new Vector3(1, 1, 1);
+                    question.GetComponent<RectTransform>().sizeDelta = new Vector2(136, rowHeight);
+                    question.text = data.surveyData[i].questions[j];
+
+                    for(int k = 0; k < columns.Count; k++)
+                    {
+                        Toggle newToggle = Instantiate(rows[j].transform.GetChild(1).GetChild(0).GetComponent<Toggle>());
+                        newToggle.transform.parent = rows[j].transform.GetChild(1).GetChild(0).parent;
+                        newToggle.transform.localPosition = new Vector3(columns[k].transform.localPosition.x, rowYOffset, 0);
+                        newToggle.transform.localScale = new Vector3(1, 1, 1);
+                        newToggle.group = rows[j].transform.GetChild(1).gameObject.GetComponent<ToggleGroup>();
+                    }
+                    Destroy(rows[j].transform.GetChild(1).GetChild(0).gameObject);
+                    rows[j].transform.GetChild(1).gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
+                    rowYOffset -= rowHeight;
+
+                }
+
+                Destroy(row);
+            }
+
+            /*else if (data.surveyData[i].type == SurveyDataItem.QuestionType.Scale)
             {
                 var newCard = Instantiate(CardTemplateScale);
                 newCard.SetActive(true);
@@ -132,7 +204,7 @@ public class SurveyManager : MonoBehaviour
                 }
 
 
-            }
+            }*/
 
             GameObject newDot = new GameObject();
             RectTransform dotTransform = newDot.AddComponent<RectTransform>();
