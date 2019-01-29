@@ -259,6 +259,12 @@ public class SurveyManager : MonoBehaviour
         submitCard.SetActive(true);
         submitCard.transform.parent = cardContainer.transform;
         submitCard.transform.localPosition = new Vector3(xOffset, 0, 0);
+        Button submitButton = submitCard.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<Button>();
+        submitButton.onClick.AddListener(delegate
+        {
+            Debug.Log("Submit Button Clicked");
+            Application.Quit();
+        });
 
         PreviousButton.onClick.AddListener(onClickPrevious);
         NextButton.onClick.AddListener(onClickNext);
