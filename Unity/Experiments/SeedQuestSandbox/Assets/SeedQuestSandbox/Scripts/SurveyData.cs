@@ -13,6 +13,7 @@ public class SurveyDataItem {
     public int scaleStop = 5;
     public List<string> ranks;*/
     public string answer;
+    public string[] answers;
 }
 
 [CreateAssetMenu(menuName = "Survey/SurveyData")]
