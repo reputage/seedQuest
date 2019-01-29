@@ -49,7 +49,7 @@ public static class sqSurveyInterface
     public static IEnumerator postRequest(List<string> questions, List<string> responses, string url = null)
     {
         if (url == null)
-            url = "http://178.128.0.208:8080/";
+            url = "http://178.128.0.208:8080/surveys";
 
         string json = jsonBodyBuilder(questions, responses);
 

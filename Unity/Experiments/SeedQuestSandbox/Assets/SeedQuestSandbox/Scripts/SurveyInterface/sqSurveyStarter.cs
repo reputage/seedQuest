@@ -40,7 +40,7 @@ public class sqSurveyStarter : MonoBehaviour {
     public void sendRequestData(List<string> questions, List<string> responses)
     {
         //string textResponse = "Hello from unity!";
-        string serverUrl = "http://178.128.0.208:8080/";
+        string serverUrl = "http://178.128.0.208:8080/surveys";
 
         Debug.Log("Starting Request.");
         StartCoroutine(sqSurveyInterface.postRequest(questions, responses, serverUrl));
