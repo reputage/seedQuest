@@ -10,8 +10,9 @@ public class SurveyManager : MonoBehaviour
     public SurveyData data;
     public GameObject cardContainer;
     public GameObject dotContainer;
-    public GameObject CardTemplateOpen;
-    public GameObject CardTemplateScale;
+    public GameObject cardTemplateOpen;
+    public GameObject cardTemplateScale;
+    public GameObject cardTemplateSubmit;
     //public GameObject CardTemplateRank;
     public Button PreviousButton;
     public Button NextButton;
@@ -30,8 +31,8 @@ public class SurveyManager : MonoBehaviour
     {
         int surveyQuestions = data.surveyData.Count;
         var cardContainerTransform = cardContainer.transform as RectTransform;
-        cardContainerSize = surveyQuestions * 4000f;
-        cardContainerTransform.sizeDelta = new Vector2(cardContainerSize, cardContainerTransform.sizeDelta.y);
+        //cardContainerSize = surveyQuestions * 4000f;
+        //cardContainerTransform.sizeDelta = new Vector2(cardContainerSize, cardContainerTransform.sizeDelta.y);
 
         ColorBlock cb = PreviousButton.colors;
         cb.disabledColor = new Color(0, 0, 0, 0);
@@ -39,14 +40,14 @@ public class SurveyManager : MonoBehaviour
         cb.disabledColor = new Color(0, 0, 0, 0);
 
         var dotContainerTransform = dotContainer.transform as RectTransform;
-        float dotContainerSize = 40 * surveyQuestions - 8;
-        dotContainerTransform.sizeDelta = new Vector2(dotContainerSize, dotContainerTransform.sizeDelta.y);
+        //float dotContainerSize = 40 * surveyQuestions - 8;
+        //dotContainerTransform.sizeDelta = new Vector2(dotContainerSize, dotContainerTransform.sizeDelta.y);
         for(int i = 0; i < surveyQuestions; i++)
         {
             if (data.surveyData[i].type == SurveyDataItem.QuestionType.Open)
             {
 
-                var newCard = Instantiate(CardTemplateOpen);
+                var newCard = Instantiate(cardTemplateOpen);
                 newCard.SetActive(true);
                 newCard.transform.parent = cardContainer.transform;
                 newCard.transform.localPosition = new Vector3(xOffset, 0, 0);
@@ -66,7 +67,7 @@ public class SurveyManager : MonoBehaviour
 
             else
             {
-                var newCard = Instantiate(CardTemplateScale);
+                var newCard = Instantiate(cardTemplateScale);
                 newCard.SetActive(true);
                 newCard.transform.parent = cardContainer.transform;
                 newCard.transform.localPosition = new Vector3(xOffset, 0, 0);
@@ -243,6 +244,22 @@ public class SurveyManager : MonoBehaviour
             dots.Add(newDot);
         }
 
+        GameObject submitDot = new GameObject();
+        RectTransform submitDotTransform = submitDot.AddComponent<RectTransform>();
+        submitDotTransform.sizeDelta = new Vector2(32, 32);
+        submitDotTransform.anchorMin = new Vector2(0, 0.5f);
+        submitDotTransform.anchorMax = new Vector2(0, 0.5f);
+        Image submitDotImage = submitDot.AddComponent<Image>();
+        submitDotImage.sprite = ring;
+        submitDot.transform.parent = dotContainer.transform;
+        submitDot.transform.localPosition = new Vector3(imageXOffset, 0, 0);
+        dots.Add(submitDot);
+
+        var submitCard = Instantiate(cardTemplateSubmit);
+        submitCard.SetActive(true);
+        submitCard.transform.parent = cardContainer.transform;
+        submitCard.transform.localPosition = new Vector3(xOffset, 0, 0);
+
         PreviousButton.onClick.AddListener(onClickPrevious);
         NextButton.onClick.AddListener(onClickNext);
     }
@@ -262,7 +279,7 @@ public class SurveyManager : MonoBehaviour
 
     public void onClickNext()
     {
-        if (currentCardIndex < data.surveyData.Count-1)
+        if (currentCardIndex < data.surveyData.Count)
         {
             Vector3 destination = cardContainer.transform.position - new Vector3(4000, 0, 0);
             StartCoroutine(MoveOverSeconds(cardContainer, destination, 1));
