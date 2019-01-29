@@ -20,7 +20,7 @@ public class SurveyManager : MonoBehaviour
     public Sprite ring;
     public Sprite dot;
 
-    private string serverUrl = "http://178.128.0.208:8080/surveys";
+    private string serverUrl = "http://178.128.0.208:8000/surveys";
     private int xOffset = 0;
     private int imageXOffset = -34;
     private float cardContainerSize = 0;
