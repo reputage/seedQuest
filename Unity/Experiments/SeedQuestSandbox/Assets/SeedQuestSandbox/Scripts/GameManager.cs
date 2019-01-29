@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    private void OnApplicationQuit() {
+        instance = null;
+    }
+
     public GameState state = GameState.Sandbox;
     public GameState prevState = GameState.Sandbox;
     public static GameState State {

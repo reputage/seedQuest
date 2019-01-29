@@ -16,7 +16,8 @@ public class HUDController : MonoBehaviour {
 
     private void Start() {
         cursor = GameObject.FindGameObjectWithTag("Cursor");
-        cursor.SetActive(showCursor);
+        if(cursor != null)
+            cursor.SetActive(showCursor);
     }
 
     public void GoToSceneSelect() {
