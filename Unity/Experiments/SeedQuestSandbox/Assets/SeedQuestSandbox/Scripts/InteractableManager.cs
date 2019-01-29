@@ -22,6 +22,12 @@ namespace SeedQuest.Interactables
 
         private Interactable activeInteractable = null;
 
+        static public void SetActiveInteractable(Interactable interactable)
+        {
+            Instance.activeInteractable = interactable;
+            InteractablePreviewUI.SetPreviewObject(interactable);
+        }
+        
         private Interactable[,] interactableLUT;
 
         static public Interactable[] InteractableList

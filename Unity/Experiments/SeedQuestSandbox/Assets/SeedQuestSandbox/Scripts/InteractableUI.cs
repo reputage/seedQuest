@@ -63,7 +63,7 @@ namespace SeedQuest.Interactables
                 textList[0].text = "Error: Missing StateData";
 
             Button[] buttons = actionUI.GetComponentsInChildren<Button>();
-            buttons[0].onClick.AddListener(showCurrentActions);
+            buttons[0].onClick.AddListener(onClickLabel);
 
             BoxCollider collider = buttons[0].gameObject.AddComponent<BoxCollider>();
             collider.size = new Vector3(200, 40, 10);
@@ -150,6 +150,17 @@ namespace SeedQuest.Interactables
         {
             InteractableManager.hideAllInteractableUI();
             showActions();
+        }
+
+        public void onClickLabel()
+        {
+            showCurrentActions();
+            InteractableManager.SetActiveInteractable(parent);
+        }
+
+        public void onHoverUI()
+        {
+
         }
 
         public void toggleActions()

@@ -7,13 +7,13 @@ using TMPro;
 
 namespace SeedQuest.Interactables
 {
-
     //[ExecuteInEditMode] 
     [RequireComponent(typeof(BoxCollider))]
     public class Interactable : MonoBehaviour {
 
         public InteractableStateData stateData = null;
         public InteractableUI interactableUI;
+        public InteractablePreview interactablePreview;  
         public InteractableID ID;
         public int currentStateID = 0;
 
@@ -91,12 +91,13 @@ namespace SeedQuest.Interactables
                 bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
                 
                 if (hitThisInteractable)
-                {
-                    
+                { 
                     interactableUI.showCurrentActions();
 
                     if (!isOnHover)  {
                         GameManager.State = GameState.Interact;
+                        InteractableManager.SetActiveInteractable(this);
+
                         //toggleHighlight(true);
                     }
                     isOnHover = true;
