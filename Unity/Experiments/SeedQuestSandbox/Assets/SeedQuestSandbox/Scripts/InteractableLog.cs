@@ -38,7 +38,7 @@ namespace SeedQuest.Interactables
             Instance.log.Add(new InteractableLogItem(interactable, actionIndex));
         }
 
-        static public void Reset() {
+        static public void Clear () {
             Instance.log.Clear();
         }
     }

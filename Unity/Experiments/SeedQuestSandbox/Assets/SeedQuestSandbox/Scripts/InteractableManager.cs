@@ -4,18 +4,8 @@ namespace SeedQuest.Interactables
 {
     public class InteractableManager : MonoBehaviour
     {
-
-        public float nearDistance = 2.0f;
-        public GameObject[] actionSpotIcons;
-        private Interactable activeItem = null;
-        public Interactable[] list = null;
-
-        static public Interactable[] InteractableList
-        {
-            get { return findAllInteractables(); }
-        }
-
         static private InteractableManager instance = null;
+
         static public InteractableManager Instance
         {
             get
@@ -24,6 +14,24 @@ namespace SeedQuest.Interactables
                     instance = GameObject.FindObjectOfType<InteractableManager>();
                 return instance;
             }
+        }
+
+        public float nearDistance = 2.0f;
+
+        public GameObject[] actionSpotIcons; // InteractableUI Prefab Templates
+
+        private Interactable activeInteractable = null;
+
+        private Interactable[,] interactableLUT;
+
+        static public Interactable[] InteractableList
+        {
+            get { return findAllInteractables(); }
+        }
+
+        private void Awake()
+        {
+            InitalizeLookUp();
         }
 
         static Interactable[] findAllInteractables()
@@ -64,13 +72,13 @@ namespace SeedQuest.Interactables
         {
             ParticleSystem effect;
 
-            InteractableStateData data = Instance.activeItem.stateData;
+            InteractableStateData data = Instance.activeInteractable.stateData;
             if (data == null)
-                effect = EffectsManager.createEffect(Instance.activeItem.transform);
+                effect = EffectsManager.createEffect(Instance.activeInteractable.transform);
             else if (data.effect == null)
-                effect = EffectsManager.createEffect(Instance.activeItem.transform);
+                effect = EffectsManager.createEffect(Instance.activeInteractable.transform);
             else
-                effect = EffectsManager.createEffect(Instance.activeItem.transform, data.effect);
+                effect = EffectsManager.createEffect(Instance.activeInteractable.transform, data.effect);
 
             return effect;
         }
@@ -78,9 +86,6 @@ namespace SeedQuest.Interactables
         /// <summary> Do Interaction - Does Action, actives effect, logs action, updates path (for rehersal) and exits interactable ui dialog </summary>
         static public void doInteractableAction(int actionIndex)
         {
-
-
-
             /*
             ParticleSystem effect = getEffect();
             effect.Play();
@@ -91,6 +96,27 @@ namespace SeedQuest.Interactables
             GameManager.State = GameManager.PrevState;
             PathManager.NextPathSegment();
             */
+        }
+
+        /// <summary>
+        /// Initalize LookUp Table for querying interactable based on siteID and spotID
+        /// </summary>
+        static public void InitalizeLookUp()
+        {
+            Interactable[] interactables = InteractableManager.InteractableList;
+
+            Instance.interactableLUT = new Interactable[InteractableConfig.LevelCount, InteractableConfig.InteractableCount];
+            for (int i = 0; i < interactables.Length; i++)
+            {
+                int row = interactables[i].ID.siteID;
+                int col = interactables[i].ID.spotID;
+                Instance.interactableLUT[row, col] = interactables[i];
+            }
+        }
+
+        static public Interactable IDtoInteractable(InteractableID id)
+        { 
+            return Instance.interactableLUT[id.siteID, id.spotID];
         }
 
     }

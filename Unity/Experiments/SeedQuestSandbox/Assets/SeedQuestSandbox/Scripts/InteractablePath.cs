@@ -22,9 +22,17 @@ namespace SeedQuest.Interactables
 
         static public List<Interactable> Path {
             get { return Instance.path;  }
-            set { Instance.path = value; }
         }
         
+        static public void Add(Interactable interactable)
+        {
+            Instance.path.Add(interactable);
+        }
+
+        static public void Clear() {
+            Instance.path.Clear();
+        }
+
         static public Interactable NextInteractable {
             get {
                 if (Instance.nextIndex < Instance.path.Count)
