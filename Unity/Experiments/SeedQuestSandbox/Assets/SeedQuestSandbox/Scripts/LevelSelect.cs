@@ -21,7 +21,11 @@ public class LevelSelect : MonoBehaviour {
     private GameObject levelsCanvas;
     private int currentLevel = 0;
 
-    private void Start() { 
+    private void Start() {
+        // Set Cursor 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         // Get LevelListCanvas
         levelsCanvas = GameObject.FindGameObjectWithTag("LevelListCanvas");
 
