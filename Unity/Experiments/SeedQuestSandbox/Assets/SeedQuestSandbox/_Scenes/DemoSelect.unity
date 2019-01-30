@@ -416,7 +416,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 207296952}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 941267349}
+        m_MethodName: startDemo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &207296952
@@ -1664,7 +1675,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 870256189}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 941267349}
+        m_MethodName: startDemo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &870256189
@@ -1821,6 +1843,7 @@ MonoBehaviour:
     - 'Look: Mouse'
     - 'Select Item: Left Mouse'
     - 'Exit: ESC Key'
+    select: {fileID: 0}
   - name: Cliffsides
     sceneName: 
     demoTitle: Welcome to Cliffsides!
@@ -1832,6 +1855,7 @@ MonoBehaviour:
     - 'Look: Mouse'
     - 'Select Item: Left Mouse'
     - 'Exit: ESC Key'
+    select: {fileID: 0}
   - name: Memory Lab
     sceneName: 
     demoTitle: Welcome to Memory Laboratory!
@@ -1844,6 +1868,7 @@ MonoBehaviour:
     - 'Look: Mouse'
     - 'Select Item: Left Mouse'
     - 'Exit: ESC Key'
+    select: {fileID: 0}
   - name: Flatlands
     sceneName: 
     demoTitle: Welcome to Flatlands
@@ -1854,6 +1879,7 @@ MonoBehaviour:
     - 'Move: Click on ground with Mouse'
     - 'Select Object: Click on Arrows next to Item Label.'
     - 'Level Select: Click exit icon button on top left corner.'
+    select: {fileID: 0}
   - name: Mind Palace
     sceneName: 
     demoTitle: Welcome to Mind Palace!
@@ -1864,6 +1890,7 @@ MonoBehaviour:
     - 'Move: Click on ground with Mouse'
     - 'Select Object: Click on Arrows next to Item Label'
     - 'Level Select: Click exit icon button on top left corner.'
+    select: {fileID: 0}
   selectedDemo:
     name: 
     sceneName: 
@@ -1871,6 +1898,7 @@ MonoBehaviour:
     demoText: 
     demoImage: {fileID: 0}
     demoPopupInfo: []
+    select: {fileID: 0}
   selectButtonPrefab: {fileID: 1015712769557700, guid: 197b2a5a77872574c92df55961ae6905,
     type: 2}
   buttonOffset: {x: 270, y: -220, z: 0}

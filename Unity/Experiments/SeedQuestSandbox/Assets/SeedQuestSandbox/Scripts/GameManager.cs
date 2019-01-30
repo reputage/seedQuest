@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public enum GameState { Sandbox, Pause, Interact }
 
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour {
 
     public void ListenForKeyDown() {
         if (Input.GetKeyDown("escape")) {
-
+            SceneManager.LoadScene("PrototypeSelect");
         }
     }
 
