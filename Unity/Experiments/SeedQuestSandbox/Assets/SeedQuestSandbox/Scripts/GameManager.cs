@@ -46,6 +46,13 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    static public void ResetGameState()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SeedQuest.Interactables.InteractableManager.destroyInteractables();
+    }
+
     public void ListenForKeyDown() {
         if (Input.GetKeyDown("escape")) {
             SceneManager.LoadScene("PrototypeSelect");

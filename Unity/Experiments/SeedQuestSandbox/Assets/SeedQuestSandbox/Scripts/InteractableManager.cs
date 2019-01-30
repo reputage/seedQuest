@@ -45,6 +45,12 @@ namespace SeedQuest.Interactables
             return GameObject.FindObjectsOfType<Interactable>();
         }
 
+        static public void destroyInteractables()
+        {
+            foreach (Interactable interactable in findAllInteractables())
+                GameObject.Destroy(interactable.gameObject);
+        }
+
         static void findNearInteractables()
         {
             Interactable[] list = FindObjectsOfType<Interactable>();
