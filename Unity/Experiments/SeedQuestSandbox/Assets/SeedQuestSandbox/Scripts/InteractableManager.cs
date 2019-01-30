@@ -49,6 +49,9 @@ namespace SeedQuest.Interactables
         {
             foreach (Interactable interactable in findAllInteractables())
                 GameObject.Destroy(interactable.gameObject);
+
+            foreach (GameObject interactableUI in GameObject.FindGameObjectsWithTag("InteractableUI"))
+                GameObject.Destroy(interactableUI);
         }
 
         static void findNearInteractables()
