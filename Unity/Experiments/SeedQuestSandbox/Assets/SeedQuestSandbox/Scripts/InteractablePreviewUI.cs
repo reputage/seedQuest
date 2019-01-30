@@ -122,7 +122,7 @@ namespace SeedQuest.Interactables
             if (depth > Instance.depthMax)
                 return;
 
-            foreach (Transform child in Instance.previewChild.transform)
+            foreach (Transform child in gameObject.transform)
                 SetLayerRecursively(child.gameObject, depth+1);
         }
     }
