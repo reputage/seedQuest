@@ -160,7 +160,14 @@ namespace SeedQuest.Interactables
 
         public void onHoverUI()
         {
+            GameManager.State = GameState.Interact;
+            showCurrentActions();
+            InteractableManager.SetActiveInteractable(parent);
+        }
 
+        public void offHoverUI()
+        {
+            GameManager.State = GameState.Sandbox;
         }
 
         public void toggleActions()

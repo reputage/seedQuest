@@ -13,7 +13,7 @@ namespace SeedQuest.Interactables
 
         public InteractableStateData stateData = null;
         public InteractableUI interactableUI;
-        public InteractablePreview interactablePreview;  
+        public InteractablePreviewInfo interactablePreview;  
         public InteractableID ID;
         public int currentStateID = 0;
 
