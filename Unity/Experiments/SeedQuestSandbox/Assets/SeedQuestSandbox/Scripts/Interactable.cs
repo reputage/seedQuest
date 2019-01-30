@@ -99,7 +99,7 @@ namespace SeedQuest.Interactables
                         InteractableManager.SetActiveInteractable(this);
 
                         //toggleHighlight(true);
-                    }
+                    } 
                     isOnHover = true;
 
                     /*

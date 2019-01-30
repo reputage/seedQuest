@@ -33,6 +33,7 @@ namespace SeedQuest.Interactables
         }
 
         public InteractablePreviewLocation location = InteractablePreviewLocation.bottomright;
+        public int depthMax = 10;
 
         private Camera previewCamera;
         private GameObject previewObject;
@@ -41,6 +42,7 @@ namespace SeedQuest.Interactables
         private Interactable previewInteractable;
         private RectTransform canvasTransform;
         private RectTransform imageTransform;
+
 
         private void Start()
         {
@@ -103,11 +105,25 @@ namespace SeedQuest.Interactables
                 GameObject.Destroy(child.gameObject);
 
             Instance.previewChild = Instantiate(interactable.gameObject, Instance.previewObject.transform);
-            Instance.previewChild.layer = LayerMask.NameToLayer("InteractablePreview");
-            foreach(Transform child in Instance.previewChild.transform)
-                child.gameObject.layer = LayerMask.NameToLayer("InteractablePreview");
+
+            //Instance.previewChild.layer = LayerMask.NameToLayer("InteractablePreview");
+            //foreach(Transform child in Instance.previewChild.transform)
+            //    child.gameObject.layer = LayerMask.NameToLayer("InteractablePreview");
+            SetLayerRecursively(Instance.previewChild, 0);
 
             Instance.previewText.text = interactable.Name;
+        }
+
+        /// <summary>  Recursively set the layer for all children to "InteractablePreview" until max depth is reached or there is no more children </summary>
+        static public void SetLayerRecursively(GameObject gameObject, int depth)
+        {
+            gameObject.layer = LayerMask.NameToLayer("InteractablePreview");
+
+            if (depth > Instance.depthMax)
+                return;
+
+            foreach (Transform child in Instance.previewChild.transform)
+                SetLayerRecursively(child.gameObject, depth+1);
         }
     }
 }
