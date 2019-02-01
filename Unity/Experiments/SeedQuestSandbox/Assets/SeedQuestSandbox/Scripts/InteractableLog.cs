@@ -1,0 +1,45 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace SeedQuest.Interactables
+{
+    public class InteractableLogItem {
+        public Interactable interactable;
+        public int actionIndex; 
+
+        public InteractableLogItem(Interactable _interactable, int _actionIndex) {
+            interactable = _interactable;
+            actionIndex = _actionIndex;
+        }
+    }
+
+    public class InteractableLog {
+
+        private static InteractableLog instance = null;
+        public static InteractableLog Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new InteractableLog();
+
+                return instance;
+            }
+        }
+
+        public List<InteractableLogItem> log = new List<InteractableLogItem>();
+
+        static public List<InteractableLogItem> Log {
+            get { return Instance.log; }
+        }
+
+        static public void Add(Interactable interactable, int actionIndex) {
+            Instance.log.Add(new InteractableLogItem(interactable, actionIndex));
+        }
+
+        static public void Clear () {
+            Instance.log.Clear();
+        }
+    }
+} 

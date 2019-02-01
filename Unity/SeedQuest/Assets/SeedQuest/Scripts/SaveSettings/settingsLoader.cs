@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class settingsLoader : MonoBehaviour {
 
-    // This could be included in a different script, but I'm giving
-    //  it it's own script for the purpose of encapsulation
+    // This could be included in a different script if we want
 
 	void Start () 
     {

@@ -47,7 +47,7 @@ public class PlayerMovementController : MonoBehaviour {
         else {
             animator.SetBool("Walk", false);
             animator.SetBool("Run", false);
-            cloudGenerator.GetComponent<cloudGenerator>().stopGenerate();
+            //cloudGenerator.GetComponent<cloudGenerator>().stopGenerate();
         }
 
         if (Input.GetKeyDown("r") && !PauseManager.isPaused)
@@ -55,12 +55,12 @@ public class PlayerMovementController : MonoBehaviour {
             if (animator.GetBool("Run"))
             {
                 animator.SetBool("Run", false);
-                cloudGenerator.GetComponent<cloudGenerator>().stopGenerate();
+                //cloudGenerator.GetComponent<cloudGenerator>().stopGenerate();
             }
             else
             {
                 animator.SetBool("Run", true);
-                cloudGenerator.GetComponent<cloudGenerator>().startGenerate();
+                //cloudGenerator.GetComponent<cloudGenerator>().startGenerate();
             }
         }
     }

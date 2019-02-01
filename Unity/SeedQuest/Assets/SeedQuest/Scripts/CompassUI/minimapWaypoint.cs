@@ -35,10 +35,6 @@ public class minimapWaypoint : MonoBehaviour {
         playerNoY.y = 0;
         targetNoY.y = 0;
 
-        // I'm not sure why, but the waypoint won't be in the right spot unless
-        //  this calculation is performed. Apparently the scaling for the
-        //  x-axis and z-axis are different, so it may be a resolution problem?
-
         playerNoY.z = playerNoY.z / 25 * 15;
         targetNoY.z = targetNoY.z / 25 * 15;
 

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 using System.Text;
+using Nethereum.Signer;
 
 public static class OTPworker
 {
@@ -15,6 +16,7 @@ public static class OTPworker
         byte[] seedByte = HexStringToByteArray(seed);
         byte[] demoBlob = Convert.FromBase64String(blobString);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
+        int valid = VerifyKeys.verifyKey(Encoding.ASCII.GetString(decryptedKey));
         return decryptedKey;
     }
 
@@ -25,6 +27,7 @@ public static class OTPworker
 
         OTPGenerator(otp, size, seed);
         key = OTPxor(key, otp);
+        int valid = VerifyKeys.verifyKey(Encoding.ASCII.GetString(key));
         return key;
     }
 
@@ -33,14 +36,17 @@ public static class OTPworker
     {
         for (int i = 0; i < seed.Length; i++)
             seed[i] = (byte)LibSodiumManager.nacl_randombytes_random();
-        
+            //seed[i] = (byte)LibSalt.nacl_randombytes_random();
+
         return seed;
     }
 
     // Generates the one-time pad from a seed
     public static void OTPGenerator(byte[] otp, int size, byte[] seed)
     {
+        // This might need a seed of specific size - possibly 64 bytes, needs testing
         LibSodiumManager.nacl_randombytes_buf_deterministic(otp, size, seed);
+        //LibSalt.nacl_randombytes_buf_deterministic(otp, size, seed);
         //Debug.Log("Seed length: " + seed.Length + " Seed string: " + ByteArrayToHex(seed));
         //Debug.Log("OTP length: " + otp.Length + " OTP first bytes: " + otp[0] + " " + otp[1] + " " + otp[2] + " " + otp[3]);
     }
@@ -54,7 +60,6 @@ public static class OTPworker
             Debug.Log("Error: One time pad is not longer than key");
             return result;
         }
-
         for (int i = 0; i < key.Length; ++i)
             result[i] = (byte)(key[i] ^ otp[i]);
 
@@ -81,7 +86,7 @@ public static class OTPworker
         return bytes;
     }
 
-    // Get hex value from a char
+    // Get hex value from a char 
     public static int GetHexVal(char hex)
     {
         int val = (int)hex;
@@ -107,7 +112,6 @@ public static class OTPworker
                     return i;
             }
         }
-
         return 0;
     }
 
