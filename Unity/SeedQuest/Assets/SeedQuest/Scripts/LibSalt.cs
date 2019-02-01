@@ -32,4 +32,9 @@ public static class LibSalt
     // Saves decrypted message 'sm' into 'm", if 'pk' matches the signature on 'sm'
     [DllImport("Assets/Lib/dist/LibSalt.dylib")]
     public static extern int nacl_crypto_sign_open(byte[] m, byte[] sm, ulong smlen, byte[] pk);
+
+    // Saves public key to pk, saves secret key to sk
+    [DllImport("Assets/Lib/dist/LibSalt.dylib")]
+    public static extern int nacl_crypto_sign_seed_keypair(byte[] pk, byte[] sk, byte[] seed);
+
 }

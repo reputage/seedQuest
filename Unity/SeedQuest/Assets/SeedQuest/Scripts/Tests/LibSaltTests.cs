@@ -83,7 +83,7 @@ public class LibSaltTests : MonoBehaviour {
         testSeed1 = OTPworker.randomSeedGenerator(testSeed1);
         testSeed2 = OTPworker.randomSeedGenerator(testSeed2);
 
-        Debug.Log("First value of each seed: " + testSeed1[0] + " " + testSeed2[0]);
+        //Debug.Log("First value of each seed: " + testSeed1[0] + " " + testSeed2[0]);
         Debug.Log("RandomSeedGenerator() test passed");
 
     }

@@ -19,7 +19,10 @@ public static class DideryInterface{
     public static string signResource(byte[] sm, byte[] m, ulong mlen, byte[] sk, byte[] vk)
     {
         LibSodiumManager.nacl_crypto_sign(sm, m, mlen, sk);
+        //LibSalt.nacl_crypto_sign(sm, m, mlen, sk);
         byte[] sig = new byte[LibSodiumManager.nacl_crypto_sign_BYTES()];
+        //byte[] sig = new byte[LibSalt.nacl_crypto_sign_BYTES()];
+
         for (int i = 0; i < sig.Length; i++)
         {
             sig[i] = sm[i];
@@ -27,6 +30,8 @@ public static class DideryInterface{
 
         byte[] usm = new byte[m.Length];
         int success = LibSodiumManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
+        //int success = LibSaltManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
+
         if (success == 0)
         {
             //Debug.Log("Signing successful");
@@ -54,10 +59,13 @@ public static class DideryInterface{
         string keyString = Convert.ToBase64String(encryptedKey);
 
         int signed_bytes = LibSodiumManager.nacl_crypto_sign_BYTES();
+        //int signed_bytes = LibSaltManager.nacl_crypto_sign_BYTES();
 
         // This function eventually needs to be changed to use a deterministic keypair generator
         //  which should use the user's seed as the RNG seed
         LibSodiumManager.nacl_crypto_sign_keypair(vk, sk);
+        //LibSaltManager.nacl_crypto_sign_keypair(vk, sk);
+
         did = makeDid(vk);
 
         dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.ffffffzzz");
