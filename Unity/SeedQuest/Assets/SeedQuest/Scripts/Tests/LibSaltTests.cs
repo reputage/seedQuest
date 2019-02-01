@@ -11,6 +11,8 @@ public class LibSaltTests : MonoBehaviour {
     public void runAllTests()
     {
         testOtpGenerator();
+        testRandomSeedGenerator();
+        testDecryptKey();
     }
 
     private void testOtpGenerator()
@@ -89,8 +91,52 @@ public class LibSaltTests : MonoBehaviour {
     // To do
     public void testDecryptKey()
     {
-        
+        int size = 32;
+        byte[] key = new byte[size];
+        byte[] eKey = new byte[size];
+        byte[] dKey = new byte[size];
+        byte[] seed = new byte[size];
+        byte[] otp = new byte[size];
+        bool same = true;
+
+        for (int i = 0; i < key.Length; i++)
+        {
+            key[i] = (byte)i;
+        }
+
+        for (int i = 0; i < seed.Length; i++)
+        {
+            seed[i] = (byte)i;
+        }
+
+        OTPworker.OTPGenerator(otp, size, seed);
+        eKey = OTPworker.OTPxor(key, otp);
+        dKey = OTPworker.OTPxor(eKey, otp);
+
+        for (int i = 0; i < key.Length; i ++)
+        {
+            if (key[i] != dKey[i])
+            {
+                same = false;
+            }
+        }
+
+        if(same)
+        {
+            Debug.Log("Test for encryption and decryption passed");
+        }
+        else
+        {
+            Debug.Log("Test for encryption and decryption failed");
+            Debug.Log("Values: " + key[0] + "-" + dKey[0] + " " + key[1] + "-" + dKey[1]);
+            //Debug.Log("Values: " + key[2] + "-" + dKey[2] + " " + key[3] + "-" + dKey[3]);
+            //Debug.Log("Values: " + key[4] + "-" + dKey[4] + " " + key[5] + "-" + dKey[5]);
+            //Debug.Log("Values: " + key[6] + "-" + dKey[6] + " " + key[7] + "-" + dKey[7]);
+
+        }
+
     }
+
 
 
 }
