@@ -29,7 +29,7 @@ public static class DideryInterface{
         int success = LibSodiumManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
         if (success == 0)
         {
-            Debug.Log("Signing successful");
+            //Debug.Log("Signing successful");
         }
         else
         {
@@ -55,6 +55,8 @@ public static class DideryInterface{
 
         int signed_bytes = LibSodiumManager.nacl_crypto_sign_BYTES();
 
+        // This function eventually needs to be changed to use a deterministic keypair generator
+        //  which should use the user's seed as the RNG seed
         LibSodiumManager.nacl_crypto_sign_keypair(vk, sk);
         did = makeDid(vk);
 

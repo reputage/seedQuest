@@ -5,7 +5,8 @@ using UnityEngine.UI;
 using System.Text;
 using System;
 
-public class startMenuDemo : MonoBehaviour {
+public class startMenuDemo : MonoBehaviour
+{
 
     public InputField keyInputField;
     public Text keyString = null;
@@ -15,13 +16,13 @@ public class startMenuDemo : MonoBehaviour {
     private bool allowEnter;
     private bool entered;
 
-	void Start () 
+    void Start()
     {
         entered = false;
         allowEnter = false;
     }
-	
-	void Update () 
+
+    void Update()
     {
         if (allowEnter && keyInputField.text != "" && Input.GetKey(KeyCode.Return))
         {
@@ -65,11 +66,12 @@ public class startMenuDemo : MonoBehaviour {
     {
         DideryDemoManager.IsDemo = true;
         DideryDemoManager.DemoBlob = keyInputField.text;
-        SeedManager.InputSeed =  "148436BD13EEB72557080989DF01"; //"A021E0A80264A33C08B6C2884AC0685C";
+        SeedManager.InputSeed = "148436BD13EEB72557080989DF01"; //"A021E0A80264A33C08B6C2884AC0685C";
         deactivateEncryptButtons();
     }
 
-    public void useDemoKeyAndStart() {
+    public void useDemoKeyAndStart()
+    {
         DideryDemoManager.IsDemo = true;
         DideryDemoManager.DemoBlob = keyInputField.text;
         SeedManager.InputSeed = "A021E0A80264A33C08B6C2884AC0685C"; //"4040C1A90886218984850151AC123249";

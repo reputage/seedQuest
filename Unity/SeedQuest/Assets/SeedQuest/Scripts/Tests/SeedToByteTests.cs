@@ -16,6 +16,7 @@ public class SeedToByteTests : MonoBehaviour {
 	void Start () 
     {
         runAllTests();
+        //SaveDids.testXorSeed();
 	}
 	
 	// Update is called once per frame
@@ -25,7 +26,7 @@ public class SeedToByteTests : MonoBehaviour {
 	}
 
     // Run all tests at once
-    void runAllTests()
+    public void runAllTests()
     {
         int[] passed = new int[2];
         int[] test1 = testByteBitConversion();

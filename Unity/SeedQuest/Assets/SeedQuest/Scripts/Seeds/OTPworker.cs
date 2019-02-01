@@ -36,14 +36,17 @@ public static class OTPworker
     {
         for (int i = 0; i < seed.Length; i++)
             seed[i] = (byte)LibSodiumManager.nacl_randombytes_random();
-        
+            //seed[i] = (byte)LibSalt.nacl_randombytes_random();
+
         return seed;
     }
 
     // Generates the one-time pad from a seed
     public static void OTPGenerator(byte[] otp, int size, byte[] seed)
     {
+        // This might need a seed of specific size - possibly 64 bytes, needs testing
         LibSodiumManager.nacl_randombytes_buf_deterministic(otp, size, seed);
+        //LibSalt.nacl_randombytes_buf_deterministic(otp, size, seed);
         //Debug.Log("Seed length: " + seed.Length + " Seed string: " + ByteArrayToHex(seed));
         //Debug.Log("OTP length: " + otp.Length + " OTP first bytes: " + otp[0] + " " + otp[1] + " " + otp[2] + " " + otp[3]);
     }

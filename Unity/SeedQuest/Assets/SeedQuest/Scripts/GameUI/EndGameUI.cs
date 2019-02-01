@@ -10,7 +10,6 @@ public class EndGameUI : MonoBehaviour {
     public TextMeshProUGUI keyString = null;
     public DideryDemoManager dideryDemoManager;
 
-
     public GameObject copyButton;
 
 	public void Start()
@@ -23,16 +22,25 @@ public class EndGameUI : MonoBehaviour {
         {
             seedString.text = SeedManager.RecoveredSeed;
             if (!DideryDemoManager.IsDemo)
+            {
                 dideryDemoManager.demoGetEncryptedKey();
+                decryptKey();
+            }
+            else
+            {
+                decryptKey();    
+            }
         }
     }
 
+    // Restarts SeedQuest
     public void RestartGame() {
         GameManager.State = GameState.GameStart;
         StartCoroutine(SceneLoader.LoadMainMenu());
         //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
+    // Copy the seed to the user's clipboard (tested and working on Mac and PC)
     public void CopySeed() {
         TextEditor editor = new TextEditor();
         editor.text = DideryDemoManager.DemoBlob;
@@ -40,6 +48,7 @@ public class EndGameUI : MonoBehaviour {
         editor.Copy();
     }
 
+    // Decrypt the key from DideryDemoManager.demoBlob
     public void decryptKey()
     {
         if (DideryDemoManager.IsDemo) {
