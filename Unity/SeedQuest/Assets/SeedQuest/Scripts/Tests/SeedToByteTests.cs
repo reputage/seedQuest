@@ -15,7 +15,7 @@ public class SeedToByteTests : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-        runAllTests();
+        //runAllTests();
         //SaveDids.testXorSeed();
 	}
 	
