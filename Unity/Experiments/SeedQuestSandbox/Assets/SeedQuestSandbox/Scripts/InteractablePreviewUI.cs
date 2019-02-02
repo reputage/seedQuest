@@ -32,34 +32,50 @@ namespace SeedQuest.Interactables
             }
         }
 
+        public float previewScale = 1f;
         public InteractablePreviewLocation location = InteractablePreviewLocation.bottomright;
-        public int depthMax = 10;
+
+        private InteractablePreviewLocation _location = InteractablePreviewLocation.bottomright;
+        private bool checkSettingsChange() { return _location != location; }
+        private void changeSettings() { _location = location; }
+        private void onSettingsChange(System.Action todo)  {  if (checkSettingsChange()) { todo(); changeSettings(); } }
+
+        private int depthMax = 10;
+        private bool settingsChanged = false;
 
         private Camera previewCamera;
         private GameObject previewObject;
         private GameObject previewChild;
         private TMPro.TextMeshProUGUI previewText;
         private Interactable previewInteractable;
-        private RectTransform canvasTransform;
+        private List<RectTransform> canvasTransforms;
         private RectTransform imageTransform;
 
-
-        private void Start()
-        {
+        private void Start()  {
             previewObject = GameObject.FindGameObjectWithTag("PreviewObject");
             previewText = GameObject.FindGameObjectWithTag("PreviewText").GetComponent<TMPro.TextMeshProUGUI>();
             previewCamera = GameObject.FindGameObjectWithTag("PreviewCamera").GetComponent<Camera>();
-            canvasTransform = GameObject.FindGameObjectWithTag("PreviewCanvas").GetComponent<RectTransform>();
-            imageTransform = GameObject.FindGameObjectWithTag("PreviewImage").GetComponent<RectTransform>();
+            canvasTransforms = new List<RectTransform>();
 
-            SetLocationTransform();
+            foreach(GameObject obj in GameObject.FindGameObjectsWithTag("PreviewCanvas"))
+                canvasTransforms.Add(obj.GetComponent<RectTransform>());
+
+            imageTransform = GameObject.FindGameObjectWithTag("PreviewImage").GetComponent<RectTransform>();
         }
 
-        private void Update()
-        {
-            InteractablePreviewInfo preview = Instance.previewInteractable.interactablePreview; 
+        private void Update()  {
+            onSettingsChange(SetLocationTransform);
+            SetPreviewProperties();
+        } 
 
-            if(preview != null)
+        public void SetPreviewProperties() {
+            InteractablePreviewInfo preview;
+            if (Instance.previewInteractable == null)
+                return;
+            else
+                preview = Instance.previewInteractable.interactablePreview;
+
+            if (preview != null)
             {
                 previewChild.transform.localPosition = preview.position;
                 previewChild.transform.localRotation = Quaternion.Euler(preview.rotation);
@@ -71,52 +87,53 @@ namespace SeedQuest.Interactables
                 Instance.previewCamera.fieldOfView = preview.fieldOfView;
                 Instance.previewCamera.orthographicSize = preview.orthographicSize;
             }
-        } 
+        }
 
-        public void SetLocationTransform()
-        {
+        public void SetLocationTransform() {
+            Debug.Log("Preview Location Changed");
+
+            foreach (RectTransform canvasTransform in canvasTransforms)
+                canvasTransform.localScale = new Vector3(previewScale, previewScale, previewScale);
+
             if (location == InteractablePreviewLocation.bottomright)
             {
-                canvasTransform.anchorMax = new Vector2(1, 0);
-                canvasTransform.anchorMin = new Vector2(1, 0);
-                canvasTransform.anchoredPosition3D = Vector3.zero;
+                foreach(RectTransform canvasTransform in canvasTransforms) {
+                    canvasTransform.anchorMax = new Vector2(1, 0);
+                    canvasTransform.anchorMin = new Vector2(1, 0);
+                    canvasTransform.anchoredPosition3D = Vector3.zero;
+                }
 
                 imageTransform.anchorMax = new Vector2(0, 1);
                 imageTransform.anchorMin = new Vector2(0, 1);
-                imageTransform.anchoredPosition3D = Vector3.zero;
+                imageTransform.anchoredPosition3D = new Vector3(50, 0, 0);
             }
             else if (location == InteractablePreviewLocation.topright)
-            {
-                canvasTransform.anchorMax = new Vector2(1, 1);
-                canvasTransform.anchorMin = new Vector2(1, 1);
-                canvasTransform.anchoredPosition3D = Vector3.zero;
+            { 
+                foreach(RectTransform canvasTransform in canvasTransforms) {
+                    canvasTransform.anchorMax = new Vector2(1, 1);
+                    canvasTransform.anchorMin = new Vector2(1, 1);
+                    canvasTransform.anchoredPosition3D = Vector3.zero;
+                }
 
                 imageTransform.anchorMax = new Vector2(0, 0);
                 imageTransform.anchorMin = new Vector2(0, 0);
-                imageTransform.anchoredPosition3D = new Vector3(0, -40, 0);
+                imageTransform.anchoredPosition3D = new Vector3(50, 60, 0);
             }
         }
 
-        static public void SetPreviewObject(Interactable interactable)
-        {
+        static public void SetPreviewObject(Interactable interactable)  {
             Instance.previewInteractable = interactable;
 
             foreach (Transform child in Instance.previewObject.transform)
                 GameObject.Destroy(child.gameObject);
 
             Instance.previewChild = Instantiate(interactable.gameObject, Instance.previewObject.transform);
-
-            //Instance.previewChild.layer = LayerMask.NameToLayer("InteractablePreview");
-            //foreach(Transform child in Instance.previewChild.transform)
-            //    child.gameObject.layer = LayerMask.NameToLayer("InteractablePreview");
             SetLayerRecursively(Instance.previewChild, 0);
-
             Instance.previewText.text = interactable.Name;
         }
 
         /// <summary>  Recursively set the layer for all children to "InteractablePreview" until max depth is reached or there is no more children </summary>
-        static public void SetLayerRecursively(GameObject gameObject, int depth)
-        {
+        static public void SetLayerRecursively(GameObject gameObject, int depth) {
             gameObject.layer = LayerMask.NameToLayer("InteractablePreview");
 
             if (depth > Instance.depthMax)
