@@ -18,10 +18,10 @@ public static class DideryInterface{
     // Create signature to use in the header of POST and PUT requests to didery
     public static string signResource(byte[] sm, byte[] m, ulong mlen, byte[] sk, byte[] vk)
     {
-        LibSodiumManager.nacl_crypto_sign(sm, m, mlen, sk);
-        //LibSalt.nacl_crypto_sign(sm, m, mlen, sk);
-        byte[] sig = new byte[LibSodiumManager.nacl_crypto_sign_BYTES()];
-        //byte[] sig = new byte[LibSalt.nacl_crypto_sign_BYTES()];
+        //LibSodiumManager.nacl_crypto_sign(sm, m, mlen, sk);
+        LibSalt.nacl_crypto_sign(sm, m, mlen, sk);
+        //byte[] sig = new byte[LibSodiumManager.nacl_crypto_sign_BYTES()];
+        byte[] sig = new byte[LibSalt.nacl_crypto_sign_BYTES()];
 
         for (int i = 0; i < sig.Length; i++)
         {
@@ -29,8 +29,8 @@ public static class DideryInterface{
         }
 
         byte[] usm = new byte[m.Length];
-        int success = LibSodiumManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
-        //int success = LibSaltManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
+        //int success = LibSodiumManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
+        int success = LibSalt.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
 
         if (success == 0)
         {
@@ -48,7 +48,7 @@ public static class DideryInterface{
     // Puts together the body of the post request for a OTP encrypted key, 
     //  returns a string[] with the did, the signature, and the body of the
     //  post request.
-    public static string[] makePost(byte[] encryptedKey)
+    public static string[] makePost(byte[] encryptedKey, byte[] seed)
     {
         byte[] vk = new byte[32];
         byte[] sk = new byte[64];
@@ -58,13 +58,13 @@ public static class DideryInterface{
         string signature;
         string keyString = Convert.ToBase64String(encryptedKey);
 
-        int signed_bytes = LibSodiumManager.nacl_crypto_sign_BYTES();
-        //int signed_bytes = LibSaltManager.nacl_crypto_sign_BYTES();
+        //int signed_bytes = LibSodiumManager.nacl_crypto_sign_BYTES();
+        int signed_bytes = LibSalt.nacl_crypto_sign_BYTES();
 
         // This function eventually needs to be changed to use a deterministic keypair generator
         //  which should use the user's seed as the RNG seed
-        LibSodiumManager.nacl_crypto_sign_keypair(vk, sk);
-        //LibSaltManager.nacl_crypto_sign_keypair(vk, sk);
+        //LibSodiumManager.nacl_crypto_sign_keypair(vk, sk);
+        LibSalt.nacl_crypto_sign_seed_keypair(vk, sk, seed);
 
         did = makeDid(vk);
 
