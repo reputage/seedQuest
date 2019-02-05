@@ -9,16 +9,35 @@ public class DideryTests : MonoBehaviour
 
     public void runAllTests()
     {
-        //testMakePost();
+        int[] passed = new int[2];
+
         //testMakeDid();
-        testDecrypt();
+        //testDecrypt();
         //testDecryptFromBlob();
+        //testValidKey();
+        //testBadDecrypt();
+
+        passed[0] += testMakePost();
+        passed[1]++;
+        passed[0] += testMakeDid();
+        passed[1]++;
+        passed[0] += testDecrypt();
+        passed[1]++;
+        passed[0] += testValidKey();
+        passed[1]++;
+        passed[0] += testRegenerateAddress();
+        passed[1]++;
+        //passed[0] += testBadDecrypt();
+        //passed[1]++;
+
+        Debug.Log("Successfully passed " + passed[0] + " out of " + passed[1] + " didery tests.");
 
     }
 
     // Test making a didery blob post for a post request
-    public void testMakePost()
+    public int testMakePost()
     {
+        int pass = 1;
         byte[] key = new byte[16];
         byte[] seed = new byte[16];
 
@@ -32,13 +51,17 @@ public class DideryTests : MonoBehaviour
         }
 
         string[] post = DideryInterface.makePost(key, seed);
-        Debug.Log("Test post: " + post[0] + " " + post[1] + " " + post[2]);
+        //Debug.Log("Test post: " + post[0] + " " + post[1] + " " + post[2]);
 
+        // If this has worked without getting an error then it's passed the test
+        return pass;
     }
 
     // Test making a did for use with post requests to didery
-    public void testMakeDid()
+    public int testMakeDid()
     {
+        int pass = 0;
+
         byte[] key = new byte[16];
         for (int i = 0; i < key.Length; i++)
         {
@@ -46,13 +69,21 @@ public class DideryTests : MonoBehaviour
         }
 
         string did = DideryInterface.makeDid(key);
-        Debug.Log("Test did: " + did);
-        //:AAECAwQFBgcICQoLDA0ODw==
+        //Debug.Log("Test did: " + did);
+
+        if (did == "did:dad:AAECAwQFBgcICQoLDA0ODw==")
+            pass = 1;
+        else
+            Debug.Log("testMakeDid() failed.");
+
+        return pass;
     }
 
     // Test decrypting a key from a didery blob
-    public void testDecrypt()
+    public int testDecrypt()
     {
+        int pass = 0; 
+
         byte[] key = new byte[16];
         byte[] seed = new byte[16];
         byte[] encryptedKey = new byte[16];
@@ -75,19 +106,25 @@ public class DideryTests : MonoBehaviour
         string keyString = OTPworker.ByteArrayToHex(key);
         string decryptedString = OTPworker.ByteArrayToHex(decryptedKey);
 
-        Debug.Log("Key: " + OTPworker.ByteArrayToHex(key));
-        Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedKey));
+        //Debug.Log("Key: " + OTPworker.ByteArrayToHex(key));
+        //Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedKey));
 
         if (keyString == decryptedString)
         {
-            Debug.Log("Decryption test successful");
+            pass = 1;
+            //Debug.Log("Decryption test successful");
         }
+        else
+            Debug.Log("testDecrypt() failed.");
 
+        return pass;
     }
 
     // Test decrypting a key from a didery blob - needs the bug fix for OTPgenerator to work
-    public void testDecryptFromBlob()
+    public int testDecryptFromBlob()
     {
+        int pass = 0; 
+
         byte[] key = new byte[16];
         byte[] seed = new byte[16];
         byte[] encryptedKey = new byte[16];
@@ -112,42 +149,72 @@ public class DideryTests : MonoBehaviour
         string keyString = OTPworker.ByteArrayToHex(key);
         string decryptedString = OTPworker.ByteArrayToHex(decryptedKey);
 
-        Debug.Log("Key: " + OTPworker.ByteArrayToHex(key));
-        Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedKey));
+        //Debug.Log("Key: " + OTPworker.ByteArrayToHex(key));
+        //Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedKey));
 
         //decryptedBlob = OTPworker.decryptFromBlob(seedString, Convert.ToBase64String(encryptedKey));
 
-        Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedBlob));
+        //Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedBlob));
 
+        return pass;
     }
 
     // Test that an invalid key fails the key validation function
-    public void testBadDecrypt()
+    public int testBadDecrypt()
     {
+        int pass = 0; 
+
         string seed = "A021E0A80264A33C08B6C2884AC0685C";
         string badBlob = "aaaabbbbaaaabbbbaaaabbbbaaaabbbb";
         byte[] keyByte = OTPworker.decryptFromBlob(seed, badBlob);
         string finalKey = Encoding.ASCII.GetString(keyByte);
-        Debug.Log("Bad decrypted key: " + finalKey);
+        //Debug.Log("Bad decrypted key: " + finalKey);
+
+        // if the function has gotten to this point, and hasn't crashed, it's passed
+        pass = 1;
+        return pass;
     }
 
     // Test the function to generate public address from private key
-    public void testRegenerateAddress()
+    public int testRegenerateAddress()
     {
+        int pass = 0;
+
         string privateKey = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
+        string addressCheck = "0x12890D2cce102216644c59daE5baed380d84830c";
         string address = VerifyKeys.regeneratePublicAddress(privateKey);
-        Debug.Log("Your public address is: " + address);
+        //Debug.Log("Your public address is: " + address);
+
+        if (address == addressCheck)
+        {
+            pass = 1;
+        }
+        else
+            Debug.Log("testRegenerateAddress() failed.");
+
+        return pass;
     }
 
     // Test that a valid key passes the key validation function
-    public void testValidKey()
+    public int testValidKey()
     {
         string key = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
-        VerifyKeys.verifyKey(key);
+        int pass = VerifyKeys.verifyKey(key);
+
+        if (pass == 1)
+        {
+            Debug.Log("testValidKey() failed");
+            pass = 0;
+        }
+        else
+            pass = 1;
+        
+        return pass;
     }
 
-    // Test that a valid key passes the key validation function
-    public void testGoodDecrypt()
+    // Test that a valid key passes the key validation function - needs changes to 
+    //  OTPgenerator to work properly
+    public int testGoodDecrypt()
     {
         string seed = "A021E0A80264A33C08B6C2884AC0685C";
         string key = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
@@ -160,7 +227,9 @@ public class DideryTests : MonoBehaviour
         byte[] goodKey = OTPworker.OTPxor(seedByte, keyByte);
         byte[] decryptedKey = OTPworker.decryptFromBlob(seed, Convert.ToBase64String(goodKey));
         string finalKey = Encoding.ASCII.GetString(keyByte);
-        Debug.Log("Decrypted key: " + finalKey);
+        //Debug.Log("Decrypted key: " + finalKey);
+
+        return 0;
     }
 
 }

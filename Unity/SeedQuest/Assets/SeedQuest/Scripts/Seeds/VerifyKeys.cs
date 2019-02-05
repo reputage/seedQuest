@@ -16,7 +16,7 @@ public static class VerifyKeys {
         var signer = new MessageSigner();
         var signature = "";
         var address = "";
-        Debug.Log("Verify key: " + key);
+        //Debug.Log("Verify key: " + key);
 
         try
         {
@@ -38,7 +38,7 @@ public static class VerifyKeys {
             return 1;
         }
 
-        Debug.Log("Varification successful: " + address + ". Private key appears to be valid.");
+        //Debug.Log("Verification successful: " + address + ". Private key appears to be valid.");
         return 0;
     }
 
