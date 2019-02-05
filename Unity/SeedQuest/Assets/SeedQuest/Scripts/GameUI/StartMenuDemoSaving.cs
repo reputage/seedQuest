@@ -204,7 +204,7 @@ public class StartMenuDemoSaving : MonoBehaviour
         byte[] goodKey = OTPworker.OTPxor(seedByte, keyByte);
         byte[] decryptedKey = OTPworker.decryptFromBlob(seed, Convert.ToBase64String(goodKey));
         string finalKey = Encoding.ASCII.GetString(keyByte);
-        Debug.Log("Bad decrypted key: " + finalKey);
+        Debug.Log("Good decrypted key: " + finalKey);
     }
 
     // Censor all but the last 4 digits of the input key
