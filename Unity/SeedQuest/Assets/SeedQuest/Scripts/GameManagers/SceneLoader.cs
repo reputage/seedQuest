@@ -26,7 +26,7 @@ public class SceneLoader : MonoBehaviour {
         AsyncOperation async = SceneManager.LoadSceneAsync("Demo_v05");
         while(!async.isDone) {
             yield return null;
-        }   
+        }
     }
 
     static public IEnumerator LoadMainMenu() {
@@ -34,6 +34,30 @@ public class SceneLoader : MonoBehaviour {
         AsyncOperation async = SceneManager.LoadSceneAsync("MainMenu_v02");
         while(!async.isDone) {
             yield return null;
-        }  
+        }
+        SceneManager.UnloadSceneAsync("Demo_v05");
+    }
+
+    static public IEnumerator UnloadGame()
+    {
+        Debug.Log(SceneManager.GetActiveScene().ToString());
+        AsyncOperation async = SceneManager.UnloadSceneAsync("Demo_v05");
+        while (!async.isDone)
+        {
+            yield return null;
+        }
+        Debug.Log("Unload Finished");
+    }
+
+    static public IEnumerator UnloadMainMenu()
+    {
+        Debug.Log(SceneManager.GetActiveScene().ToString());
+        AsyncOperation async = SceneManager.UnloadSceneAsync("MainMenu_v02");
+        while (!async.isDone)
+        {
+            yield return null;
+        }
+        Debug.Log("Unload Finished");
     }
 }
+
