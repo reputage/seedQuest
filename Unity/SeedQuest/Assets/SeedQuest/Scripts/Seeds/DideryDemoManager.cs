@@ -30,10 +30,6 @@ public class DideryDemoManager : MonoBehaviour
     public string demoBlob;
     public bool isDemo = false;
 
-    public string saveFileVersion;
-    public static Dictionary<string, string> userDids = new Dictionary<string, string>();
-    public static Dictionary<string, string> userSeeds = new Dictionary<string, string>();
-
     private string urlAddress = "http://178.128.0.203:8080/blob/";
     private SeedToByte seedToByte = new SeedToByte();
 
@@ -55,23 +51,7 @@ public class DideryDemoManager : MonoBehaviour
         set { Instance.isDemo = value; }
     }
 
-    static public string SaveFileVersion
-    {
-        get { return Instance.saveFileVersion; }
-        set { Instance.saveFileVersion = value; }
-    }
-
-    static public Dictionary<string, string> UserDids
-    {
-        get { return userDids; }
-        set { userDids = value; }
-    }
-
-    static public Dictionary<string, string> UserSeeds
-    {
-        get { return userSeeds; }
-        set { userSeeds = value; }
-    }
+    public void Reset()     {         demoDid = null;         demoBlob = null;         isDemo = false;     }
 
     // Send POST request to didery
     public void postRequest(string url, string postBody, string signature)
@@ -202,38 +182,27 @@ public class DideryDemoManager : MonoBehaviour
     // Sets the did to be recovered at the end of the game
     public void setDid(string name)
     {
-        if (userDids.ContainsKey(name))
-        {
-            if (userDids[name] == "")
-                Debug.Log("Error: Name is found in user dids, but the did appears to be an empty string!");
-            else
-                demoDid = userDids[name];
-        }
-        else
-        {
-            Debug.Log("Error: Did with specified name does not appear to exist in user dids");
-            return;
-        }
+        return;
     }
 
     // Adds a did with a label name to the dictionary of user dids, then saves the data in a file
     public void saveDidData(string name, string did)
     {
-        SaveDids.saveDidData(userDids, name, did);
+        //SaveDids.saveDidData(userDids, name, did);
     }
 
     // Save seed data - necessary to rehearse the seed's route later
     //  Note to self: should probably encrypt this in some way, just so it isn't stored in plain text
     public void saveSeedData(string name, string seed)
     {
-        SaveDids.saveSeedData(userSeeds, name, seed);
+        //SaveDids.saveSeedData(userSeeds, name, seed);
     }
 
     // Remove the seed data from the saved data file - this will render rehearse mode 
     //  impossible for the chosen seed once this is performed
     public void removeSeedData(string name)
     {
-        SaveDids.removeSeedData(userSeeds, name);
+        //SaveDids.removeSeedData(userSeeds, name);
     }
 
 

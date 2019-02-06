@@ -20,6 +20,14 @@ public class InteractableLog {
         actionLog.Add(actionID);
     }
 
+    public void Pop()
+    {
+        if (interactableLog.Count > 0)
+        {
+            interactableLog.RemoveAt(interactableLog.Count - 1);
+        }
+    }
+
     /// <summary> Decodes Log into a Seed string </summary>
     public string RecoverSeed() {
         SeedConverter converter = new SeedConverter();

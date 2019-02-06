@@ -38,6 +38,8 @@ public class InteractableManager : MonoBehaviour {
                 list = InteractableList;
     }
 
+    public void Reset()     {         log = new InteractableLog();         list = null;     }
+
     static Interactable[] findAllInteractables() {
         return GameObject.FindObjectsOfType<Interactable>();
     }
