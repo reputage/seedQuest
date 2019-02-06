@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 public static class DideryInterface{
 
     // Create a did using the verification key from makeKeyPair()
+    //  Uses the 'dad' method
     public static string makeDid(byte[] vk, string method = "dad")
     {
         string vk64u = Convert.ToBase64String(vk).Replace('+', '-').Replace('/', '_');
@@ -18,9 +19,7 @@ public static class DideryInterface{
     // Create signature to use in the header of POST and PUT requests to didery
     public static string signResource(byte[] sm, byte[] m, ulong mlen, byte[] sk, byte[] vk)
     {
-        //LibSodiumManager.nacl_crypto_sign(sm, m, mlen, sk);
         LibSalt.nacl_crypto_sign(sm, m, mlen, sk);
-        //byte[] sig = new byte[LibSodiumManager.nacl_crypto_sign_BYTES()];
         byte[] sig = new byte[LibSalt.nacl_crypto_sign_BYTES()];
 
         for (int i = 0; i < sig.Length; i++)
@@ -29,7 +28,6 @@ public static class DideryInterface{
         }
 
         byte[] usm = new byte[m.Length];
-        //int success = LibSodiumManager.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
         int success = LibSalt.nacl_crypto_sign_open(usm, sm, (ulong)sm.Length, vk);
 
         if (success == 0)
@@ -58,12 +56,10 @@ public static class DideryInterface{
         string signature;
         string keyString = Convert.ToBase64String(encryptedKey);
 
-        //int signed_bytes = LibSodiumManager.nacl_crypto_sign_BYTES();
         int signed_bytes = LibSalt.nacl_crypto_sign_BYTES();
 
         // This function eventually needs to be changed to use a deterministic keypair generator
         //  which should use the user's seed as the RNG seed
-        //LibSodiumManager.nacl_crypto_sign_keypair(vk, sk);
         LibSalt.nacl_crypto_sign_seed_keypair(vk, sk, seed);
 
         did = makeDid(vk);

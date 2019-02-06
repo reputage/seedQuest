@@ -10,6 +10,10 @@ using System.Collections.Specialized;
  * The functions in this script can be used like this:
  * 
  * To get the int[] of actions to be performed from a seed:
+ *  
+ *  List<int> bitList = SeedToByte.customList(1, 3, 2, 4, 2);
+ *  int[] actions = converter.getActions(seedString, bitList);
+ * 
  *  getActions(string inputStringName, List<int> actionList);
  * 
  * if no action list is provided, the default list will be used.
@@ -187,8 +191,10 @@ public class SeedToByte : MonoBehaviour
     public static byte[] HexStringToByteArray(string hex)
     {
         if (hex.Length % 2 == 1)
-            throw new Exception("The binary key cannot have an odd number of digits: " + hex.Length);
-
+        {
+            Debug.Log("The binary key cannot have an odd number of digits - shortening the string");
+            hex = hex.Substring(0, (hex.Length - 1));
+        }
         byte[] bytes = new byte[hex.Length >> 1];
 
         for (int i = 0; i < hex.Length >> 1; ++i)

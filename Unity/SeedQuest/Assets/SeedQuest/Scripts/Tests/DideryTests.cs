@@ -11,12 +11,6 @@ public class DideryTests : MonoBehaviour
     {
         int[] passed = new int[2];
 
-        //testMakeDid();
-        //testDecrypt();
-        //testDecryptFromBlob();
-        //testValidKey();
-        //testBadDecrypt();
-
         passed[0] += testMakePost();
         passed[1]++;
         passed[0] += testMakeDid();
@@ -26,6 +20,8 @@ public class DideryTests : MonoBehaviour
         passed[0] += testValidKey();
         passed[1]++;
         passed[0] += testRegenerateAddress();
+        passed[1]++;
+        passed[0] += testHexToByte();
         passed[1]++;
         //passed[0] += testBadDecrypt();
         //passed[1]++;
@@ -230,6 +226,17 @@ public class DideryTests : MonoBehaviour
         //Debug.Log("Decrypted key: " + finalKey);
 
         return 0;
+    }
+
+    public int testHexToByte()
+    {
+        string even = "abdc";
+        string odd = "abc";
+        byte[] evenArray = OTPworker.HexStringToByteArray(even);
+        byte[] oddArray = OTPworker.HexStringToByteArray(odd);
+
+        // If it's gotten this far, it works
+        return 1;
     }
 
 }

@@ -36,7 +36,6 @@ public static class OTPworker
     public static byte[] randomSeedGenerator(byte[] seed)
     {
         for (int i = 0; i < seed.Length; i++)
-            //seed[i] = (byte)LibSodiumManager.nacl_randombytes_random();
             seed[i] = (byte)LibSalt.nacl_randombytes_random();
 
         return seed;
@@ -46,7 +45,6 @@ public static class OTPworker
     public static void OTPGenerator(byte[] otp, int size, byte[] seed)
     {
         // This might need a seed of specific size - possibly 64 bytes, needs testing
-        //LibSodiumManager.nacl_randombytes_buf_deterministic(otp, size, seed);
         LibSalt.nacl_randombytes_buf_deterministic(otp, size, seed);
         //Debug.Log("Seed length: " + seed.Length + " Seed string: " + ByteArrayToHex(seed));
         //Debug.Log("OTP length: " + otp.Length + " OTP first bytes: " + otp[0] + " " + otp[1] + " " + otp[2] + " " + otp[3]);
@@ -76,9 +74,16 @@ public static class OTPworker
     // Convert hex string to byte array
     public static byte[] HexStringToByteArray(string hex)
     {
+        if (hex.Length <= 0)
+        {
+            byte[] bytor = new byte[1];
+            return bytor;
+        }
         if (hex.Length % 2 == 1)
-            throw new Exception("The binary key cannot have an odd number of digits");
-
+        {
+            Debug.Log("The binary key cannot have an odd number of digits - shortening the string");
+            hex = hex.Substring(0,(hex.Length - 1));
+        }
         byte[] bytes = new byte[hex.Length >> 1];
 
         for (int i = 0; i < hex.Length >> 1; ++i)
