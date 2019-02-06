@@ -110,7 +110,7 @@ public class DideryDemoManager : MonoBehaviour
 
         encryptedKey = OTPworker.OTPxor(key, otp);
 
-        dideryData = DideryInterface.makePost(encryptedKey);
+        dideryData = DideryInterface.makePost(encryptedKey, seed);
 
         string did = dideryData[0];
         string signature = dideryData[1];
@@ -153,12 +153,12 @@ public class DideryDemoManager : MonoBehaviour
     }
 
     // Sends the encrypted key to the didery server, returns a string with the did
-    public string postEncryptedKey(byte[] encryptedKey, string url=null)
+    public string postEncryptedKey(byte[] encryptedKey, byte[] seed, string url=null)
     {
         if (url == null)
             url = urlAddress;
         string[] dideryData;
-        dideryData = DideryInterface.makePost(encryptedKey);
+        dideryData = DideryInterface.makePost(encryptedKey, seed);
 
         string did = dideryData[0];
         string signature = dideryData[1];
@@ -263,7 +263,7 @@ public class DideryDemoManager : MonoBehaviour
 
         encryptedKey = OTPworker.OTPxor(key, otp);
 
-        dideryData = DideryInterface.makePost(encryptedKey);
+        dideryData = DideryInterface.makePost(encryptedKey, seed);
 
         string did = dideryData[0];
         string signature = dideryData[1];
