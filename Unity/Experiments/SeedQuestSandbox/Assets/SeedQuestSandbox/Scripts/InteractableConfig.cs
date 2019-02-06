@@ -11,13 +11,13 @@ namespace SeedQuest.Interactables
     public class InteractableConfig
     {
         /// <summary> Numer of Bits for Levels/Sites in Game  </summary>
-        static public int SiteBits = 4;
+        static public int SiteBits = 1; //4;
 
         /// <summary> Numer of Levels/Sites in Game  </summary>
         static public int SiteCount { get { return (int)Mathf.Pow(2.0F, SiteBits); } }
-            
+
         /// <summary> Number of Bits for Interactables per Level  </summary>
-        static public int InteractableBits = 5;
+        static public int InteractableBits = 3; //5;
 
         /// <summary> Number of Interactables per Level  </summary>
         static public int InteractableCount { get { return (int)Mathf.Pow(2.0F, InteractableBits); } }
