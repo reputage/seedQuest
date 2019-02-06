@@ -120,7 +120,7 @@ namespace SeedQuest.Interactables
         {
             Interactable[] interactables = InteractableManager.InteractableList;
 
-            Instance.interactableLUT = new Interactable[InteractableConfig.LevelCount, InteractableConfig.InteractableCount];
+            Instance.interactableLUT = new Interactable[InteractableConfig.SiteCount, InteractableConfig.InteractableCount];
             for (int i = 0; i < interactables.Length; i++)
             {
                 int row = interactables[i].ID.siteID;

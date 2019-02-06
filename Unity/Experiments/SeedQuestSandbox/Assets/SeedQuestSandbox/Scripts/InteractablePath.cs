@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using SeedQuest.SeedEncoder;
+
 namespace SeedQuest.Interactables
 {
     [System.Serializable]
@@ -24,6 +26,12 @@ namespace SeedQuest.Interactables
             get { return Instance.path;  }
         }
         
+        static public void GeneratePathFromSeed(string seed)
+        {
+            SeedConverter converter = new SeedConverter();
+            Instance.path = new List<Interactable>(converter.encodeSeed(seed));
+        }
+
         static public void Add(Interactable interactable)
         {
             Instance.path.Add(interactable);

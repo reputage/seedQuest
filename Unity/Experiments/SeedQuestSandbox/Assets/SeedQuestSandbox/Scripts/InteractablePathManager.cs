@@ -29,8 +29,8 @@ namespace SeedQuest.Interactables {
         {
             List<InteractableID> ids = new List<InteractableID>();
 
-            for(int i = 0; i < InteractableConfig.LevelCount; i++)  {
-                int levelIndex = Random.Range(0, InteractableConfig.LevelCount);
+            for(int i = 0; i < InteractableConfig.SiteCount; i++)  {
+                int levelIndex = Random.Range(0, InteractableConfig.SiteCount);
 
                 for (int j = 0; j < InteractableConfig.ActionCount; i++)  {
                     int interactableIndex = Random.Range(0, InteractableConfig.InteractableCount);

@@ -12,6 +12,12 @@ namespace SeedQuest.Interactables
             interactable = _interactable;
             actionIndex = _actionIndex;
         }
+
+        public int SiteIndex { get { return interactable.ID.siteID; } }
+
+        public int InteractableIndex { get { return interactable.ID.spotID; } }
+
+        public int ActionIndex { get { return actionIndex; } }
     }
 
     public class InteractableLog {
