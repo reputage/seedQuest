@@ -21,9 +21,10 @@ public class SeedToByteTests : MonoBehaviour {
         int[] test3 = testFindLeadingBits();
         int[] test4 = testBreakPoints();
         int[] test5 = testSmallSeeds();
+        int[] test6 = testAllSizeSeeds();
 
-        passed[0] = test1[0] + test2[0] + test3[0] + test4[0] + test5[0];
-        passed[1] = test1[1] + test2[1] + test3[1] + test4[1] + test5[1];
+        passed[0] = test1[0] + test2[0] + test3[0] + test4[0] + test5[0] + test6[0];
+        passed[1] = test1[1] + test2[1] + test3[1] + test4[1] + test5[1] + test6[1];
 
         Debug.Log("Successfully passed " + passed[0] + " of " + passed[1] + " tests.");
     }
@@ -39,8 +40,6 @@ public class SeedToByteTests : MonoBehaviour {
         byte[] testReturnBytes = seedToByte.bitToByte(testBitArr);
         string testReturnStr2 = seedToByte.byteToSeed(testReturnBytes);
         int[] testActionToDo = seedToByte.bitToActions(testBitArr, actionList);
-
-        //Debug.Log("Test seed: " + testSeed2 + " return str: " + testReturnStr);
 
         passed[1] += 1;
         if (testSeed2 == testReturnStr)
@@ -86,12 +85,6 @@ public class SeedToByteTests : MonoBehaviour {
         byte[] finalSeed1 = SeedToByte.seedConverterUniversal(actions1, tempList1);
         byte[] finalSeed2 = SeedToByte.seedConverterUniversal(actions2, tempList1);
 
-        //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testRunSeed));
-        //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed1));
-
-        //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testHexSeed));
-        //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed2));
-
         passed[1] += 1;
         if (seedToByte.byteToSeed(testRunSeed) == seedToByte.byteToSeed(finalSeed1))
         {
@@ -121,9 +114,6 @@ public class SeedToByteTests : MonoBehaviour {
 
         byte[] finalSeed3 = SeedToByte.seedConverterUniversal(actions3, tempList2);
 
-        //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testRunSeed));
-        //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed3));
-
         passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed3))
         {
@@ -146,9 +136,6 @@ public class SeedToByteTests : MonoBehaviour {
         BitArray seedBits = seedToByte.byteToBits(testHexSeed);
         int[] actions = seedToByte.bitToActions(seedBits, tempList);
         byte[] finalSeed = SeedToByte.seedConverterUniversal(actions, tempList);
-
-        //Debug.Log("Initial seed: " + seedToByte.byteToSeed(testHexSeed));
-        //Debug.Log("Final  seed: " + seedToByte.byteToSeed(finalSeed));
 
         passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
@@ -362,6 +349,46 @@ public class SeedToByteTests : MonoBehaviour {
         }
         else
             Debug.Log("Leading bits test 14 failed");
+
+        return passed;
+    }
+
+    // not working yet
+    public int[] testAllSizeSeeds()
+    {
+        int[] passed = new int[2];
+        string testHex = "FFFFAAAAFFFFAAAAFFFFAAAAFFFFAAAAFFFFAAAA";
+
+        for (int i = 10; i < 129; i++)
+        {
+            // do stuff
+            string subHex = testHex.Substring(0, (i/4)+1);
+            List<int> hexList = new List<int>();
+            for (int j = 0; j < i; j++)
+            {
+                hexList.Add(1);
+            }
+            byte[] byteHex = SeedToByte.HexStringToByteArray(subHex);
+
+            byteHex[byteHex.Length-1] = (byte)((int)byteHex[byteHex.Length-1] - (i%8) );
+
+            BitArray hexBits = seedToByte.byteToBits(byteHex);
+            int[] hexActions = seedToByte.bitToActions(hexBits, hexList);
+            byte[] finalSeed = SeedToByte.seedConverterUniversal(hexActions, hexList);
+
+            passed[1] += 1;
+
+            if (seedToByte.byteToSeed(byteHex) == seedToByte.byteToSeed(finalSeed))
+            {
+                passed[0] += 1;
+                Debug.Log("Seed size: " + i + " passed");
+            }
+            else
+            {
+                Debug.Log("Test for seed size of: " + i + " failed.");
+                Debug.Log("Seed: " + seedToByte.byteToSeed(byteHex) + " final seed: " + seedToByte.byteToSeed(finalSeed)); 
+            }
+        }
 
         return passed;
     }
