@@ -50,8 +50,8 @@ namespace SeedQuest.Interactables
             interactableUI.SetText(state.actionName);
 
             //GameManager.PrevState == GameState.Rehearsal && 
-            if (InteractablePath.NextInteractable == this)
-                InteractablePath.GoToNextInteractable();
+            //if (InteractablePath.NextInteractable == this)
+            //InteractablePath.GoToNextInteractable();
         }
 
         public void PrevAction()

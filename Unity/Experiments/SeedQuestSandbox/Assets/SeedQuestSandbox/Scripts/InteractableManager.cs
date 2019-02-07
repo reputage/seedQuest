@@ -25,8 +25,9 @@ namespace SeedQuest.Interactables
         static public void SetActiveInteractable(Interactable interactable)
         {
             Instance.activeInteractable = interactable;
-            if (GameManager.State == GameState.Sandbox)
-                InteractablePreviewUI.SetPreviewObject(interactable);
+            //if (GameManager.State == GameState.Sandbox)
+            if(interactable != null)
+                InteractablePreviewUI.SetPreviewObject(interactable); 
            
         }
         

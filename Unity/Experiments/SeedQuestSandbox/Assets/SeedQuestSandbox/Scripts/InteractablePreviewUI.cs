@@ -214,6 +214,10 @@ namespace SeedQuest.Interactables
         }
 
         static public void SetPreviewObject(Interactable interactable)  {
+
+            if (Instance == null)
+                return;
+
             if (interactable == Instance.previewInteractable)
                 return;
 
