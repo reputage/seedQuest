@@ -34,8 +34,8 @@ public class StartMenuDemoSaving : MonoBehaviour
         allowEnter = false;
         hideAllSubMenus();
 
-        didDict = DideryDemoManager.UserDids;
-        seedDict = DideryDemoManager.UserSeeds;
+        //didDict = DideryDemoManager.UserDids;
+        //seedDict = DideryDemoManager.UserSeeds;
     }
 
     void Update()
@@ -100,8 +100,8 @@ public class StartMenuDemoSaving : MonoBehaviour
         string[] keyData = DideryDemoManager.encryptAndSaveKey(nameInputField.text, keyInputField.text);
         seedDict.Add(nameInputField.text, keyData[0]);
         didDict.Add(nameInputField.text, keyData[1]);
-        DideryDemoManager.UserDids = didDict;
-        DideryDemoManager.UserSeeds = seedDict;
+        //DideryDemoManager.UserDids = didDict;
+        //DideryDemoManager.UserSeeds = seedDict;
         //changeKeyToCensored();
 
         // Remove the text from the input boxes
@@ -204,7 +204,7 @@ public class StartMenuDemoSaving : MonoBehaviour
         byte[] goodKey = OTPworker.OTPxor(seedByte, keyByte);
         byte[] decryptedKey = OTPworker.decryptFromBlob(seed, Convert.ToBase64String(goodKey));
         string finalKey = Encoding.ASCII.GetString(keyByte);
-        Debug.Log("Bad decrypted key: " + finalKey);
+        Debug.Log("Good decrypted key: " + finalKey);
     }
 
     // Censor all but the last 4 digits of the input key
@@ -337,7 +337,7 @@ public class StartMenuDemoSaving : MonoBehaviour
     public void purgeSeed(string keyName)
     {
         seedDict.Remove(keyName);
-        DideryDemoManager.UserSeeds = seedDict;
+        //DideryDemoManager.UserSeeds = seedDict;
         hideAllSubMenus();
         showLearnMenu();
         setupSeedPurge();

@@ -50,8 +50,8 @@ public class KeyButton : MonoBehaviour {
     {
         if (keyName != "" && menuMode == "learn")
         {
-            Debug.Log("Key name: " + keyName + " returns user seed value: " + DideryDemoManager.UserSeeds[keyName] + " Input seed in SeedManager: " + SeedManager.InputSeed);
-            SeedManager.InputSeed = DideryDemoManager.UserSeeds[keyName]; 
+            //Debug.Log("Key name: " + keyName + " returns user seed value: " + DideryDemoManager.UserSeeds[keyName] + " Input seed in SeedManager: " + SeedManager.InputSeed);
+            //SeedManager.InputSeed = DideryDemoManager.UserSeeds[keyName]; 
             GameManager.State = GameState.Rehearsal; 
         }
     }

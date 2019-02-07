@@ -6,8 +6,97 @@ namespace SeedQuest.Interactables
 {
     public enum InteractablePreviewLocation { topright, bottomright }
 
+    public abstract class ObserverCopy
+    {
+        public ObserverCopy Clone()
+        {
+            return (ObserverCopy)this.MemberwiseClone();
+        }
+    }
+
+    public class Observer
+    {
+        public ObserverCopy instance;
+        public ObserverCopy last;
+
+        public void Watch(ObserverCopy instance)
+        {
+            this.instance = instance;
+            this.last = instance.Clone();
+
+            var fields = instance.GetType().GetFields();
+            for (int i = 0; i < fields.Length; i++) {
+                Debug.Log(fields[i]); 
+            }
+        }
+
+        public bool CheckChange()
+        {
+            var fields = instance.GetType().GetFields();
+            var lastFields = last.GetType().GetFields();
+            for(int i = 0; i < fields.Length; i++)
+            {
+                if (fields[i] != lastFields[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        public void Change()
+        {
+            this.last = instance.Clone();
+        }
+
+        public void onChange(System.Action action)
+        {
+            if (CheckChange())
+            {
+                action();
+                Change();
+            }
+        }
+    }
+
+    public class Observable<T>
+    {
+        public T Value
+        {
+            get { return getter(); }
+            set { setter(value); }
+        }
+
+        private System.Func<T> getter;
+        private System.Action<T> setter;
+        private T lastValue;
+
+        public Observable(System.Func<T> getter, System.Action<T> setter)
+        {
+            this.getter = getter;
+            this.setter = setter;
+        }
+
+        public void Change()
+        {
+            lastValue = Value;
+        }
+
+        public bool CheckChange()
+        {
+            return (!EqualityComparer<T>.Default.Equals(Value, lastValue));
+        }
+        
+        public void onChange(System.Action action)
+        {
+            if (CheckChange())  {
+                action();
+                Change();
+            }
+        }
+    }
+
     [System.Serializable]
-    public class InteractablePreviewInfo
+    public class InteractablePreviewInfo : ObserverCopy
     {
         public Vector3 scale = Vector3.one;
         public Vector3 position = Vector3.zero;
@@ -32,34 +121,55 @@ namespace SeedQuest.Interactables
             }
         }
 
+        public float previewScale = 1f;
         public InteractablePreviewLocation location = InteractablePreviewLocation.bottomright;
-        public int depthMax = 10;
+        private Observable<InteractablePreviewLocation> locationObservable;
+        private Observable<float> scaleObservable;
 
+        private int depthMax = 10;
         private Camera previewCamera;
         private GameObject previewObject;
         private GameObject previewChild;
         private TMPro.TextMeshProUGUI previewText;
         private Interactable previewInteractable;
-        private RectTransform canvasTransform;
+        private List<RectTransform> canvasTransforms;
         private RectTransform imageTransform;
 
+        private void Start()  {
+            locationObservable = new Observable<InteractablePreviewLocation>( () => location, _ => {location = _;} );
+            scaleObservable = new Observable<float>(() => previewScale, _ => { previewScale = _; } );
 
-        private void Start()
-        {
-            previewObject = GameObject.FindGameObjectWithTag("PreviewObject");
-            previewText = GameObject.FindGameObjectWithTag("PreviewText").GetComponent<TMPro.TextMeshProUGUI>();
-            previewCamera = GameObject.FindGameObjectWithTag("PreviewCamera").GetComponent<Camera>();
-            canvasTransform = GameObject.FindGameObjectWithTag("PreviewCanvas").GetComponent<RectTransform>();
-            imageTransform = GameObject.FindGameObjectWithTag("PreviewImage").GetComponent<RectTransform>();
-
+            SetReferencesFromTags();
             SetLocationTransform();
         }
 
-        private void Update()
-        {
-            InteractablePreviewInfo preview = Instance.previewInteractable.interactablePreview; 
+        private void Update()  {
+            locationObservable.onChange(SetLocationTransform);
+            scaleObservable.onChange(SetLocationTransform);
 
-            if(preview != null)
+            SetPreviewProperties();
+        } 
+
+        private void SetReferencesFromTags() {
+            previewObject = GameObject.FindGameObjectWithTag("PreviewObject");
+            previewText = GameObject.FindGameObjectWithTag("PreviewText").GetComponent<TMPro.TextMeshProUGUI>();
+            previewCamera = GameObject.FindGameObjectWithTag("PreviewCamera").GetComponent<Camera>();
+            canvasTransforms = new List<RectTransform>();
+
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("PreviewCanvas"))
+                canvasTransforms.Add(obj.GetComponent<RectTransform>());
+
+            imageTransform = GameObject.FindGameObjectWithTag("PreviewImage").GetComponent<RectTransform>();
+        }
+
+        public void SetPreviewProperties() {
+            InteractablePreviewInfo preview;
+            if (Instance.previewInteractable == null)
+                return;
+            else
+                preview = Instance.previewInteractable.interactablePreview;
+                
+            if (preview != null)
             {
                 previewChild.transform.localPosition = preview.position;
                 previewChild.transform.localRotation = Quaternion.Euler(preview.rotation);
@@ -71,52 +181,58 @@ namespace SeedQuest.Interactables
                 Instance.previewCamera.fieldOfView = preview.fieldOfView;
                 Instance.previewCamera.orthographicSize = preview.orthographicSize;
             }
-        } 
+        }
 
-        public void SetLocationTransform()
-        {
+        public void SetLocationTransform() {
+            foreach (RectTransform canvasTransform in canvasTransforms)
+                canvasTransform.localScale = new Vector3(previewScale, previewScale, previewScale);
+
             if (location == InteractablePreviewLocation.bottomright)
             {
-                canvasTransform.anchorMax = new Vector2(1, 0);
-                canvasTransform.anchorMin = new Vector2(1, 0);
-                canvasTransform.anchoredPosition3D = Vector3.zero;
+                foreach(RectTransform canvasTransform in canvasTransforms) {
+                    canvasTransform.anchorMax = new Vector2(1, 0);
+                    canvasTransform.anchorMin = new Vector2(1, 0);
+                    canvasTransform.anchoredPosition3D = Vector3.zero;
+                }
 
                 imageTransform.anchorMax = new Vector2(0, 1);
                 imageTransform.anchorMin = new Vector2(0, 1);
-                imageTransform.anchoredPosition3D = Vector3.zero;
+                imageTransform.anchoredPosition3D = new Vector3(50, 0, 0);
             }
             else if (location == InteractablePreviewLocation.topright)
-            {
-                canvasTransform.anchorMax = new Vector2(1, 1);
-                canvasTransform.anchorMin = new Vector2(1, 1);
-                canvasTransform.anchoredPosition3D = Vector3.zero;
+            { 
+                foreach(RectTransform canvasTransform in canvasTransforms) {
+                    canvasTransform.anchorMax = new Vector2(1, 1);
+                    canvasTransform.anchorMin = new Vector2(1, 1);
+                    canvasTransform.anchoredPosition3D = Vector3.zero;
+                }
 
                 imageTransform.anchorMax = new Vector2(0, 0);
                 imageTransform.anchorMin = new Vector2(0, 0);
-                imageTransform.anchoredPosition3D = new Vector3(0, -40, 0);
+                imageTransform.anchoredPosition3D = new Vector3(50, 60, 0);
             }
         }
 
-        static public void SetPreviewObject(Interactable interactable)
-        {
+        static public void SetPreviewObject(Interactable interactable)  {
+
+            if (Instance == null)
+                return;
+
+            if (interactable == Instance.previewInteractable)
+                return;
+
             Instance.previewInteractable = interactable;
 
             foreach (Transform child in Instance.previewObject.transform)
                 GameObject.Destroy(child.gameObject);
 
             Instance.previewChild = Instantiate(interactable.gameObject, Instance.previewObject.transform);
-
-            //Instance.previewChild.layer = LayerMask.NameToLayer("InteractablePreview");
-            //foreach(Transform child in Instance.previewChild.transform)
-            //    child.gameObject.layer = LayerMask.NameToLayer("InteractablePreview");
             SetLayerRecursively(Instance.previewChild, 0);
-
             Instance.previewText.text = interactable.Name;
         }
 
         /// <summary>  Recursively set the layer for all children to "InteractablePreview" until max depth is reached or there is no more children </summary>
-        static public void SetLayerRecursively(GameObject gameObject, int depth)
-        {
+        static public void SetLayerRecursively(GameObject gameObject, int depth) {
             gameObject.layer = LayerMask.NameToLayer("InteractablePreview");
 
             if (depth > Instance.depthMax)

@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 114043500822308274}
   - component: {fileID: 114905676275052548}
   - component: {fileID: 114019409920948670}
+  - component: {fileID: 114799192001477134}
   - component: {fileID: 114699546917709012}
   - component: {fileID: 114408559291094220}
   m_Layer: 0
@@ -90,7 +91,6 @@ MonoBehaviour:
   actionSpotIcons:
   - {fileID: 1649195616586398, guid: 0f304d9c826ca4dcaaa629026e88e441, type: 2}
   - {fileID: 1790915450427844, guid: 3b583820855584008bccb00863f7dc15, type: 2}
-  - {fileID: 1492658699439758, guid: abb70666dd9e097459615ad36a64a4eb, type: 2}
 --- !u!114 &114043500822308274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,6 +164,19 @@ MonoBehaviour:
   soundEffectVolume: 1
   cameraSensitivity: 1
   muteVolume: 0
+--- !u!114 &114799192001477134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968383781261186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89511066e496dde49b3af43cd425c84e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: []
+  next: {fileID: 0}
 --- !u!114 &114905676275052548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,6 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6abe407b1d0104590797650ce2df9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   state: 0
   prevState: 0
   gameSound: {fileID: 11400000, guid: 080b8e7fa747e47bd9b329f5a8f17cb3, type: 2}

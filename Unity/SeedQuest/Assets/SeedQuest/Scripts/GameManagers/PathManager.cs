@@ -16,6 +16,7 @@ public class PathManager : MonoBehaviour {
     /// <summary> Path that represents the order of correct interactions to be completed </summary>
     static public Interactable[] Path { get { return Instance.path; } } 
 
+
     /// <summary> Current path target interactable </summary>
     static public Interactable PathTarget {
         get {
@@ -68,6 +69,13 @@ public class PathManager : MonoBehaviour {
             ClearPathSegments();
 	}
 
+    public void Reset()
+    {
+        path = null;
+        pathSegmentIndex = 0;
+        pathSegment = null;
+    }
+
     /// <summary> Creates an Interactable Path from encoding a seed string </summary>
     private void CreatePath()
     {
@@ -112,12 +120,38 @@ public class PathManager : MonoBehaviour {
         if (Instance.pathSegmentIndex + 1 < Path.Length)
             Instance.pathSegmentIndex++;
         else
-            GameManager.State = GameState.GameEnd;
+            Instance.StartCoroutine(endGame());
+    }
+
+    static private IEnumerator endGame()
+    {
+        yield return new WaitForSeconds(1f);
+
+        GameManager.State = GameState.GameEnd;
+    }
+
+    static public void PreviousPathSegment()
+    {
+        if (GameManager.State != GameState.Rehearsal)
+            return;
+
+        if (Instance.pathSegmentIndex - 1 >= 0)
+            Instance.pathSegmentIndex--;
+        else
+            return;
     }
 
     private void ClearPathSegments() {
         LineRenderer line = PathMesh.GetComponentInChildren<LineRenderer>();
         line.positionCount = 0;
     } 
+
+    public void ResetPathManager()
+    {
+        PathMesh = null;
+        path = null;
+        pathSegmentIndex = 0;
+        pathSegment = null;
+    }
 }
 

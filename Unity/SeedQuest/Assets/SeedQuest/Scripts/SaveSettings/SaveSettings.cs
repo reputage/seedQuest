@@ -12,8 +12,6 @@ public static class SaveSettings
     {
         Settings settings = new Settings();
         retrieveSettings(settings);
-        retrieveDids(settings);
-        retrieveSeeds(settings);
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/savedSettings.gd");
         bf.Serialize(file, settings);
@@ -33,8 +31,6 @@ public static class SaveSettings
             settings = (Settings)bf.Deserialize(file);
             file.Close();
             setSettings(settings);
-            setDids(settings);
-            setSeeds(settings);
         }
         else
         {
@@ -68,28 +64,6 @@ public static class SaveSettings
         SettingsManager.SoundEffectVolume = settings.SoundEffectVolume;
         SettingsManager.CameraSensitivity = settings.CameraSensitivity;
         SettingsManager.IsVolumeMuted = settings.IsVolumeMuted;
-    }
-
-    public static void retrieveDids(Settings settings)
-    {
-        settings.userDids = DideryDemoManager.UserDids;
-    }
-
-    public static void setDids(Settings settings)
-    {
-        DideryDemoManager.UserDids = settings.userDids;
-    }
-
-    public static void retrieveSeeds(Settings settings)
-    {
-        settings.userSeeds = DideryDemoManager.UserSeeds;
-        settings.saveFileVersion = DideryDemoManager.SaveFileVersion;
-    }
-
-    public static void setSeeds(Settings settings)
-    {
-        DideryDemoManager.UserSeeds = settings.userSeeds;
-        DideryDemoManager.SaveFileVersion = settings.saveFileVersion;
     }
 
 }

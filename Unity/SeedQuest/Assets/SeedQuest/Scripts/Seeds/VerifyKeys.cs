@@ -16,7 +16,7 @@ public static class VerifyKeys {
         var signer = new MessageSigner();
         var signature = "";
         var address = "";
-        Debug.Log("Verify key: " + key);
+        //Debug.Log("Verify key: " + key);
 
         try
         {
@@ -38,7 +38,7 @@ public static class VerifyKeys {
             return 1;
         }
 
-        Debug.Log("Varification successful: " + address + ". Private key appears to be valid.");
+        //Debug.Log("Verification successful: " + address + ". Private key appears to be valid.");
         return 0;
     }
 
@@ -50,18 +50,6 @@ public static class VerifyKeys {
         string account = Nethereum.Signer.EthECKey.GetPublicAddress(privateKey);
         return account;
     }
-
-    //        Nethereum.Signer.EthECKey.GenerateKey(privateKey);
-    // Regenerate public key from private key, so the user can check to see if their
-    // key was recovered correctly.
-    /*
-    public static string regeneratePublicKey(string privateKey)
-    {
-        privateKey = addHexPrefix(privateKey);
-        string publicKey = privateKey;
-        return publicKey;
-    }
-    */
 
     // Adds a hex prefix to a string, if it is missing one
     public static string addHexPrefix(string hexString)

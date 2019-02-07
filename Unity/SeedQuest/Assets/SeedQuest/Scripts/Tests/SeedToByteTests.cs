@@ -6,7 +6,7 @@ public class SeedToByteTests : MonoBehaviour {
 
 
     private string testSeed1 = "C5E3D45D341A";
-    private string testSeed2 = "AAAA";
+    private string testSeed2 = "AAAA"; 
 
     public List<int> actionList = new List<int>();
 
@@ -15,7 +15,7 @@ public class SeedToByteTests : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-        runAllTests();
+        //runAllTests();
         //SaveDids.testXorSeed();
 	}
 	

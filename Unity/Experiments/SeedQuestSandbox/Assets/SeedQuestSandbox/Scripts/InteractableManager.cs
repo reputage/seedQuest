@@ -25,7 +25,10 @@ namespace SeedQuest.Interactables
         static public void SetActiveInteractable(Interactable interactable)
         {
             Instance.activeInteractable = interactable;
-            InteractablePreviewUI.SetPreviewObject(interactable);
+            //if (GameManager.State == GameState.Sandbox)
+            if(interactable != null)
+                InteractablePreviewUI.SetPreviewObject(interactable); 
+           
         }
         
         private Interactable[,] interactableLUT;
@@ -120,7 +123,7 @@ namespace SeedQuest.Interactables
         {
             Interactable[] interactables = InteractableManager.InteractableList;
 
-            Instance.interactableLUT = new Interactable[InteractableConfig.LevelCount, InteractableConfig.InteractableCount];
+            Instance.interactableLUT = new Interactable[InteractableConfig.SiteCount, InteractableConfig.InteractableCount];
             for (int i = 0; i < interactables.Length; i++)
             {
                 int row = interactables[i].ID.siteID;
