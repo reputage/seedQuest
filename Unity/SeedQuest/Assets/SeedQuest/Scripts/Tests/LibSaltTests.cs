@@ -10,13 +10,20 @@ public class LibSaltTests : MonoBehaviour {
 	
     public void runAllTests()
     {
-        testOtpGenerator();
-        testRandomSeedGenerator();
-        testDecryptKey();
+        int[] passed = new int[2];
+        passed[0] += testOtpGenerator();
+        passed[1]++;
+        passed[0] += testRandomSeedGenerator();
+        passed[1]++;
+        passed[0] += testDecryptKey();
+        passed[1]++;
+
+        Debug.Log("Successfully passed " + passed[0] + " out of " + passed[1] + " LibSalt tests.");
     }
 
-    private void testOtpGenerator()
+    private int testOtpGenerator()
     {
+        int pass = 0;
         int size = 16;
         bool failure = false;    
 
@@ -72,12 +79,19 @@ public class LibSaltTests : MonoBehaviour {
         }
 
         if (failure == false)
+        {
             Debug.Log("RandomBytesDeterministic test passed");
+            pass = 1;
+        }
+
+        return pass;
     }
 
     // To be finished at a later date
-    public void testRandomSeedGenerator()
+    public int testRandomSeedGenerator()
     {
+        int pass = 0;
+
         byte[] testSeed1 = new byte[10];
         byte[] testSeed2 = new byte[10];
         testSeed1 = OTPworker.randomSeedGenerator(testSeed1);
@@ -86,11 +100,15 @@ public class LibSaltTests : MonoBehaviour {
         //Debug.Log("First value of each seed: " + testSeed1[0] + " " + testSeed2[0]);
         Debug.Log("RandomSeedGenerator() test passed");
 
+        // if no errors have happened by here, the test has passed
+        pass = 1;
+        return pass;
     }
 
     // To do
-    public void testDecryptKey()
+    public int testDecryptKey()
     {
+        int pass = 0;
         int size = 32;
         byte[] key = new byte[size];
         byte[] eKey = new byte[size];
@@ -124,6 +142,7 @@ public class LibSaltTests : MonoBehaviour {
         if(same)
         {
             Debug.Log("Test for encryption and decryption passed");
+            pass = 1;
         }
         else
         {
@@ -132,11 +151,9 @@ public class LibSaltTests : MonoBehaviour {
             //Debug.Log("Values: " + key[2] + "-" + dKey[2] + " " + key[3] + "-" + dKey[3]);
             //Debug.Log("Values: " + key[4] + "-" + dKey[4] + " " + key[5] + "-" + dKey[5]);
             //Debug.Log("Values: " + key[6] + "-" + dKey[6] + " " + key[7] + "-" + dKey[7]);
-
         }
 
+        return pass;
     }
-
-
 
 }

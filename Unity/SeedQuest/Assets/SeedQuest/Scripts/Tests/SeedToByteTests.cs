@@ -12,19 +12,6 @@ public class SeedToByteTests : MonoBehaviour {
 
     private SeedToByte seedToByte = new SeedToByte();
 
-	// Use this for initialization
-	void Start () 
-    {
-        //runAllTests();
-        //SaveDids.testXorSeed();
-	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
-		
-	}
-
     // Run all tests at once
     public void runAllTests()
     {

@@ -97,7 +97,7 @@ public class StartMenuDemoSaving : MonoBehaviour
         // should probably add code here to make sure that the text from the input 
         //  field contains only valid characters
 
-        string[] keyData = DideryDemoManager.encryptAndSaveKey(nameInputField.text, keyInputField.text);
+        string[] keyData = new string[2];
         seedDict.Add(nameInputField.text, keyData[0]);
         didDict.Add(nameInputField.text, keyData[1]);
         //DideryDemoManager.UserDids = didDict;

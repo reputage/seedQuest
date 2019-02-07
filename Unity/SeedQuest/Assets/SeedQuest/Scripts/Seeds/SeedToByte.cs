@@ -100,19 +100,6 @@ public class SeedToByte : MonoBehaviour
         return returnActions;
     }
 
-    // Same as getActions, but for the 108 bit seed, does not use global variables
-    public int[] getActions108(string inputStr)
-    {
-        byte[] bytes108 = seedToByte(inputStr);
-        BitArray bits108 = byteToBits(bytes108);
-        List<int> tempList = customList(3, 4, 2, 4, 4);
-        Debug.Log("Byte count: " + bytes108.Length + " Bits count: " + bits108.Length);
-        if (bytes108.Length > 14)
-            Debug.Log("Warning! Seed is longer than 108 bits!");
-        int[] returnActions = bitToActions(bits108, tempList);
-        return returnActions;
-    }
-
     // Take string for input, get the to-do list of actions
     public int[] getActionsFromBytes(byte[] inputBytes, List<int> actionList = null)
     {
@@ -138,15 +125,6 @@ public class SeedToByte : MonoBehaviour
     {
         returnBytes = seedConverterUniversal(actionsPerformed, customList);
         string convertedSeed = byteToSeed(returnBytes);
-        return convertedSeed;
-    }
-
-    // Get the return seed using 108 bits, does not use global variables
-    public string getSeed108(int[] actionsPerformed)
-    {
-        List<int> tempList = customList(3, 4, 2, 4, 4); //this probably shouldn't be hard-coded, but was necessary for the demo
-        byte[] bytes108 = seedConverterUniversal(actionsPerformed, tempList);
-        string convertedSeed = byteToSeed(bytes108);
         return convertedSeed;
     }
 
