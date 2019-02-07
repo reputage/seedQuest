@@ -48,6 +48,10 @@ namespace SeedQuest.Interactables
             InteractableState state = stateData.states[currentStateID];
             state.enterState(this);
             interactableUI.SetText(state.actionName);
+
+            //GameManager.PrevState == GameState.Rehearsal && 
+            //if (InteractablePath.NextInteractable == this)
+            //InteractablePath.GoToNextInteractable();
         }
 
         public void PrevAction()

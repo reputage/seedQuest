@@ -70,7 +70,10 @@ public class PathManager : MonoBehaviour {
 	}
 
     public void Reset()
-    {         path = null;         pathSegmentIndex = 0;         pathSegment = null;
+    {
+        path = null;
+        pathSegmentIndex = 0;
+        pathSegment = null;
     }
 
     /// <summary> Creates an Interactable Path from encoding a seed string </summary>
