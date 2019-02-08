@@ -17,17 +17,28 @@ public class SeedToByteTests : MonoBehaviour {
     public void runAllTests()
     {
         int[] passed = new int[2];
-        int[] test1 = testByteBitConversion();
-        int[] test2 = testMultipleSizeSeeds();
-        int[] test3 = testFindLeadingBits();
-        int[] test4 = testBreakPoints();
-        int[] test5 = testSmallSeeds();
-        int[] test6 = testAllSizeSeeds();
 
-        passed[0] = test1[0] + test2[0] + test3[0] + test4[0] + test5[0] + test6[0];
-        passed[1] = test1[1] + test2[1] + test3[1] + test4[1] + test5[1] + test6[1];
+        passed = sumTest(passed, testByteBitConversion());
+        passed = sumTest(passed, testMultipleSizeSeeds());
+        passed = sumTest(passed, testFindLeadingBits());
+        passed = sumTest(passed, testBreakPoints());
+        passed = sumTest(passed, testSmallSeeds());
+        passed = sumTest(passed, testAllSizeSeeds());
 
         Debug.Log("Successfully passed " + passed[0] + " of " + passed[1] + " tests.");
+    }
+
+    // This function helps make the test running code a bit cleaner
+    public int[] sumTest(int[] passed, int[] testPassed)
+    {
+        if (passed.Length < 2 || testPassed.Length < 2)
+        {
+            Debug.Log("Error summing test results: int[] shorter than two elements");
+            return passed;
+        }
+        passed[0] += testPassed[0];
+        passed[1] += testPassed[1];
+        return passed;
     }
 
     // Test to make sure everything works
