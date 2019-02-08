@@ -35,7 +35,7 @@ namespace SeedQuest.Interactables {
             //next = InteractablePath.NextInteractable;
             //if (GameManager.Mode == GameState.Rehearsal)
             //    InteractablePreviewUI.SetPreviewObject(next); 
-        }
+        } 
 
         private List<InteractableID> getRandomPathIDs()
         {
