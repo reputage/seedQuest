@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -353,24 +354,32 @@ public class SeedToByteTests : MonoBehaviour {
         return passed;
     }
 
-    // not working yet
+    // test seed converter for all possible seed sizes, does not account for action values larger
+    //  than 5 bits. Creates a byte array filled with maximum possible values for N bits, and 
+    //  converts to an action list and back with seedConverterUniversal()
     public int[] testAllSizeSeeds()
     {
         int[] passed = new int[2];
-        string testHex = "FFFFAAAAFFFFAAAAFFFFAAAAFFFFAAAAFFFFAAAA";
 
         for (int i = 10; i < 129; i++)
         {
-            // do stuff
-            string subHex = testHex.Substring(0, (i/4)+1);
             List<int> hexList = new List<int>();
             for (int j = 0; j < i; j++)
             {
                 hexList.Add(1);
             }
-            byte[] byteHex = SeedToByte.HexStringToByteArray(subHex);
 
-            byteHex[byteHex.Length-1] = (byte)((int)byteHex[byteHex.Length-1] - (i%8) );
+            byte[] byteHex = new byte[(i/8)+1];
+
+            if (i % 8 == 0)
+                byteHex = new byte[i/8];
+
+            for (int j = 0; j < byteHex.Length; j++)
+            {
+                byteHex[j] = 255;
+            }
+
+            byteHex[byteHex.Length - 1] = (byte)(Math.Pow(2, i % 8) - 1);
 
             BitArray hexBits = seedToByte.byteToBits(byteHex);
             int[] hexActions = seedToByte.bitToActions(hexBits, hexList);
@@ -381,12 +390,12 @@ public class SeedToByteTests : MonoBehaviour {
             if (seedToByte.byteToSeed(byteHex) == seedToByte.byteToSeed(finalSeed))
             {
                 passed[0] += 1;
-                Debug.Log("Seed size: " + i + " passed");
+                //Debug.Log("Seed size: " + i + " passed");
             }
             else
             {
                 Debug.Log("Test for seed size of: " + i + " failed.");
-                Debug.Log("Seed: " + seedToByte.byteToSeed(byteHex) + " final seed: " + seedToByte.byteToSeed(finalSeed)); 
+                //Debug.Log("Seed: " + seedToByte.byteToSeed(byteHex) + " final seed: " + seedToByte.byteToSeed(finalSeed) + " hexList: " + hexList.Count); 
             }
         }
 
