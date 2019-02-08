@@ -17,7 +17,7 @@
 
 		CGPROGRAM
 
-		#pragma surface surf Custom fullforwardShadows
+		#pragma surface surf SimpleToon fullforwardShadows
 		#pragma target 3.0
 
 		sampler2D _MainTex;
@@ -31,7 +31,7 @@
 			float2 uv_MainTex;
 		};
 		
-		float4 LightingCustom(SurfaceOutput s, float3 lightDir, half3 viewDir, float shadowAttenuation) {
+		float4 LightingSimpleToon(SurfaceOutput s, float3 lightDir, half3 viewDir, float shadowAttenuation) {
 
 			//how much does the normal point towards the light?
 			float towardsLight = dot(s.Normal, lightDir);
