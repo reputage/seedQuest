@@ -21,7 +21,9 @@ namespace SeedQuest.Interactables
 
         private Interactable parent;
         private GameObject actionUI = null;
+        private Button labelButton;
         private Button[] actionButtons;
+        private Image checkmark;
 
         /// <summary> Initialize Interactable UI with Prompt Text and Buttons </summary>
         /// <param name="interactable">Parent Interactable Object</param>
@@ -63,10 +65,17 @@ namespace SeedQuest.Interactables
                 textList[0].text = "Error: Missing StateData";
 
             Button[] buttons = actionUI.GetComponentsInChildren<Button>();
-            buttons[0].onClick.AddListener(onClickLabel);
+            labelButton = buttons[0];
+            labelButton.onClick.AddListener(onClickLabel);
 
-            BoxCollider collider = buttons[0].gameObject.AddComponent<BoxCollider>();
+            BoxCollider collider = labelButton.gameObject.AddComponent<BoxCollider>();
             collider.size = new Vector3(200, 40, 10);
+
+            checkmark = labelButton.gameObject.GetComponentsInChildren<Image>()[1];
+            if(checkmark != null)
+                checkmark.gameObject.SetActive(false);
+
+            setLabelHoverEvents();
         }
 
         public void SetupActionButtons()
@@ -126,7 +135,22 @@ namespace SeedQuest.Interactables
 
             EventTrigger.Entry exit = new EventTrigger.Entry();
             exit.eventID = EventTriggerType.PointerExit;
-            exit.callback.AddListener((data) => { GameManager.State = GameState.Sandbox; });
+            exit.callback.AddListener((data) => { GameManager.State = GameState.Play;  });
+            trigger.triggers.Add(exit);
+        }
+
+        public void setLabelHoverEvents()
+        {
+            EventTrigger trigger = labelButton.GetComponent<EventTrigger>();
+
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerEnter;
+            entry.callback.AddListener((data) => { GameManager.State = GameState.Interact; if (checkmark != null) checkmark.gameObject.SetActive(true); });
+            trigger.triggers.Add(entry);
+
+            EventTrigger.Entry exit = new EventTrigger.Entry();
+            exit.eventID = EventTriggerType.PointerExit;
+            exit.callback.AddListener((data) => { GameManager.State = GameState.Play; if (checkmark != null) checkmark.gameObject.SetActive(false); });
             trigger.triggers.Add(exit);
         }
 
@@ -167,7 +191,7 @@ namespace SeedQuest.Interactables
 
         public void offHoverUI()
         {
-            GameManager.State = GameState.Sandbox;
+            GameManager.State = GameState.Play;
         }
 
         public void toggleActions()

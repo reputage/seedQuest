@@ -11,7 +11,6 @@ public class Rotate : MonoBehaviour {
 
     private float time = 0;
 	
-	// Update is called once per frame
 	void Update () {
         if(useRotate)
         { 

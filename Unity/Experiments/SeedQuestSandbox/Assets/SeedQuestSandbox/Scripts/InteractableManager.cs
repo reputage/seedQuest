@@ -20,17 +20,22 @@ namespace SeedQuest.Interactables
 
         public GameObject[] actionSpotIcons; // InteractableUI Prefab Templates
 
-        private Interactable activeInteractable = null;
+        public Interactable activeInteractable = null;
 
         static public void SetActiveInteractable(Interactable interactable)
         {
             Instance.activeInteractable = interactable;
-            //if (GameManager.State == GameState.Sandbox)
-            if(interactable != null)
+            if(GameManager.Mode == GameMode.Sandbox && interactable != null)
                 InteractablePreviewUI.SetPreviewObject(interactable); 
            
         }
         
+        static public void LogActiveInteractable()
+        {
+                if (GameManager.Mode == GameMode.Rehearsal && InteractablePath.NextInteractable == Instance.activeInteractable)
+                    InteractablePath.GoToNextInteractable();
+        }
+
         private Interactable[,] interactableLUT;
 
         static public Interactable[] InteractableList

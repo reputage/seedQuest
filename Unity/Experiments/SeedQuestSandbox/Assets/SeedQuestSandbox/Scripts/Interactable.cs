@@ -49,9 +49,7 @@ namespace SeedQuest.Interactables
             state.enterState(this);
             interactableUI.SetText(state.actionName);
 
-            //GameManager.PrevState == GameState.Rehearsal && 
-            //if (InteractablePath.NextInteractable == this)
-            //InteractablePath.GoToNextInteractable();
+            InteractableManager.LogActiveInteractable();
         }
 
         public void PrevAction()
@@ -113,7 +111,7 @@ namespace SeedQuest.Interactables
                 }
                 else {
                     if (isOnHover) {
-                        GameManager.State = GameState.Sandbox;
+                        GameManager.State = GameState.Play;
                         //toggleHighlight(false);
                     }
                     isOnHover = false;
