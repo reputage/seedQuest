@@ -30,7 +30,7 @@ namespace SeedQuest.Interactables
            
         }
         
-        static public void LogActiveInteractable()
+        static public void GoToNextInteractable() 
         {
                 if (GameManager.Mode == GameMode.Rehearsal && InteractablePath.NextInteractable == Instance.activeInteractable)
                     InteractablePath.GoToNextInteractable();

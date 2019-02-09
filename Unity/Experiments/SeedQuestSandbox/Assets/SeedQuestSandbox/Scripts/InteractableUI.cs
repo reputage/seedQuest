@@ -123,19 +123,22 @@ namespace SeedQuest.Interactables
 
         }
 
-        // Create TriggerEntry and add callback
         public void setButtonHoverEvents(Button button)
         {
             EventTrigger trigger = button.GetComponent<EventTrigger>();
 
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerEnter;
-            entry.callback.AddListener((data) => { GameManager.State = GameState.Interact; });
+            entry.callback.AddListener((data) => {
+                GameManager.State = GameState.Interact;
+            });
             trigger.triggers.Add(entry);
 
             EventTrigger.Entry exit = new EventTrigger.Entry();
             exit.eventID = EventTriggerType.PointerExit;
-            exit.callback.AddListener((data) => { GameManager.State = GameState.Play;  });
+            exit.callback.AddListener((data) => {
+                GameManager.State = GameState.Play;
+            });
             trigger.triggers.Add(exit);
         }
 
@@ -145,12 +148,20 @@ namespace SeedQuest.Interactables
 
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerEnter;
-            entry.callback.AddListener((data) => { GameManager.State = GameState.Interact; if (checkmark != null) checkmark.gameObject.SetActive(true); });
+            entry.callback.AddListener((data) => {
+                GameManager.State = GameState.Interact;
+                if (checkmark != null && InteractablePath.isNextInteractable(parent))
+                    checkmark.gameObject.SetActive(true);
+            });
             trigger.triggers.Add(entry);
 
             EventTrigger.Entry exit = new EventTrigger.Entry();
             exit.eventID = EventTriggerType.PointerExit;
-            exit.callback.AddListener((data) => { GameManager.State = GameState.Play; if (checkmark != null) checkmark.gameObject.SetActive(false); });
+            exit.callback.AddListener((data) => {
+                GameManager.State = GameState.Play;
+                if (checkmark != null && InteractablePath.isNextInteractable(parent))
+                    checkmark.gameObject.SetActive(false);
+            });
             trigger.triggers.Add(exit);
         }
 
@@ -178,8 +189,9 @@ namespace SeedQuest.Interactables
 
         public void onClickLabel()
         {
-            showCurrentActions();
-            InteractableManager.SetActiveInteractable(parent);
+            //showCurrentActions();
+            InteractableManager.GoToNextInteractable();
+            //InteractableManager.SetActiveInteractable(parent);
         }
 
         public void onHoverUI()

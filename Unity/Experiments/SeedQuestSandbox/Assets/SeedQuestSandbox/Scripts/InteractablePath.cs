@@ -37,6 +37,11 @@ namespace SeedQuest.Interactables
             }
         }
 
+        static public bool isNextInteractable(Interactable interactable)
+        {
+            return interactable == NextInteractable;
+        }
+
         static public void GeneratePathFromSeed(string seed)
         {
             SeedConverter converter = new SeedConverter();

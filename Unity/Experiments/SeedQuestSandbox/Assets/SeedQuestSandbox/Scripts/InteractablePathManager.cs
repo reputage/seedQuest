@@ -32,9 +32,11 @@ namespace SeedQuest.Interactables {
 
         private void Update()
         {
-            next = InteractablePath.NextInteractable;
             if (GameManager.Mode == GameMode.Rehearsal)
-                InteractablePreviewUI.SetPreviewObject(next); 
+            {
+                next = InteractablePath.NextInteractable;
+                InteractablePreviewUI.SetPreviewObject(next);
+            }
         } 
 
         private List<InteractableID> getRandomPathIDs()

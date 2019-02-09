@@ -49,7 +49,7 @@ namespace SeedQuest.Interactables
             state.enterState(this);
             interactableUI.SetText(state.actionName);
 
-            InteractableManager.LogActiveInteractable();
+            //InteractableManager.GoToNextInteractable();
         }
 
         public void PrevAction()
