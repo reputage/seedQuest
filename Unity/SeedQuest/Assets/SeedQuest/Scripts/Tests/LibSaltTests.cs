@@ -30,7 +30,7 @@ public class LibSaltTests : MonoBehaviour {
         return passed;
     }
 
-    private int[] testOtpGenerator()
+    public int[] testOtpGenerator()
     {
         int[] passed = new int[2];
         passed[1] = 1;
@@ -68,7 +68,6 @@ public class LibSaltTests : MonoBehaviour {
             result3.Add(OTPworker.ByteArrayToHex(output));
         }
 
-        // To do: iterate through all lists and compare strings to see if they are all the same
         for (int i = 0; i < result1.Count; i++)
         {
             if (result1[0] != result1[i])
@@ -108,7 +107,6 @@ public class LibSaltTests : MonoBehaviour {
         testSeed1 = OTPworker.randomSeedGenerator(testSeed1);
         testSeed2 = OTPworker.randomSeedGenerator(testSeed2);
 
-        //Debug.Log("First value of each seed: " + testSeed1[0] + " " + testSeed2[0]);
         Debug.Log("RandomSeedGenerator() test passed");
 
         // if no errors have happened by here, the test has passed
@@ -160,9 +158,6 @@ public class LibSaltTests : MonoBehaviour {
         {
             Debug.Log("Test for encryption and decryption failed");
             Debug.Log("Values: " + key[0] + "-" + dKey[0] + " " + key[1] + "-" + dKey[1]);
-            //Debug.Log("Values: " + key[2] + "-" + dKey[2] + " " + key[3] + "-" + dKey[3]);
-            //Debug.Log("Values: " + key[4] + "-" + dKey[4] + " " + key[5] + "-" + dKey[5]);
-            //Debug.Log("Values: " + key[6] + "-" + dKey[6] + " " + key[7] + "-" + dKey[7]);
         }
 
         return passed;

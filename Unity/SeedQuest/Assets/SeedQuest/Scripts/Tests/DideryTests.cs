@@ -19,7 +19,6 @@ public class DideryTests : MonoBehaviour
         passed = sumTest(passed, testHexToByte());
 
         Debug.Log("Successfully passed " + passed[0] + " out of " + passed[1] + " didery tests.");
-
     }
 
     public int[] sumTest(int[] passed, int[] testPassed)
@@ -52,7 +51,6 @@ public class DideryTests : MonoBehaviour
         }
 
         string[] post = DideryInterface.makePost(key, seed);
-        //Debug.Log("Test post: " + post[0] + " " + post[1] + " " + post[2]);
 
         // If this has worked without getting an error then it's passed the test
         passed[0] = 1;
@@ -72,7 +70,6 @@ public class DideryTests : MonoBehaviour
         }
 
         string did = DideryInterface.makeDid(key);
-        //Debug.Log("Test did: " + did);
 
         if (did == "did:dad:AAECAwQFBgcICQoLDA0ODw==")
             passed[0] = 1;
@@ -110,13 +107,9 @@ public class DideryTests : MonoBehaviour
         string keyString = OTPworker.ByteArrayToHex(key);
         string decryptedString = OTPworker.ByteArrayToHex(decryptedKey);
 
-        //Debug.Log("Key: " + OTPworker.ByteArrayToHex(key));
-        //Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedKey));
-
         if (keyString == decryptedString)
         {
             passed[0] = 1;
-            //Debug.Log("Decryption test successful");
         }
         else
             Debug.Log("testDecrypt() failed.");
@@ -225,7 +218,7 @@ public class DideryTests : MonoBehaviour
 
     // Test that a valid key passes the key validation function - needs changes to 
     //  OTPgenerator to work properly
-    public int testGoodDecrypt()
+    public int[] testGoodDecrypt()
     {
         int[] passed = new int[2];
         passed[1] = 1;
@@ -241,9 +234,13 @@ public class DideryTests : MonoBehaviour
         byte[] goodKey = OTPworker.OTPxor(seedByte, keyByte);
         byte[] decryptedKey = OTPworker.decryptFromBlob(seed, Convert.ToBase64String(goodKey));
         string finalKey = Encoding.ASCII.GetString(keyByte);
-        //Debug.Log("Decrypted key: " + finalKey);
 
-        return 0;
+        if(finalKey == key)
+        {
+            passed[0] = 1;
+        }
+
+        return passed;
     }
 
     public int[] testHexToByte()
@@ -255,7 +252,6 @@ public class DideryTests : MonoBehaviour
         string odd = "abc";
         byte[] evenArray = OTPworker.HexStringToByteArray(even);
         byte[] oddArray = OTPworker.HexStringToByteArray(odd);
-
 
         // If it's gotten this far, it works
         passed[0] = 1;

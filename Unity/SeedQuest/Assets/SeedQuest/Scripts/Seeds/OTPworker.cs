@@ -12,7 +12,6 @@ public static class OTPworker
     // Decrypts the blob saved at DideryDemoManager.demoBlob
     public static byte[] decryptFromBlob(string seed, string blobString)
     {
-        //Debug.Log("Seed: " + seed);
         byte[] seedByte = HexStringToByteArray(seed);
         byte[] demoBlob = Convert.FromBase64String(blobString);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
@@ -44,10 +43,13 @@ public static class OTPworker
     // Generates the one-time pad from a seed
     public static void OTPGenerator(byte[] otp, int size, byte[] seed)
     {
-        // This might need a seed of specific size - possibly 64 bytes, needs testing
+        // This -hopefully- fixes an issue where the OTP isn't always the same for a given seed
+        if (seed.Length < 32)
+        {
+            byte[] newSeed = new byte[32];
+            newSeed = seed.ToArray();
+        }
         LibSalt.nacl_randombytes_buf_deterministic(otp, size, seed);
-        //Debug.Log("Seed length: " + seed.Length + " Seed string: " + ByteArrayToHex(seed));
-        //Debug.Log("OTP length: " + otp.Length + " OTP first bytes: " + otp[0] + " " + otp[1] + " " + otp[2] + " " + otp[3]);
     }
 
     // Used to encrypt and decrypt the key using the one-time pad, using the xor method

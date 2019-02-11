@@ -56,7 +56,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (testSeed2 == testReturnStr)
         {
-            //Debug.Log("Test for conversion from byte array to string passed");
             passed[0] += 1;
         }
         else
@@ -65,7 +64,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (seedToByte.byteToSeed(testByteArr) == seedToByte.byteToSeed(testReturnBytes))
         {
-            //Debug.Log("Test for conversion from bit array to byte array passed");
             passed[0] += 1;
         }
         else
@@ -79,7 +77,6 @@ public class SeedToByteTests : MonoBehaviour {
         int[] passed = new int[2];
 
         string testHex = "FFFFAAAAFFFFAAAAFFFFDDDDFFFF";
-        //string testHex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 
         byte[] testHexSeed = SeedToByte.HexStringToByteArray(testHex);
         byte[] testRunSeed = new byte[14];
@@ -100,7 +97,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (seedToByte.byteToSeed(testRunSeed) == seedToByte.byteToSeed(finalSeed1))
         {
-            //Debug.Log("Test 1 for converting 112 bit seed to action list and back passed");
             passed[0] += 1;
         }
         else
@@ -109,7 +105,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed2))
         {
-            //Debug.Log("Test 2 for converting 112 bit seed to action list and back passed");
             passed[0] += 1;
         }
         else
@@ -129,7 +124,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed3))
         {
-            //Debug.Log("Test for converting 108 bit seed to action list and back passed");
             passed[0] += 1;
         }
         else
@@ -152,7 +146,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
         {
-            //Debug.Log("Test for converting 16 bit seed to action list and back passed");
             passed[0] += 1;
         }
         else
@@ -168,7 +161,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
         {
-            //Debug.Log("Test for converting 24 bit seed to action list and back passed");
             passed[0] += 1;
         }
         else
@@ -191,7 +183,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
         {
-            //Debug.Log("Test for converting 64 bit seed to action list and back passed");
             passed[0] += 1;
         }
         else
@@ -207,7 +198,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
         {
-            //Debug.Log("Test for converting 128 bit seed to action list and back passed");
             passed[0] += 1;
         }
         else
@@ -225,7 +215,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 3 && leadingBits[1] == 1 && leadingBits[2] == 1)
         {
-            //Debug.Log("Leading bits test 1 passed");
             passed[0] += 1;
         }
         else
@@ -235,7 +224,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 3 && leadingBits[1] == 0 && leadingBits[2] == 1)
         {
-            //Debug.Log("Leading bits test 2 passed");
             passed[0] += 1;
         }
         else
@@ -245,7 +233,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 1 && leadingBits[2] == 1)
         {
-            //Debug.Log("Leading bits test 3 passed");
             passed[0] += 1;
         }
         else
@@ -255,7 +242,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 1 && leadingBits[2] == 1)
         {
-            //Debug.Log("Leading bits test 4 passed");
             passed[0] += 1;
         }
         else
@@ -265,7 +251,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 7 && leadingBits[1] == 1 && leadingBits[2] == 1)
         {
-            //Debug.Log("Leading bits test 5 passed");
             passed[0] += 1;
         }
         else
@@ -275,7 +260,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 7 && leadingBits[1] == 0 && leadingBits[2] == 1)
         {
-            //Debug.Log("Leading bits test 6 passed"); 
             passed[0] += 1;
         }
 
@@ -286,7 +270,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 4 && leadingBits[1] == 1 && leadingBits[2] == 1)
         {
-            //Debug.Log("Leading bits test 7 passed");
             passed[0] += 1;
         }
         else
@@ -296,7 +279,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 1 && leadingBits[2] == 1)
         {
-            //Debug.Log("Leading bits test 8 passed");
             passed[0] += 1;
         }
         else
@@ -306,7 +288,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 15 && leadingBits[1] == 0 && leadingBits[2] == 0)
         {
-            //Debug.Log("Leading bits test 9 passed");
             passed[0] += 1;
         }
         else
@@ -316,7 +297,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 14 && leadingBits[1] == 0 && leadingBits[2] == 0)
         {
-            //Debug.Log("Leading bits test 10 passed");
             passed[0] += 1;
         }
         else
@@ -326,7 +306,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 9 && leadingBits[1] == 0 && leadingBits[2] == 0)
         {
-            //Debug.Log("Leading bits test 11 passed");
             passed[0] += 1;
         }
         else
@@ -336,7 +315,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 1 && leadingBits[1] == 0 && leadingBits[2] == 0)
         {
-            //Debug.Log("Leading bits test 12 passed");
             passed[0] += 1;
         }
         else
@@ -346,7 +324,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 0 && leadingBits[2] == 0)
         {
-            //Debug.Log("Leading bits test 13 passed");
             passed[0] += 1;
         }
         else
@@ -356,7 +333,6 @@ public class SeedToByteTests : MonoBehaviour {
         passed[1] += 1;
         if (leadingBits[0] == 0 && leadingBits[1] == 9 && leadingBits[2] == 4)
         {
-            //Debug.Log("Leading bits test 14 passed");
             passed[0] += 1;
         }
         else
@@ -365,8 +341,8 @@ public class SeedToByteTests : MonoBehaviour {
         return passed;
     }
 
-    // test seed converter for all possible seed sizes, does not account for action values larger
-    //  than 5 bits. Creates a byte array filled with maximum possible values for N bits, and 
+    // test seed converter for all possible seed sizes
+    //  Creates a byte array filled with maximum possible values for N bits, and 
     //  converts to an action list and back with seedConverterUniversal()
     public int[] testAllSizeSeeds()
     {
@@ -401,12 +377,10 @@ public class SeedToByteTests : MonoBehaviour {
             if (seedToByte.byteToSeed(byteHex) == seedToByte.byteToSeed(finalSeed))
             {
                 passed[0] += 1;
-                //Debug.Log("Seed size: " + i + " passed");
             }
             else
             {
                 Debug.Log("Test for seed size of: " + i + " failed.");
-                //Debug.Log("Seed: " + seedToByte.byteToSeed(byteHex) + " final seed: " + seedToByte.byteToSeed(finalSeed) + " hexList: " + hexList.Count); 
             }
         }
 

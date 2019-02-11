@@ -5,21 +5,7 @@ using System.Text;
 using System;
 using System.Collections.Specialized;
 
-/*
- * The functions in this script can be used like this:
- * 
- * To get the int[] of actions to be performed from a seed:
- *  
- *  List<int> bitList = SeedToByte.customList(1, 3, 2, 4, 2);
- *  int[] actions = converter.getActions(seedString, bitList);
- * 
- *  getActions(string inputStringName, List<int> actionList);
- * 
- * if no action list is provided, the default list will be used.
- * 
- * To get the seed from an int[] of actions:
- *  getSeed(int[] actionArray, List<int> actionList);
-*/
+// See the SeedToByteExample.cs file for examples on using the functions in this script
 
 public class SeedToByte : MonoBehaviour
 {
@@ -127,11 +113,6 @@ public class SeedToByte : MonoBehaviour
         "11111000", "11111001", "11111010", "11111011", "11111100", 
         "11111101", "11111110", "11111111"
     };
-
-    void Start()
-    {
-
-    }
 
     // Take string for input, get the to-do list of actions
     public int[] getActions(string inputStr, List<int> actionList=null)
@@ -281,7 +262,6 @@ public class SeedToByte : MonoBehaviour
     }
 
     // Reverse the order of bits
-    // This method is used since it's faster than other bit-reversal methods
     public static byte ReverseWithLookupTable(byte toReverse)
     {
         return BitReverseTable[toReverse];
@@ -312,7 +292,7 @@ public class SeedToByte : MonoBehaviour
         return newList;
     }
 
-    // Makes a list without using the variables in SeedManager
+    // Makes a list using values passed in, not the defaults in SeedManager
     public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc)
     {
         List<int> newList = new List<int>();
@@ -394,9 +374,6 @@ public class SeedToByte : MonoBehaviour
         {
             totalBits += varList[i];
         }
-
-        //if (actions.Length != varList.Count)
-            //Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
 
         // If the total bits are less than 64, it is easy to find the bytes of the actions
         if (totalBits < 64)
@@ -564,7 +541,6 @@ public class SeedToByte : MonoBehaviour
     public static int[] findLeadingBitValue(int leadBits, int totalBits, int value)
     {
         int[] badReturn = new int[3];
-        //Debug.Log("leadBits: " + leadBits + " totalBits: " + totalBits + " value: " + value + " 8-total: " + (8-totalBits));
         if (value == 0)
             return badReturn;
         else if (leadBits == 0)
