@@ -142,7 +142,7 @@ Shader "SeedQuest/RimOutline" {
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
 			o.Albedo = c.rgb;
 
-			// Rim Effect
+			// Rim Effect 
 			const float PI = 3.14159;
 			half rim = 1.0 - saturate(dot(normalize(IN.viewDir), o.Normal));
 			half rimPower;
