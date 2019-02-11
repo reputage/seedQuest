@@ -3244,6 +3244,7 @@ GameObject:
   - component: {fileID: 67711479}
   - component: {fileID: 67711478}
   - component: {fileID: 67711477}
+  - component: {fileID: 67711482}
   m_Layer: 0
   m_Name: Test seeds
   m_TagString: Untagged
@@ -3335,8 +3336,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 67711477}
-        m_MethodName: runAllTests
+      - m_Target: {fileID: 67711482}
+        m_MethodName: runExamples
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3382,6 +3383,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 67711475}
   m_CullTransparentMesh: 0
+--- !u!114 &67711482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 67711475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 300ccd516f26c4829964129750b237ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &70161377
 GameObject:
   m_ObjectHideFlags: 0
@@ -39860,7 +39872,6 @@ MonoBehaviour:
   demoDid: 
   demoBlob: 
   isDemo: 0
-  saveFileVersion: 
 --- !u!1 &827808308
 GameObject:
   m_ObjectHideFlags: 0
@@ -49480,9 +49491,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionItemList: []
   actionListContainer: {fileID: 0}
+  maxPanel: {fileID: 0}
+  minPanel: {fileID: 0}
   scroll: {fileID: 0}
   upButton: {fileID: 0}
   downButton: {fileID: 0}
+  minimizeButton: {fileID: 0}
+  maximizeButton: {fileID: 0}
+  undoButton: {fileID: 0}
 --- !u!1 &1026831733
 GameObject:
   m_ObjectHideFlags: 0
@@ -52052,7 +52068,10 @@ MonoBehaviour:
   seedString: {fileID: 1740474032}
   keyString: {fileID: 1142141640}
   dideryDemoManager: {fileID: 0}
-  copyButton: {fileID: 443418230}
+  copy: {fileID: 0}
+  menu: {fileID: 0}
+  quit: {fileID: 0}
+  copied: {fileID: 0}
 --- !u!222 &1085122278
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -82922,7 +82941,6 @@ GameObject:
   - component: {fileID: 1747510563}
   - component: {fileID: 1747510562}
   - component: {fileID: 1747510561}
-  - component: {fileID: 1747510560}
   m_Layer: 5
   m_Name: keyTest
   m_TagString: Untagged
@@ -82950,18 +82968,6 @@ RectTransform:
   m_AnchoredPosition: {x: 400, y: 0}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1747510560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114532382479819570, guid: 0287935057802489b9bc1dc8b325dbb9,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1747510558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a84eb3a9fa25944518e9433fc348916a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1747510561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83002,7 +83008,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1747510560}
+      - m_Target: {fileID: 0}
         m_MethodName: dideryPostTest2
         m_Mode: 1
         m_Arguments:

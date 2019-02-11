@@ -11,19 +11,29 @@ public class LibSaltTests : MonoBehaviour {
     public void runAllTests()
     {
         int[] passed = new int[2];
-        passed[0] += testOtpGenerator();
-        passed[1]++;
-        passed[0] += testRandomSeedGenerator();
-        passed[1]++;
-        passed[0] += testDecryptKey();
-        passed[1]++;
-
+        passed = sumTest(passed, testOtpGenerator());
+        passed = sumTest(passed, testRandomSeedGenerator());
+        passed = sumTest(passed, testDecryptKey());
         Debug.Log("Successfully passed " + passed[0] + " out of " + passed[1] + " LibSalt tests.");
     }
 
-    private int testOtpGenerator()
+    // This function helps make the test running code a bit cleaner
+    public int[] sumTest(int[] passed, int[] testPassed)
     {
-        int pass = 0;
+        if (passed.Length < 2 || testPassed.Length < 2)
+        {
+            Debug.Log("Error summing test results: int[] shorter than two elements");
+            return passed;
+        }
+        passed[0] += testPassed[0];
+        passed[1] += testPassed[1];
+        return passed;
+    }
+
+    private int[] testOtpGenerator()
+    {
+        int[] passed = new int[2];
+        passed[1] = 1;
         int size = 16;
         bool failure = false;    
 
@@ -68,12 +78,12 @@ public class LibSaltTests : MonoBehaviour {
             }
             if (result2[0] != result2[i])
             {
-                Debug.Log("String mismatch in result1");
+                Debug.Log("String mismatch in result2");
                 failure = true;
             }
             if (result3[0] != result3[i])
             {
-                Debug.Log("String mismatch in result1");
+                Debug.Log("String mismatch in result3");
                 failure = true;
             }
         }
@@ -81,16 +91,17 @@ public class LibSaltTests : MonoBehaviour {
         if (failure == false)
         {
             Debug.Log("RandomBytesDeterministic test passed");
-            pass = 1;
+            passed[0] = 1;
         }
 
-        return pass;
+        return passed;
     }
 
     // To be finished at a later date
-    public int testRandomSeedGenerator()
+    public int[] testRandomSeedGenerator()
     {
-        int pass = 0;
+        int[] passed = new int[2];
+        passed[1] = 1;
 
         byte[] testSeed1 = new byte[10];
         byte[] testSeed2 = new byte[10];
@@ -101,14 +112,15 @@ public class LibSaltTests : MonoBehaviour {
         Debug.Log("RandomSeedGenerator() test passed");
 
         // if no errors have happened by here, the test has passed
-        pass = 1;
-        return pass;
+        passed[0] = 1;
+        return passed;
     }
 
     // To do
-    public int testDecryptKey()
+    public int[] testDecryptKey()
     {
-        int pass = 0;
+        int[] passed = new int[2];
+        passed[1] = 1;
         int size = 32;
         byte[] key = new byte[size];
         byte[] eKey = new byte[size];
@@ -142,7 +154,7 @@ public class LibSaltTests : MonoBehaviour {
         if(same)
         {
             Debug.Log("Test for encryption and decryption passed");
-            pass = 1;
+            passed[0] = 1;
         }
         else
         {
@@ -153,7 +165,7 @@ public class LibSaltTests : MonoBehaviour {
             //Debug.Log("Values: " + key[6] + "-" + dKey[6] + " " + key[7] + "-" + dKey[7]);
         }
 
-        return pass;
+        return passed;
     }
 
 }
