@@ -1,4 +1,4 @@
-﻿Shader "SeedQuest/FlatShadows" 
+﻿Shader "SeedQuest/FlatSoftShadows" 
 {
 	Properties 
 	{
