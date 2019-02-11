@@ -166,14 +166,6 @@ public class SeedToByte : MonoBehaviour
         return convertedSeed;
     }
 
-    // Get the return seed from a list of actions
-    public string getSeedCustomList(int[] actionsPerformed, List<int> customList)
-    {
-        returnBytes = seedConverterUniversal(actionsPerformed, customList);
-        string convertedSeed = byteToSeed(returnBytes);
-        return convertedSeed;
-    }
-
     //  Convert string to byte array
     public byte[] seedToByte(string seedString)
     {
@@ -403,8 +395,8 @@ public class SeedToByte : MonoBehaviour
             totalBits += varList[i];
         }
 
-        if (actions.Length != varList.Count)
-            Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
+        //if (actions.Length != varList.Count)
+            //Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
 
         // If the total bits are less than 64, it is easy to find the bytes of the actions
         if (totalBits < 64)
