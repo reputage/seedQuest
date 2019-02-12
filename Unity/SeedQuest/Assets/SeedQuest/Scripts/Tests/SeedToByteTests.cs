@@ -331,7 +331,7 @@ public class SeedToByteTests : MonoBehaviour {
 
         leadingBits = SeedToByte.findLeadingBitValue(0, 4, 9);
         passed[1] += 1;
-        if (leadingBits[0] == 0 && leadingBits[1] == 9 && leadingBits[2] == 4)
+        if (leadingBits[0] == 0 && leadingBits[1] == 0 && leadingBits[2] == 0)
         {
             passed[0] += 1;
         }
