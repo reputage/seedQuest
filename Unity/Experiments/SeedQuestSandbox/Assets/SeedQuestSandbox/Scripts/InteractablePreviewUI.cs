@@ -19,13 +19,15 @@ namespace SeedQuest.Interactables
         public float fieldOfView = 60;
         public float orthographicSize = 1;
         public GameObject previewPrefab;
+        public bool useRotate = true;
+        public float rotateSpeed = 25;
     }
 
     public class InteractablePreviewUI : MonoBehaviour
     {
         private static InteractablePreviewUI instance = null;
 
-        public static InteractablePreviewUI Instance
+        public static InteractablePreviewUI Instance 
         {
             get
             {
@@ -39,13 +41,14 @@ namespace SeedQuest.Interactables
         public InteractablePreviewLocation location = InteractablePreviewLocation.bottomright;
         private Observable<InteractablePreviewLocation> locationObservable;
         private Observable<float> scaleObservable;
+        private InteractablePreviewInfo preview;
+        //private Observer previewObserver = new Observer();
 
         private int depthMax = 10;
         private Camera previewCamera;
         private GameObject previewObject;
         private GameObject previewChild;
         private TMPro.TextMeshProUGUI previewText;
-        private Interactable previewInteractable;
         private List<RectTransform> canvasTransforms;
         private RectTransform imageTransform;
 
@@ -60,9 +63,8 @@ namespace SeedQuest.Interactables
         private void Update()  {
             locationObservable.onChange(SetLocationTransform);
             scaleObservable.onChange(SetLocationTransform);
-
+            //previewObserver.onChange(SetPreviewProperties);
             SetPreviewProperties();
-            RotatePreview();
         } 
 
         private void SetReferencesFromTags() {
@@ -77,13 +79,8 @@ namespace SeedQuest.Interactables
             imageTransform = GameObject.FindGameObjectWithTag("PreviewImage").GetComponent<RectTransform>();
         }
 
-        public void SetPreviewProperties() {
-            InteractablePreviewInfo preview;
-            if (Instance.previewInteractable == null)
-                return;
-            else
-                preview = Instance.previewInteractable.interactablePreview;
-                
+        private float rotateAccumlator = 0;
+        public void SetPreviewProperties() {                
             if (preview != null)
             {
                 previewChild.transform.localPosition = preview.position;
@@ -95,12 +92,12 @@ namespace SeedQuest.Interactables
                 Instance.previewCamera.orthographic = preview.useOrthographic;
                 Instance.previewCamera.fieldOfView = preview.fieldOfView;
                 Instance.previewCamera.orthographicSize = preview.orthographicSize;
-            }
-        }
 
-        public void RotatePreview() {
-            if (previewChild != null)
-                previewChild.transform.localRotation = previewChild.transform.localRotation * Quaternion.Euler(new Vector3(0,1.0f,0));
+                if(preview.useRotate) {
+                    rotateAccumlator += preview.rotateSpeed * Time.deltaTime;
+                    previewChild.transform.localRotation = Quaternion.Euler(preview.rotation) * Quaternion.Euler(Vector3.up * rotateAccumlator);
+                }
+            }
         }
 
         public void SetLocationTransform() {
@@ -133,26 +130,36 @@ namespace SeedQuest.Interactables
             }
         }
 
+        /// <summary>  Sets Interactable Preview from Interactable </summary>
+        /// <param name="interactable"> Interactable to set Preview with </param>
         static public void SetPreviewObject(Interactable interactable)  {
 
-            if (Instance == null)
+            // Set Preview if interactablePreview has changed
+            if (Instance == null || interactable.interactablePreview == Instance.preview)
                 return;
+            else
+                Instance.preview = interactable.interactablePreview;
+            
+            // Set Preview Watcher
+            //Instance.previewObserver.Watch(Instance.preview);
 
-            if (interactable == Instance.previewInteractable)
-                return;
-
-            Instance.previewInteractable = interactable;
-
+            // Remove old preview object
             foreach (Transform child in Instance.previewObject.transform)
-                if (child.tag != "Static")
                     GameObject.Destroy(child.gameObject);
 
+            // Create Preview Gameobject
             if(interactable.interactablePreview.previewPrefab != null)
                 Instance.previewChild = Instantiate(interactable.interactablePreview.previewPrefab, Instance.previewObject.transform);
             else 
                 Instance.previewChild = Instantiate(interactable.gameObject, Instance.previewObject.transform);
 
+            // Destroy InteractableUI
+            Instance.previewChild.GetComponent<Interactable>().DeleteUI();
+
+            // Set Layer to "InteractablePreview"
             SetLayerRecursively(Instance.previewChild, 0);
+
+            // Set Label Text
             Instance.previewText.text = interactable.Name;
         } 
 

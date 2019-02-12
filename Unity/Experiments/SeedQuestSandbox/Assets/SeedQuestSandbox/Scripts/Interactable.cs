@@ -20,8 +20,9 @@ namespace SeedQuest.Interactables
         [HideInInspector]
         public float interactDistance = 2.0f;
         private bool isOnHover = false;
+        [HideInInspector]
+        public bool flagDeleteUI = false;
 
-        // Use this for initialization
         void Start()
         {
             interactableUI.Initialize(this);
@@ -37,9 +38,32 @@ namespace SeedQuest.Interactables
             }
         }
 
+        public string Name {
+            get {
+                if (interactableUI.name != "")
+                    return interactableUI.name;
+                else if (stateData != null)
+                    return stateData.interactableName;
+                else
+                    return "Error: Missing StateData/Name";
+            }
+        }
+
+        public string RehearsalActionName  {
+            get {
+                return (stateData == null) ? "Action #" + ID.actionID : this.stateData.getStateName(ID.actionID);
+            }
+        }
+
         int Mod(int x, int m)
         {
             return (x % m + m) % m;
+        }
+
+        public void DeleteUI()
+        {
+            flagDeleteUI = true;
+            interactableUI.DeleteUI();
         }
 
         public void NextAction()
@@ -171,38 +195,6 @@ namespace SeedQuest.Interactables
                 else
                     material.shader = defultShader;
             }
-        }
-
-        public string Name {
-            get {
-                if (interactableUI.name != "")
-                    return interactableUI.name;
-                else if (stateData != null)
-                    return stateData.interactableName;
-                else
-                    return "Error: Missing StateData/Name";
-             }
-        }
-
-        public string getStateName(int index)
-        {
-            if (stateData == null)
-                return "Action #" + index;
-            else
-                return this.stateData.getStateName(index);
-        }
-
-        public string RehersalActionName
-        {
-            get { return getStateName(ID.actionID); }
-        }
-
-        public int getStateCount()
-        {
-            if (stateData == null)
-                return 0;
-            else
-                return this.stateData.states.Count;
         }
 
     }

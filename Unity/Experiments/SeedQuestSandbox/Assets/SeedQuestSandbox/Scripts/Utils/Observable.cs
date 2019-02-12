@@ -52,32 +52,34 @@ namespace SeedQuest.Utils
 
     public class Observer
     {
-        public ObserverCopy instance;
-        public ObserverCopy last;
+        public ObserverCopy instance = null;
+        public ObserverCopy last = null;
 
         public void Watch(ObserverCopy instance)
         {
             this.instance = instance;
             this.last = instance.Clone();
-
-            var fields = instance.GetType().GetFields();
-            for (int i = 0; i < fields.Length; i++)
-            {
-                Debug.Log(fields[i]);
-            }
         }
 
         public bool CheckChange()
         {
             var fields = instance.GetType().GetFields();
+            for (int i = 0; i < fields.Length; i++)
+            {
+                string test = fields[i].ToString() + fields[i].GetValue(instance).ToString();
+            }
+
+            //var fields = instance.GetType().GetFields();
             var lastFields = last.GetType().GetFields();
             for (int i = 0; i < fields.Length; i++)
             {
-                if (fields[i] != lastFields[i])
-                    return false;
+                if (fields[i].GetValue(instance) != lastFields[i].GetValue(last)) {
+                    Debug.Log("Test: " + fields[i].Name + " :" + fields[i].GetValue(instance).ToString() + " ... " + lastFields[i].GetValue(last));
+                    return true;
+                }
             }
 
-            return true;
+            return false;
         }
 
         public void Change()
@@ -87,6 +89,8 @@ namespace SeedQuest.Utils
 
         public void onChange(System.Action action)
         {
+            if (instance == null) return;
+
             if (CheckChange())
             {
                 action();
