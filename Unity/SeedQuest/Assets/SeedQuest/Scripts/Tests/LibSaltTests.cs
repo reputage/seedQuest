@@ -11,23 +11,20 @@ public class LibSaltTests : MonoBehaviour {
     public void runAllTests()
     {
         int[] passed = new int[2];
-        passed = sumTest(passed, testOtpGenerator());
-        passed = sumTest(passed, testRandomSeedGenerator());
-        passed = sumTest(passed, testDecryptKey());
+        sumTest(ref passed, testOtpGenerator());
+        sumTest(ref passed, testRandomSeedGenerator());
+        sumTest(ref passed, testDecryptKey());
         Debug.Log("Successfully passed " + passed[0] + " out of " + passed[1] + " LibSalt tests.");
     }
 
     // This function helps make the test running code a bit cleaner
-    public int[] sumTest(int[] passed, int[] testPassed)
+    public void sumTest(ref int[] passed, int[] testPassed)
     {
         if (passed.Length < 2 || testPassed.Length < 2)
-        {
             Debug.Log("Error summing test results: int[] shorter than two elements");
-            return passed;
-        }
+
         passed[0] += testPassed[0];
         passed[1] += testPassed[1];
-        return passed;
     }
 
     public int[] testOtpGenerator()

@@ -58,7 +58,7 @@ public class SeedToByte : MonoBehaviour
 
     // This table is required for the universal seed converter to handle bit size combinations
     //  that are not divisible by 8
-    public static string[] bitStrings =
+    public static string[] byteStrings =
     {
         "00000000", "00000001", "00000010", "00000011", "00000100",
         "00000101", "00000110", "00000111", "00001000", "00001001",
@@ -271,21 +271,15 @@ public class SeedToByte : MonoBehaviour
     //  uses the defaults specified in SeedManager
     public static List<int> listBuilder()
     {
-        int numLocationBits = SeedManager.SiteBits;
-        int numSpotBits = SeedManager.SpotBits;
-        int numActionBits = SeedManager.ActionBits;
-        int numActions = SeedManager.ActionCount;
-        int numTotalLocations = SeedManager.SiteCount;
-
         List<int> newList = new List<int>();
 
-        for (int j = 0; j < numTotalLocations; j++)
+        for (int j = 0; j < SeedManager.SiteCount; j++)
         {
-            newList.Add(numLocationBits);
-            for (int i = 0; i < numActions; i++)
+            newList.Add(SeedManager.SiteBits);
+            for (int i = 0; i < SeedManager.ActionCount; i++)
             {
-                newList.Add(numSpotBits);
-                newList.Add(numActionBits);
+                newList.Add(SeedManager.SpotBits);
+                newList.Add(SeedManager.ActionBits);
             }
         }
 
@@ -380,7 +374,6 @@ public class SeedToByte : MonoBehaviour
         return finalBytes;
     }
 
-
     // This function is used to handle cases where the bits in a list of actions
     //  do not divide evenly across 64 bit integers. Returns an int array, with
     //  the first int representing the value of the leading bits, the second int
@@ -398,7 +391,7 @@ public class SeedToByte : MonoBehaviour
             return returnArray;
         }
 
-        string bitPart1 = bitStrings[value];
+        string bitPart1 = byteStrings[value];
         string bitPart2;
 
         if ((8-totalBits) + leadBits <= bitPart1.Length)
@@ -437,7 +430,6 @@ public class SeedToByte : MonoBehaviour
         byte[] bytesPath = BitConverter.GetBytes(path);
 
         bytesPath = reverseByteEndian(bytesPath);
-
         byte[] finalBytes = new byte[bytesPath.Length];
         System.Buffer.BlockCopy(bytesPath, 0, finalBytes, 0, bytesPath.Length);
 

@@ -11,26 +11,23 @@ public class DideryTests : MonoBehaviour
     {
         int[] passed = new int[2];
 
-        passed = sumTest(passed, testMakePost());
-        passed = sumTest(passed, testMakeDid());
-        passed = sumTest(passed, testDecrypt());
-        passed = sumTest(passed, testValidKey());
-        passed = sumTest(passed, testRegenerateAddress());
-        passed = sumTest(passed, testHexToByte());
+        sumTest(ref passed, testMakePost());
+        sumTest(ref passed, testMakeDid());
+        sumTest(ref passed, testDecrypt());
+        sumTest(ref passed, testValidKey());
+        sumTest(ref passed, testRegenerateAddress());
+        sumTest(ref passed, testHexToByte());
 
         Debug.Log("Successfully passed " + passed[0] + " out of " + passed[1] + " didery tests.");
     }
 
-    public int[] sumTest(int[] passed, int[] testPassed)
+    public void sumTest(ref int[] passed, int[] testPassed)
     {
         if (passed.Length < 2 || testPassed.Length < 2)
-        {
             Debug.Log("Error summing test results: int[] shorter than two elements");
-            return passed;
-        }
+        
         passed[0] += testPassed[0];
         passed[1] += testPassed[1];
-        return passed;
     }
 
     // Test making a didery blob post for a post request
