@@ -41,7 +41,7 @@ namespace SeedQuest.Interactables
         public InteractablePreviewLocation location = InteractablePreviewLocation.bottomright;
         private Observable<InteractablePreviewLocation> locationObservable;
         private Observable<float> scaleObservable;
-        private InteractablePreviewInfo preview;
+        private InteractablePreviewInfo preview = null; 
         //private Observer previewObserver = new Observer();
 
         private int depthMax = 10;
@@ -66,6 +66,10 @@ namespace SeedQuest.Interactables
             //previewObserver.onChange(SetPreviewProperties);
             SetPreviewProperties();
         } 
+
+        public static bool IsActive {
+            get { return Instance.preview != null; }
+        }
 
         private void SetReferencesFromTags() {
             previewObject = GameObject.FindGameObjectWithTag("PreviewObject");

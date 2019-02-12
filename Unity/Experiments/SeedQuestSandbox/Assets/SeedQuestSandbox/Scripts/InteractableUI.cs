@@ -188,7 +188,7 @@ namespace SeedQuest.Interactables
 
         public void onClickLabel()
         {
-            InteractableManager.GoToNextInteractable();
+            InteractablePath.GoToNextInteractable();
         }
 
         public void onHoverUI()

@@ -177,6 +177,8 @@ namespace SeedQuest.Interactables
                 else
                     material.shader = defultShader;
             }
+
+            EffectsManager.PlayEffect("highlight", this.transform);
         }
 
         public void HighlightInteractable(bool useHighlight)

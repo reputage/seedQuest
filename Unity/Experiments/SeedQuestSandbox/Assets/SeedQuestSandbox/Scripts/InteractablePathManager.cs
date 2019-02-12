@@ -23,6 +23,7 @@ namespace SeedQuest.Interactables {
 
         public List<Interactable> path;
         public Interactable next;
+        private bool isNextHighlighted = false;
 
         private void Awake() {
             InteractablePath.GeneratePathFromSeed("9876543210");
@@ -31,14 +32,16 @@ namespace SeedQuest.Interactables {
 
         private void Update() {
             if (GameManager.Mode == GameMode.Rehearsal) {
+
+                if (!isNextHighlighted) {  
+                    InteractablePath.InitializeNextInteractable();
+                    isNextHighlighted = true;
+                }
+
                 next = InteractablePath.NextInteractable;
                 if(next == null) {
                     GameManager.State = GameState.End;
                 }
-
-                InteractableManager.UnHighlightAllInteractables();
-                next.HighlightInteractableDynamically(true);
-                InteractablePreviewUI.SetPreviewObject(next);
             }
         } 
 

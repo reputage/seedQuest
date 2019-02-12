@@ -22,6 +22,10 @@ namespace SeedQuest.Interactables
 
         public Interactable activeInteractable = null;
 
+        static public Interactable ActiveInteractable {
+            get { return Instance.activeInteractable; }
+        }
+
         private void Awake()
         {
             InitalizeLookUp();
@@ -33,12 +37,6 @@ namespace SeedQuest.Interactables
             if(GameManager.Mode == GameMode.Sandbox && interactable != null)
                 InteractablePreviewUI.SetPreviewObject(interactable); 
            
-        }
-        
-        static public void GoToNextInteractable() 
-        {
-                if (GameManager.Mode == GameMode.Rehearsal && InteractablePath.NextInteractable == Instance.activeInteractable)
-                    InteractablePath.GoToNextInteractable();
         }
 
         private Interactable[,] interactableLUT;
@@ -130,9 +128,7 @@ namespace SeedQuest.Interactables
             */
         }
 
-        /// <summary>
-        /// Initalize LookUp Table for querying interactable based on siteID and spotID
-        /// </summary>
+        /// <summary> Initalize LookUp Table for querying interactable based on siteID and spotID  </summary>
         static public void InitalizeLookUp()
         {
             Interactable[] interactables = InteractableManager.InteractableList;
