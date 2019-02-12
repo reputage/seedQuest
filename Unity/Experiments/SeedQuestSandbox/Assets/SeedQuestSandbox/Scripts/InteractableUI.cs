@@ -73,9 +73,6 @@ namespace SeedQuest.Interactables
             labelButton = buttons[0];
             labelButton.onClick.AddListener(onClickLabel);
 
-            BoxCollider collider = labelButton.gameObject.AddComponent<BoxCollider>();
-            collider.size = new Vector3(200, 40, 10);
-
             checkmark = labelButton.gameObject.GetComponentsInChildren<Image>()[1];
             if(checkmark != null)
                 checkmark.gameObject.SetActive(false);
@@ -114,11 +111,6 @@ namespace SeedQuest.Interactables
             // Create Triggers for HoverEvents
             foreach (Button button in actionButtons) {
                 setButtonHoverEvents(button);
-            }
-
-            foreach (Button button in actionButtons) {
-                BoxCollider collider = button.gameObject.AddComponent<BoxCollider>();
-                collider.size = new Vector3(40, 40, 10);
             }
         }
 
