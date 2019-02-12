@@ -27,20 +27,22 @@ namespace SeedQuest.Interactables {
         private void Awake() {
             InteractablePath.GeneratePathFromSeed("9876543210");
             path = InteractablePath.Path;
-            
         }
 
-        private void Update()
-        {
-            if (GameManager.Mode == GameMode.Rehearsal)
-            {
+        private void Update() {
+            if (GameManager.Mode == GameMode.Rehearsal) {
                 next = InteractablePath.NextInteractable;
+                if(next == null) {
+                    GameManager.State = GameState.End;
+                }
+
+                InteractableManager.UnHighlightAllInteractables();
+                next.HighlightInteractableDynamically(true);
                 InteractablePreviewUI.SetPreviewObject(next);
             }
         } 
 
-        private List<InteractableID> getRandomPathIDs()
-        {
+        private List<InteractableID> getRandomPathIDs() {
             List<InteractableID> ids = new List<InteractableID>();
 
             for(int i = 0; i < InteractableConfig.SiteCount; i++)  {

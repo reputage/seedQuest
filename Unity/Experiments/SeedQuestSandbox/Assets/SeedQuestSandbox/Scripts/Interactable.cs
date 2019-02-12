@@ -48,8 +48,6 @@ namespace SeedQuest.Interactables
             InteractableState state = stateData.states[currentStateID];
             state.enterState(this);
             interactableUI.SetText(state.actionName);
-
-            //InteractableManager.GoToNextInteractable();
         }
 
         public void PrevAction()
@@ -99,23 +97,16 @@ namespace SeedQuest.Interactables
                     if (!isOnHover)  {
                         GameManager.State = GameState.Interact;
                         InteractableManager.SetActiveInteractable(this);
-
-                        //toggleHighlight(true);
                     } 
-                    isOnHover = true;
 
-                    /*
-                    if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
-                        InteractableManager.showActions(this);
-                        */
+                    isOnHover = true;
                 }
                 else {
                     if (isOnHover) {
                         GameManager.State = GameState.Play;
-                        //toggleHighlight(false);
                     }
-                    isOnHover = false;
 
+                    isOnHover = false;
                 }
             }
         }
@@ -149,49 +140,48 @@ namespace SeedQuest.Interactables
             effect.Play();
         }
 
-        public void toggleHighlight(bool highlight)
+        public void HighlightInteractableDynamically(bool useHighlight)
         {
+            Shader defultShader = Shader.Find("Standard");
+            Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
+            
             Renderer rend = transform.GetComponent<Renderer>();
-            if (rend == null)
-                return;
-
-            Shader shaderDefault = Shader.Find("Standard");
-            Shader shader = Shader.Find("Custom/Outline + Rim");
-
-            Material[] materials = rend.materials;
-            for (int i = 0; i < materials.Length; i++)
+            foreach(Material material in rend.materials)
             {
-
-                if (highlight)
-                    rend.materials[i].shader = shader;
+                if (useHighlight)
+                    material.shader = highlightShader;
                 else
-                    rend.materials[i].shader = shaderDefault;
+                    material.shader = defultShader;
             }
         }
 
-        /*
-        public void HighlightPathTarget() {
-            if (GameManager.State != GameState.Rehearsal)
-                return;
-
-            if (PathManager.PathTarget == this)
-                toggleHighlight(true);
-            else if(!isOnHover)
-                toggleHighlight(false);
-        }
-        */
-
-        public string getInteractableName()
+        public void HighlightInteractable(bool useHighlight)
         {
-            if (stateData == null)
-                return "Interactable Name";
-            else
-                return this.stateData.interactableName;
+            Shader defultShader = Shader.Find("Standard");
+            Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
+
+            Renderer rend = transform.GetComponent<Renderer>();
+            foreach (Material material in rend.materials)
+            {
+                if (useHighlight)
+                {
+                    material.shader = highlightShader;
+                    material.SetFloat("_UseDynamicRim", 0.0f);
+                }
+                else
+                    material.shader = defultShader;
+            }
         }
 
-        public string Name
-        {
-            get { return getInteractableName(); }
+        public string Name {
+            get {
+                if (interactableUI.name != "")
+                    return interactableUI.name;
+                else if (stateData != null)
+                    return stateData.interactableName;
+                else
+                    return "Error: Missing StateData/Name";
+             }
         }
 
         public string getStateName(int index)

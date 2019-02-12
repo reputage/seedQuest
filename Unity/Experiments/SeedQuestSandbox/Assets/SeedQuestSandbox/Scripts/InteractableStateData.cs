@@ -18,23 +18,21 @@ namespace SeedQuest.Interactables
         public RuntimeAnimatorController animatorController;
         public string soundEffectName = "";
 
-        public void enterState(Interactable item)
-        {
+        public void enterState(Interactable item) {
             // Remove Children GameObjects to Remove Assocaited Prefabs
             foreach (Transform child in item.transform)
-                GameObject.Destroy(child.gameObject);
+                if (child.tag != "Static")
+                    GameObject.Destroy(child.gameObject);
 
             // Update with Prefab
-            if (prefab != null)
-            {
+            if (prefab != null) {
                 GameObject _prefab = GameObject.Instantiate(prefab, item.transform);
                 _prefab.transform.position += positionOffset;
 
                 if (item.GetComponent<MeshFilter>() != null)
                     item.GetComponent<MeshFilter>().sharedMesh = null;
             }
-            else
-            {
+            else {
                 item.transform.position += positionOffset;
             }
 
@@ -43,8 +41,7 @@ namespace SeedQuest.Interactables
                 item.GetComponent<MeshFilter>().sharedMesh = mesh;
 
             // Update Material and Material Index
-            if (material != null)
-            {
+            if (material != null)  {
                 Material[] materials = item.GetComponent<Renderer>().materials;
                 materials[materialIndex] = material;
                 item.GetComponent<Renderer>().materials = materials;

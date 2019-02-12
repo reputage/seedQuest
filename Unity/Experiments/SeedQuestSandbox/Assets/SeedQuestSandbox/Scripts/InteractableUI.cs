@@ -12,6 +12,7 @@ namespace SeedQuest.Interactables
     [System.Serializable]
     public class InteractableUI
     {
+        public string name = "";
         public int fontSize = 36;
         public float scaleSize = 1;
         public InteractableUIMode mode;
@@ -56,13 +57,10 @@ namespace SeedQuest.Interactables
             return actionUI != null;
         }
 
-        public void SetupLabelButton()
-        {
+        public void SetupLabelButton() {
+
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-            if (parent.stateData != null)
-                textList[0].text = parent.stateData.interactableName;
-            else
-                textList[0].text = "Error: Missing StateData";
+            textList[0].text = parent.Name;
 
             Button[] buttons = actionUI.GetComponentsInChildren<Button>();
             labelButton = buttons[0];
@@ -189,9 +187,7 @@ namespace SeedQuest.Interactables
 
         public void onClickLabel()
         {
-            //showCurrentActions();
             InteractableManager.GoToNextInteractable();
-            //InteractableManager.SetActiveInteractable(parent);
         }
 
         public void onHoverUI()
@@ -243,7 +239,7 @@ namespace SeedQuest.Interactables
 
         public void BillboardInteractable()
         {
-            Vector3 targetPosition = Camera.main.transform.position;
+            Vector3 targetPosition = Camera.main.transform.position - (100 * Camera.main.transform.forward ) ;
             Vector3 interactablePosition = actionUI.transform.position;
             Vector3 lookAtDir = targetPosition - interactablePosition;
 

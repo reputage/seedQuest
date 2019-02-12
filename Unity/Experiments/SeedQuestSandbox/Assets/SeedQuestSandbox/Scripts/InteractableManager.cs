@@ -22,6 +22,11 @@ namespace SeedQuest.Interactables
 
         public Interactable activeInteractable = null;
 
+        private void Awake()
+        {
+            InitalizeLookUp();
+        }
+
         static public void SetActiveInteractable(Interactable interactable)
         {
             Instance.activeInteractable = interactable;
@@ -40,22 +45,17 @@ namespace SeedQuest.Interactables
 
         static public Interactable[] InteractableList
         {
-            get { return findAllInteractables(); }
+            get { return FindAllInteractables(); }
         }
 
-        private void Awake()
-        {
-            InitalizeLookUp();
-        }
-
-        static Interactable[] findAllInteractables()
+        static Interactable[] FindAllInteractables()
         {
             return GameObject.FindObjectsOfType<Interactable>();
         }
 
         static public void destroyInteractables()
         {
-            foreach (Interactable interactable in findAllInteractables())
+            foreach (Interactable interactable in FindAllInteractables())
                 GameObject.Destroy(interactable.gameObject);
 
             foreach (GameObject interactableUI in GameObject.FindGameObjectsWithTag("InteractableUI"))
@@ -77,18 +77,27 @@ namespace SeedQuest.Interactables
             }
         }
 
-        /// <summary>
-        /// Hides all UI Canvas for Interactables 
-        /// </summary>
+        /// <summary> Hides all UI Canvas for Interactables </summary>
         static public void hideAllInteractableUI()
         {
-            foreach(Interactable interactable in findAllInteractables())
+            foreach(Interactable interactable in FindAllInteractables())
                 interactable.interactableUI.hideActions();
         }
 
         static void doNearInteractable(bool isNear)
         {
 
+        }
+
+        static public void HighlightAllInteractables() {
+            foreach(Interactable interactable in FindAllInteractables()) 
+                interactable.HighlightInteractable(true);
+        }
+
+        static public void UnHighlightAllInteractables()
+        {
+            foreach (Interactable interactable in FindAllInteractables())
+                interactable.HighlightInteractable(false);
         }
 
         static public ParticleSystem getEffect()

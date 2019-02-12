@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public enum GameMode { Sandbox, Rehearsal, Recall } 
-public enum GameState { Play, Pause, Interact, Menu }
+public enum GameState { Play, Pause, Interact, Menu, End }
 
 public class GameManager : MonoBehaviour {
 

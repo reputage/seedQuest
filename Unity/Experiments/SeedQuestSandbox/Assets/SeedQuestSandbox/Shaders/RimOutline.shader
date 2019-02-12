@@ -14,8 +14,8 @@ Shader "SeedQuest/RimOutline" {
 
 		[Header(Rim Parameters)]
 		_RimColor("Rim Color", Color) = (1.0, 1.0, 1.0, 1.0)
-		_RimPower("Rim Power", Range(0.5, 8.0)) = 2.0
-		[MaterialToggle] _UseDynamicRim("Use Rim Flashing", Float) = 0
+		_RimPower("Rim Power", Range(0.5, 8.0)) = 1.0
+		[MaterialToggle] _UseDynamicRim("Use Rim Flashing", Float) = 1
 		_DynamicRimSpeed("Rim Speed (Flash per Second)", Range(0.1, 4.0)) = 0.5
 	}
 
