@@ -15,8 +15,8 @@ public static class OTPworker
         byte[] seedByte = HexStringToByteArray(seed);
         byte[] demoBlob = Convert.FromBase64String(blobString);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
-        Debug.Log(ByteArrayToHex(decryptedKey));
-        int valid = VerifyKeys.verifyKey(ByteArrayToHex(decryptedKey));
+        string decryptedBlob = ByteArrayToHex(decryptedKey);
+        int valid = VerifyKeys.verifyKey(decryptedBlob);
         return decryptedKey;
     }
 
@@ -27,7 +27,7 @@ public static class OTPworker
 
         OTPGenerator(otp, size, seed);
         key = OTPxor(key, otp);
-        int valid = VerifyKeys.verifyKey(Encoding.ASCII.GetString(key));
+        int valid = VerifyKeys.verifyKey(ByteArrayToHex(key));
         return key;
     }
 
@@ -47,7 +47,7 @@ public static class OTPworker
         if (seed.Length < minimumSize)
         {
             byte[] newSeed = new byte[minimumSize];
-            newSeed = seed.ToArray();
+            System.Buffer.BlockCopy(seed, 0, newSeed, 0, seed.Length);
             LibSalt.nacl_randombytes_buf_deterministic(otp, size, newSeed);
         }
         else

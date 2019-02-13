@@ -61,7 +61,7 @@ public class LibSaltTests : MonoBehaviour {
 
         for (int i = 0; i < 10; i++)
         {
-            OTPworker.OTPGenerator(output, size, seed2);
+            OTPworker.OTPGenerator(output, size, seed3);
             result3.Add(OTPworker.ByteArrayToHex(output));
         }
 
@@ -86,9 +86,10 @@ public class LibSaltTests : MonoBehaviour {
 
         if (failure == false)
         {
-            Debug.Log("RandomBytesDeterministic test passed");
             passed[0] = 1;
         }
+        else
+            Debug.Log("RandomBytesDeterministic test failed");
 
         return passed;
     }

@@ -149,19 +149,26 @@ public class DideryTests : MonoBehaviour
         {
             passed[0] += 1;
         }
+        else
+        {
+            Debug.Log("Decrypt key test failed. Key: " + OTPworker.ByteArrayToHex(key));
+            Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedKey));
 
-        Debug.Log("Key: " + OTPworker.ByteArrayToHex(key));
-        Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedKey));
+        }
 
         decryptedBlob = OTPworker.decryptFromBlob(seedString, Convert.ToBase64String(encryptedKey));
-
         passed[1] += 1;
+
         if (keyString == OTPworker.ByteArrayToHex(decryptedBlob))
         {
             passed[0] += 1;
         }
+        else
+        {
+            Debug.Log("Decrypt blob test failed. Key string: " + keyString + " decrypted blob: " + OTPworker.ByteArrayToHex(decryptedBlob));
+        }
 
-        Debug.Log("Decrypted blob: " + OTPworker.ByteArrayToHex(decryptedBlob));
+        //Debug.Log("Decrypted blob: " + OTPworker.ByteArrayToHex(decryptedBlob));
 
         return passed;
     }
