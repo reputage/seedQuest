@@ -41,15 +41,17 @@ public static class OTPworker
     }
 
     // Generates the one-time pad from a seed
-    public static void OTPGenerator(byte[] otp, int size, byte[] seed)
+    public static void OTPGenerator(byte[] otp, int size, byte[] seed, int minimumSize=32)
     {
         // This -hopefully- fixes an issue where the OTP isn't always the same for a given seed
-        if (seed.Length < 32)
+        if (seed.Length < minimumSize)
         {
-            byte[] newSeed = new byte[32];
+            byte[] newSeed = new byte[minimumSize];
             newSeed = seed.ToArray();
+            LibSalt.nacl_randombytes_buf_deterministic(otp, size, newSeed);
         }
-        LibSalt.nacl_randombytes_buf_deterministic(otp, size, seed);
+        else
+            LibSalt.nacl_randombytes_buf_deterministic(otp, size, seed);
     }
 
     // Used to encrypt and decrypt the key using the one-time pad, using the xor method
