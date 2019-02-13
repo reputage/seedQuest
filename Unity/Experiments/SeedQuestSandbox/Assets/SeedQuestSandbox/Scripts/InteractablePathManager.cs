@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using SeedQuest.Utils;
+
 namespace SeedQuest.Interactables {
 
     public class InteractablePathManager : MonoBehaviour
@@ -23,10 +25,13 @@ namespace SeedQuest.Interactables {
 
         public List<Interactable> path;
         public Interactable next;
+        public string seedString;
         private bool isNextHighlighted = false;
 
         private void Awake() {
-            InteractablePath.GeneratePathFromSeed("9876543210");
+            //seedString = "1B02937E50"; 
+            seedString = RandomString.GetRandomHexNumber(10);
+            InteractablePath.GeneratePathFromSeed(seedString); //"9876543210");
             path = InteractablePath.Path;
         }
 
