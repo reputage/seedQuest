@@ -17,6 +17,7 @@ public class DideryTests : MonoBehaviour
         sumTest(ref passed, testValidKey());
         sumTest(ref passed, testRegenerateAddress());
         sumTest(ref passed, testHexToByte());
+        sumTest(ref passed, testDecryptFromBlob());
 
         Debug.Log("Successfully passed " + passed[0] + " out of " + passed[1] + " didery tests.");
     }
@@ -144,13 +145,23 @@ public class DideryTests : MonoBehaviour
         string keyString = OTPworker.ByteArrayToHex(key);
         string decryptedString = OTPworker.ByteArrayToHex(decryptedKey);
 
-        //Debug.Log("Key: " + OTPworker.ByteArrayToHex(key));
-        //Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedKey));
+        if (keyString == decryptedString)
+        {
+            passed[0] += 1;
+        }
 
-        //decryptedBlob = OTPworker.decryptFromBlob(seedString, Convert.ToBase64String(encryptedKey));
+        Debug.Log("Key: " + OTPworker.ByteArrayToHex(key));
+        Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedKey));
 
-        //Debug.Log("Decrypted key: " + OTPworker.ByteArrayToHex(decryptedBlob));
-        passed[0] = 1;
+        decryptedBlob = OTPworker.decryptFromBlob(seedString, Convert.ToBase64String(encryptedKey));
+
+        passed[1] += 1;
+        if (keyString == OTPworker.ByteArrayToHex(decryptedBlob))
+        {
+            passed[0] += 1;
+        }
+
+        Debug.Log("Decrypted blob: " + OTPworker.ByteArrayToHex(decryptedBlob));
 
         return passed;
     }

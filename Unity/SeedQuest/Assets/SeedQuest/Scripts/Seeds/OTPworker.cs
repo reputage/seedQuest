@@ -15,8 +15,8 @@ public static class OTPworker
         byte[] seedByte = HexStringToByteArray(seed);
         byte[] demoBlob = Convert.FromBase64String(blobString);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
-        Debug.Log(Encoding.ASCII.GetString(decryptedKey));
-        int valid = VerifyKeys.verifyKey(Encoding.ASCII.GetString(decryptedKey));
+        Debug.Log(ByteArrayToHex(decryptedKey));
+        int valid = VerifyKeys.verifyKey(ByteArrayToHex(decryptedKey));
         return decryptedKey;
     }
 
