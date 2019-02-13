@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using TMPro;
 
 namespace SeedQuest.Interactables
 {
@@ -11,7 +8,7 @@ namespace SeedQuest.Interactables
 
     [System.Serializable]
     public class InteractableUI
-    {
+    { 
         public string name = "";
         public int fontSize = 36;
         public float scaleSize = 1;
@@ -25,6 +22,7 @@ namespace SeedQuest.Interactables
         private Button labelButton;
         private Button[] actionButtons;
         private Button checkButton;
+        private Image[] checkImages;
         //private bool showCheckButton = false;
         //private Image checkmark;
 
@@ -76,10 +74,6 @@ namespace SeedQuest.Interactables
             labelButton = buttons[0];
             labelButton.onClick.AddListener(onClickLabel);
 
-            //checkmark = labelButton.gameObject.GetComponentsInChildren<Image>()[1];
-            //if(checkmark != null)
-            //    checkmark.gameObject.SetActive(false);
-
             setLabelHoverEvents();
         }
 
@@ -90,7 +84,15 @@ namespace SeedQuest.Interactables
                 text.fontSize = fontSize;
 
             Button[] buttons = actionUI.GetComponentsInChildren<Button>();
-            actionButtons = new Button[buttons.Length - 2];
+
+            if (mode == InteractableUIMode.NextPrevSelect)  {
+                actionButtons = new Button[buttons.Length - 2];
+            }
+            else if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
+                actionButtons = new Button[buttons.Length - 1];
+                checkImages = new Image[buttons.Length - 1];
+            }
+
             System.Array.Copy(buttons, 1, actionButtons, 0, actionButtons.Length);
 
             if (mode == InteractableUIMode.NextPrevSelect) {
@@ -101,12 +103,18 @@ namespace SeedQuest.Interactables
                 for (int i = 0; i < 4; i++) {
                     var actionText = actionButtons[i].GetComponentInChildren<TMPro.TextMeshProUGUI>();
                     actionText.text = parent.stateData.getStateName(i);
+
+                    checkImages[i] = actionButtons[i].gameObject.GetComponentsInChildren<Image>()[1];
                 }
 
-                actionButtons[0].onClick.AddListener(delegate { parent.DoAction(0); });
-                actionButtons[1].onClick.AddListener(delegate { parent.DoAction(1); });
-                actionButtons[2].onClick.AddListener(delegate { parent.DoAction(2); });
-                actionButtons[3].onClick.AddListener(delegate { parent.DoAction(3); });
+                foreach (Image image in checkImages) {
+                    image.gameObject.SetActive(false);
+                }
+
+                actionButtons[0].onClick.AddListener(delegate { ClickActionButton(0); });
+                actionButtons[1].onClick.AddListener(delegate { ClickActionButton(1); });
+                actionButtons[2].onClick.AddListener(delegate { ClickActionButton(2); });
+                actionButtons[3].onClick.AddListener(delegate { ClickActionButton(3); });
             }
 
             hideActions();
@@ -115,20 +123,20 @@ namespace SeedQuest.Interactables
             foreach (Button button in actionButtons) {
                 setButtonHoverEvents(button);
             }
-        }
+        } 
 
         public void SetupCheckButton() {
             if (mode == InteractableUIMode.NextPrevSelect) {
                 Button[] buttons = actionUI.GetComponentsInChildren<Button>();
                 checkButton = buttons[1];
+                checkButton.onClick.AddListener(onClickCheck);
+                checkButton.gameObject.SetActive(false);
             }
             else if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
-                Button[] buttons = actionUI.GetComponentsInChildren<Button>();
-                checkButton = buttons[1];
+                //Button[] buttons = actionUI.GetComponentsInChildren<Button>();
+                //checkButton = buttons[1];
+                return;
             }
-
-            checkButton.onClick.AddListener(onClickCheck);
-            checkButton.gameObject.SetActive(false);
         }
 
         public void setButtonHoverEvents(Button button) {
@@ -156,8 +164,6 @@ namespace SeedQuest.Interactables
             entry.eventID = EventTriggerType.PointerEnter;
             entry.callback.AddListener((data) => {
                 GameManager.State = GameState.Interact;
-                //if (checkmark != null && InteractablePath.isNextInteractable(parent))
-                //    checkmark.gameObject.SetActive(true);
             });
             trigger.triggers.Add(entry);
 
@@ -165,8 +171,6 @@ namespace SeedQuest.Interactables
             exit.eventID = EventTriggerType.PointerExit;
             exit.callback.AddListener((data) => {
                 GameManager.State = GameState.Play;
-                //if (checkmark != null && InteractablePath.isNextInteractable(parent))
-                //    checkmark.gameObject.SetActive(false);
             });
             trigger.triggers.Add(exit);
         }
@@ -193,16 +197,34 @@ namespace SeedQuest.Interactables
         {
             InteractableManager.hideAllInteractableUI();
             showActions();
+
+            string label = GetText();
+            InteractableManager.resetInteractableUIText();
+            SetText(label);
         }
 
         public void onClickLabel()
         {
             parent.NextAction();
-            //InteractablePath.GoToNextInteractable();
+        }
+
+        public void ClickActionButton(int actionIndex)
+        {
+            parent.DoAction(actionIndex);
+
+            if (GameManager.Mode == GameMode.Rehearsal) {
+                if(actionIndex == InteractablePath.NextInteractable.ID.actionID)
+                    InteractablePath.GoToNextInteractable();
+            }
+            else if (GameManager.Mode == GameMode.Recall)
+                InteractableLog.Add(parent, parent.currentStateID);
         }
 
         public void onClickCheck() {
-            InteractablePath.GoToNextInteractable();
+            if(GameManager.Mode == GameMode.Rehearsal)
+                InteractablePath.GoToNextInteractable();
+            else if(GameManager.Mode == GameMode.Recall)
+                InteractableLog.Add(parent, parent.currentStateID);
         }
 
         public void onHoverUI()
@@ -264,17 +286,47 @@ namespace SeedQuest.Interactables
 
         public void SetText(string text)
         {
+            if (actionUI == null) return;
             var textMesh = actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
             textMesh.text = text;
         }
 
+        public string GetText() {
+            return actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
+        }
+
+        private void SetCheckButtonActive(bool active) {
+            if (mode == InteractableUIMode.NextPrevSelect)
+                checkButton.gameObject.SetActive(active);
+        }
+
+        private void SetCheckImageActive() {
+            if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
+                checkImages[InteractablePath.NextInteractable.ID.actionID].gameObject.SetActive(true);
+            }
+        }
+
+        public void SetCheckmark(int actionIndex) {
+            if (GameManager.Mode == GameMode.Rehearsal) {
+                if (InteractablePath.isNextInteractable(parent))
+                    SetCheckImageActive();
+                
+                if (InteractablePath.isNextInteractable(parent) && actionIndex == InteractablePath.NextInteractable.ID.actionID) 
+                    SetCheckButtonActive(true);
+                else
+                    SetCheckButtonActive(false);
+            }
+            else if (GameManager.Mode == GameMode.Recall)
+            {
+                SetCheckButtonActive(true);
+            }
+        }
+
         public void SetActionUI(int actionIndex) {
             InteractableState state = parent.stateData.states[actionIndex];
-            SetText(parent.Name + ":\n "+ state.actionName);
-            if (InteractablePath.isNextInteractable(parent) && actionIndex == InteractablePath.NextInteractable.ID.actionID)
-                checkButton.gameObject.SetActive(true);
-            else
-                checkButton.gameObject.SetActive(false);
+            //SetText(parent.Name + ":\n "+ state.actionName);
+            SetText(state.actionName);
+            SetCheckmark(actionIndex);
         }
 
     }

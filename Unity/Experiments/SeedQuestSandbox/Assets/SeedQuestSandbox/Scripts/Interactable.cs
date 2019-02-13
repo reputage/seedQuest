@@ -88,6 +88,7 @@ namespace SeedQuest.Interactables
 
         public void DoAction(int actionIndex)
         {
+            currentStateID = actionIndex;
             InteractableState state = stateData.states[actionIndex];
             state.enterState(this);
 

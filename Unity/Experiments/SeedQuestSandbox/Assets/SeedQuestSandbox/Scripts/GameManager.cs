@@ -25,7 +25,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public GameMode mode = GameMode.Sandbox;
-    public static GameMode Mode { get { return Instance.mode; } }
+    public static GameMode Mode { 
+        get { return Instance.mode; }
+        set { Instance.mode = value; }
+    }
 
     public GameState state = GameState.Play;
     public GameState prevState = GameState.Play;
@@ -39,6 +42,9 @@ public class GameManager : MonoBehaviour {
 
     public GameSoundData gameSound = null;
     public static GameSoundData GameSound { get { return Instance.gameSound; } }
+
+    public GameObject HUDEndGamePrefab;
+    public GameObject HUDLevelClearPrefab;
 
     public void Update() {
         CheckButtonClick();

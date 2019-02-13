@@ -75,11 +75,17 @@ namespace SeedQuest.Interactables
             }
         }
 
+        static public void resetInteractableUIText() {
+            foreach (Interactable interactable in FindAllInteractables())
+                interactable.interactableUI.SetText(interactable.Name);
+        }
+
         /// <summary> Hides all UI Canvas for Interactables </summary>
         static public void hideAllInteractableUI()
         {
-            foreach(Interactable interactable in FindAllInteractables())
+            foreach(Interactable interactable in FindAllInteractables()) {
                 interactable.interactableUI.hideActions();
+            }
         }
 
         static void doNearInteractable(bool isNear)

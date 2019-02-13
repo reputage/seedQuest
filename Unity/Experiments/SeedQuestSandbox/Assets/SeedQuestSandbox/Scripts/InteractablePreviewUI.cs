@@ -62,6 +62,11 @@ namespace SeedQuest.Interactables
         }
 
         private void Update()  {
+            if (GameManager.Mode == GameMode.Recall)
+                gameObject.SetActive(false);
+            else 
+                gameObject.SetActive(true);
+
             locationObservable.onChange(SetLocationTransform);
             scaleObservable.onChange(SetLocationTransform);
             //previewObserver.onChange(SetPreviewProperties);
