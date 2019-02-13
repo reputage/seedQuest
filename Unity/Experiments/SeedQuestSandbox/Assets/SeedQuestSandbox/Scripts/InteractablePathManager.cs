@@ -29,9 +29,9 @@ namespace SeedQuest.Interactables {
         private bool isNextHighlighted = false;
 
         private void Awake() {
-            //seedString = "1B02937E50"; 
-            seedString = RandomString.GetRandomHexNumber(10);
-            InteractablePath.GeneratePathFromSeed(seedString); //"9876543210");
+            seedString = "EB204654C9"; 
+            //seedString = RandomString.GetRandomHexNumber(10);
+            InteractablePath.GeneratePathFromSeed(seedString); 
             path = InteractablePath.Path;
         }
 

@@ -48,6 +48,7 @@ namespace SeedQuest.Interactables
         private Camera previewCamera;
         private GameObject previewObject;
         private GameObject previewChild;
+        private TMPro.TextMeshProUGUI previewTitle;
         private TMPro.TextMeshProUGUI previewText;
         private List<RectTransform> canvasTransforms;
         private RectTransform imageTransform;
@@ -73,6 +74,7 @@ namespace SeedQuest.Interactables
 
         private void SetReferencesFromTags() {
             previewObject = GameObject.FindGameObjectWithTag("PreviewObject");
+            previewTitle = GameObject.FindGameObjectWithTag("PreviewTitle").GetComponent<TMPro.TextMeshProUGUI>();
             previewText = GameObject.FindGameObjectWithTag("PreviewText").GetComponent<TMPro.TextMeshProUGUI>();
             previewCamera = GameObject.FindGameObjectWithTag("PreviewCamera").GetComponent<Camera>();
             canvasTransforms = new List<RectTransform>();
@@ -91,7 +93,8 @@ namespace SeedQuest.Interactables
                 previewChild.transform.localRotation = Quaternion.Euler(preview.rotation);
                 previewChild.transform.localScale = preview.scale;
 
-                previewText.fontSize = preview.fontSize;
+                previewTitle.fontSize = preview.fontSize;
+                previewText.fontSize = 0.8f * preview.fontSize;
 
                 Instance.previewCamera.orthographic = preview.useOrthographic;
                 Instance.previewCamera.fieldOfView = preview.fieldOfView;
@@ -164,7 +167,11 @@ namespace SeedQuest.Interactables
             SetLayerRecursively(Instance.previewChild, 0);
 
             // Set Label Text
-            Instance.previewText.text = interactable.Name;
+            Instance.previewTitle.text = interactable.Name;
+            if (GameManager.Mode == GameMode.Rehearsal)
+                Instance.previewText.text = interactable.RehearsalActionName;
+            else
+                Instance.previewText.text = "";
         } 
 
         /// <summary>  Recursively set the layer for all children to "InteractablePreview" until max depth is reached or there is no more children </summary>

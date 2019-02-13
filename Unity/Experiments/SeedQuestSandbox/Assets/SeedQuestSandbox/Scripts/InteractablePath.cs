@@ -61,7 +61,9 @@ namespace SeedQuest.Interactables
         {
             if (GameManager.Mode == GameMode.Rehearsal && NextInteractable == InteractableManager.ActiveInteractable) {
                 Instance.nextIndex++;
-                InitializeNextInteractable();
+
+                if(NextInteractable != null)
+                    InitializeNextInteractable();
             }
         } 
 

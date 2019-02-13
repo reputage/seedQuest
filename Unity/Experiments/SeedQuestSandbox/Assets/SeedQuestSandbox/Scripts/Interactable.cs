@@ -71,7 +71,9 @@ namespace SeedQuest.Interactables
             currentStateID = Mod(currentStateID + 1, 4);
             InteractableState state = stateData.states[currentStateID];
             state.enterState(this);
-            interactableUI.SetText(state.actionName);
+
+            interactableUI.SetActionUI(currentStateID);
+            //interactableUI.SetText(state.actionName);
         }
 
         public void PrevAction()
@@ -79,14 +81,18 @@ namespace SeedQuest.Interactables
             currentStateID = Mod(currentStateID - 1, 4);
             InteractableState state = stateData.states[currentStateID];
             state.enterState(this);
-            interactableUI.SetText(state.actionName);
+
+            interactableUI.SetActionUI(currentStateID);
+            //interactableUI.SetText(state.actionName);
         }
 
         public void DoAction(int actionIndex)
         {
             InteractableState state = stateData.states[actionIndex];
             state.enterState(this);
-            interactableUI.SetText(state.actionName);
+
+            interactableUI.SetActionUI(actionIndex);
+            //interactableUI.SetText(state.actionName);
         }
 
         public void SelectAction(int actionIndex)
