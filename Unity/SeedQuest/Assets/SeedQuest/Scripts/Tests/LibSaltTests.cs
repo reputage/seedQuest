@@ -27,12 +27,11 @@ public class LibSaltTests : MonoBehaviour {
         passed[1] += testPassed[1];
     }
 
+    // Test the OTP generator to make sure it outputs the same pad given the same seed
     public int[] testOtpGenerator()
     {
         int[] passed = new int[2];
-        passed[1] = 1;
         int size = 16;
-        bool failure = false;    
 
         string s1 = "9876abcdef";
         string s2 = "1234567890";
@@ -65,31 +64,31 @@ public class LibSaltTests : MonoBehaviour {
             result3.Add(OTPworker.ByteArrayToHex(output));
         }
 
-        for (int i = 0; i < result1.Count; i++)
+        for (int i = 1; i < result1.Count; i++)
         {
+            passed[1] += 3;
             if (result1[0] != result1[i])
             {
                 Debug.Log("String mismatch in result1");
-                failure = true;
+                Debug.Log("RandomBytesDeterministic test failed");
             }
+            else
+                passed[0] += 1;
             if (result2[0] != result2[i])
             {
                 Debug.Log("String mismatch in result2");
-                failure = true;
+                Debug.Log("RandomBytesDeterministic test failed");
             }
+            else
+                passed[0] += 1;
             if (result3[0] != result3[i])
             {
                 Debug.Log("String mismatch in result3");
-                failure = true;
+                Debug.Log("RandomBytesDeterministic test failed");
             }
+            else
+                passed[0] += 1;
         }
-
-        if (failure == false)
-        {
-            passed[0] = 1;
-        }
-        else
-            Debug.Log("RandomBytesDeterministic test failed");
 
         return passed;
     }
@@ -126,14 +125,10 @@ public class LibSaltTests : MonoBehaviour {
         bool same = true;
 
         for (int i = 0; i < key.Length; i++)
-        {
             key[i] = (byte)i;
-        }
 
         for (int i = 0; i < seed.Length; i++)
-        {
             seed[i] = (byte)i;
-        }
 
         OTPworker.OTPGenerator(otp, size, seed);
         eKey = OTPworker.OTPxor(key, otp);
@@ -142,16 +137,11 @@ public class LibSaltTests : MonoBehaviour {
         for (int i = 0; i < key.Length; i ++)
         {
             if (key[i] != dKey[i])
-            {
                 same = false;
-            }
         }
 
         if(same)
-        {
-            Debug.Log("Test for encryption and decryption passed");
             passed[0] = 1;
-        }
         else
         {
             Debug.Log("Test for encryption and decryption failed");
