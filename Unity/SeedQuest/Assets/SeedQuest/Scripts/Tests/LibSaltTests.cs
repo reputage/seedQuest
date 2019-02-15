@@ -14,6 +14,7 @@ public class LibSaltTests : MonoBehaviour {
         sumTest(ref passed, testOtpGenerator());
         sumTest(ref passed, testRandomSeedGenerator());
         sumTest(ref passed, testDecryptKey());
+        sumTest(ref passed, testOtpGenerator2());
         Debug.Log("Successfully passed " + passed[0] + " out of " + passed[1] + " LibSalt tests.");
     }
 
@@ -92,6 +93,45 @@ public class LibSaltTests : MonoBehaviour {
 
         return passed;
     }
+
+    // Test the OTP generator to make sure it outputs the same pad given the same seed
+    public int[] testOtpGenerator2()
+    {
+        int[] passed = new int[2];
+        int size = 16;
+        string s = "a";
+        string result1 = "";
+        string result2 = "";
+        byte[] seed = OTPworker.HexStringToByteArray(s);
+
+        byte[] output = new byte[size];
+
+        for (int i = 0; i < 1000; i++)
+        {
+            passed[1] += 1;
+            if (s.Length < 30)
+            {
+                int rand = Random.Range(0, 9);
+                s += rand.ToString();
+            }
+            else
+                s = "b";
+            
+            OTPworker.OTPGenerator(output, size, seed);
+            result1 = OTPworker.ByteArrayToHex(output);
+            result2 = OTPworker.ByteArrayToHex(output);
+
+            if (result1 == result2)
+                passed[0] += 1;
+            else
+            {
+                Debug.Log("OTP generator test failed. Seed: " + result1 + " Result: " + result2);
+            }
+        }
+
+        return passed;
+    }
+
 
     // To be finished at a later date
     public int[] testRandomSeedGenerator()
