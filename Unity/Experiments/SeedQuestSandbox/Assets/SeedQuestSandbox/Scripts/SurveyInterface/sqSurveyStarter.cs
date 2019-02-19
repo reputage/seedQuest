@@ -33,6 +33,12 @@ public class sqSurveyStarter : MonoBehaviour {
     {
         List<string> questions = getQuestionsFromSurvey(surveyData);
         List<string> responses = getAnswersFromSurvey(surveyData);
+
+        for (int i = responses.Count - 1; i < questions.Count-1; i++)
+        {
+            responses.Add(" ");
+        }
+
         for (int i = 0; i < questions.Count; i++)
             Debug.Log("Question " + i + ": " + questions[i]);
 
