@@ -8,13 +8,10 @@ public class CommandLineInputUI : MonoBehaviour {
     public GameObject terminal;
     public InputField inputField;
 
-    public Dictionary<string, System.Action> commands;
-
     void Start()
     {
         terminal = GetComponentInChildren<Terminal>(true).gameObject;
         inputField = terminal.GetComponentInChildren<InputField>();
-        CommandLineManager.initialize();
     }
 
     void Update()
@@ -32,6 +29,7 @@ public class CommandLineInputUI : MonoBehaviour {
 
     }
 
+    // Toggle whether the terminal is active
     public void terminalToggleActive()
     {
         if (terminal.activeSelf)
@@ -43,36 +41,33 @@ public class CommandLineInputUI : MonoBehaviour {
         }
     }
 
+    // Breaks user input into an array of strings, split by spaces, and 
+    //  calls associated function in CommandLineManaager
     public void parseInputCommand(string text)
     {
         Debug.Log("Input command recieved: " + text);
         string[] input = text.Split(null);
+
         if (input.Length > 1)
         {
             if (verifyCommandExists(input[0]))
-            {
-                Debug.Log("text array longer than 1 word");
                 CommandLineManager.commands[input[0]](input[1]);
-            }
         }
         else if (input.Length > 0)
         {
             if (verifyCommandExists(input[0]))
-            {
-                Debug.Log("text array only one word in length");
                 CommandLineManager.commands[input[0]]("");
-            }
         }
         else
-        {
             Debug.Log("No text entered");
-        }
     }
 
+    // Checks to see if the command can be found in the dictionary of commands
     public bool verifyCommandExists(string text)
     {
         if (!CommandLineManager.commands.ContainsKey(text))
             Debug.Log("Command: " + text + " not recognized");
+        
         return CommandLineManager.commands.ContainsKey(text);
     }
 
