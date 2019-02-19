@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ConsoleCommandInput : MonoBehaviour {
+public class CommandLineInputUI : MonoBehaviour {
 
     public GameObject terminal;
     public InputField inputField;
 
     public Dictionary<string, System.Action> commands;
 
-    void Start () 
+    void Start()
     {
         terminal = GetComponentInChildren<Terminal>(true).gameObject;
         inputField = terminal.GetComponentInChildren<InputField>();
-	}
-	
-	void Update () 
+    }
+
+    void Update()
     {
-        
+
         if (Input.GetKeyDown(KeyCode.BackQuote))
         {
             terminalToggleActive();
         }
-        if(terminal.activeSelf && Input.GetKeyDown(KeyCode.Return))
+        if (terminal.activeSelf && Input.GetKeyDown(KeyCode.Return))
         {
             parseInputCommand(inputField.text);
             terminalToggleActive();
         }
 
-	}
+    }
 
     public void terminalToggleActive()
     {
@@ -46,7 +46,5 @@ public class ConsoleCommandInput : MonoBehaviour {
     {
         Debug.Log("Input command recieved: " + text);
     }
-
-
 
 }
