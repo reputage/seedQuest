@@ -16,59 +16,72 @@ public class CommandLineInputUI : MonoBehaviour {
 
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.BackQuote))
         {
             terminalToggleActive();
         }
+
         if (terminal.activeSelf && Input.GetKeyDown(KeyCode.Return))
         {
             parseInputCommand(inputField.text);
             terminalToggleActive();
         }
-
     }
 
     // Toggle whether the terminal is active
     public void terminalToggleActive()
     {
         if (terminal.activeSelf)
+        {
+            clearInputField();
             terminal.SetActive(false);
+        }
         else
         {
             terminal.SetActive(true);
+            clearInputField();
             inputField.Select();
         }
+    }
+
+    // Clears the input field text
+    public void clearInputField()
+    {
+        inputField.text = "";
     }
 
     // Breaks user input into an array of strings, split by spaces, and 
     //  calls associated function in CommandLineManaager
     public void parseInputCommand(string text)
     {
-        Debug.Log("Input command recieved: " + text);
+        text = text.ToLower();
         string[] input = text.Split(null);
 
         if (input.Length > 1)
         {
             if (verifyCommandExists(input[0]))
-                CommandLineManager.commands[input[0]](input[1]);
+                print(CommandLineManager.commands[input[0]](input[1]));
         }
         else if (input.Length > 0)
         {
             if (verifyCommandExists(input[0]))
-                CommandLineManager.commands[input[0]]("");
+                print(CommandLineManager.commands[input[0]](""));
         }
-        else
-            Debug.Log("No text entered");
     }
 
     // Checks to see if the command can be found in the dictionary of commands
     public bool verifyCommandExists(string text)
     {
         if (!CommandLineManager.commands.ContainsKey(text))
-            Debug.Log("Command: " + text + " not recognized");
+            print("Command: '" + text + "' not recognized");
         
         return CommandLineManager.commands.ContainsKey(text);
+    }
+
+    // Just prints to Debug.Log for now, should instead display to the front end terminal eventually
+    public void print(string input)
+    {
+        Debug.Log(input);
     }
 
 }
