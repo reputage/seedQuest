@@ -104,6 +104,7 @@ namespace SeedQuest.Interactables
                 interactable.HighlightInteractable(false);
         }
 
+        /*
         static public ParticleSystem getEffect()
         {
             ParticleSystem effect;
@@ -118,6 +119,7 @@ namespace SeedQuest.Interactables
 
             return effect;
         }
+        */
 
         /// <summary> Do Interaction - Does Action, actives effect, logs action, updates path (for rehersal) and exits interactable ui dialog </summary>
         static public void doInteractableAction(int actionIndex)

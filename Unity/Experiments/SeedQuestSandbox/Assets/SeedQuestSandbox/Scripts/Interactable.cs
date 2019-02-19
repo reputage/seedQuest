@@ -165,11 +165,13 @@ namespace SeedQuest.Interactables
 
         }
 
+        /*
         public void startEffect()
         {
             ParticleSystem effect = InteractableManager.getEffect();
             effect.Play();
         }
+        */
 
         public void HighlightInteractableDynamically(bool useHighlight)
         {
