@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Effect {
+    public string name;
+    public GameObject effectPrefab;
+}
+
 public class EffectsManager : MonoBehaviour {
 
     public GameObject effectPrefab;
+    public Effect[] effects;
 
     static EffectsManager __instance = null;
 
@@ -17,31 +24,28 @@ public class EffectsManager : MonoBehaviour {
         }
     }
 
-    /*
-     * Creates an gets an effect created from effectPrefab. Generates a new instance
-     * if doesn't exist. If effect does exist, returns effect instance found in parent.
-     */
-    static public ParticleSystem createEffect(Transform parent) {
+    static public void PlayEffect(string name, Transform parent) {
+        Effect effect = System.Array.Find(instance.effects, Effect => Effect.name == name);
+        ParticleSystem particleSystem = parent.GetComponentInChildren<ParticleSystem>();
 
-        ParticleSystem effect = parent.GetComponentInChildren<ParticleSystem>();
-        if (effect == null) {
-            GameObject obj = Instantiate(instance.effectPrefab, parent.position + instance.effectPrefab.transform.position, instance.effectPrefab.transform.localRotation, instance.transform);
-            return obj.GetComponent<ParticleSystem>();
-        }
-        else
-            return effect;
-    }
-
-    static public ParticleSystem createEffect(Transform parent, GameObject effectPrefab)
-    {
-
-        ParticleSystem effect = parent.GetComponentInChildren<ParticleSystem>();
         if (effect == null)
-        {
-            GameObject obj = Instantiate(effectPrefab, parent.position + effectPrefab.transform.position, effectPrefab.transform.localRotation, instance.transform);
-            return obj.GetComponent<ParticleSystem>();
+            Debug.LogWarning("Effect : " + name + " was not found.");
+        //else if(particleSystem != null)
+        //   particleSystem.Play();
+        else {
+            var effectSystem = Instantiate(effect.effectPrefab, parent);
+            effectSystem.GetComponent<ParticleSystem>().Play(true);
         }
-        else
-            return effect;
     }
+
+    static public void PlayEffect(GameObject effectPrefab, Transform parent) {
+
+        //ParticleSystem effect = parent.GetComponentInChildren<ParticleSystem>();
+        //if (effect != null)
+        //    effect.Play();
+
+        var effectSystem = Instantiate(effectPrefab, parent);
+        effectSystem.GetComponent<ParticleSystem>().Play(true);
+    }
+
 } 
