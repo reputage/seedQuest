@@ -17,24 +17,25 @@ namespace SeedQuest.Interactables
         public Vector2 uvOffset = Vector2.zero;
         public RuntimeAnimatorController animatorController;
         public string soundEffectName = "";
+        public string particleEffectName = "";
 
-        public void enterState(Interactable item)
-        {
+        public void enterState(Interactable item) {
             // Remove Children GameObjects to Remove Assocaited Prefabs
             foreach (Transform child in item.transform)
-                GameObject.Destroy(child.gameObject);
+                if (child.tag != "Static") {
+                    child.gameObject.SetActive(false);
+                    GameObject.Destroy(child.gameObject);
+                }
 
             // Update with Prefab
-            if (prefab != null)
-            {
+            if (prefab != null) {
                 GameObject _prefab = GameObject.Instantiate(prefab, item.transform);
                 _prefab.transform.position += positionOffset;
 
                 if (item.GetComponent<MeshFilter>() != null)
                     item.GetComponent<MeshFilter>().sharedMesh = null;
             }
-            else
-            {
+            else {
                 item.transform.position += positionOffset;
             }
 
@@ -43,8 +44,7 @@ namespace SeedQuest.Interactables
                 item.GetComponent<MeshFilter>().sharedMesh = mesh;
 
             // Update Material and Material Index
-            if (material != null)
-            {
+            if (material != null)  {
                 Material[] materials = item.GetComponent<Renderer>().materials;
                 materials[materialIndex] = material;
                 item.GetComponent<Renderer>().materials = materials;
@@ -62,16 +62,11 @@ namespace SeedQuest.Interactables
             if (soundEffectName != "")
                 AudioManager.Play(soundEffectName);
 
-        }
-
-        public void doAction(Interactable item)
-        {
-
-        }
-
-        public void exitState(Interactable item)
-        {
-
+            // Create and Play Particle Effects
+            if (particleEffectName != "")
+                EffectsManager.PlayEffect(particleEffectName, item.transform);
+            else if(item.stateData.effect != null)
+                EffectsManager.PlayEffect(item.stateData.effect, item.transform);
         }
     }
 

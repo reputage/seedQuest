@@ -19,9 +19,7 @@ namespace SeedQuest.SeedEncoder
      *  getSeed(int[] actionArray, List<int> actionList);
     */
 
-    /// <summary>
-    /// Encoder for String Seed to ActionList
-    /// </summary>
+    /// <summary> Encoder for String Seed to ActionList </summary>
     public class SeedToByte
     {
         public List<int> actionList = new List<int>();
@@ -34,7 +32,7 @@ namespace SeedQuest.SeedEncoder
         public static int[] actionToDo;
         public static BitArray inputBits;
 
-        // For reversing bits later
+        // This table is used for reversing the endian of bits
         public static byte[] BitReverseTable =
         {
             0x00, 0x80, 0x40, 0xc0, 0x20, 0xa0, 0x60, 0xe0,
@@ -71,6 +69,8 @@ namespace SeedQuest.SeedEncoder
             0x1f, 0x9f, 0x5f, 0xdf, 0x3f, 0xbf, 0x7f, 0xff
     };
 
+        // This table is required for the universal seed converter to handle bit size combinations
+        //  that are not divisible by 8
         public static string[] bitStrings =
         {
         "00000000", "00000001", "00000010", "00000011", "00000100",
@@ -79,7 +79,52 @@ namespace SeedQuest.SeedEncoder
         "00001111", "00010000", "00010001", "00010010", "00010011",
         "00010100", "00010101", "00010110", "00010111", "00011000",
         "00011001", "00011010", "00011011", "00011100", "00011101",
-        "00011110", "00011111", "00100000"
+        "00011110", "00011111", "00100000", "00100001", "00100010",
+        "00100011", "00100100", "00100101", "00100110", "00100111",
+        "00101000", "00101001", "00101010", "00101011", "00101100",
+        "00101101", "00101110", "00101111", "00110000", "00110001",
+        "00110010", "00110011", "00110100", "00110101", "00110110",
+        "00110111", "00111000", "00111001", "00111010", "00111011",
+        "00111100", "00111101", "00111110", "00111111", "01000000",
+        "01000001", "01000010", "01000011", "01000100", "01000101",
+        "01000110", "01000111", "01001000", "01001001", "01001010",
+        "01001011", "01001100", "01001101", "01001110", "01001111",
+        "01010000", "01010001", "01010010", "01010011", "01010100",
+        "01010101", "01010110", "01010111", "01011000", "01011001",
+        "01011010", "01011011", "01011100", "01011101", "01011110",
+        "01011111", "01100000", "01100001", "01100010", "01100011",
+        "01100100", "01100101", "01100110", "01100111", "01101000",
+        "01101001", "01101010", "01101011", "01101100", "01101101",
+        "01101110", "01101111", "01110000", "01110001", "01110010",
+        "01110011", "01110100", "01110101", "01110110", "01110111",
+        "01111000", "01111001", "01111010", "01111011", "01111100",
+        "01111101", "01111110", "01111111",
+        "10000000", "10000001", "10000010", "10000011", "10000100",
+        "10000101", "10000110", "10000111", "10001000", "10001001",
+        "10001010", "10001011", "10001100", "10001101", "10001110",
+        "10001111", "10010000", "10010001", "10010010", "10010011",
+        "10010100", "10010101", "10010110", "10010111", "10011000",
+        "10011001", "10011010", "10011011", "10011100", "10011101",
+        "10011110", "10011111", "10100000", "10100001", "10100010",
+        "10100011", "10100100", "10100101", "10100110", "10100111",
+        "10101000", "10101001", "10101010", "10101011", "10101100",
+        "10101101", "10101110", "10101111", "10110000", "10110001",
+        "10110010", "10110011", "10110100", "10110101", "10110110",
+        "10110111", "10111000", "10111001", "10111010", "10111011",
+        "10111100", "10111101", "10111110", "10111111", "11000000",
+        "11000001", "11000010", "11000011", "11000100", "11000101",
+        "11000110", "11000111", "11001000", "11001001", "11001010",
+        "11001011", "11001100", "11001101", "11001110", "11001111",
+        "11010000", "11010001", "11010010", "11010011", "11010100",
+        "11010101", "11010110", "11010111", "11011000", "11011001",
+        "11011010", "11011011", "11011100", "11011101", "11011110",
+        "11011111", "11100000", "11100001", "11100010", "11100011",
+        "11100100", "11100101", "11100110", "11100111", "11101000",
+        "11101001", "11101010", "11101011", "11101100", "11101101",
+        "11101110", "11101111", "11110000", "11110001", "11110010",
+        "11110011", "11110100", "11110101", "11110110", "11110111",
+        "11111000", "11111001", "11111010", "11111011", "11111100",
+        "11111101", "11111110", "11111111"
     };
 
         // Take string for input, get the to-do list of actions
@@ -92,19 +137,6 @@ namespace SeedQuest.SeedEncoder
             inputBits = byteToBits(inputBytes);
             actionToDo = bitToActions(inputBits, actionList);
             int[] returnActions = actionToDo;
-            return returnActions;
-        }
-
-        // Same as getActions, but for the 108 bit seed, does not use global variables
-        public int[] getActions108(string inputStr)
-        {
-            byte[] bytes108 = seedToByte(inputStr);
-            BitArray bits108 = byteToBits(bytes108);
-            List<int> tempList = customList(3, 4, 2, 4, 4);
-            Debug.Log("Byte count: " + bytes108.Length + " Bits count: " + bits108.Length);
-            if (bytes108.Length > 14)
-                Debug.Log("Warning! Seed is longer than 108 bits!");
-            int[] returnActions = bitToActions(bits108, tempList);
             return returnActions;
         }
 
@@ -125,23 +157,6 @@ namespace SeedQuest.SeedEncoder
                 actionList = listBuilder();
             returnBytes = seedConverterUniversal(actionsPerformed, actionList);
             string convertedSeed = byteToSeed(returnBytes);
-            return convertedSeed;
-        }
-
-        // Get the return seed from a list of actions
-        public string getSeedCustomList(int[] actionsPerformed, List<int> customList)
-        {
-            returnBytes = seedConverterUniversal(actionsPerformed, customList);
-            string convertedSeed = byteToSeed(returnBytes);
-            return convertedSeed;
-        }
-
-        // Get the return seed using 108 bits, does not use global variables
-        public string getSeed108(int[] actionsPerformed)
-        {
-            List<int> tempList = customList(3, 4, 2, 4, 4); //this probably shouldn't be hard-coded, but was necessary for the demo
-            byte[] bytes108 = seedConverterUniversal(actionsPerformed, tempList);
-            string convertedSeed = byteToSeed(bytes108);
             return convertedSeed;
         }
 
@@ -186,8 +201,10 @@ namespace SeedQuest.SeedEncoder
         public static byte[] HexStringToByteArray(string hex)
         {
             if (hex.Length % 2 == 1)
-                throw new Exception("The binary key cannot have an odd number of digits: " + hex.Length);
-
+            {
+                Debug.Log("The binary key cannot have an odd number of digits - shortening the string");
+                hex = hex.Substring(0, (hex.Length - 1));
+            }
             byte[] bytes = new byte[hex.Length >> 1];
 
             for (int i = 0; i < hex.Length >> 1; ++i)
@@ -258,13 +275,13 @@ namespace SeedQuest.SeedEncoder
         }
 
         // Reverse the order of bits
-        // This method is used since it's faster than other bit-reversal methods
         public static byte ReverseWithLookupTable(byte toReverse)
         {
             return BitReverseTable[toReverse];
         }
 
-        // Construct the list of how many bits represent which parts of the Path to take
+        // Construct the list of how many bits represent which parts of the Path to take,
+        //  uses the defaults specified in SeedManager
         public static List<int> listBuilder()
         {
             int numLocationBits = InteractableConfig.SiteBits;
@@ -288,8 +305,8 @@ namespace SeedQuest.SeedEncoder
             return newList;
         }
 
-        // Makes a list without using the variables in SeedManager
-        public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc, int trailingZeros = 0)
+        // Makes a list using values passed in, not the defaults in SeedManager
+        public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc)
         {
             List<int> newList = new List<int>();
 
@@ -301,12 +318,6 @@ namespace SeedQuest.SeedEncoder
                     newList.Add(numSpotBit);
                     newList.Add(numActBit);
                 }
-            }
-
-            if (trailingZeros > 0)
-            {
-                for (int i = 0; i <= trailingZeros; i++)
-                    newList.Add(0);
             }
 
             return newList;
@@ -376,9 +387,6 @@ namespace SeedQuest.SeedEncoder
             {
                 totalBits += varList[i];
             }
-
-            if (actions.Length != varList.Count)
-                Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
 
             // If the total bits are less than 64, it is easy to find the bytes of the actions
             if (totalBits < 64)
@@ -537,7 +545,6 @@ namespace SeedQuest.SeedEncoder
             return bytesFin;
         }
 
-
         // This function is used to handle cases where the bits in a list of actions
         //  do not divide evenly across 64 bit integers. Returns an int array, with
         //  the first int representing the value of the leading bits, the second int
@@ -546,7 +553,6 @@ namespace SeedQuest.SeedEncoder
         public static int[] findLeadingBitValue(int leadBits, int totalBits, int value)
         {
             int[] badReturn = new int[3];
-            //Debug.Log("leadBits: " + leadBits + " totalBits: " + totalBits + " value: " + value + " 8-total: " + (8-totalBits));
             if (value == 0)
                 return badReturn;
             else if (leadBits == 0)
@@ -579,5 +585,6 @@ namespace SeedQuest.SeedEncoder
             returnArr[2] = totalBits - leadBits;
             return returnArr;
         }
+
     }
 }

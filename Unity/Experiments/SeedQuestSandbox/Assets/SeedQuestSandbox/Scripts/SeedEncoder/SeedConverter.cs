@@ -21,11 +21,10 @@ namespace SeedQuest.SeedEncoder
         /// <summary> 
         /// Returns recovered seed which as been decodes from a list of interactions
         /// </summary>
-        public string DecodeSeed(InteractableLog log)
+        public string DecodeSeed()
         {
-            int[] encodedInteractions = EncodeInteractions(log);
+            int[] encodedInteractions = EncodeInteractions();
             return converter.getSeed(encodedInteractions);
-            //return converter.getSeed108(encodedInteractions);
         }
 
         /// <summary> 
@@ -34,10 +33,7 @@ namespace SeedQuest.SeedEncoder
         /// </summary>
         private InteractableID[] getPathIDs(string seedString)
         {
-
             int[] actions = converter.getActions(seedString);
-            //int[] actions = converter.getActions108(seedString);
-
             List<InteractableID> locationIDs = new List<InteractableID>();
 
             int count = 0;
@@ -80,6 +76,7 @@ namespace SeedQuest.SeedEncoder
                 int row = pathIDs[i].siteID;
                 int col = pathIDs[i].spotID;
                 interactablePath[i] = LUT[row, col];
+                interactablePath[i].ID.actionID = pathIDs[i].actionID;
             }
 
             return interactablePath;
@@ -88,7 +85,7 @@ namespace SeedQuest.SeedEncoder
         /// <summary>
         /// Encodes an interactable log into an encoded array of interactable id information
         /// </summary>
-        private int[] EncodeInteractions(InteractableLog log)
+        private int[] EncodeInteractions()
         {
             int totalInt = (2 * InteractableConfig.ActionsPerSite) + InteractableConfig.SitesPerGame;
             int counter = 0;
