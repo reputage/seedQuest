@@ -40,6 +40,7 @@ public class CommandLineInputUI : MonoBehaviour {
         {
             terminal.SetActive(true);
             clearInputField();
+            inputField.ActivateInputField();
             inputField.Select();
         }
     }
