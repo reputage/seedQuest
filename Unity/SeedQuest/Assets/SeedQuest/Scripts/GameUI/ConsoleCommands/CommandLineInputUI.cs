@@ -14,6 +14,7 @@ public class CommandLineInputUI : MonoBehaviour {
     {
         terminal = GetComponentInChildren<Terminal>(true).gameObject;
         inputField = terminal.GetComponentInChildren<InputField>();
+        CommandLineManager.initialize();
     }
 
     void Update()
@@ -45,6 +46,34 @@ public class CommandLineInputUI : MonoBehaviour {
     public void parseInputCommand(string text)
     {
         Debug.Log("Input command recieved: " + text);
+        string[] input = text.Split(null);
+        if (input.Length > 1)
+        {
+            if (verifyCommandExists(input[0]))
+            {
+                Debug.Log("text array longer than 1 word");
+                CommandLineManager.commands[input[0]](input[1]);
+            }
+        }
+        else if (input.Length > 0)
+        {
+            if (verifyCommandExists(input[0]))
+            {
+                Debug.Log("text array only one word in length");
+                CommandLineManager.commands[input[0]]("");
+            }
+        }
+        else
+        {
+            Debug.Log("No text entered");
+        }
+    }
+
+    public bool verifyCommandExists(string text)
+    {
+        if (!CommandLineManager.commands.ContainsKey(text))
+            Debug.Log("Command: " + text + " not recognized");
+        return CommandLineManager.commands.ContainsKey(text);
     }
 
 }
