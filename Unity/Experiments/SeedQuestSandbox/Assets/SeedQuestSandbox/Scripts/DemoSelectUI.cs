@@ -27,6 +27,8 @@ public class DemoSelectUI : MonoBehaviour {
     public int buttonPadding = 60;
 
     private void Start() {
+        GameManager.ResetGameState();
+
         GameObject sideNav = GameObject.FindGameObjectWithTag("SideNav");
 
         for (int i = 0; i < demoList.Length; i++) {
@@ -45,6 +47,7 @@ public class DemoSelectUI : MonoBehaviour {
         PopupUI popup = PopupUI.Instance;
 
         // Set demo title, info text, and image
+        selectedDemo = info;
         infoTitle.text = info.demoTitle;
         infoText.text = info.demoText;
         infoImage.sprite = info.demoImage;
@@ -61,7 +64,7 @@ public class DemoSelectUI : MonoBehaviour {
         info.select.image.sprite = info.select.spriteState.highlightedSprite;
     }
 
-    private void startDemo() {
+    public void startDemo() {
         string sceneName = selectedDemo.sceneName;
         SceneManager.LoadScene(sceneName);
     }

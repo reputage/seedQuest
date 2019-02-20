@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SeedQuest.Interactables
 {
+    [System.Serializable]
     public class InteractableLogItem {
         public Interactable interactable;
         public int actionIndex; 
@@ -12,6 +13,12 @@ namespace SeedQuest.Interactables
             interactable = _interactable;
             actionIndex = _actionIndex;
         }
+
+        public int SiteIndex { get { return interactable.ID.siteID; } }
+
+        public int InteractableIndex { get { return interactable.ID.spotID; } }
+
+        public int ActionIndex { get { return actionIndex; } }
     }
 
     public class InteractableLog {

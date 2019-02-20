@@ -21,7 +21,9 @@ public class LevelSelect : MonoBehaviour {
     private GameObject levelsCanvas;
     private int currentLevel = 0;
 
-    private void Start() { 
+    private void Start() {
+        GameManager.ResetGameState();
+
         // Get LevelListCanvas
         levelsCanvas = GameObject.FindGameObjectWithTag("LevelListCanvas");
 

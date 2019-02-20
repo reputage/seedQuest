@@ -8,11 +8,13 @@ public class ThirdPersonCharacter : MonoBehaviour {
     public float walkSpeed = 4f;
     public float runSpeed = 8f;
     public bool isRunning = false;
+    public float jumpVelocity = 4;
 
     private void Update() {
         if(!PauseManager.isPaused) {
             MoveCharacter();
             RotateCharacter();
+            CheckForJump();
         }
     }
 
@@ -38,5 +40,12 @@ public class ThirdPersonCharacter : MonoBehaviour {
     public void RotateCharacter() {
         float horizontal = Input.GetAxis("Mouse X") * rotateSpeed * SettingsManager.CameraSensitivity;
         transform.localRotation *= Quaternion.Euler(0f, horizontal, 0f);
+    }
+
+    public void CheckForJump() {
+        if (Input.GetButtonDown("Jump")) {
+            GetComponent<Rigidbody>().velocity = Vector2.up * jumpVelocity;
+            AudioManager.Play("Jump");
+        }
     }
 }

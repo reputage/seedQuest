@@ -35,16 +35,24 @@ public class GameManager : MonoBehaviour {
 
     public void Update() {
         ListenForKeyDown();
-        CheckForEndGame();
+       //CheckForEndGame();
     }
 
     public void CheckForEndGame() {
-        if(Instance.state == GameState.Recall)
-            if(InteractableManager.Log.LogIsComplete)
-                GameManager.State = GameState.GameEnd;
+        if (Instance.state == GameState.Recall)
+            if (InteractableManager.Log.LogIsComplete)
+            {
+                StartCoroutine(endGame());
+
+            }
     }
 
-    public void ListenForKeyDown() {
+    private IEnumerator endGame()
+    {
+        yield return new WaitForSeconds(5f);
+    }
+
+public void ListenForKeyDown() {
         if (Input.GetKeyDown("escape"))
         {
             if (GameManager.State == GameState.Pause || GameManager.State == GameState.Interact)

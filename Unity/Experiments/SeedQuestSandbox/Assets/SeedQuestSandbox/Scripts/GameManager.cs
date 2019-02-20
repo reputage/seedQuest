@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-public enum GameState { Sandbox, Pause, Interact }
+public enum GameMode { Sandbox, Rehearsal, Recall } 
+public enum GameState { Play, Pause, Interact, Menu, End }
 
 public class GameManager : MonoBehaviour {
 
@@ -22,8 +24,14 @@ public class GameManager : MonoBehaviour {
         instance = null;
     }
 
-    public GameState state = GameState.Sandbox;
-    public GameState prevState = GameState.Sandbox;
+    public GameMode mode = GameMode.Sandbox;
+    public static GameMode Mode { 
+        get { return Instance.mode; }
+        set { Instance.mode = value; }
+    }
+
+    public GameState state = GameState.Play;
+    public GameState prevState = GameState.Play;
     public static GameState State {
         get { return Instance.state; }
         set { if (value == Instance.state) return; Instance.prevState = Instance.state; Instance.state = value; }
@@ -35,6 +43,9 @@ public class GameManager : MonoBehaviour {
     public GameSoundData gameSound = null;
     public static GameSoundData GameSound { get { return Instance.gameSound; } }
 
+    public GameObject HUDEndGamePrefab;
+    public GameObject HUDLevelClearPrefab;
+
     public void Update() {
         CheckButtonClick();
         ListenForKeyDown();
@@ -45,9 +56,16 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    static public void ResetGameState()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SeedQuest.Interactables.InteractableManager.destroyInteractables();
+    }
+
     public void ListenForKeyDown() {
         if (Input.GetKeyDown("escape")) {
-
+            SceneManager.LoadScene("PrototypeSelect");
         }
     }
 

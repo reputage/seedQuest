@@ -4,7 +4,8 @@ using System.Text;
 using System;
 using UnityEngine;
 
-public class DideryDemoManager : MonoBehaviour {
+public class DideryDemoManager : MonoBehaviour
+{
 
     // Note: Coroutines can only be called from a MonoBehavior class, and 
     //  can't be in a static function. GET, POST, and PUT requests must
@@ -32,23 +33,25 @@ public class DideryDemoManager : MonoBehaviour {
     private string urlAddress = "http://178.128.0.203:8080/blob/";
     private SeedToByte seedToByte = new SeedToByte();
 
-    static public string DemoDid
+	static public string DemoDid
     {
-        get { return Instance.demoDid;  }
+        get { return Instance.demoDid; }
         set { Instance.demoDid = value; }
     }
 
     static public string DemoBlob
     {
-        get { return Instance.demoBlob;  }
+        get { return Instance.demoBlob; }
         set { Instance.demoBlob = value; }
     }
 
     static public bool IsDemo
     {
-        get { return Instance.isDemo;  }
+        get { return Instance.isDemo; }
         set { Instance.isDemo = value; }
     }
+
+    public void Reset()     {         demoDid = null;         demoBlob = null;         isDemo = false;     }
 
     // Send POST request to didery
     public void postRequest(string url, string postBody, string signature)
@@ -87,7 +90,7 @@ public class DideryDemoManager : MonoBehaviour {
 
         encryptedKey = OTPworker.OTPxor(key, otp);
 
-        dideryData = DideryInterface.makePost(encryptedKey);
+        dideryData = DideryInterface.makePost(encryptedKey, seed);
 
         string did = dideryData[0];
         string signature = dideryData[1];
@@ -130,12 +133,12 @@ public class DideryDemoManager : MonoBehaviour {
     }
 
     // Sends the encrypted key to the didery server, returns a string with the did
-    public string postEncryptedKey(byte[] encryptedKey, string url=null)
+    public string postEncryptedKey(byte[] encryptedKey, byte[] seed, string url=null)
     {
         if (url == null)
             url = urlAddress;
         string[] dideryData;
-        dideryData = DideryInterface.makePost(encryptedKey);
+        dideryData = DideryInterface.makePost(encryptedKey, seed);
 
         string did = dideryData[0];
         string signature = dideryData[1];
@@ -176,4 +179,79 @@ public class DideryDemoManager : MonoBehaviour {
         return seed;
     }
 
+    // Sets the did to be recovered at the end of the game
+    public void setDid(string name)
+    {
+        return;
+    }
+
+    // Adds a did with a label name to the dictionary of user dids, then saves the data in a file
+    public void saveDidData(string name, string did)
+    {
+        //SaveDids.saveDidData(userDids, name, did);
+    }
+
+    // Save seed data - necessary to rehearse the seed's route later
+    //  Note to self: should probably encrypt this in some way, just so it isn't stored in plain text
+    public void saveSeedData(string name, string seed)
+    {
+        //SaveDids.saveSeedData(userSeeds, name, seed);
+    }
+
+    // Remove the seed data from the saved data file - this will render rehearse mode 
+    //  impossible for the chosen seed once this is performed
+    public void removeSeedData(string name)
+    {
+        //SaveDids.removeSeedData(userSeeds, name);
+    }
+
+
+    public static string[] encryptAndSaveKey(string name, string inputKey, string url = null)
+    {
+        string urlAddress = "http://178.128.0.203:8080/blob/";
+
+        inputKey = VerifyKeys.removeHexPrefix(inputKey);
+        if (url == null)
+            url = urlAddress;
+        int size = 32;
+        string[] dideryData;
+
+        byte[] otp = new byte[32];
+        //byte[] seed = new byte[16]; // used for 128 bit seed
+        byte[] seed = new byte[14]; // used for 108 bit seed
+        byte[] encryptedKey = new byte[34];
+        byte[] key = Encoding.ASCII.GetBytes(inputKey);
+
+        seed = OTPworker.randomSeedGenerator(seed);
+
+        // Used for demo puroses - required if trying to use 108 bit seed
+        if (seed[13] > 7)
+            seed[13] = (byte)((int)seed[13] % 7);
+
+        OTPworker.OTPGenerator(otp, size, seed);
+
+        encryptedKey = OTPworker.OTPxor(key, otp);
+
+        dideryData = DideryInterface.makePost(encryptedKey, seed);
+
+        string did = dideryData[0];
+        string signature = dideryData[1];
+        string postBody = dideryData[2];
+
+        //Debug.Log("Did: " + did + " signature: " + " postBody: " + postBody);
+        SeedManager.InputSeed = OTPworker.ByteArrayToHex(seed);
+        DideryDemoManager.DemoDid = did;
+        //Debug.Log("Did: " + DideryDemoManager.DemoDid);
+
+
+        // Temporarily disabling this for testing purposes
+        //postRequest(url, postBody, signature);
+
+        string seedString = BitConverter.ToString(seed).Replace("-", "");
+        string[] keyData = new string[2];
+        keyData[0] = seedString;
+        keyData[1] = SeedToByte.ByteArrayToHex(encryptedKey); // temporariyl only saving the encrypted key - later on should store the entire did
+
+        return keyData;
+    }
 }
