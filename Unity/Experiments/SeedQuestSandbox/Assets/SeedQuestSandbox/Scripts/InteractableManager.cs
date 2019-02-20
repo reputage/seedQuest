@@ -28,7 +28,7 @@ namespace SeedQuest.Interactables
 
         private void Awake()
         {
-            InitalizeLookUp();
+            //InitalizeLookUp();
         }
 
         static public void SetActiveInteractable(Interactable interactable)
