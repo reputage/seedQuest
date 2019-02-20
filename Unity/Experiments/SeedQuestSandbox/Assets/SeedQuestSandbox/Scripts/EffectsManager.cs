@@ -34,7 +34,7 @@ public class EffectsManager : MonoBehaviour {
         //   particleSystem.Play();
         else {
             var effectSystem = Instantiate(effect.effectPrefab, parent);
-            effectSystem.GetComponent<ParticleSystem>().Play(true);
+            effectSystem.GetComponentInChildren<ParticleSystem>().Play(true);
         }
     }
 
@@ -45,7 +45,7 @@ public class EffectsManager : MonoBehaviour {
         //    effect.Play();
 
         var effectSystem = Instantiate(effectPrefab, parent);
-        effectSystem.GetComponent<ParticleSystem>().Play(true);
+        effectSystem.GetComponentInChildren<ParticleSystem>().Play(true);
     }
 
 } 
