@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class sqSurveyStarter : MonoBehaviour {
+public class sqSurveyStarter : MonoBehaviour
+{
 
     public SurveyData surveyData;
 
-	private void Start()
-	{
+    private void Start()
+    {
         //testRequestData();
-	}
+    }
 
     // test post request with the actual server
     public void postTestList()
@@ -33,6 +34,12 @@ public class sqSurveyStarter : MonoBehaviour {
     {
         List<string> questions = getQuestionsFromSurvey(surveyData);
         List<string> responses = getAnswersFromSurvey(surveyData);
+
+        for (int i = responses.Count - 1; i < questions.Count - 1; i++)
+        {
+            responses.Add(" ");
+        }
+
         for (int i = 0; i < questions.Count; i++)
             Debug.Log("Question " + i + ": " + questions[i]);
 
@@ -72,7 +79,7 @@ public class sqSurveyStarter : MonoBehaviour {
             if (data.surveyData[i].questions.Length > 0)
             {
                 // add all questions
-                for (int j = 0; j < data.surveyData[i].questions.Length; j ++)
+                for (int j = 0; j < data.surveyData[i].questions.Length; j++)
                 {
                     string comboQuestion = data.surveyData[i].question + "-" + data.surveyData[i].questions[j];
                     questions.Add(comboQuestion);
