@@ -116,6 +116,9 @@ namespace SeedQuest.Interactables {
                         subset[i].ID.spotID = -1;
                 }
 
+                if (subset.Count < InteractableConfig.InteractableCount)
+                    Debug.Log("WARNING: SiteBounds does not contain sufficent interactables.");
+
                 siteCount++;
             }
         }

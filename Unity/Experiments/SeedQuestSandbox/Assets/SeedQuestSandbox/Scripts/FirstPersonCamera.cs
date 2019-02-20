@@ -11,8 +11,12 @@ public class FirstPersonCamera : MonoBehaviour {
     private Transform cameraTransform;
 
     public void Update() {
-        UpdatePosition();
-        UpdateRotation();
+        if(PauseManager.isPaused) {
+            UpdatePosition();
+            UpdateRotation();            
+        }
+
+        UpdateCursorLock();
     }
 
     public void UpdatePosition() {
@@ -33,7 +37,20 @@ public class FirstPersonCamera : MonoBehaviour {
         characterTransform.localRotation *= Quaternion.Euler(0f, horizontal, 0f);
         cameraTransform.localRotation *= Quaternion.Euler(-vertical, 0f, 0f);
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     } 
+
+    public void UpdateCursorLock() {
+        if (!PauseManager.isPaused) {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            CursorUI.ShowCursor = true;
+        }
+        else {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            CursorUI.ShowCursor = false;
+        }
+    }
 }

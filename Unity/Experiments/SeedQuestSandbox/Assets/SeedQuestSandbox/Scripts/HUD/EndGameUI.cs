@@ -41,6 +41,8 @@ public class EndGameUI : MonoBehaviour {
 
     public void Recall() {
         GameManager.Mode = GameMode.Recall;
+        GameManager.State = GameState.Play;
+
         InteractablePathManager.InitalizePathAndLog();
         InteractableManager.destroyInteractables();
 
@@ -51,6 +53,8 @@ public class EndGameUI : MonoBehaviour {
     public void Rehearsal()
     {
         GameManager.Mode = GameMode.Rehearsal;
+        GameManager.State = GameState.Play;
+
         InteractablePathManager.InitalizePathAndLog();
         InteractableManager.destroyInteractables();
         

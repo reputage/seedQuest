@@ -113,6 +113,9 @@ namespace SeedQuest.Interactables
 
         public void HoverOnInteractable()
         {
+            if (PauseManager.isPaused == true)
+                return;
+
             Camera c = Camera.main;
             RaycastHit hit;
             Ray ray = c.ScreenPointToRay(Input.mousePosition);

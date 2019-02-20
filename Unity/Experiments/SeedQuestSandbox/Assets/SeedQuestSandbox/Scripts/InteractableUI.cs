@@ -145,6 +145,7 @@ namespace SeedQuest.Interactables
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerEnter;
             entry.callback.AddListener((data) => {
+                if (PauseManager.isPaused == true) return;
                 GameManager.State = GameState.Interact;
             });
             trigger.triggers.Add(entry);
@@ -152,6 +153,7 @@ namespace SeedQuest.Interactables
             EventTrigger.Entry exit = new EventTrigger.Entry();
             exit.eventID = EventTriggerType.PointerExit;
             exit.callback.AddListener((data) => {
+                if (PauseManager.isPaused == true) return;
                 GameManager.State = GameState.Play;
             });
             trigger.triggers.Add(exit);
@@ -163,6 +165,7 @@ namespace SeedQuest.Interactables
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerEnter;
             entry.callback.AddListener((data) => {
+                if (PauseManager.isPaused == true) return;
                 GameManager.State = GameState.Interact;
             });
             trigger.triggers.Add(entry);
@@ -170,6 +173,7 @@ namespace SeedQuest.Interactables
             EventTrigger.Entry exit = new EventTrigger.Entry();
             exit.eventID = EventTriggerType.PointerExit;
             exit.callback.AddListener((data) => {
+                if (PauseManager.isPaused == true) return;
                 GameManager.State = GameState.Play;
             });
             trigger.triggers.Add(exit);
