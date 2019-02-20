@@ -98,16 +98,11 @@ public static class sqSurveyInterface
 
     // I'm not 100% sure what the final survey will look like, but here's a preliminary 
     //  function for formatting the JSON for the POST request
-    public static string jsonBodyBuilder(List<string> questions, List<string> responses, string name=null, string email = null)
+    public static string jsonBodyBuilder(List<string> questions, List<string> responses)
     {
         string dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss");
-        string testName;
-        string testEmail;
-
-        if (name == null)
-            name = "xyz";
-        if (email == null)
-            email = "xyz@domain.com";
+        string testName = "xyz";
+        string testEmail = "xyz@domain.com";
 
         Debug.Log("Date: " + dateTime);
 
@@ -118,8 +113,8 @@ public static class sqSurveyInterface
 
         body = "{";
 
-        body += "\"Name\": \"" + name + "\",";
-        body += "\"Email\": \"" + email + "\",";
+        body += "\"Name\": \"" + testName + "\",";
+        body += "\"Email\": \"" + testEmail + "\",";
         body += "\"Response\": " + textResponseOne ;
 
         body += "}";

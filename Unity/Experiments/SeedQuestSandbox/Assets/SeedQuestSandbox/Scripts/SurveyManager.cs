@@ -321,14 +321,6 @@ public class SurveyManager : MonoBehaviour
         List<string> questions = getQuestionsFromSurvey(data);
         List<string> responses = getAnswersFromSurvey(data);
 
-        if (responses.Count < questions.Count)
-        {
-            for (int i = responses.Count-1; i < questions.Count-1; i++)
-            {
-                responses.Add(" ");
-            }
-        }
-
         sendRequestData(questions, responses);
     }
 
