@@ -24,6 +24,11 @@ public class EndGameUI : MonoBehaviour {
         Instance.gameObject.SetActive(true);
         var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         textList[0].text = InteractablePathManager.SeedString;
+
+        if (GameManager.Mode == GameMode.Rehearsal)
+            textList[1].text = "Rehearsal Complete! \n Need more practice? Select Rehearsal mode. \n Ready to go? Select Recall";
+        else
+            textList[1].text = "Key is Recovered!";
     }
 
     static public void Toggle() {
