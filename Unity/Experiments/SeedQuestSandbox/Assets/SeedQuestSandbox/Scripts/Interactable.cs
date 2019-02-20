@@ -165,46 +165,42 @@ namespace SeedQuest.Interactables
 
         }
 
-        /*
-        public void startEffect()
-        {
-            ParticleSystem effect = InteractableManager.getEffect();
-            effect.Play();
-        }
-        */
-
-        public void HighlightInteractableDynamically(bool useHighlight)
-        {
+        public void HighlightInteractableDynamically(bool useHighlight) {
             Shader defultShader = Shader.Find("Standard");
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
-            
-            Renderer rend = transform.GetComponent<Renderer>();
-            foreach(Material material in rend.materials)
+
+            Renderer rend = transform.GetComponentInChildren<Renderer>();
+            if (rend != null)
             {
-                if (useHighlight)
-                    material.shader = highlightShader;
-                else
-                    material.shader = defultShader;
+                foreach (Material material in rend.materials)
+                {
+                    if (useHighlight)
+                        material.shader = highlightShader;
+                    else
+                        material.shader = defultShader;
+                }
             }
 
             EffectsManager.PlayEffect("highlight", this.transform);
         }
 
-        public void HighlightInteractable(bool useHighlight)
-        {
+        public void HighlightInteractable(bool useHighlight) {
             Shader defultShader = Shader.Find("Standard");
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
 
-            Renderer rend = transform.GetComponent<Renderer>();
-            foreach (Material material in rend.materials)
+            Renderer rend = transform.GetComponentInChildren<Renderer>();
+            if (rend != null)
             {
-                if (useHighlight)
+                foreach (Material material in rend.materials)
                 {
-                    material.shader = highlightShader;
-                    material.SetFloat("_UseDynamicRim", 0.0f);
+                    if (useHighlight)
+                    {
+                        material.shader = highlightShader;
+                        material.SetFloat("_UseDynamicRim", 0.0f);
+                    }
+                    else
+                        material.shader = defultShader;
                 }
-                else
-                    material.shader = defultShader;
             }
         }
 
