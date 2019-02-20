@@ -53,11 +53,17 @@ namespace SeedQuest.Interactables {
             seedString = "EB204654C9";
             //seedString = RandomUtils.GetRandomHexNumber(10);
 
+            if (InteractableManager.InteractableList.Length == 0)
+                return;
+
             SetupInteractableIDs();
             InitalizePathAndLog();
         }
 
         private void Update() {
+            if (InteractableManager.InteractableList.Length == 0)
+                return;
+
             if (GameManager.Mode == GameMode.Rehearsal) {
 
                 if (!isNextHighlighted) {  
