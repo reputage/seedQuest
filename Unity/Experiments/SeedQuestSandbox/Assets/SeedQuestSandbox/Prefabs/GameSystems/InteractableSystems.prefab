@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &672306652594519621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2589751695326605292}
+  - component: {fileID: 2073979528212237416}
+  - component: {fileID: 4985831816278714374}
+  m_Layer: 0
+  m_Name: InteractableManagers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2589751695326605292
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672306652594519621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2073979528212237416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672306652594519621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31edca94a42ae1747980e9d40b3e5f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearDistance: 2
+  actionSpotIcons:
+  - {fileID: 1114428110661150, guid: ebba1f71b28acad4e8c44439dac62f18, type: 3}
+  - {fileID: 1105227693671952, guid: de1ea159ee8ad014d903fe727ed788a7, type: 3}
+  - {fileID: 1435062868324278, guid: a77eb0d88a2b5f64aa59f925fcd94174, type: 3}
+  activeInteractable: {fileID: 0}
+--- !u!114 &4985831816278714374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672306652594519621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89511066e496dde49b3af43cd425c84e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: []
+  next: {fileID: 0}
+  log: []
+  seedString: 
+  siteIDOffset: 0
+  siteBounds: []
