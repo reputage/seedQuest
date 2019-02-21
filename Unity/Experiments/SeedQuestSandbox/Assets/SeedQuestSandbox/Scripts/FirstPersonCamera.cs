@@ -13,17 +13,18 @@ public class FirstPersonCamera : MonoBehaviour {
     static bool freeze = false;
 
     public void Update() {
-        if(PauseManager.isPaused) {
+        if(!PauseManager.isPaused) {
             UpdatePosition();
-            UpdateRotation();            
+            UpdateRotation();
+            SetCursorLock();
         }
-
-        //UpdateCursorLock();
+        else {
+            SetFreeCursor();
+        }
     }
 
     public void UpdatePosition() {
-        if (!freeze)
-        {
+        if (!freeze) {
             float moveHorizontal = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
             float moveVertical = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
             transform.Translate(moveHorizontal, 0, 0);
@@ -45,17 +46,16 @@ public class FirstPersonCamera : MonoBehaviour {
         Cursor.visible = false;
     } 
 
-    public void UpdateCursorLock() {
-        if (!PauseManager.isPaused) {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            CursorUI.ShowCursor = true;
-        }
-        else {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            CursorUI.ShowCursor = false;
-        }
+    public void SetCursorLock() {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        CursorUI.ShowCursor = true;
+    }
+
+    public void SetFreeCursor() {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        CursorUI.ShowCursor = false;
     }
 
     static public bool SetFreeze {
