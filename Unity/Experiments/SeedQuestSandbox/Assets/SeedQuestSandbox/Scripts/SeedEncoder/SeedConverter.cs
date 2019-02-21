@@ -74,7 +74,8 @@ namespace SeedQuest.SeedEncoder
                 int row = pathIDs[i].siteID;
                 int col = pathIDs[i].spotID;
                 interactablePath[i] = LUT[row, col];
-                interactablePath[i].ID.actionID = pathIDs[i].actionID;
+                if(interactablePath[i] != null)
+                    interactablePath[i].ID.actionID = pathIDs[i].actionID;
             }
 
             return interactablePath;

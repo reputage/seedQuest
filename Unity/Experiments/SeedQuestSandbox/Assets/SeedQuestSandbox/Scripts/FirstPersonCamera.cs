@@ -16,7 +16,7 @@ public class FirstPersonCamera : MonoBehaviour {
             UpdateRotation();            
         }
 
-        UpdateCursorLock();
+        //UpdateCursorLock();
     }
 
     public void UpdatePosition() {
@@ -37,8 +37,8 @@ public class FirstPersonCamera : MonoBehaviour {
         characterTransform.localRotation *= Quaternion.Euler(0f, horizontal, 0f);
         cameraTransform.localRotation *= Quaternion.Euler(-vertical, 0f, 0f);
 
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     } 
 
     public void UpdateCursorLock() {
