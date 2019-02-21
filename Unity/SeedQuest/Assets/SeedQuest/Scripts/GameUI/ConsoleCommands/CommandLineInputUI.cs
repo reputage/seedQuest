@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CommandLineInputUI : MonoBehaviour {
-
+    
     public GameObject terminal;
     public InputField inputField;
 
@@ -57,17 +57,21 @@ public class CommandLineInputUI : MonoBehaviour {
     {
         text = text.ToLower();
         string[] input = text.Split(null);
+        string output = "";
 
         if (input.Length > 1)
         {
             if (verifyCommandExists(input[0]))
-                print(CommandLineManager.commands[input[0]](input[1]));
+                output = CommandLineManager.commands[input[0]](input[1]);
         }
         else if (input.Length > 0)
         {
             if (verifyCommandExists(input[0]))
-                print(CommandLineManager.commands[input[0]](""));
+                output = CommandLineManager.commands[input[0]]("");
         }
+
+        if (output != "")
+            print(output);
     }
 
     // Checks to see if the command can be found in the dictionary of commands
