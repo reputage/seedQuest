@@ -4,24 +4,16 @@ using UnityEngine;
 
 using SeedQuest.SeedEncoder;
 using SeedQuest.Utils;
+using SeedQuest.Level;
 
 namespace SeedQuest.Interactables {
-
-    [System.Serializable]
-    public class InteractableSiteBounds {
-        public Vector3 center;
-        public Vector3 size;
-        public bool debugShow = false;
-    }
-
+    
     public class InteractablePathManager : MonoBehaviour
     {
         static InteractablePathManager instance = null;
 
-        public static InteractablePathManager Instance
-        {
-            get
-            {
+        public static InteractablePathManager Instance {
+            get {
                 if (instance == null)
                     instance = GameObject.FindObjectOfType<InteractablePathManager>();
 
@@ -46,9 +38,6 @@ namespace SeedQuest.Interactables {
 
         private bool isNextHighlighted = false;
 
-        public int siteIDOffset = 0;
-        public List<InteractableSiteBounds> siteBounds; 
-
         private void Awake() {
             seedString = "EB204654C9";
             //seedString = RandomUtils.GetRandomHexNumber(10);
@@ -56,7 +45,7 @@ namespace SeedQuest.Interactables {
             if (InteractableManager.InteractableList.Length == 0)
                 return;
 
-            SetupInteractableIDs();
+            SetupInteractablePathIDs();
             InitalizePathAndLog();
         }
 
@@ -97,18 +86,18 @@ namespace SeedQuest.Interactables {
             Instance.log = InteractableLog.Log;
         }
 
-        static public void SetupInteractableIDs() {
+        static public void SetupInteractablePathIDs() {
             Interactable[] list = InteractableManager.InteractableList;
 
             int[] indices = RandomUtils.GetRandomIndexArray(InteractableConfig.InteractableCount);
 
-            int siteCount = Instance.siteIDOffset;
-            foreach (InteractableSiteBounds bounds in Instance.siteBounds) {
-
+            int siteCount = LevelManager.LevelIndex;
+            foreach (BoundingBox bounds in LevelManager.Bounds) {
+                
                 // Create a subset of interactables in bounds
                 List<Interactable> subset = new List<Interactable>();
                 foreach(Interactable item in list) {
-                    if(InteractableInBounds(item, bounds)) {
+                    if(BoundingBox.InBounds(item.transform, bounds)) {
                         subset.Add(item);
                     }
                 }
@@ -126,32 +115,6 @@ namespace SeedQuest.Interactables {
                     Debug.Log("WARNING: SiteBounds does not contain sufficent interactables.");
 
                 siteCount++;
-            }
-        }
-
-        static bool InteractableInBounds(Interactable item, InteractableSiteBounds bounds) {
-            Vector3 pos = item.transform.position;
-            float x0 = bounds.center.x - (bounds.size.x / 2.0f);
-            float x1 = bounds.center.x + (bounds.size.x / 2.0f);
-            float z0 = bounds.center.z - (bounds.size.z / 2.0f);
-            float z1 = bounds.center.z + (bounds.size.z / 2.0f);
-            return x0 <= pos.x && pos.x <= x1 && z0 <= pos.z && pos.z <= z1;
-        }
-
-        private void OnDrawGizmos() {
-            Color[] colors = new Color[6];
-            colors[0] = Color.red;
-            colors[1] = Color.cyan;
-            colors[2] = Color.green;
-            colors[3] = new Color(255, 165, 0);
-            colors[4] = Color.yellow;
-            colors[5] = Color.magenta;
-
-            int count = 0; 
-            foreach (InteractableSiteBounds bounds in siteBounds) {
-                Gizmos.color = colors[count];
-                Gizmos.DrawWireCube(bounds.center, bounds.size);
-                count++;
             }
         }
     }

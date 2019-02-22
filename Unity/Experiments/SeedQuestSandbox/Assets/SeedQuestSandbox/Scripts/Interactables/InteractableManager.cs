@@ -6,10 +6,8 @@ namespace SeedQuest.Interactables
     {
         static private InteractableManager instance = null;
 
-        static public InteractableManager Instance
-        {
-            get
-            {
+        static public InteractableManager Instance {
+            get {
                 if (instance == null)
                     instance = GameObject.FindObjectOfType<InteractableManager>();
                 return instance;
@@ -104,37 +102,6 @@ namespace SeedQuest.Interactables
                 interactable.HighlightInteractable(false);
         }
 
-        /*
-        static public ParticleSystem getEffect()
-        {
-            ParticleSystem effect;
-
-            InteractableStateData data = Instance.activeInteractable.stateData;
-            if (data == null)
-                effect = EffectsManager.createEffect(Instance.activeInteractable.transform);
-            else if (data.effect == null)
-                effect = EffectsManager.createEffect(Instance.activeInteractable.transform);
-            else
-                effect = EffectsManager.createEffect(Instance.activeInteractable.transform, data.effect);
-
-            return effect;
-        }
-        */
-
-        /// <summary> Do Interaction - Does Action, actives effect, logs action, updates path (for rehersal) and exits interactable ui dialog </summary>
-        static public void doInteractableAction(int actionIndex)
-        {
-            /*
-            ParticleSystem effect = getEffect();
-            effect.Play();
-
-            Instance.activeItem.doAction(actionIndex);
-            InteractableManager.Log.Add(Instance.activeItem, actionIndex);
-            Instance.activeItem = null;
-            GameManager.State = GameManager.PrevState;
-            PathManager.NextPathSegment();
-            */
-        }
 
         /// <summary> Initalize LookUp Table for querying interactable based on siteID and spotID  </summary>
         static public void InitalizeLookUp()
