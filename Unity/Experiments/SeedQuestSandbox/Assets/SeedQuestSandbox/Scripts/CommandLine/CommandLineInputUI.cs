@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class CommandLineInputUI : MonoBehaviour
 {
 
-    public GameObject terminal;
+    public GameObject commandLineField;
     public InputField inputField;
 
     void Start()
     {
-        terminal = GetComponentInChildren<Terminal>(true).gameObject;
-        inputField = terminal.GetComponentInChildren<InputField>();
+        commandLineField = GetComponentInChildren<CommandLineField>(true).gameObject;
+        inputField = commandLineField.GetComponentInChildren<InputField>();
+        commandLineField.SetActive(false);
     }
 
     void Update()
@@ -22,7 +23,7 @@ public class CommandLineInputUI : MonoBehaviour
             terminalToggleActive();
         }
 
-        if (terminal.activeSelf && Input.GetKeyDown(KeyCode.Return))
+        if (commandLineField.activeSelf && Input.GetKeyDown(KeyCode.Return))
         {
             parseInputCommand(inputField.text);
             terminalToggleActive();
@@ -32,14 +33,14 @@ public class CommandLineInputUI : MonoBehaviour
     // Toggle whether the terminal is active
     public void terminalToggleActive()
     {
-        if (terminal.activeSelf)
+        if (commandLineField.activeSelf)
         {
             clearInputField();
-            terminal.SetActive(false);
+            commandLineField.SetActive(false);
         }
         else
         {
-            terminal.SetActive(true);
+            commandLineField.SetActive(true);
             clearInputField();
             inputField.ActivateInputField();
             inputField.Select();

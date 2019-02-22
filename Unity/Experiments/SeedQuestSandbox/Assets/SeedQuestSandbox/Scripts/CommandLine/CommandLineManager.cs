@@ -20,7 +20,8 @@ public static class CommandLineManager
     public static string help(string input)
     {
         privatePrint("Available command line commands: ");
-        foreach (string key in commands.Keys){
+        foreach (string key in commands.Keys)
+        {
             privatePrint(key);
         }
         return "";
