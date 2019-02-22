@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SeedQuest.Interactables
 {
+    [System.Serializable]
     public class InteractableLogItem {
         public Interactable interactable;
         public int actionIndex; 

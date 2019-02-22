@@ -20,37 +20,40 @@ namespace SeedQuest.Interactables
 
         public GameObject[] actionSpotIcons; // InteractableUI Prefab Templates
 
-        private Interactable activeInteractable = null;
+        public Interactable activeInteractable = null;
 
-        static public void SetActiveInteractable(Interactable interactable)
-        {
-            Instance.activeInteractable = interactable;
-            //if (GameManager.State == GameState.Sandbox)
-            if(interactable != null)
-                InteractablePreviewUI.SetPreviewObject(interactable); 
-           
-        }
-        
-        private Interactable[,] interactableLUT;
-
-        static public Interactable[] InteractableList
-        {
-            get { return findAllInteractables(); }
+        static public Interactable ActiveInteractable {
+            get { return Instance.activeInteractable; }
         }
 
         private void Awake()
         {
-            InitalizeLookUp();
+            //InitalizeLookUp();
         }
 
-        static Interactable[] findAllInteractables()
+        static public void SetActiveInteractable(Interactable interactable)
+        {
+            Instance.activeInteractable = interactable;
+            if(GameManager.Mode == GameMode.Sandbox && interactable != null)
+                InteractablePreviewUI.SetPreviewObject(interactable); 
+           
+        }
+
+        private Interactable[,] interactableLUT;
+
+        static public Interactable[] InteractableList
+        {
+            get { return FindAllInteractables(); }
+        }
+
+        static Interactable[] FindAllInteractables()
         {
             return GameObject.FindObjectsOfType<Interactable>();
         }
 
         static public void destroyInteractables()
         {
-            foreach (Interactable interactable in findAllInteractables())
+            foreach (Interactable interactable in FindAllInteractables())
                 GameObject.Destroy(interactable.gameObject);
 
             foreach (GameObject interactableUI in GameObject.FindGameObjectsWithTag("InteractableUI"))
@@ -72,13 +75,17 @@ namespace SeedQuest.Interactables
             }
         }
 
-        /// <summary>
-        /// Hides all UI Canvas for Interactables 
-        /// </summary>
+        static public void resetInteractableUIText() {
+            foreach (Interactable interactable in FindAllInteractables())
+                interactable.interactableUI.SetText(interactable.Name);
+        }
+
+        /// <summary> Hides all UI Canvas for Interactables </summary>
         static public void hideAllInteractableUI()
         {
-            foreach(Interactable interactable in findAllInteractables())
+            foreach(Interactable interactable in FindAllInteractables()) {
                 interactable.interactableUI.hideActions();
+            }
         }
 
         static void doNearInteractable(bool isNear)
@@ -86,6 +93,18 @@ namespace SeedQuest.Interactables
 
         }
 
+        static public void HighlightAllInteractables() {
+            foreach(Interactable interactable in FindAllInteractables()) 
+                interactable.HighlightInteractable(true);
+        }
+
+        static public void UnHighlightAllInteractables()
+        {
+            foreach (Interactable interactable in FindAllInteractables())
+                interactable.HighlightInteractable(false);
+        }
+
+        /*
         static public ParticleSystem getEffect()
         {
             ParticleSystem effect;
@@ -100,6 +119,7 @@ namespace SeedQuest.Interactables
 
             return effect;
         }
+        */
 
         /// <summary> Do Interaction - Does Action, actives effect, logs action, updates path (for rehersal) and exits interactable ui dialog </summary>
         static public void doInteractableAction(int actionIndex)
@@ -116,9 +136,7 @@ namespace SeedQuest.Interactables
             */
         }
 
-        /// <summary>
-        /// Initalize LookUp Table for querying interactable based on siteID and spotID
-        /// </summary>
+        /// <summary> Initalize LookUp Table for querying interactable based on siteID and spotID  </summary>
         static public void InitalizeLookUp()
         {
             Interactable[] interactables = InteractableManager.InteractableList;

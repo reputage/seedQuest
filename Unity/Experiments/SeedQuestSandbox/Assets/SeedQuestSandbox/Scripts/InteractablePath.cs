@@ -37,8 +37,14 @@ namespace SeedQuest.Interactables
             }
         }
 
+        static public bool isNextInteractable(Interactable interactable)
+        {
+            return interactable == NextInteractable;
+        }
+
         static public void GeneratePathFromSeed(string seed)
         {
+            Instance.nextIndex = 0;
             SeedConverter converter = new SeedConverter();
             Instance.path = new List<Interactable>(converter.encodeSeed(seed));
         }
@@ -52,9 +58,26 @@ namespace SeedQuest.Interactables
             Instance.path.Clear();
         }
 
+        static public void ResetPath() {
+            Instance.nextIndex = 0;
+        }
+
         static public void GoToNextInteractable()
         {
-            Instance.nextIndex++;
+            if (GameManager.Mode == GameMode.Rehearsal && NextInteractable == InteractableManager.ActiveInteractable) {
+                Instance.nextIndex++;
+
+                if(NextInteractable != null)
+                    InitializeNextInteractable();
+            }
         } 
+
+        static public void InitializeNextInteractable() {
+            if (GameManager.Mode == GameMode.Rehearsal) {
+                InteractableManager.UnHighlightAllInteractables();
+                NextInteractable.HighlightInteractableDynamically(true);
+                InteractablePreviewUI.SetPreviewObject(NextInteractable);
+            }
+        }
     }
 }

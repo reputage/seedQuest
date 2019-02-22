@@ -13,31 +13,25 @@ namespace SeedQuest.SeedEncoder
         /// <summary> 
         /// Returns list of interactions generated from encoding a seed string
         /// </summary>
-        public Interactable[] encodeSeed(string seedString)
-        {
-            return getInteractablePath(getPathIDs(seedString));
+        public Interactable[] encodeSeed(string seedString) {
+            InteractableID[] ids = getPathIDs(seedString);
+            return getInteractablePath(ids); 
         }
 
         /// <summary> 
         /// Returns recovered seed which as been decodes from a list of interactions
         /// </summary>
-        public string DecodeSeed(InteractableLog log)
-        {
-            int[] encodedInteractions = EncodeInteractions(log);
+        public string DecodeSeed() {
+            int[] encodedInteractions = EncodeInteractions();
             return converter.getSeed(encodedInteractions);
-            //return converter.getSeed108(encodedInteractions);
         }
 
         /// <summary> 
         /// Returns list of Interactable IDs generated from encoding a seed string into
         /// a series of interactable actions.
         /// </summary>
-        private InteractableID[] getPathIDs(string seedString)
-        {
-
+        private InteractableID[] getPathIDs(string seedString) {
             int[] actions = converter.getActions(seedString);
-            //int[] actions = converter.getActions108(seedString);
-
             List<InteractableID> locationIDs = new List<InteractableID>();
 
             int count = 0;
@@ -61,8 +55,7 @@ namespace SeedQuest.SeedEncoder
         /// <summary>
         /// Return List of Interactables which represents the Path for an encoded seed
         /// </summary>
-        private Interactable[] getInteractablePath(InteractableID[] pathIDs)
-        {
+        private Interactable[] getInteractablePath(InteractableID[] pathIDs) {
 
             Interactable[,] LUT = new Interactable[InteractableConfig.SiteCount, InteractableConfig.InteractableCount];
 
@@ -71,7 +64,8 @@ namespace SeedQuest.SeedEncoder
             {
                 int row = interactables[i].ID.siteID;
                 int col = interactables[i].ID.spotID;
-                LUT[row, col] = interactables[i];
+                if(0 <= row && row < InteractableConfig.SiteCount && 0 <= col && col < InteractableConfig.InteractableCount)
+                    LUT[row, col] = interactables[i];
             }
 
             Interactable[] interactablePath = new Interactable[pathIDs.Length];
@@ -80,6 +74,7 @@ namespace SeedQuest.SeedEncoder
                 int row = pathIDs[i].siteID;
                 int col = pathIDs[i].spotID;
                 interactablePath[i] = LUT[row, col];
+                interactablePath[i].ID.actionID = pathIDs[i].actionID;
             }
 
             return interactablePath;
@@ -88,8 +83,7 @@ namespace SeedQuest.SeedEncoder
         /// <summary>
         /// Encodes an interactable log into an encoded array of interactable id information
         /// </summary>
-        private int[] EncodeInteractions(InteractableLog log)
-        {
+        private int[] EncodeInteractions() {
             int totalInt = (2 * InteractableConfig.ActionsPerSite) + InteractableConfig.SitesPerGame;
             int counter = 0;
             List<int> actionLog = new List<int>();
@@ -112,8 +106,7 @@ namespace SeedQuest.SeedEncoder
         /// <summary>
         /// Encodes an list of interactables into a seed string
         /// </summary>
-        public string InteractableListToSeed(Interactable[] list)
-        {
+        public string InteractableListToSeed(Interactable[] list) {
             if (list.Length == 0)
                 return "";
 

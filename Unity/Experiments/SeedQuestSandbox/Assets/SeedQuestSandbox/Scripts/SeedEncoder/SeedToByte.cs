@@ -19,10 +19,7 @@ namespace SeedQuest.SeedEncoder
      *  getSeed(int[] actionArray, List<int> actionList);
     */
 
-    /// <summary>
-    /// Encoder for String Seed to ActionList
-    /// </summary>
-
+    /// <summary> Encoder for String Seed to ActionList </summary>
     public class SeedToByte
     {
         public List<int> actionList = new List<int>();
@@ -74,7 +71,7 @@ namespace SeedQuest.SeedEncoder
 
         // This table is required for the universal seed converter to handle bit size combinations
         //  that are not divisible by 8
-        public static string[] byteStrings =
+        public static string[] bitStrings =
         {
         "00000000", "00000001", "00000010", "00000011", "00000100",
         "00000101", "00000110", "00000111", "00001000", "00001001",
@@ -376,6 +373,7 @@ namespace SeedQuest.SeedEncoder
             for (int i = 0; i < varList.Count; i++)
                 totalBits += varList[i];
 
+            // If the total bits are less than 64, it is easy to find the bytes of the actions
             if (totalBits < 64)
                 finalBytes = shortSeed(actions, varList, totalBits);
             else
@@ -499,18 +497,17 @@ namespace SeedQuest.SeedEncoder
             return finalBytes;
         }
 
-        // Resize the byte array
-        public static byte[] resizeByteArray(byte[] finalBytes, int totalBits, int upperLimit)
+        // This function is used to handle cases where the bits in a list of actions
+        //  do not divide evenly across 64 bit integers. Returns an int array, with
+        //  the first int representing the value of the leading bits, the second int
+        //  representing the trailing int, and the third int for the number of bits of 
+        //  the trailing int
+        public static int[] findLeadingBitValue(int leadBits, int totalBits, int value)
         {
-            byte[] bytesTemp = new byte[finalBytes.Length - ((upperLimit - totalBits) / 8)];
-            System.Buffer.BlockCopy(finalBytes, 0, bytesTemp, 0, bytesTemp.Length);
-            return bytesTemp;
-        }
-
-        // Reverse the endian of bytes in a byte array
-        public static byte[] reverseByteEndian(byte[] bytesPath)
-        {
-            for (int j = 0; j < (bytesPath.Length / 2); j++)
+            int[] badReturn = new int[3];
+            if (value == 0)
+                return badReturn;
+            else if (leadBits == 0)
             {
                 byte tmp = bytesPath[j];
                 bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
