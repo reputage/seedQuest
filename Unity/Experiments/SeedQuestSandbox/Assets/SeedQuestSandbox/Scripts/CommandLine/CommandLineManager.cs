@@ -41,7 +41,8 @@ public static class CommandLineManager
         Debug.Log(input);
     }
 
-
+    // Loads the scene specified by input, if it exists. A scene must be in the build settings
+    //  for this command to work
     public static string loadScene(string input)
     {
         if (input == "")
