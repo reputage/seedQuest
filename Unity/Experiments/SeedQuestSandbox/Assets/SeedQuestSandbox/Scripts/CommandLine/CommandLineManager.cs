@@ -52,7 +52,7 @@ public static class CommandLineManager
 
         if (input.StartsWith("rehears") || input.StartsWith("learn"))
         {
-            GameManager.State = GameState.Rehearsal;
+            //GameManager.State = GameState.Rehearsal;
             return "Game state set to Rehearsal.";
         }
 
