@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class CommandLineManager
 {
@@ -12,7 +13,8 @@ public static class CommandLineManager
     {
         {"help", help},
         {"print", print},
-        {"gamestate", setGameState}
+        {"gamestate", setGameState},
+        {"loadscene", loadScene}
     };
 
     // Displays some information to the user. If parameter string isn't found in helpInformation,
@@ -37,6 +39,16 @@ public static class CommandLineManager
     private static void privatePrint(string input)
     {
         Debug.Log(input);
+    }
+
+
+    public static string loadScene(string input)
+    {
+        if (input == "")
+            return "No scene specified";
+        
+        SceneManager.LoadScene(input);
+        return "Loading scene: " + input;
     }
 
     // Set the gamestate. string.StartsWith() is used so that the user input doesn't need to be
