@@ -13,10 +13,13 @@ public class LevelNameProps {
     public float opacity = 1.0f;
 }
 
+public enum LevelNameBackground { Clear, SolidBlue, TransparentBlack }
+
+[ExecuteInEditMode]
 public class LevelNameUI : MonoBehaviour
 {
+    public LevelNameBackground background = LevelNameBackground.Clear;
     public LevelNameProps[] backgrounds;
-    public int backgroundIndex = 0;
 
     private Image backgroundImage;
     private TextMeshProUGUI levelNameUI;
@@ -30,6 +33,9 @@ public class LevelNameUI : MonoBehaviour
         TextMeshProUGUI[] textmesh = GetComponentsInChildren<TextMeshProUGUI>();
         levelNameUI = textmesh[0];
         zoneNameui = textmesh[1];
+
+        UpdateText();
+        UpdateBackground();
     }
 
     private void Update() {
@@ -48,9 +54,17 @@ public class LevelNameUI : MonoBehaviour
     } 
 
     void UpdateBackground() {
-        backgroundImage.sprite = backgrounds[backgroundIndex].background;
+        int index = 0;
+        if (background == LevelNameBackground.Clear)
+            index = 0;
+        else if (background == LevelNameBackground.SolidBlue)
+            index = 1;
+        else if (background == LevelNameBackground.TransparentBlack)
+            index = 2;
+
+        backgroundImage.sprite = backgrounds[index].background;
         var color = backgroundImage.color;
-        color.a = backgrounds[backgroundIndex].opacity;
+        color.a = backgrounds[index].opacity;
         backgroundImage.color = color;
     }
 } 
