@@ -160,7 +160,27 @@ public class CommandLineInputUI : MonoBehaviour
     // Just prints to Debug.Log for now, should instead display to the front end terminal eventually
     public void print(string input)
     {
+        terminalText.text = input;
         Debug.Log(input);
+    }
+
+    public void formatTerminalText(string input)
+    {
+        string currentText = terminalText.text;
+        string[] currentArr = currentText.Split('\n');
+        // find number of lines to break text into
+        if (input.Length <= 32)
+            input = ""; // don't need to split the string
+        else
+        {
+            string[] inputArr = input.Split(' ');
+            for (int i = 0; i < inputArr.Length; i++)
+            {
+                
+            }
+        }
+        // split the string along the breakpoints
+        // set the text with \n as the breakpoints
     }
 
 }
