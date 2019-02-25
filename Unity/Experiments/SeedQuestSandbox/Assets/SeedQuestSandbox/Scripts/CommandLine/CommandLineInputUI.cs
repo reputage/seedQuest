@@ -8,8 +8,11 @@ public class CommandLineInputUI : MonoBehaviour
 
     public GameObject commandLineField;
     public GameObject panel;
-    public GameObject terminalText;
+    public GameObject terminalLines;
     public InputField inputField;
+    public Image panelImage;
+    public Text inputText;
+    public Text terminalText;
 
     void Start()
     {
@@ -26,16 +29,22 @@ public class CommandLineInputUI : MonoBehaviour
         if (commandLineField.activeSelf && Input.GetKeyDown(KeyCode.Return))
         {
             parseInputCommand(inputField.text);
-            terminalToggleActive();
+            fadeOut();
+            //terminalToggleActive();
         }
     }
 
+    // Get all the references needed for the UI
 	public void initialize()
 	{
         commandLineField = GetComponentInChildren<CommandLineField>(true).gameObject;
         panel = GetComponentInChildren<CommandLinePanel>(true).gameObject;
-        terminalText = GetComponentInChildren<CommandLineTerminalText>(true).gameObject;
+        terminalLines = GetComponentInChildren<CommandLineTerminalText>(true).gameObject;
         inputField = commandLineField.GetComponentInChildren<InputField>();
+        panelImage = panel.GetComponentInChildren<Image>(true);
+        inputText = inputField.GetComponentInChildren<Text>();
+        terminalText = terminalLines.GetComponentInChildren<Text>();
+
         setActiveUi(false);
     }
 
@@ -44,9 +53,54 @@ public class CommandLineInputUI : MonoBehaviour
     {
         commandLineField.SetActive(active);
         panel.SetActive(active);
-        terminalText.SetActive(active);
+        terminalLines.SetActive(active);
+        if (active)
+            resetAlpha();
     }
 
+    // Starts coroutine to start the fade out effect
+    public void fadeOut()
+    {
+        StartCoroutine(fadeUi());
+    }
+
+    public void resetAlpha()
+    {
+        float alpha = 1;
+        float panelAlpha = 0.8f;
+        Color panelColor = panelImage.color;
+        Color textColor = inputText.color;
+        panelColor.a = panelAlpha;
+        textColor.a = alpha;
+        panelImage.color = panelColor;
+        inputText.color = textColor;
+        terminalText.color = textColor;
+    }
+
+    // Fade out UI elements
+    IEnumerator fadeUi()
+    {
+        for (float i = 5; i >= 0; i -= Time.deltaTime)
+        {
+            float alpha = 1f;
+            if (i < 3f)
+                alpha = i / 3.0f;
+
+            Debug.Log("i: " + i);
+
+            Color panelColor = panelImage.color;
+            Color textColor = inputText.color;
+            panelColor.a = alpha;
+            textColor.a = alpha;
+            panelImage.color = panelColor;
+            inputText.color = textColor;
+            terminalText.color = textColor;
+            if (i <= 0.2f)
+                setActiveUi(false);
+            
+            yield return null;
+        }
+    }
 
 	// Toggle whether the terminal is active
 	public void terminalToggleActive()
