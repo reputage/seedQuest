@@ -78,6 +78,7 @@ namespace SeedQuest.Interactables
     public class InteractableStateData : ScriptableObject
     {
         public string interactableName;
+        public string prompt;
         public Vector3 labelPosOffset;
         public List<InteractableState> states;
         public GameObject effect;
