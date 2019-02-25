@@ -5,7 +5,6 @@ using SeedQuest.Interactables;
 
 public enum ProgressTrackerLocation { TopLeft, BottomCenter };
 
-[ExecuteInEditMode]
 public class ProgressTrackerUI : MonoBehaviour {
 
     public ProgressTrackerLocation location = ProgressTrackerLocation.BottomCenter;

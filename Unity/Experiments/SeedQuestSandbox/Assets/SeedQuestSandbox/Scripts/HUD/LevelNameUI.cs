@@ -15,7 +15,6 @@ public class LevelNameProps {
 
 public enum LevelNameBackground { Clear, SolidBlue, TransparentBlack }
 
-[ExecuteInEditMode]
 public class LevelNameUI : MonoBehaviour
 {
     public LevelNameBackground background = LevelNameBackground.Clear;
