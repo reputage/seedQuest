@@ -10,17 +10,26 @@ public class FirstPersonCamera : MonoBehaviour {
     private Transform characterTransform;
     private Transform cameraTransform;
 
+    static bool freeze = false;
+
     public void Update() {
-        UpdatePosition();
-        UpdateRotation();
+        if(!PauseManager.isPaused) {
+            UpdatePosition();
+            UpdateRotation();
+            SetCursorLock();
+        }
+        else {
+            SetFreeCursor();
+        }
     }
 
     public void UpdatePosition() {
-
-        float moveHorizontal = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-        float moveVertical = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
-        transform.Translate(moveHorizontal, 0, 0);
-        transform.Translate(0, 0, moveVertical);
+        if (!freeze) {
+            float moveHorizontal = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+            float moveVertical = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+            transform.Translate(moveHorizontal, 0, 0);
+            transform.Translate(0, 0, moveVertical);
+        }
     }
 
     public void UpdateRotation() {
@@ -36,4 +45,21 @@ public class FirstPersonCamera : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     } 
+
+    public void SetCursorLock() {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        CursorUI.ShowCursor = true;
+    }
+
+    public void SetFreeCursor() {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        CursorUI.ShowCursor = false;
+    }
+
+    static public bool SetFreeze {
+        set { freeze = value; }
+    }
+
 }

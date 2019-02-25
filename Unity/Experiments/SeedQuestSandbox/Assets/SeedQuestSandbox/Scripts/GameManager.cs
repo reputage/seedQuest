@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void ListenForKeyDown() {
-        if (Input.GetKeyDown("escape")) {
+        if (Input.GetKeyDown("escape") && Mode != GameMode.Sandbox) {
             SceneManager.LoadScene("PrototypeSelect");
         }
     }
