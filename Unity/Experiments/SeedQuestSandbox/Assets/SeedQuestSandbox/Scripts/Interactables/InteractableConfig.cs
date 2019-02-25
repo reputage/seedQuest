@@ -33,5 +33,8 @@ namespace SeedQuest.Interactables
 
         /// <summary> Number of Levels to do per Game </summary>
         static public int SitesPerGame = 2;        
+
+        /// <summary> Nubmer of Actions per Game </summary>
+        static public float ActionsPerGame { get { return ActionsPerSite * SitesPerGame; } }
     }
 }

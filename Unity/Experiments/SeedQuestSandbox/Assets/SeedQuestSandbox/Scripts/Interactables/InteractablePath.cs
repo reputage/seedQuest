@@ -26,6 +26,10 @@ namespace SeedQuest.Interactables
             get { return Instance.path;  }
         }
 
+        static public float PercentComplete {
+            get { return 100.0f * Instance.nextIndex / InteractableConfig.ActionsPerGame;}
+        }
+
         static public Interactable NextInteractable
         {
             get

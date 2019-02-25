@@ -41,6 +41,11 @@ namespace SeedQuest.Interactables
             get { return Instance.log; }
         }
 
+        static public float PercentComplete
+        {
+            get { return 100.0f * Instance.log.Count / InteractableConfig.ActionsPerGame; }
+        }
+
         static public void Add(Interactable interactable, int actionIndex) {
             Instance.log.Add(new InteractableLogItem(interactable, actionIndex));
         }
