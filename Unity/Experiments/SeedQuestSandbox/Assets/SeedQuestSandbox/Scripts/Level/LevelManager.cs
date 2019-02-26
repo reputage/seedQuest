@@ -4,15 +4,11 @@ using UnityEngine;
 
 namespace SeedQuest.Level
 {
-
-    public class LevelManager : MonoBehaviour
-    {
+    public class LevelManager : MonoBehaviour {
         static LevelManager instance = null;
 
-        public static LevelManager Instance
-        {
-            get
-            {
+        public static LevelManager Instance {
+            get  {
                 if (instance == null)
                     instance = GameObject.FindObjectOfType<LevelManager>();
                 return instance;
@@ -21,23 +17,26 @@ namespace SeedQuest.Level
 
         public string levelName;
 
-        static public string LevelName { get { return Instance.levelName; } }
+        static public string LevelName { get => Instance.levelName;  }
 
         public int levelIndex = 0;
 
-        static public int LevelIndex { get { return Instance.levelIndex; } }
+        static public int LevelIndex { get => Instance.levelIndex; }
+
+        public bool isMultiLevelGame = false;
+
+        static public bool IsMultiLevelGame { get => Instance.isMultiLevelGame; }
 
         /// <summary>  List of Bounds to represent Sites/Zones in a GameLevel </summary>
         public List<BoundingBox> bounds = new List<SeedQuest.Level.BoundingBox>();
 
         /// <summary>  List of Bounds to represent Sites/Zones in a GameLevel </summary>
-        static public List<BoundingBox> Bounds { get { return Instance.bounds; } }
+        static public List<BoundingBox> Bounds { get => Instance.bounds; }
 
         /// <summary> Reference to player </summary>
         private Transform player;
 
         public void Start() {
-
             player = GameObject.FindGameObjectWithTag("Player").transform;
         }
 

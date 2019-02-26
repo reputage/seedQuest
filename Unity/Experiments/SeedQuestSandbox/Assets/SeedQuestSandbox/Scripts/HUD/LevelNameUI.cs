@@ -26,7 +26,11 @@ public class LevelNameUI : MonoBehaviour
     private Transform player;
 
     void Start() {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        var playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+            player = playerObject.transform;
+        else
+            Debug.LogError("Error: Player is missing from Scene.");
 
         backgroundImage = GetComponentInChildren<Image>();
         TextMeshProUGUI[] textmesh = GetComponentsInChildren<TextMeshProUGUI>();

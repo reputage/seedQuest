@@ -24,32 +24,44 @@ namespace SeedQuest.Interactables
     public class InteractableLog {
 
         private static InteractableLog instance = null;
-        public static InteractableLog Instance
-        {
-            get
-            {
+
+        public static InteractableLog Instance {
+            get {
                 if (instance == null)
                     instance = new InteractableLog();
-
                 return instance;
             }
         }
 
+        /// <summary> List of Interactables Completed in Recall Mode </summary>
         public List<InteractableLogItem> log = new List<InteractableLogItem>();
 
+        /// <summary>  List of Interactables Completed in Recall Mode </summary>
         static public List<InteractableLogItem> Log {
             get { return Instance.log; }
         }
 
-        static public float PercentComplete
-        {
+        /// <summary> Path Percent Complete based on ActionsPerGame </summary>
+        static public float PercentComplete {
             get { return 100.0f * Instance.log.Count / InteractableConfig.ActionsPerGame; }
         }
 
+        /// <summary> Path Complete Status based on ActionsPerGame </summary>
+        static public bool PathComplete {
+            get { return Instance.log.Count >= InteractableConfig.ActionsPerGame; }
+        }
+
+        /// <summary> Path Level Complete based on based on ActionsPerSite </summary>
+        static public bool PathLevelComplete {
+            get { return Instance.log.Count != 0 && Instance.log.Count % InteractableConfig.ActionsPerSite == 0; }
+        }
+
+        /// <summary> Add an Interactable to Log </summary>
         static public void Add(Interactable interactable, int actionIndex) {
             Instance.log.Add(new InteractableLogItem(interactable, actionIndex));
         }
 
+        /// <summary> Clear all Interactables from Log </summary>
         static public void Clear () {
             Instance.log.Clear();
         }
