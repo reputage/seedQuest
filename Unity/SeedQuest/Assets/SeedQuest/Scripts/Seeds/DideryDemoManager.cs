@@ -4,7 +4,8 @@ using System.Text;
 using System;
 using UnityEngine;
 
-public class DideryDemoManager : MonoBehaviour {
+public class DideryDemoManager : MonoBehaviour
+{
 
     // Note: Coroutines can only be called from a MonoBehavior class, and 
     //  can't be in a static function. GET, POST, and PUT requests must
@@ -32,23 +33,25 @@ public class DideryDemoManager : MonoBehaviour {
     private string urlAddress = "http://178.128.0.203:8080/blob/";
     private SeedToByte seedToByte = new SeedToByte();
 
-    static public string DemoDid
+	static public string DemoDid
     {
-        get { return Instance.demoDid;  }
+        get { return Instance.demoDid; }
         set { Instance.demoDid = value; }
     }
 
     static public string DemoBlob
     {
-        get { return Instance.demoBlob;  }
+        get { return Instance.demoBlob; }
         set { Instance.demoBlob = value; }
     }
 
     static public bool IsDemo
     {
-        get { return Instance.isDemo;  }
+        get { return Instance.isDemo; }
         set { Instance.isDemo = value; }
     }
+
+    public void Reset()     {         demoDid = null;         demoBlob = null;         isDemo = false;     }
 
     // Send POST request to didery
     public void postRequest(string url, string postBody, string signature)
@@ -87,7 +90,7 @@ public class DideryDemoManager : MonoBehaviour {
 
         encryptedKey = OTPworker.OTPxor(key, otp);
 
-        dideryData = DideryInterface.makePost(encryptedKey);
+        dideryData = DideryInterface.makePost(encryptedKey, seed);
 
         string did = dideryData[0];
         string signature = dideryData[1];
@@ -130,12 +133,12 @@ public class DideryDemoManager : MonoBehaviour {
     }
 
     // Sends the encrypted key to the didery server, returns a string with the did
-    public string postEncryptedKey(byte[] encryptedKey, string url=null)
+    public string postEncryptedKey(byte[] encryptedKey, byte[] seed, string url=null)
     {
         if (url == null)
             url = urlAddress;
         string[] dideryData;
-        dideryData = DideryInterface.makePost(encryptedKey);
+        dideryData = DideryInterface.makePost(encryptedKey, seed);
 
         string did = dideryData[0];
         string signature = dideryData[1];

@@ -51,7 +51,6 @@ public class UIManager : MonoBehaviour {
 
     void SetGameUIState() {
         if (GameUI.instance == null) {
-            Debug.Log("GAME UI NULL!! BAD NEWS!");
             return;
         }
 
@@ -76,6 +75,7 @@ public class UIManager : MonoBehaviour {
                 break;
  
             case GameState.Rehearsal:
+                GameUI.EndGameUI = false;
                 GameUI.CursorUI = false;
                 GameUI.StartMenuUI = false;
                 GameUI.DebugCanvas = true;
@@ -94,6 +94,7 @@ public class UIManager : MonoBehaviour {
                 }
                 break;
             case GameState.Recall:
+                GameUI.EndGameUI = false;
                 GameUI.CursorUI = false;
                 GameUI.StartMenuUI = false;
                 GameUI.DebugCanvas = true;
@@ -112,6 +113,7 @@ public class UIManager : MonoBehaviour {
                 GameUI.PauseMenuCanvas = true;
                 break;
             case GameState.GameEnd:
+                GameUI.CompassUI = false;
                 GameUI.ActionListCanvas = false;
                 GameUI.PauseMenuCanvas = false;
                 GameUI.EndGameUI = true;

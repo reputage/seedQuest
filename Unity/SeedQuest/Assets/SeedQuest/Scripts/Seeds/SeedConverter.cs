@@ -20,8 +20,8 @@ public class SeedConverter {
     public string DecodeSeed(InteractableLog log)
     {
         int[] encodedInteractions = EncodeInteractions(log);
-        //return converter.getSeed(encodedInteractions);
-        return converter.getSeed108(encodedInteractions);
+        List<int> bitList = SeedToByte.customList(3, 4, 2, 4, 4);
+        return converter.getSeed(encodedInteractions, bitList);
     }
 
     /// <summary> 
@@ -30,8 +30,9 @@ public class SeedConverter {
     /// </summary>
     private InteractableID[] getPathIDs(string seedString) {
 
-        //int[] actions = converter.getActions(seedString);
-        int[] actions = converter.getActions108(seedString);
+        // This is specifically for 108 bit seeds used in the devcon demo
+        List<int> bitList = SeedToByte.customList(3, 4, 2, 4, 4);
+        int[] actions = converter.getActions(seedString, bitList);
 
         List<InteractableID> locationIDs = new List<InteractableID>();
 
@@ -128,7 +129,7 @@ public class SeedConverter {
 
         int[] actionArray = actionLog.ToArray();
 
-        return converter.getSeed108(actionArray);
-        // return converter.getSeed(actionArray);
+        List<int> bitList = SeedToByte.customList(3, 4, 2, 4, 4);
+        return converter.getSeed(actionArray, bitList);
     }
 }

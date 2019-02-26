@@ -31,7 +31,7 @@ public class PlayerCtrl : MonoBehaviour {
     } 
 
     public void MoveWithClick() {
-        if (PauseManager.isPaused)
+        if (PauseManager.isPaused || PauseManager.isInteracting)
             return;
 
         if(Input.GetMouseButtonDown(0)) {
@@ -50,7 +50,7 @@ public class PlayerCtrl : MonoBehaviour {
 
     public void MoveWithKeys() {
         float move = Input.GetAxis("Horizontal") * moveKeySpeed * Time.deltaTime;
-        transform.Translate(move, 0, 0);      
+        transform.Translate(move, 0, 0);
     }
 
     private Vector2 touchStartPos = Vector2.zero;

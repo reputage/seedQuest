@@ -7,10 +7,11 @@ using System.IO;
 public static class SaveSettings
 {
 
+    // Save the settings data to a file
     public static void saveSettings()
     {
         Settings settings = new Settings();
-        primeSettings(settings);
+        retrieveSettings(settings);
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/savedSettings.gd");
         bf.Serialize(file, settings);
@@ -18,6 +19,7 @@ public static class SaveSettings
 
     }
 
+    // Loads the settings from a previously saved settings file, if one exists
     public static void loadSettings()
     {
         Settings settings = new Settings();
@@ -44,7 +46,8 @@ public static class SaveSettings
         setSettings(settings);
     }
 
-    public static void primeSettings(Settings settings)
+    // Retrieves the settings from the settings manager, and saves them in a setting object
+    public static void retrieveSettings(Settings settings)
     {
         settings.MasterVolume = SettingsManager.MasterVolume;
         settings.MusicVolume = SettingsManager.MusicVolume;
@@ -53,6 +56,7 @@ public static class SaveSettings
         settings.IsVolumeMuted = SettingsManager.IsVolumeMuted;
     }
 
+    // Sets the settings in the settings manager equal to the settings retrieved from the saved file
     public static void setSettings(Settings settings)
     {
         SettingsManager.MasterVolume = settings.MasterVolume;

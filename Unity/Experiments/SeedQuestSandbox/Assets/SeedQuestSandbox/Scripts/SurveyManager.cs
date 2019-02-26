@@ -20,6 +20,7 @@ public class SurveyManager : MonoBehaviour
     public Sprite ring;
     public Sprite dot;
 
+    private string serverUrl = "http://178.128.0.208:8000/surveys";
     private int xOffset = 0;
     private int imageXOffset = -34;
     private float cardContainerSize = 0;
@@ -286,7 +287,7 @@ public class SurveyManager : MonoBehaviour
         Button submitButton = submitCard.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<Button>();
         submitButton.onClick.AddListener(delegate
         {
-            Debug.Log("Submit Button Clicked");
+            sendSurveyData();
             Application.Quit();
         });
 
@@ -336,5 +337,69 @@ public class SurveyManager : MonoBehaviour
         objectToMove.transform.position = end;
         PreviousButton.enabled = true;
         NextButton.enabled = true;
+    }
+
+    // Send the survey data to the server
+    public void sendSurveyData()
+    {
+        List<string> questions = getQuestionsFromSurvey(data);
+        List<string> responses = getAnswersFromSurvey(data);
+
+        sendRequestData(questions, responses);
+    }
+
+    // Send survey data to the server
+    public void sendRequestData(List<string> questions, List<string> responses)
+    {
+        Debug.Log("Starting Request.");
+        StartCoroutine(sqSurveyInterface.postRequest(questions, responses, serverUrl));
+        Debug.Log("Request Finished.");
+    }
+
+    // Get the questions from the scriptable object
+    public List<string> getQuestionsFromSurvey(SurveyData data)
+    {
+        List<string> questions = new List<string>();
+        for (int i = 0; i < data.surveyData.Count; i++)
+        {
+            if (data.surveyData[i].questions.Length > 0)
+            {
+                // add all questions
+                for (int j = 0; j < data.surveyData[i].questions.Length; j++)
+                {
+                    string comboQuestion = data.surveyData[i].question + "-" + data.surveyData[i].questions[j];
+                    questions.Add(comboQuestion);
+                }
+            }
+            else
+            {
+                questions.Add(data.surveyData[i].question);
+            }
+        }
+        return questions;
+    }
+
+    // to do - front end is still in progress?
+    public List<string> getAnswersFromSurvey(SurveyData data)
+    {
+        List<string> responses = new List<string>();
+
+        for (int i = 0; i < data.surveyData.Count; i++)
+        {
+            if (data.surveyData[i].answers.Length > 0)
+            {
+                // add all questions
+                for (int j = 0; j < data.surveyData[i].answers.Length; j++)
+                {
+                    string answer = data.surveyData[i].answers[j];
+                    responses.Add(answer);
+                }
+            }
+            else
+            {
+                responses.Add(data.surveyData[i].answer);
+            }
+        }
+        return responses;
     }
 }

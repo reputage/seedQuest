@@ -8,10 +8,11 @@ public class ThirdPersonCamera : MonoBehaviour {
     public bool lockCursor = true;
 
     private void LateUpdate() {
-        if(!PauseManager.isPaused) {
+        if(!PauseManager.isPaused) { 
             CameraRotate();
-            UpdateCursorLock();
         }
+
+        UpdateCursorLock();
     }
 
     /// <summary> Rotate Camera with Mouse (along vertical direction) </summary>
@@ -23,14 +24,15 @@ public class ThirdPersonCamera : MonoBehaviour {
     }
 
     public void UpdateCursorLock() {
-        if(lockCursor){
+        if(lockCursor && !PauseManager.isPaused) { 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            HUDController.ShowCursor = true;
-        } else
-        {
-            Cursor.lockState = CursorLockMode.Confined;
-            HUDController.ShowCursor = false;
+            CursorUI.ShowCursor = true;
+        } 
+        else {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            CursorUI.ShowCursor = false;
         }
     }
 }

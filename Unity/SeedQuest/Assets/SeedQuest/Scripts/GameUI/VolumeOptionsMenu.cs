@@ -51,7 +51,10 @@ public class VolumeOptionsMenu : MonoBehaviour {
 
     public void CameraSensitivityChanged(float value)
     {
-        SettingsManager.CameraSensitivity = value;
+        if (value > 0)
+            SettingsManager.CameraSensitivity = value;
+        else
+            SettingsManager.CameraSensitivity = 0.05f;
     }
 
     public void LeaveVolumeSettingsMenu()

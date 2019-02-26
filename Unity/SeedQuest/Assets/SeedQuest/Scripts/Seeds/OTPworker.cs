@@ -12,11 +12,11 @@ public static class OTPworker
     // Decrypts the blob saved at DideryDemoManager.demoBlob
     public static byte[] decryptFromBlob(string seed, string blobString)
     {
-        //Debug.Log("Seed: " + seed);
         byte[] seedByte = HexStringToByteArray(seed);
         byte[] demoBlob = Convert.FromBase64String(blobString);
         byte[] decryptedKey = decryptKey(demoBlob, seedByte);
-        int valid = VerifyKeys.verifyKey(Encoding.ASCII.GetString(decryptedKey));
+        string decryptedBlob = ByteArrayToHex(decryptedKey);
+        int valid = VerifyKeys.verifyKey(decryptedBlob);
         return decryptedKey;
     }
 
@@ -27,7 +27,7 @@ public static class OTPworker
 
         OTPGenerator(otp, size, seed);
         key = OTPxor(key, otp);
-        int valid = VerifyKeys.verifyKey(Encoding.ASCII.GetString(key));
+        int valid = VerifyKeys.verifyKey(ByteArrayToHex(key));
         return key;
     }
 
@@ -35,17 +35,23 @@ public static class OTPworker
     public static byte[] randomSeedGenerator(byte[] seed)
     {
         for (int i = 0; i < seed.Length; i++)
-            seed[i] = (byte)LibSodiumManager.nacl_randombytes_random();
-        
+            seed[i] = (byte)LibSalt.nacl_randombytes_random();
+
         return seed;
     }
 
     // Generates the one-time pad from a seed
-    public static void OTPGenerator(byte[] otp, int size, byte[] seed)
+    public static void OTPGenerator(byte[] otp, int size, byte[] seed, int minimumSize=32)
     {
-        LibSodiumManager.nacl_randombytes_buf_deterministic(otp, size, seed);
-        //Debug.Log("Seed length: " + seed.Length + " Seed string: " + ByteArrayToHex(seed));
-        //Debug.Log("OTP length: " + otp.Length + " OTP first bytes: " + otp[0] + " " + otp[1] + " " + otp[2] + " " + otp[3]);
+        // This -hopefully- fixes an issue where the OTP isn't always the same for a given seed
+        if (seed.Length < minimumSize)
+        {
+            byte[] newSeed = new byte[minimumSize];
+            System.Buffer.BlockCopy(seed, 0, newSeed, 0, seed.Length);
+            LibSalt.nacl_randombytes_buf_deterministic(otp, size, newSeed);
+        }
+        else
+            LibSalt.nacl_randombytes_buf_deterministic(otp, size, seed);
     }
 
     // Used to encrypt and decrypt the key using the one-time pad, using the xor method
@@ -72,9 +78,16 @@ public static class OTPworker
     // Convert hex string to byte array
     public static byte[] HexStringToByteArray(string hex)
     {
+        if (hex.Length <= 0)
+        {
+            byte[] bytor = new byte[1];
+            return bytor;
+        }
         if (hex.Length % 2 == 1)
-            throw new Exception("The binary key cannot have an odd number of digits");
-
+        {
+            Debug.Log("The binary key cannot have an odd number of digits - shortening the string");
+            hex = hex.Substring(0,(hex.Length - 1));
+        }
         byte[] bytes = new byte[hex.Length >> 1];
 
         for (int i = 0; i < hex.Length >> 1; ++i)
