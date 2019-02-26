@@ -69,6 +69,20 @@ public class DemoSelectUI : MonoBehaviour {
         SceneManager.LoadScene(sceneName);
     }
 
+    public void StartDemoWithRehearsalMode()
+    {
+        GameManager.Mode = GameMode.Rehearsal;
+        string sceneName = selectedDemo.sceneName;
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void StartDemoWithRecallMode()
+    {
+        GameManager.Mode = GameMode.Recall;
+        string sceneName = selectedDemo.sceneName;
+        SceneManager.LoadScene(sceneName);
+    }
+
     private Button createLevelButton(DemoInfo info, Transform parent, Vector3 position) {
         GameObject buttonObj = Instantiate(selectButtonPrefab);
         buttonObj.transform.SetParent(parent);

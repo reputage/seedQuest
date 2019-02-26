@@ -16,7 +16,6 @@ public static class VerifyKeys {
         var signer = new MessageSigner();
         var signature = "";
         var address = "";
-        //Debug.Log("Verify key: " + key);
 
         try
         {

@@ -24,15 +24,11 @@ public class EndGameUI : MonoBehaviour {
         Instance.gameObject.SetActive(true);
         var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         textList[0].text = InteractablePathManager.SeedString;
-    }
 
-    static public void Toggle() {
-        Instance.gameObject.SetActive(!Instance.gameObject.activeSelf);
-
-        if(Instance.gameObject.activeSelf) {
-            var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-            textList[0].text = InteractablePathManager.SeedString; 
-        }
+        if (GameManager.Mode == GameMode.Rehearsal)
+            textList[1].text = "Rehearsal Complete! \n Need more practice? Select Rehearsal mode. \n Ready to go? Select Recall";
+        else
+            textList[1].text = "Key is Recovered!";
     }
 
     public void PrototypeSelect() {
@@ -41,6 +37,8 @@ public class EndGameUI : MonoBehaviour {
 
     public void Recall() {
         GameManager.Mode = GameMode.Recall;
+        GameManager.State = GameState.Play;
+
         InteractablePathManager.InitalizePathAndLog();
         InteractableManager.destroyInteractables();
 
@@ -51,6 +49,8 @@ public class EndGameUI : MonoBehaviour {
     public void Rehearsal()
     {
         GameManager.Mode = GameMode.Rehearsal;
+        GameManager.State = GameState.Play;
+
         InteractablePathManager.InitalizePathAndLog();
         InteractableManager.destroyInteractables();
         
