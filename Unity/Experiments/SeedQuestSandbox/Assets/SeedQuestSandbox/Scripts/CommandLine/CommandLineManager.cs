@@ -21,12 +21,12 @@ public static class CommandLineManager
     //  then prints out a list of available commands
     public static string help(string input)
     {
-        privatePrint("Available command line commands: ");
+        string returnString = "Available command line commands:";
         foreach (string key in commands.Keys)
         {
-            privatePrint(key);
+            returnString += "\n" + key;
         }
-        return "";
+        return returnString;
     }
 
     // Just used for displaying information to the user
