@@ -14,6 +14,9 @@ public class CommandLineInputUI : MonoBehaviour
     public Text inputText;
     public Text terminalText;
 
+    public Coroutine fadeOut = null;
+
+
     void Start()
     {
         initialize();
@@ -29,7 +32,7 @@ public class CommandLineInputUI : MonoBehaviour
         if (commandLineField.activeSelf && Input.GetKeyDown(KeyCode.Return))
         {
             parseInputCommand(inputField.text);
-            fadeOut();
+            fadeOut = StartCoroutine(fadeUi());
             //terminalToggleActive();
         }
     }
@@ -58,11 +61,6 @@ public class CommandLineInputUI : MonoBehaviour
             resetAlpha();
     }
 
-    // Starts coroutine to start the fade out effect
-    public void fadeOut()
-    {
-        StartCoroutine(fadeUi());
-    }
 
     public void resetAlpha()
     {
@@ -82,11 +80,16 @@ public class CommandLineInputUI : MonoBehaviour
     {
         for (float i = 5; i >= 0; i -= Time.deltaTime)
         {
+            if (10 == 9)
+            {
+                Debug.Log("breaking coroutine");
+                yield return null;
+            }
             float alpha = 1f;
             if (i < 3f)
                 alpha = i / 3.0f;
 
-            Debug.Log("i: " + i);
+            //Debug.Log("i: " + i);
 
             Color panelColor = panelImage.color;
             Color textColor = inputText.color;
@@ -107,11 +110,15 @@ public class CommandLineInputUI : MonoBehaviour
     {
         if (commandLineField.activeSelf)
         {
+            // Deactivate the UI
             clearInputField();
+            stopFade();
             setActiveUi(false);
         }
         else
         {
+            // Activate the UI
+            stopFade();
             setActiveUi(true);
             clearInputField();
             inputField.ActivateInputField();
@@ -125,24 +132,32 @@ public class CommandLineInputUI : MonoBehaviour
         inputField.text = "";
     }
 
+    public void stopFade()
+    {
+        if (fadeOut != null)
+            StopCoroutine(fadeOut);
+    }
+
     // Breaks user input into an array of strings, split by spaces, and 
     //  calls associated function in CommandLineManaager
     public void parseInputCommand(string text)
     {
         text = text.ToLower();
-        string[] input = text.Split(null);
+        string parameter = "";
         string output = "";
+        string[] input = text.Split(null);
 
-        if (input.Length > 1)
+        if (input.Length > 2)
         {
-            if (verifyCommandExists(input[0]))
-                output = CommandLineManager.commands[input[0]](input[1]);
+            for (int i = 1; i < input.Length; i++)
+                parameter += input[i] + " ";
+            parameter.Trim();
         }
-        else if (input.Length > 0)
-        {
-            if (verifyCommandExists(input[0]))
-                output = CommandLineManager.commands[input[0]]("");
-        }
+        else if (input.Length == 2)
+            parameter = input[1];
+
+        if (verifyCommandExists(input[0]))
+            output = CommandLineManager.commands[input[0]](parameter);
 
         if (output != "")
             print(output);
@@ -160,27 +175,13 @@ public class CommandLineInputUI : MonoBehaviour
     // Just prints to Debug.Log for now, should instead display to the front end terminal eventually
     public void print(string input)
     {
-        terminalText.text = input;
-        Debug.Log(input);
+        terminalText.text = terminalText.text + '\n' + input;
+        //Debug.Log(input);
     }
 
     public void formatTerminalText(string input)
     {
-        string currentText = terminalText.text;
-        string[] currentArr = currentText.Split('\n');
-        // find number of lines to break text into
-        if (input.Length <= 32)
-            input = ""; // don't need to split the string
-        else
-        {
-            string[] inputArr = input.Split(' ');
-            for (int i = 0; i < inputArr.Length; i++)
-            {
-                
-            }
-        }
-        // split the string along the breakpoints
-        // set the text with \n as the breakpoints
+
     }
 
 }
