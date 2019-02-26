@@ -33,6 +33,7 @@ public class CommandLineInputUI : MonoBehaviour
         {
             parseInputCommand(inputField.text);
             fadeOut = StartCoroutine(fadeUi());
+            clearInputField();
             //terminalToggleActive();
         }
     }
@@ -80,20 +81,17 @@ public class CommandLineInputUI : MonoBehaviour
     {
         for (float i = 5; i >= 0; i -= Time.deltaTime)
         {
-            if (10 == 9)
-            {
-                Debug.Log("breaking coroutine");
-                yield return null;
-            }
             float alpha = 1f;
+            float panelAlpha = panelImage.color.a;
             if (i < 3f)
+            {
                 alpha = i / 3.0f;
-
-            //Debug.Log("i: " + i);
+                panelAlpha = (panelAlpha * i) / 3.0f;
+            }
 
             Color panelColor = panelImage.color;
             Color textColor = inputText.color;
-            panelColor.a = alpha;
+            panelColor.a = panelAlpha;
             textColor.a = alpha;
             panelImage.color = panelColor;
             inputText.color = textColor;
@@ -176,12 +174,6 @@ public class CommandLineInputUI : MonoBehaviour
     public void print(string input)
     {
         terminalText.text = terminalText.text + '\n' + input;
-        //Debug.Log(input);
-    }
-
-    public void formatTerminalText(string input)
-    {
-
     }
 
 }
