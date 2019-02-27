@@ -6,19 +6,21 @@ namespace SeedQuest.Interactables
 {
     [System.Serializable]
     public class InteractableLogItem {
-        public Interactable interactable;
+        public int siteIndex;
+        public int interactableIndex;
         public int actionIndex; 
 
         public InteractableLogItem(Interactable _interactable, int _actionIndex) {
-            interactable = _interactable;
+            siteIndex = _interactable.ID.siteID;
+            interactableIndex = _interactable.ID.spotID;
             actionIndex = _actionIndex;
         }
 
-        public int SiteIndex { get { return interactable.ID.siteID; } }
+        public int SiteIndex { get => siteIndex; }
 
-        public int InteractableIndex { get { return interactable.ID.spotID; } }
+        public int InteractableIndex { get => interactableIndex;  }
 
-        public int ActionIndex { get { return actionIndex; } }
+        public int ActionIndex { get => actionIndex; }
     }
 
     [System.Serializable]
@@ -60,6 +62,9 @@ namespace SeedQuest.Interactables
         /// <summary> Add an Interactable to Log </summary>
         static public void Add(Interactable interactable, int actionIndex) {
             Instance.log.Add(new InteractableLogItem(interactable, actionIndex));
+
+            if (GameManager.Mode == GameMode.Recall && PathLevelComplete)
+                InteractablePathManager.ShowLevelComplete = true;
         }
 
         /// <summary> Clear all Interactables from Log </summary>
