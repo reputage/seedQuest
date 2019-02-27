@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using SeedQuest.SeedEncoder;
 
 public static class CommandLineManager
 {
@@ -14,7 +15,8 @@ public static class CommandLineManager
         {"help", help},
         {"print", print},
         {"gamestate", setGameState},
-        {"loadscene", loadScene}
+        {"loadscene", loadScene},
+        {"seedtests", seedTests}
     };
 
     // Here's a template for an example of command. 
@@ -59,6 +61,16 @@ public static class CommandLineManager
         
         SceneManager.LoadScene(input);
         return "Loading scene: " + input;
+    }
+
+    // Example of running tests in command line, not actually funcitonal yet.
+    public static string seedTests(string input)
+    {
+        GameObject seedTests = new GameObject();
+        seedTests.AddComponent<SeedToByteTests>();
+
+        string passedString = seedTests.GetComponent<SeedToByteTests>().runAllTests();
+        return passedString;
     }
 
     // Set the gamestate. string.StartsWith() is used so that the user input doesn't need to be

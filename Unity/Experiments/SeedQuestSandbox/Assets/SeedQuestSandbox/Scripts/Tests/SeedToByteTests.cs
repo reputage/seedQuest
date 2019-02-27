@@ -10,8 +10,6 @@ namespace SeedQuest.SeedEncoder
 {
     public class SeedToByteTests : MonoBehaviour
     {
-
-
         private string testSeed1 = "C5E3D45D341A";
         private string testSeed2 = "AAAA";
 
@@ -20,7 +18,7 @@ namespace SeedQuest.SeedEncoder
         private SeedToByte seedToByte = new SeedToByte();
 
         // Run all tests at once
-        public void runAllTests()
+        public string runAllTests()
         {
             int[] passed = new int[2];
 
@@ -31,7 +29,9 @@ namespace SeedQuest.SeedEncoder
             sumTest(ref passed, testSmallSeeds());
             sumTest(ref passed, testAllSizeSeeds());
 
-            Debug.Log("Successfully passed " + passed[0] + " of " + passed[1] + " tests.");
+            string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
+            Debug.Log(passedString);
+            return passedString;
         }
 
         // This function helps make the test running code a bit cleaner
