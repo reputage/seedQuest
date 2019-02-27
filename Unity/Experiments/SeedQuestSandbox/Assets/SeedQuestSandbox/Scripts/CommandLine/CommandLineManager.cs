@@ -46,12 +46,6 @@ public static class CommandLineManager
         return input;
     }
 
-    // This prints to the debug log for now, but should display text to the front end terminal eventually
-    private static void privatePrint(string input)
-    {
-        Debug.Log(input);
-    }
-
     // Loads the scene specified by input, if it exists. A scene must be in the build settings
     //  for this command to work
     public static string loadScene(string input)
@@ -66,9 +60,9 @@ public static class CommandLineManager
     // Example of running tests in command line, not actually funcitonal yet.
     public static string seedTests(string input)
     {
-        GameObject seedTests = new GameObject();
-        seedTests.AddComponent<SeedToByteTests>();
+        MonoBehaviour seedTests = new SeedToByteTests();
 
+        // TO DO: this can potentially cause memory problems, since Destroy() can't be used here
         string passedString = seedTests.GetComponent<SeedToByteTests>().runAllTests();
         return passedString;
     }
