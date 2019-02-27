@@ -17,6 +17,15 @@ public static class CommandLineManager
         {"loadscene", loadScene}
     };
 
+    // Here's a template for an example of command. 
+    //  For a command to work, it needs to be added to the above dictionary,
+    //  and the dictionary key for the function needs to be all lowercase
+    public static string templateCommand(string input)
+    {
+        // Put code here
+        return input;
+    }
+
     // Displays some information to the user. If parameter string isn't found in helpInformation,
     //  then prints out a list of available commands
     public static string help(string input)
