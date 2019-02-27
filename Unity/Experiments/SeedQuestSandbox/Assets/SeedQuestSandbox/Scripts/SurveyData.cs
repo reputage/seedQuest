@@ -2,7 +2,8 @@
 using UnityEngine;
 
 [System.Serializable]
-public class SurveyDataItem {
+public class SurveyDataItem
+{
     public enum QuestionType { Open, Scale } //, Rank }
     public QuestionType type = QuestionType.Open;
     public string question;
@@ -14,6 +15,7 @@ public class SurveyDataItem {
     public List<string> ranks;*/
     public string answer;
     public string[] answers;
+    public Sprite[] sprites;
 }
 
 [CreateAssetMenu(menuName = "Survey/SurveyData")]
