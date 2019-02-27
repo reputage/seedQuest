@@ -23,19 +23,20 @@ namespace SeedQuest.Interactables
         [HideInInspector]
         public bool flagDeleteUI = false;
 
-        void Start()
-        {
+        void Start() {
             interactableUI.Initialize(this);
         }
 
-        void Update()
-        {
-            if (interactableUI.isReady())
-            {
+        void Update()  {
+            if (interactableUI.isReady()) {
                 interactableUI.Update();
                 HoverOnInteractable();
                 ClickOnInteractable();
             }
+            else {
+                interactableUI.Initialize(this);
+            }
+
         }
 
         public string Name {
@@ -60,8 +61,13 @@ namespace SeedQuest.Interactables
             return (x % m + m) % m;
         }
 
-        public void DeleteUI()
-        {
+        public void Delete() {
+            flagDeleteUI = true;
+            interactableUI.DeleteUI();
+            GameObject.Destroy(gameObject);
+        }
+
+        public void DeleteUI() {
             flagDeleteUI = true;
             interactableUI.DeleteUI();
         }

@@ -41,7 +41,6 @@ public class PlayerCtrl : MonoBehaviour {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
             if(Physics.Raycast(ray, out hit, 100.0f)) {
-                Debug.Log("Click Player Move - " + GameManager.State + " " + PauseManager.isPaused);
                 NavMeshAgent agent = GetComponent<NavMeshAgent>();
                 agent.SetDestination(hit.point);
             }

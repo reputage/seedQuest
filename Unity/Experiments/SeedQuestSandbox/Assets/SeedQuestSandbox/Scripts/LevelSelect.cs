@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+using SeedQuest.Interactables;
+
 [System.Serializable]
 public class LevelInfo {
     public string name;
@@ -22,7 +24,10 @@ public class LevelSelect : MonoBehaviour {
     private int currentLevel = 0;
 
     private void Start() {
-        GameManager.ResetGameState();
+        
+        // Reset Cursor and Interactables
+        GameManager.ResetCursor();
+        InteractableManager.Reset();
 
         // Get LevelListCanvas
         levelsCanvas = GameObject.FindGameObjectWithTag("LevelListCanvas");
@@ -30,7 +35,6 @@ public class LevelSelect : MonoBehaviour {
         // Destroy unnecessary gameobjects
         foreach (Transform child in levelsCanvas.transform)
             GameObject.Destroy(child.gameObject);
-        RemoveInteractables(); 
 
         // Create LevelButtons
         int i = 0;
@@ -86,7 +90,6 @@ public class LevelSelect : MonoBehaviour {
         button.AddComponent<Button>();
         button.AddComponent<Image>();
 
-        Debug.Log(position);
         button.GetComponent<RectTransform>().localPosition = position;
         button.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size[0]);
         button.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size[1]);
@@ -94,12 +97,5 @@ public class LevelSelect : MonoBehaviour {
         button.GetComponent<Button>().targetGraphic = button.GetComponent<Image>();
         button.GetComponent<Button>().onClick.AddListener(selectLevel);
         return button;
-    }
-
-    private void RemoveInteractables() {
-        GameObject[] interactables = GameObject.FindGameObjectsWithTag("InteractableUI");
-        foreach (GameObject child in interactables)
-            if (child.layer == LayerMask.NameToLayer("UI"))
-                GameObject.Destroy(child);        
     }
 }

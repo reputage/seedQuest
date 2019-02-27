@@ -21,6 +21,7 @@ namespace SeedQuest.Interactables
         public int ActionIndex { get { return actionIndex; } }
     }
 
+    [System.Serializable]
     public class InteractableLog {
 
         private static InteractableLog instance = null;

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
+using SeedQuest.Interactables;
+
 public enum GameMode { Sandbox, Rehearsal, Recall } 
 public enum GameState { Play, Pause, Interact, Menu, End }
 
@@ -56,16 +58,14 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    static public void ResetGameState()
-    {
+    static public void ResetCursor() {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        SeedQuest.Interactables.InteractableManager.destroyInteractables();
     }
 
     public void ListenForKeyDown() {
         if (Input.GetKeyDown("escape") && Mode != GameMode.Sandbox) {
-            SceneManager.LoadScene("PrototypeSelect");
+            //SceneManager.LoadScene("PrototypeSelect");
         }
     }
 

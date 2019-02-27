@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using SeedQuest.Interactables;
+
 namespace SeedQuest.Level
 {
     public class LevelManager : MonoBehaviour {
@@ -15,20 +17,26 @@ namespace SeedQuest.Level
             }
         }
 
+        /// <summary> Level Name </summary>
         public string levelName;
 
+        /// <summary> Level Name </summary>
         static public string LevelName { get => Instance.levelName;  }
 
+        /// <summary> Level Index Offset for use in InteractablePath calculations </summary>
         public int levelIndex = 0;
 
+        /// <summary> Level Index Offset for use in InteractablePath calculations </summary>
         static public int LevelIndex { get => Instance.levelIndex; }
 
+        /// <summary> MultiLevelGame Flag important for InteractablePath calculations </summary>
         public bool isMultiLevelGame = false;
 
+        /// <summary> MultiLevelGame Flag important for InteractablePath calculations </summary>
         static public bool IsMultiLevelGame { get => Instance.isMultiLevelGame; }
 
         /// <summary>  List of Bounds to represent Sites/Zones in a GameLevel </summary>
-        public List<BoundingBox> bounds = new List<SeedQuest.Level.BoundingBox>();
+        public List<BoundingBox> bounds = new List<BoundingBox>();
 
         /// <summary>  List of Bounds to represent Sites/Zones in a GameLevel </summary>
         static public List<BoundingBox> Bounds { get => Instance.bounds; }
@@ -37,7 +45,23 @@ namespace SeedQuest.Level
         private Transform player;
 
         public void Start() {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+            GameManager.State = GameState.Play;
+
+            var playerObject = GameObject.FindGameObjectWithTag("Player");
+            if(playerObject != null)
+                player = playerObject.transform;
+            
+            if (InteractableManager.InteractableList.Length == 0)
+                return;
+
+            InteractablePathManager.SetupInteractablePathIDs();
+
+            if (!isMultiLevelGame)
+                InteractablePathManager.InitalizePathAndLog();
+            else if (InteractablePathManager.IsPathInitialized)
+                InteractablePathManager.InitalizePathAndLogForMultiLevelGame();
+            else
+                InteractablePathManager.InitalizePathAndLog();
         }
 
         /// <summary>  Gets the BoundingBox of Site/Zone bound that player is currently in. Returns null if not in one. </summary>
@@ -60,7 +84,7 @@ namespace SeedQuest.Level
             colors[5] = Color.magenta;
 
             int count = 0;
-            foreach (SeedQuest.Level.BoundingBox bound in bounds) {
+            foreach (BoundingBox bound in bounds) {
                 Gizmos.color = colors[count];
                 Gizmos.DrawWireCube(bound.center, bound.size);
                 count++;
