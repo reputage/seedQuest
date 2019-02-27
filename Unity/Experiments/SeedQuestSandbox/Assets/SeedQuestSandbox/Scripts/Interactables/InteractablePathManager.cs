@@ -26,8 +26,6 @@ namespace SeedQuest.Interactables {
 
         public List<Interactable> path;
 
-        public Interactable next;
-
         public List<InteractableLogItem> log;
 
         public string seedString;
@@ -60,18 +58,25 @@ namespace SeedQuest.Interactables {
                     isNextHighlighted = true;
                 }
 
-                next = InteractablePath.NextInteractable;
-                if(next == null) {
+                if(InteractablePath.PathComplete) {
                     GameManager.State = GameState.End;
                     EndGameUI.ToggleOn();
                 }
+                else if(LevelManager.IsMultiLevelGame && InteractablePath.PathLevelComplete) {
+                    GameManager.State = GameState.Menu;
+                    LevelClearUI.ToggleOn();
+                }
             }
             else if(GameManager.Mode == GameMode.Recall) {
-                if(InteractableLog.Log.Count == InteractableConfig.SitesPerGame * InteractableConfig.ActionsPerSite) {
+                if(InteractableLog.PathComplete) {
                     SeedConverter converter = new SeedConverter();
                     seedString = converter.DecodeSeed();
                     GameManager.State = GameState.End;
                     EndGameUI.ToggleOn();
+                }
+                else if(LevelManager.IsMultiLevelGame && InteractableLog.PathLevelComplete) {
+                    GameManager.State = GameState.Menu;
+                    LevelClearUI.ToggleOn();
                 }
             }
         }

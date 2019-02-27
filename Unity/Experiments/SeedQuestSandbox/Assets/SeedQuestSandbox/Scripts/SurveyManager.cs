@@ -81,10 +81,12 @@ public class SurveyManager : MonoBehaviour
                 text = newCard.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
 
-                var column = newCard.transform.GetChild(1).GetChild(4).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
-                var row = newCard.transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).gameObject;
+                var column = newCard.transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+                var row = newCard.transform.GetChild(1).GetChild(4).GetChild(1).GetChild(0).gameObject;
+                var thumbnail = newCard.transform.GetChild(1).GetChild(4).GetChild(2).GetChild(0).gameObject;
                 List<GameObject> rows = new List<GameObject>();
                 List<TMP_Text> columns = new List<TMP_Text>();
+                List<GameObject> thumbnails = new List<GameObject>();
                 float columnXOffset = -112f;
                 float columnWidth = 436f / (float)data.surveyData[i].headers.Length;
                 float rowYOffset = 28f;
@@ -105,13 +107,20 @@ public class SurveyManager : MonoBehaviour
 
                 Destroy(column.gameObject);
 
-                foreach (string header in data.surveyData[i].questions)
+                foreach (string question in data.surveyData[i].questions)
                 {
                     GameObject newRow = Instantiate(row);
                     newRow.transform.parent = row.transform.parent;
                     newRow.transform.localPosition = new Vector3(0, 0, 0);
                     newRow.transform.localScale = new Vector3(1, 1, 1);
                     rows.Add(newRow);
+
+
+
+                    GameObject newThumbnail = Instantiate(thumbnail);
+                    newThumbnail.transform.parent = thumbnail.transform.parent;
+                    newThumbnail.transform.localScale = new Vector3(1, 1, 1);
+                    thumbnails.Add(newThumbnail);
                 }
 
                 // I tried to include this in the above loop, but position data wasn't being saved for some reason.
@@ -122,8 +131,22 @@ public class SurveyManager : MonoBehaviour
                     question.transform.localScale = new Vector3(1, 1, 1);
                     question.GetComponent<RectTransform>().sizeDelta = new Vector2(136, rowHeight);
                     question.text = data.surveyData[i].questions[j];
+                    question.name = j.ToString();
 
-                    for(int k = 0; k < columns.Count; k++)
+
+                    thumbnails[j].transform.localPosition = new Vector3(thumbnail.transform.localPosition.x, rowYOffset, 0);
+                    Image image = thumbnails[j].transform.GetChild(2).gameObject.GetComponent<Image>();
+
+                    try
+                    {
+                        image.sprite = data.surveyData[i].sprites[j];
+                    }
+                    catch(System.IndexOutOfRangeException e)
+                    {
+                        Debug.LogError("Questions and sprites are not equal.");
+                    }
+
+                    for (int k = 0; k < columns.Count; k++)
                     {
                         Toggle newToggle = Instantiate(rows[j].transform.GetChild(1).GetChild(0).GetComponent<Toggle>());
                         newToggle.transform.parent = rows[j].transform.GetChild(1).GetChild(0).parent;
@@ -146,6 +169,7 @@ public class SurveyManager : MonoBehaviour
 
                 }
 
+                Destroy(thumbnail);
                 Destroy(row);
             }
 

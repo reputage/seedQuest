@@ -31,15 +31,6 @@ public class EndGameUI : MonoBehaviour {
             textList[1].text = "Key is Recovered!";
     }
 
-    static public void Toggle() {
-        Instance.gameObject.SetActive(!Instance.gameObject.activeSelf);
-
-        if(Instance.gameObject.activeSelf) {
-            var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-            textList[0].text = InteractablePathManager.SeedString; 
-        }
-    }
-
     public void PrototypeSelect() {
         SceneManager.LoadScene("PrototypeSelect");
     }

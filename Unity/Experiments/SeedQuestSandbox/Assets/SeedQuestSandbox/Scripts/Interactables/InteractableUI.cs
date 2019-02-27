@@ -23,8 +23,15 @@ namespace SeedQuest.Interactables
         private Button[] actionButtons;
         private Button checkButton;
         private Image[] checkImages;
-        //private bool showCheckButton = false;
-        //private Image checkmark;
+
+        public void Update()
+        {
+            if (isReady())
+            {
+                SetPosition();
+                SetRotation();
+            }
+        }
 
         /// <summary> Initialize Interactable UI with Prompt Text and Buttons </summary>
         /// <param name="interactable">Parent Interactable Object</param>
@@ -47,24 +54,18 @@ namespace SeedQuest.Interactables
             SetupCheckButton();
         }
 
-        public void Update()
-        {
-            if (isReady())
-            {
-                SetPosition();
-                SetRotation();
-            }
-        }
-
+        /// <summary> Ready Status of InteractableUI </summary>
         public bool isReady()
         {
             return actionUI != null;
         }
 
+        /// <summary> Delete UI Object </summary>
         public void DeleteUI() {
             GameObject.Destroy(actionUI);
         }
 
+        /// <summary> Intialize and Setupt Label Button </summary>
         public void SetupLabelButton() {
 
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
@@ -74,9 +75,10 @@ namespace SeedQuest.Interactables
             labelButton = buttons[0];
             labelButton.onClick.AddListener(onClickLabel);
 
-            setLabelHoverEvents();
+            setButtonHoverEvents(labelButton);
         }
 
+        /// <summary> Intialize and Setup Action Buttons </summary>
         public void SetupActionButtons()
         {
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
@@ -120,11 +122,11 @@ namespace SeedQuest.Interactables
             hideActions();
 
             // Create Triggers for HoverEvents
-            foreach (Button button in actionButtons) {
+            foreach (Button button in actionButtons)
                 setButtonHoverEvents(button);
-            }
-        } 
+        }
 
+        /// <summary> Setup Checkmark Button for use with NextPrevSelect Button only </summary>
         public void SetupCheckButton() {
             if (mode == InteractableUIMode.NextPrevSelect) {
                 Button[] buttons = actionUI.GetComponentsInChildren<Button>();
@@ -132,13 +134,9 @@ namespace SeedQuest.Interactables
                 checkButton.onClick.AddListener(onClickCheck);
                 checkButton.gameObject.SetActive(false);
             }
-            else if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
-                //Button[] buttons = actionUI.GetComponentsInChildren<Button>();
-                //checkButton = buttons[1];
-                return;
-            }
         }
 
+        /// <summary> Set up button hover events for use in ThirdPerson and FirstPerson scenes </summary>
         public void setButtonHoverEvents(Button button) {
             EventTrigger trigger = button.GetComponent<EventTrigger>();
 
@@ -159,46 +157,58 @@ namespace SeedQuest.Interactables
             trigger.triggers.Add(exit);
         }
 
-        public void setLabelHoverEvents() {
-            EventTrigger trigger = labelButton.GetComponent<EventTrigger>();
-
-            EventTrigger.Entry entry = new EventTrigger.Entry();
-            entry.eventID = EventTriggerType.PointerEnter;
-            entry.callback.AddListener((data) => {
-                if (PauseManager.isPaused == true) return;
-                GameManager.State = GameState.Interact;
-            });
-            trigger.triggers.Add(entry);
-
-            EventTrigger.Entry exit = new EventTrigger.Entry();
-            exit.eventID = EventTriggerType.PointerExit;
-            exit.callback.AddListener((data) => {
-                if (PauseManager.isPaused == true) return;
-                GameManager.State = GameState.Play;
-            });
-            trigger.triggers.Add(exit);
+        /// <summary> Handles Clicking the Label Button </summary>
+        public void onClickLabel() {
+            parent.NextAction();
         }
 
-        public void hideActions() {
-            if (actionButtons == null) return;
+        /// <summary> Handles Clicking an Action Button </summary>
+        public void ClickActionButton(int actionIndex) {
+            parent.DoAction(actionIndex);
 
-            foreach (Button button in actionButtons)
-            {
-                button.transform.gameObject.SetActive(false);
-            }
+            if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect)
+                hideActions();
+
+            if (GameManager.Mode == GameMode.Rehearsal)
+                if (actionIndex == InteractablePath.NextInteractable.ID.actionID)
+                    InteractablePath.GoToNextInteractable();
+            else if (GameManager.Mode == GameMode.Recall)
+                InteractableLog.Add(parent, parent.currentStateID);
         }
 
-        public void showActions() {
-            if (actionButtons == null) return;
+        /// <summary> Handles Clicking a Checkmark Button </summary>
+        public void onClickCheck() {
+            SetCheckButtonActive(false);
 
-            foreach (Button button in actionButtons)
-            {
-                button.transform.gameObject.SetActive(true);
-            }
+            if (GameManager.Mode == GameMode.Rehearsal)
+                InteractablePath.GoToNextInteractable();
+            else if (GameManager.Mode == GameMode.Recall)
+                InteractableLog.Add(parent, parent.currentStateID);
         }
 
-        public void showCurrentActions()
-        {
+
+        /// <summary> Sets Label Text to Current Action and Activates Checkmark if necessary </summary>
+        public void SetActionUI(int actionIndex) {
+            InteractableState state = parent.stateData.states[actionIndex];
+            //SetText(parent.Name + ":\n "+ state.actionName);
+            SetText(state.actionName);
+            SetCheckmark(actionIndex);
+        }
+
+        /// <summary> Sets Label Text </summary>
+        public void SetText(string text) {
+            if (actionUI == null) return;
+            var textMesh = actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+            textMesh.text = text;
+        }
+
+        /// <summary> Gets Label Text </summary>
+        public string GetText() {
+            return actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
+        }
+
+        /// <summary> Show Action Button UI and Set Checkmark for Rehearsal Mode for ListSelect and GridSelect UI  </summary>
+        public void showCurrentActions() {
             InteractableManager.hideAllInteractableUI();
             showActions();
             SetCheckImageActive();
@@ -208,51 +218,8 @@ namespace SeedQuest.Interactables
             SetText(label);
         }
 
-        public void onClickLabel()
-        {
-            parent.NextAction();
-        }
-
-        public void ClickActionButton(int actionIndex)
-        {
-            parent.DoAction(actionIndex);
-
-            if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
-                hideActions();
-            }
-
-            if (GameManager.Mode == GameMode.Rehearsal) {
-                if(actionIndex == InteractablePath.NextInteractable.ID.actionID) {
-                    InteractablePath.GoToNextInteractable();
-                }
-            }
-            else if (GameManager.Mode == GameMode.Recall)
-                InteractableLog.Add(parent, parent.currentStateID);
-        }
-
-        public void onClickCheck() {
-            SetCheckButtonActive(false);
-
-            if(GameManager.Mode == GameMode.Rehearsal)
-                InteractablePath.GoToNextInteractable();
-            else if(GameManager.Mode == GameMode.Recall)
-                InteractableLog.Add(parent, parent.currentStateID);
-        }
-
-        public void onHoverUI()
-        {
-            GameManager.State = GameState.Interact;
-            showCurrentActions();
-            InteractableManager.SetActiveInteractable(parent);
-        }
-
-        public void offHoverUI()
-        {
-            GameManager.State = GameState.Play;
-        }
-
-        public void toggleActions()
-        {
+        /// <summary> Toogles Action Buttons </summary>
+        public void toggleActions()  {
             bool isShown = actionButtons[0].gameObject.activeSelf;
             if (isShown)
                 hideActions();
@@ -260,34 +227,62 @@ namespace SeedQuest.Interactables
                 showActions();
         }
 
-        public void SetScale()
+        /// <summary> Hide Action Button UI </summary>
+        public void hideActions() {
+            if (actionButtons == null) return;
+
+            foreach (Button button in actionButtons)
+                button.transform.gameObject.SetActive(false);
+        }
+
+        /// <summary> Show Action Button UI </summary>
+        public void showActions()  {
+            if (actionButtons == null) return;
+
+            foreach (Button button in actionButtons)
+                button.transform.gameObject.SetActive(true);
+        }
+
+        /// <summary> Handles hovering over UI </summary>
+        public void onHoverUI() {
+            GameManager.State = GameState.Interact;
+            showCurrentActions();
+            InteractableManager.SetActiveInteractable(parent);
+        }
+
+        /// <summary> Handles exiting hovering UI </summary>
+        public void offHoverUI()
         {
+            GameManager.State = GameState.Play;
+        }
+
+
+        /// <summary> Sets UI Size Scale </summary>
+        public void SetScale() {
             actionUI.GetComponent<RectTransform>().localScale = new Vector3(-0.01f * scaleSize, 0.01f * scaleSize, 0.01f * scaleSize);
         }
 
-        public void SetPosition()
-        {
+        /// <summary> Sets UI Position </summary>
+        public void SetPosition() {
             Vector3 labelPositionOffset = Vector3.zero;
             if (parent.stateData != null) labelPositionOffset = parent.stateData.labelPosOffset;
             Vector3 position = parent.transform.position + labelPositionOffset + positionOffset;
             actionUI.GetComponent<RectTransform>().position = position;
         }
 
-        public void SetRotation()
-        {
-            if (useRotateToCamera)
-            {
+        /// <summary> Sets UI Rotation </summary>
+        public void SetRotation()  {
+            if (useRotateToCamera) {
                 BillboardInteractable();
                 actionUI.GetComponent<RectTransform>().Rotate(rotationOffset);
             }
-            else
-            {
+            else {
                 actionUI.GetComponent<RectTransform>().rotation = Quaternion.Euler(rotationOffset);
             }
         }
 
-        public void BillboardInteractable()
-        {
+        /// <summary> Sets Billboarding for UI i.e. so UI follows camera </summary>
+        public void BillboardInteractable() {
             Vector3 targetPosition = Camera.main.transform.position - (100 * Camera.main.transform.forward ) ;
             Vector3 interactablePosition = actionUI.transform.position;
             Vector3 lookAtDir = targetPosition - interactablePosition;
@@ -296,22 +291,13 @@ namespace SeedQuest.Interactables
             actionUI.transform.rotation = rotate;
         }
 
-        public void SetText(string text)
-        {
-            if (actionUI == null) return;
-            var textMesh = actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            textMesh.text = text;
-        }
-
-        public string GetText() {
-            return actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
-        }
-
+        /// <summary> Activates Checkmark Button for use with NextPrevSelect </summary>
         private void SetCheckButtonActive(bool active) {
             if (mode == InteractableUIMode.NextPrevSelect)
                 checkButton.gameObject.SetActive(active);
         }
 
+        /// <summary> Activates Checkmark on GridSelect and ListSelect Buttons </summary>
         private void SetCheckImageActive() {
             if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
                 if (InteractablePath.isNextInteractable(parent))
@@ -325,6 +311,7 @@ namespace SeedQuest.Interactables
             }
         }
 
+        /// <summary> Activates Checkmarks for Rehearal Mode </summary>
         public void SetCheckmark(int actionIndex) {
             if (GameManager.Mode == GameMode.Rehearsal) {
                 SetCheckImageActive();
@@ -339,13 +326,5 @@ namespace SeedQuest.Interactables
                 SetCheckButtonActive(true);
             }
         }
-
-        public void SetActionUI(int actionIndex) {
-            InteractableState state = parent.stateData.states[actionIndex];
-            //SetText(parent.Name + ":\n "+ state.actionName);
-            SetText(state.actionName);
-            SetCheckmark(actionIndex);
-        }
-
     }
 }

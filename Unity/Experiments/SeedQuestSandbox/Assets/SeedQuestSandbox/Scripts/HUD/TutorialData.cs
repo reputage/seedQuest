@@ -8,6 +8,11 @@ public class TutorialDataItem
     public string headerText;
     public string bodyText;
     public int bodyTextHeight;
+    public int bodyTextYOffset;
+    public bool useSecondBodyText;
+    public string secondBodyText;
+    public int secondBodyTextHeight;
+    public int secondBodyTextYOffset;
     public int popupHeight;
     public bool useArrow;
     public Vector3 arrowPosition;

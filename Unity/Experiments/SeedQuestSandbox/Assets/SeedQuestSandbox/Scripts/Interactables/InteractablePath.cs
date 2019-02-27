@@ -19,17 +19,33 @@ namespace SeedQuest.Interactables
             }
         }
 
-        public List<Interactable> path = null;
+        /// <summary> Path index for next interactable to complete on Path </summary>
         public int nextIndex = 0;
-        
+
+        /// <summary> List of Interactables which represent the Path of Interactables to Complete </summary>
+        public List<Interactable> path = null;
+
+        /// <summary> List of Interactables which represent the Path </summary>
         static public List<Interactable> Path {
-            get { return Instance.path;  }
+            get { return Instance.path; }
         }
 
+        /// <summary> Path Percent Complete based on ActionsPerGame </summary>
         static public float PercentComplete {
-            get { return 100.0f * Instance.nextIndex / InteractableConfig.ActionsPerGame;}
+            get { return 100.0f * Instance.nextIndex / InteractableConfig.ActionsPerGame; }
         }
 
+        /// <summary> Path Complete Status based on ActionsPerGame </summary>
+        static public bool PathComplete  {
+            get { return Instance.nextIndex >= InteractableConfig.ActionsPerGame; }
+        }
+
+        /// <summary> Path Level Complete based on based on ActionsPerSite </summary>
+        static public bool PathLevelComplete {
+            get { return Instance.nextIndex != 0 && Instance.nextIndex % InteractableConfig.ActionsPerSite == 0; }
+        }
+
+        /// <summary> Next Interactable to complete on Path </summary>
         static public Interactable NextInteractable
         {
             get
@@ -41,11 +57,13 @@ namespace SeedQuest.Interactables
             }
         }
 
+        /// <summary> Checks if interactable is the NextInteractable to be completed for the Path </summary>
         static public bool isNextInteractable(Interactable interactable)
         {
             return interactable == NextInteractable;
         }
 
+        /// <summary> Generated Path of Interactables from a Seed string </summary>
         static public void GeneratePathFromSeed(string seed)
         {
             Instance.nextIndex = 0;
@@ -53,19 +71,23 @@ namespace SeedQuest.Interactables
             Instance.path = new List<Interactable>(converter.encodeSeed(seed));
         }
 
+        /// <summary> Add an interactable to Path </summary>
         static public void Add(Interactable interactable)
         {
             Instance.path.Add(interactable);
         }
 
+        /// <summary> Clear Interactables from Path </summary>
         static public void Clear() {
             Instance.path.Clear();
         }
 
+        /// <summary> Reset Path Index for NextInteractable to First Interactable in Path </summary>
         static public void ResetPath() {
             Instance.nextIndex = 0;
         }
 
+        /// <summary> Increament NextIndex and Initialize NextInteractable in Path </summary>
         static public void GoToNextInteractable()
         {
             if (GameManager.Mode == GameMode.Rehearsal && NextInteractable == InteractableManager.ActiveInteractable) {
@@ -74,8 +96,9 @@ namespace SeedQuest.Interactables
                 if(NextInteractable != null)
                     InitializeNextInteractable();
             }
-        } 
+        }
 
+        /// <summary> Initialize Next Interactable with Hightlights and Setup PreviewUI </summary>
         static public void InitializeNextInteractable() {
             if (GameManager.Mode == GameMode.Rehearsal) {
                 InteractableManager.UnHighlightAllInteractables();

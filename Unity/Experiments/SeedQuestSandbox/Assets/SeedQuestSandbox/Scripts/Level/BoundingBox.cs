@@ -8,10 +8,11 @@ namespace SeedQuest.Level
         public string name;
         public Vector3 center;
         public Vector3 size;
-        public bool debugShow = false;
 
         /// <summary>  Return status of whether an item is within the bounding box </summary>
         public static bool InBounds(Transform item, BoundingBox bounds) {
+            if (item == null) return false;
+
             Vector3 pos = item.position;
             float x0 = bounds.center.x - (bounds.size.x / 2.0f);
             float x1 = bounds.center.x + (bounds.size.x / 2.0f);
