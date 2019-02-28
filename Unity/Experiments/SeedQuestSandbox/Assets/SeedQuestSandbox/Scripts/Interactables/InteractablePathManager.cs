@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 using SeedQuest.SeedEncoder;
@@ -24,27 +23,29 @@ namespace SeedQuest.Interactables {
             }
         }
 
-        public List<Interactable> path;
+        /// <summary> Reference to Interactable Path </summary>
+        public InteractablePath path;
 
-        public List<InteractableLogItem> log;
+        /// <summary> Reference to Interactable Log </summary>
+        public InteractableLog log;
 
-        public string seedString;
+        /// <summary> Seed String </summary>
+        public static string SeedString; 
 
-        public static string SeedString { 
-            get { return Instance.seedString; }
-        }
+        /// <summary> Has the Interactabled Path been initialized before important for MultiLevel Games </summary>
+        static public bool IsPathInitialized = false;
 
+        /// <summary> Has a Level been compleleted for MultiLevel Game </summary>
+        static public bool ShowLevelComplete = false;
+
+        /// <summary> Flag for Interactabled Initlized first time </summary>
         private bool isNextHighlighted = false;
 
         private void Awake() {
-            seedString = "EB204654C9";
-            //seedString = RandomUtils.GetRandomHexNumber(10);
+            path = InteractablePath.Instance;
+            log = InteractableLog.Instance;
 
-            if (InteractableManager.InteractableList.Length == 0)
-                return;
-
-            SetupInteractablePathIDs();
-            InitalizePathAndLog();
+            InitializeSeed();
         }
 
         private void Update() {
@@ -62,7 +63,7 @@ namespace SeedQuest.Interactables {
                     GameManager.State = GameState.End;
                     EndGameUI.ToggleOn();
                 }
-                else if(LevelManager.IsMultiLevelGame && InteractablePath.PathLevelComplete) {
+                else if(LevelManager.IsMultiLevelGame && ShowLevelComplete) {
                     GameManager.State = GameState.Menu;
                     LevelClearUI.ToggleOn();
                 }
@@ -70,32 +71,55 @@ namespace SeedQuest.Interactables {
             else if(GameManager.Mode == GameMode.Recall) {
                 if(InteractableLog.PathComplete) {
                     SeedConverter converter = new SeedConverter();
-                    seedString = converter.DecodeSeed();
+                    SeedString = converter.DecodeSeed();
                     GameManager.State = GameState.End;
                     EndGameUI.ToggleOn();
                 }
-                else if(LevelManager.IsMultiLevelGame && InteractableLog.PathLevelComplete) {
+                else if(LevelManager.IsMultiLevelGame &&  ShowLevelComplete) {
                     GameManager.State = GameState.Menu;
                     LevelClearUI.ToggleOn();
                 }
             }
         }
 
-        static public void InitalizePathAndLog() {
-            Instance.isNextHighlighted = false;
-
-            InteractablePath.GeneratePathFromSeed(Instance.seedString);
-            Instance.path = InteractablePath.Path;
-
-            InteractableLog.Clear();
-            Instance.log = InteractableLog.Log;
+        static public void InitializeSeed() {
+            SeedString = "EB204654C9";
+            //seedString = RandomUtils.GetRandomHexNumber(10);
         }
 
+
+        static public void Reset() {
+            IsPathInitialized = false;
+            ShowLevelComplete = false;
+        }
+
+        /// <summary> Reset Interactable Path and Log </summary>
+        static public void InitalizePathAndLog() {
+            InteractablePath.ResetPath();
+            InteractablePath.GeneratePathFromSeed(SeedString);
+            InteractableLog.Clear();
+
+            Instance.isNextHighlighted = false;
+            IsPathInitialized = true;
+            ShowLevelComplete = false;
+        }
+
+        /// <summary> Intialize Interactable Path and Log for MultiLevel Game </summary>
+        static public void InitalizePathAndLogForMultiLevelGame() {
+            InteractablePath.GeneratePathFromSeed(SeedString);
+            InteractablePath.InitializeNextInteractable();
+
+            Instance.isNextHighlighted = false;
+            ShowLevelComplete = false;
+        }
+
+        /// <summary> Initializes Interactable Path Site and Interactable IDs </summary>
         static public void SetupInteractablePathIDs() {
             Interactable[] list = InteractableManager.InteractableList;
 
             int[] indices = RandomUtils.GetRandomIndexArray(InteractableConfig.InteractableCount);
 
+            // Set InteractablePath IDs based on BoundingBoxes in Scene 
             int siteCount = LevelManager.LevelIndex;
             foreach (BoundingBox bounds in LevelManager.Bounds) {
                 
@@ -116,7 +140,8 @@ namespace SeedQuest.Interactables {
                         subset[i].ID.spotID = -1;
                 }
 
-                if (subset.Count < InteractableConfig.InteractableCount)
+                // Throw Error for not enough interactables in a Site
+                if (GameManager.Mode != GameMode.Sandbox && subset.Count < InteractableConfig.InteractableCount)
                     Debug.Log("WARNING: SiteBounds does not contain sufficent interactables.");
 
                 siteCount++;

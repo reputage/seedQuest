@@ -53,7 +53,7 @@ namespace SeedQuest.Interactables
         private List<RectTransform> canvasTransforms;
         private RectTransform imageTransform;
 
-        private void Start()  {
+        private void Awake()  {
             locationObservable = new Observable<InteractablePreviewLocation>( () => location, _ => {location = _;} );
             scaleObservable = new Observable<float>(() => previewScale, _ => { previewScale = _; } );
 

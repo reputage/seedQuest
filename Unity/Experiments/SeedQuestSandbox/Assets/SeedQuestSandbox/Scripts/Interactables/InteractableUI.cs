@@ -55,8 +55,7 @@ namespace SeedQuest.Interactables
         }
 
         /// <summary> Ready Status of InteractableUI </summary>
-        public bool isReady()
-        {
+        public bool isReady() {
             return actionUI != null;
         }
 
@@ -133,6 +132,7 @@ namespace SeedQuest.Interactables
                 checkButton = buttons[1];
                 checkButton.onClick.AddListener(onClickCheck);
                 checkButton.gameObject.SetActive(false);
+                setButtonHoverEvents(checkButton);
             }
         }
 
@@ -169,9 +169,10 @@ namespace SeedQuest.Interactables
             if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect)
                 hideActions();
 
-            if (GameManager.Mode == GameMode.Rehearsal)
+            if (GameManager.Mode == GameMode.Rehearsal) {
                 if (actionIndex == InteractablePath.NextInteractable.ID.actionID)
                     InteractablePath.GoToNextInteractable();
+            }
             else if (GameManager.Mode == GameMode.Recall)
                 InteractableLog.Add(parent, parent.currentStateID);
         }
@@ -251,8 +252,7 @@ namespace SeedQuest.Interactables
         }
 
         /// <summary> Handles exiting hovering UI </summary>
-        public void offHoverUI()
-        {
+        public void offHoverUI() {
             GameManager.State = GameState.Play;
         }
 
@@ -321,8 +321,7 @@ namespace SeedQuest.Interactables
                 else
                     SetCheckButtonActive(false);
             }
-            else if (GameManager.Mode == GameMode.Recall)
-            {
+            else if (GameManager.Mode == GameMode.Recall) {
                 SetCheckButtonActive(true);
             }
         }

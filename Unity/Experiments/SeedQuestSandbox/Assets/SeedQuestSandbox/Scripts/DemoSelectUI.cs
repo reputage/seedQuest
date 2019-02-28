@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+using SeedQuest.Interactables;
+
 [System.Serializable]
 public class DemoInfo {
     public string name;
@@ -27,7 +29,9 @@ public class DemoSelectUI : MonoBehaviour {
     public int buttonPadding = 60;
 
     private void Start() {
-        GameManager.ResetGameState();
+        GameManager.ResetCursor();
+        InteractableManager.Reset();
+        InteractablePathManager.Reset();
 
         GameObject sideNav = GameObject.FindGameObjectWithTag("SideNav");
 

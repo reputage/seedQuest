@@ -17,6 +17,7 @@ public class EndGameUI : MonoBehaviour {
         }
     }
 
+    /// <summary> Toggles On the EndGameUI </summary>
     static public void ToggleOn() {
         if (Instance.gameObject.activeSelf)
             return;
@@ -31,10 +32,14 @@ public class EndGameUI : MonoBehaviour {
             textList[1].text = "Key is Recovered!";
     }
 
+    /// <summary> Handles selecting PrototypeSelect Button </summary>
     public void PrototypeSelect() {
+        InteractablePathManager.InitalizePathAndLog();
+        InteractableManager.destroyInteractables();
         SceneManager.LoadScene("PrototypeSelect");
     }
 
+    /// <summary> Handles selecting Recall Button </summary>
     public void Recall() {
         GameManager.Mode = GameMode.Recall;
         GameManager.State = GameState.Play;
@@ -46,8 +51,8 @@ public class EndGameUI : MonoBehaviour {
         SceneManager.LoadScene(scene.name);
     }
 
-    public void Rehearsal()
-    {
+    /// <summary> Handles selecting Rehearsal Button </summary>
+    public void Rehearsal() {
         GameManager.Mode = GameMode.Rehearsal;
         GameManager.State = GameState.Play;
 

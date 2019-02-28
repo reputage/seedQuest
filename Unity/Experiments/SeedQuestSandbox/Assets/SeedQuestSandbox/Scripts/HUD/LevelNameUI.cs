@@ -26,24 +26,27 @@ public class LevelNameUI : MonoBehaviour
     private Transform player;
 
     void Start() {
-        var playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-            player = playerObject.transform;
-        else
-            Debug.LogError("Error: Player is missing from Scene.");
-
         backgroundImage = GetComponentInChildren<Image>();
         TextMeshProUGUI[] textmesh = GetComponentsInChildren<TextMeshProUGUI>();
         levelNameUI = textmesh[0];
         zoneNameui = textmesh[1];
+    }
 
+    private void Update() {
+        GetPlayer();
         UpdateText();
         UpdateBackground();
     }
 
-    private void Update() {
-        UpdateText();
-        UpdateBackground();
+    private void GetPlayer() {
+        if(player == null) {
+            var playerObject = GameObject.FindGameObjectWithTag("Player");
+
+            if (playerObject != null)
+                player = playerObject.transform;
+            else
+                Debug.Log("Error: Player not in Scene!");
+        }
     }
 
     void UpdateText() {

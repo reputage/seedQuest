@@ -64,9 +64,7 @@ namespace SeedQuest.Interactables
         }
 
         /// <summary> Generated Path of Interactables from a Seed string </summary>
-        static public void GeneratePathFromSeed(string seed)
-        {
-            Instance.nextIndex = 0;
+        static public void GeneratePathFromSeed(string seed) {
             SeedConverter converter = new SeedConverter();
             Instance.path = new List<Interactable>(converter.encodeSeed(seed));
         }
@@ -92,6 +90,9 @@ namespace SeedQuest.Interactables
         {
             if (GameManager.Mode == GameMode.Rehearsal && NextInteractable == InteractableManager.ActiveInteractable) {
                 Instance.nextIndex++;
+
+                if (PathLevelComplete)
+                    InteractablePathManager.ShowLevelComplete = true;
 
                 if(NextInteractable != null)
                     InitializeNextInteractable();
