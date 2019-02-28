@@ -60,10 +60,10 @@ public static class CommandLineManager
     // Example of running tests in command line, not actually funcitonal yet.
     public static string seedTests(string input)
     {
-        MonoBehaviour seedTests = new SeedToByteTests();
+        MonoBehaviour seedBehavior = new SeedToByteTests();
 
         // TO DO: this can potentially cause memory problems, since Destroy() can't be used here
-        string passedString = seedTests.GetComponent<SeedToByteTests>().runAllTests();
+        string passedString = seedBehavior.GetComponent<SeedToByteTests>().runAllTests();
         return passedString;
     }
 

@@ -335,12 +335,6 @@ namespace SeedQuest.SeedEncoder
             int locator = 0;
             int writeIndex = 0;
 
-            if (bits.Length > 128)
-            {
-                Debug.Log("Error: Provided seed is greater than 128 bits.");
-                return actionValues;
-            }
-
             for (int i = 0; i < bits.Length; i++)
             {
                 if (writeIndex >= (varList.Count))
@@ -497,12 +491,14 @@ namespace SeedQuest.SeedEncoder
 
         public static byte[] adjustFinalBytesSize(byte[] finalBytes, int totalBits)
         {
-            if (totalBits < 64)
-                finalBytes = resizeByteArray(finalBytes, totalBits, 64);
-            else if (totalBits < 128 && totalBits > 64)
-                finalBytes = resizeByteArray(finalBytes, totalBits, 128);
-            else if (totalBits < 192 && totalBits > 128)
-                finalBytes = resizeByteArray(finalBytes, totalBits, 192);
+            int upperLimit = 0;
+
+            if (totalBits % 64 == 0)
+                upperLimit = totalBits;
+            else
+                upperLimit = ((totalBits / 64) + 1) * 64;
+
+            finalBytes = resizeByteArray(finalBytes, totalBits, upperLimit);
 
             return finalBytes;
         }

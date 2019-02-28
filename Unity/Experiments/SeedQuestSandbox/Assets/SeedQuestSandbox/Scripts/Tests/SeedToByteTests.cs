@@ -34,6 +34,11 @@ namespace SeedQuest.SeedEncoder
             return passedString;
         }
 
+        public void runAllTestsButton()
+        {
+            string passed = runAllTests();    
+        }
+
         // This function helps make the test running code a bit cleaner
         public void sumTest(ref int[] passed, int[] testPassed)
         {
@@ -261,7 +266,7 @@ namespace SeedQuest.SeedEncoder
         {
             int[] passed = new int[2];
 
-            for (int i = 10; i < 129; i++)
+            for (int i = 10; i < 512; i++)
             {
                 List<int> hexList = new List<int>();
                 for (int j = 0; j < i; j++)
