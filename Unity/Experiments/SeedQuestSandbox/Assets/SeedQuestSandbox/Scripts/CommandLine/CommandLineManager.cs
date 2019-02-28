@@ -16,7 +16,8 @@ public static class CommandLineManager
         {"print", print},
         {"gamestate", setGameState},
         {"loadscene", loadScene},
-        {"seedtests", seedTests}
+        {"seedtests", seedTests},
+        {"moveplayer", movePlayer}
     };
 
     // Here's a template for an example of command. 
@@ -52,7 +53,7 @@ public static class CommandLineManager
     {
         if (input == "")
             return "No scene specified";
-        
+
         SceneManager.LoadScene(input);
         return "Loading scene: " + input;
     }
@@ -65,6 +66,35 @@ public static class CommandLineManager
         // TO DO: this can potentially cause memory problems, since Destroy() can't be used here
         string passedString = seedBehavior.GetComponent<SeedToByteTests>().runAllTests();
         return passedString;
+    }
+
+    // Placeholder function to move the player when playerManager gets imported into seedquest-sandbox
+    public static string movePlayer(string input)
+    {
+        // Replace this line with the reference to the player object to move
+        //GameObject player = new GameObject();
+
+        string[] stringInputs = input.Split(null);
+        int[] intInput = new int[3];
+        bool validInts = false;
+        for (int i = 0; i < intInput.Length; i++)
+        {
+            validInts = int.TryParse(stringInputs[i], out intInput[i]);
+            Debug.Log("int " + i + ": " + intInput[i]);
+        }
+
+        Vector3 coordinates = new Vector3(intInput[0], intInput[1], intInput[2]);
+
+        if (!validInts)
+        {
+            return "Invalid coordinates entered";
+        }
+
+        // Replace this with code relevant to changing the player position
+        //else
+        //{ player.transform.position = coordinates; }
+
+        return "Moving player to " + intInput[0] + " " + intInput[1] + " " + intInput[2];
     }
 
     // Set the gamestate. string.StartsWith() is used so that the user input doesn't need to be
