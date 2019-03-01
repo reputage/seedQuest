@@ -13,9 +13,9 @@ public class CommandLineInputUI : MonoBehaviour
     public Image panelImage;
     public Text inputText;
     public Text terminalText;
-
     public Coroutine fadeOut = null;
 
+    public bool ready;
 
     void Start()
     {
@@ -34,6 +34,7 @@ public class CommandLineInputUI : MonoBehaviour
             parseInputCommand(inputField.text);
             fadeOut = StartCoroutine(fadeUi());
             clearInputField();
+            ready = true;
             //terminalToggleActive();
         }
     }
@@ -49,6 +50,7 @@ public class CommandLineInputUI : MonoBehaviour
         inputText = inputField.GetComponentInChildren<Text>();
         terminalText = terminalLines.GetComponentInChildren<Text>();
 
+        ready = true;
         setActiveUi(false);
     }
 
@@ -106,17 +108,19 @@ public class CommandLineInputUI : MonoBehaviour
 	// Toggle whether the terminal is active
 	public void terminalToggleActive()
     {
-        if (commandLineField.activeSelf)
+        if (!ready)
         {
             // Deactivate the UI
             clearInputField();
             stopFade();
+            ready = true;
             setActiveUi(false);
         }
         else
         {
             // Activate the UI
             stopFade();
+            ready = false;
             setActiveUi(true);
             clearInputField();
             inputField.ActivateInputField();
@@ -154,20 +158,14 @@ public class CommandLineInputUI : MonoBehaviour
         else if (input.Length == 2)
             parameter = input[1];
 
-        if (verifyCommandExists(input[0]))
+        if (CommandLineManager.commands.ContainsKey(text))
             output = CommandLineManager.commands[input[0]](parameter);
+        else if (CommandLineManager.fluffCommands.ContainsKey(text))
+            output = CommandLineManager.fluffCommands[input[0]](parameter);
+        else if (output != "")
+            output = ("Command: '" + text + "' not recognized");
 
-        if (output != "")
-            print(output);
-    }
-
-    // Checks to see if the command can be found in the dictionary of commands
-    public bool verifyCommandExists(string text)
-    {
-        if (!CommandLineManager.commands.ContainsKey(text))
-            print("Command: '" + text + "' not recognized");
-
-        return CommandLineManager.commands.ContainsKey(text);
+        print(output);
     }
 
     // Just prints to Debug.Log for now, should instead display to the front end terminal eventually

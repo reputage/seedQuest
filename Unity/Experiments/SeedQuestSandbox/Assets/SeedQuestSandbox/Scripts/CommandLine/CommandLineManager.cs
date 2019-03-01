@@ -20,6 +20,14 @@ public static class CommandLineManager
         {"moveplayer", movePlayer}
     };
 
+    public static Dictionary<string, Func<string, string>> fluffCommands =
+        new Dictionary<string, Func<string, string>>
+    {
+        {"hello", hello},
+        {"jello", jello}
+
+    };
+
     // Here's a template for an example of command. 
     //  For a command to work, it needs to be added to the above dictionary,
     //  and the dictionary key for the function needs to be all lowercase
@@ -29,11 +37,10 @@ public static class CommandLineManager
         return input;
     }
 
-    // Displays some information to the user. If parameter string isn't found in helpInformation,
-    //  then prints out a list of available commands
+    // Prints out a list of available command line commands
     public static string help(string input)
     {
-        string returnString = "Available command line commands:";
+        string returnString = "Available commands:";
         foreach (string key in commands.Keys)
         {
             returnString += "\n" + key;
@@ -157,6 +164,18 @@ public static class CommandLineManager
         }
 
         return "Game state by name of '" + input + "' not found.";
+    }
+
+    // Say hello to the user - fluff function
+    public static string hello(string input)
+    {
+        return "Hello world!";
+    }
+
+    // Say jello to the user - fluff funciton
+    public static string jello(string input)
+    {
+        return "Well jello to you too! Nice to meet you!";
     }
 
 }
