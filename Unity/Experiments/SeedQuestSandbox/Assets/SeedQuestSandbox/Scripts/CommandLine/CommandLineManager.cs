@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using SeedQuest.SeedEncoder;
+using SeedQuest.Interactables;
 
 public static class CommandLineManager
 {
@@ -17,15 +18,21 @@ public static class CommandLineManager
         {"gamestate", setGameState},
         {"loadscene", loadScene},
         {"seedtests", seedTests},
-        {"moveplayer", movePlayer}
+        {"moveplayer", movePlayer},
+        {"showcolliders", showBoxColliders},
+        {"random", random}
     };
 
+    // Dictionary for 'fluff' functions. They are not necessary, and are just for fun
+    //  These are in a separate dictionary so that they won't be displayed to the 
+    //  user from the 'help' command output.
     public static Dictionary<string, Func<string, string>> fluffCommands =
         new Dictionary<string, Func<string, string>>
     {
+        {"helpfluff", helpFluff},
         {"hello", hello},
-        {"jello", jello}
-
+        {"jello", jello},
+        {"hi", hi}
     };
 
     // Here's a template for an example of command. 
@@ -75,6 +82,19 @@ public static class CommandLineManager
         return passedString;
     }
 
+    // Show box colliders on all interactables
+    public static string showBoxColliders(string input)
+    {
+        Interactable[] interactables = InteractableManager.InteractableList;
+        for (int i = 0; i < interactables.Length; i++)
+        {
+            // I'm not sure how to display the box colliders visually, but the code for it should go here
+            //interactables[i].
+        }
+
+        return "This function is still a work in progress";
+    }
+
     // Placeholder function to move the player when playerManager gets imported into seedquest-sandbox
     public static string movePlayer(string input)
     {
@@ -102,6 +122,14 @@ public static class CommandLineManager
         //{ player.transform.position = coordinates; }
 
         return "Moving player to " + intInput[0] + " " + intInput[1] + " " + intInput[2];
+    }
+
+    // Generates random number between 1 and 100
+    public static string random(string input)
+    {
+        float rand = UnityEngine.Random.Range(1.0f, 100.0f);
+        int randI = (int)rand;
+        return "Your random number is: " + randI;
     }
 
     // Set the gamestate. string.StartsWith() is used so that the user input doesn't need to be
@@ -166,6 +194,21 @@ public static class CommandLineManager
         return "Game state by name of '" + input + "' not found.";
     }
 
+    // From here all functions are 'fluff' functions - they are just here for fun, and 
+    //  are not necessary for debug purposes, but I've created them because they
+    //  make me happy 
+
+    // Help - for fluff functions
+    public static string helpFluff(string input)
+    {
+        string returnString = "Available commands:";
+        foreach (string key in fluffCommands.Keys)
+        {
+            returnString += "\n" + key;
+        }
+        return returnString;
+    }
+
     // Say hello to the user - fluff function
     public static string hello(string input)
     {
@@ -176,6 +219,12 @@ public static class CommandLineManager
     public static string jello(string input)
     {
         return "Well jello to you too! Nice to meet you!";
+    }
+
+    // Ask them how they're doing - fluff funciton
+    public static string hi(string input)
+    {
+        return "Hi! How are you today?";
     }
 
 }
