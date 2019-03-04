@@ -4,6 +4,11 @@ using UnityEngine;
 
 using SeedQuest.Interactables;
 
+[System.Serializable]
+public class InteractableTrackerProps {
+    public Vector3 positionOffset = Vector3.zero;
+}
+
 public class InteractableTrackerUI : MonoBehaviour
 {
     public bool isFixedToCenterEdge = true;
@@ -11,11 +16,14 @@ public class InteractableTrackerUI : MonoBehaviour
     public float angleOffset = 25;
     public float wobbleStrength = 10;
     public float wobbleSpeed = 5;
+    public float nearDistance = 4;
+    public float nearOpacity = 0.5f;
 
     private Transform player;
     private new Camera camera;
     private RectTransform tracker;
     private RectTransform arrow;
+    private CanvasGroup canvasGroup;
 
     private float angle;
     private Vector3 screenPosition;
@@ -37,13 +45,16 @@ public class InteractableTrackerUI : MonoBehaviour
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         tracker = GetComponentsInChildren<RectTransform>()[1];
         arrow = GetComponentsInChildren<RectTransform>()[5];
+        canvasGroup = GetComponentInChildren<CanvasGroup>();
     }
 
     void Update() {
-        if (InteractablePath.NextInteractable != null)
+        if (InteractablePath.NextInteractable != null) {
             SetPositionClamp();
             SetTrackerIconPosition();
             SetArrowIconPosition();
+            SetOpacity();
+        }
     }
 
     /// <summary> Sets the position clamp status for TrackerIcon i.e. when outside of the bounds of screen it sets which edges of the screen it is out of bounds </summary>
@@ -58,15 +69,14 @@ public class InteractableTrackerUI : MonoBehaviour
     private void SetTrackerIconPosition() {
         if(InteractablePath.NextInteractable == null)
             return;
-        
-        unclampedScreenPosition = camera.WorldToScreenPoint(InteractablePath.NextInteractable.transform.position);
+
+        unclampedScreenPosition = camera.WorldToScreenPoint(InteractablePath.NextInteractable.transform.position + positionOffset + InteractablePath.NextInteractable.interactableTracker.positionOffset);
         screenPosition = unclampedScreenPosition;
 
         Vector3 wobble = Vector3.zero;
         Vector3 _positionOffset = Vector3.zero;
         if(InBounds(screenPosition) && screenPosition.z > 0) {
             wobble = wobbleStrength * Vector3.up * Mathf.Sin(wobbleSpeed * Time.time);
-            _positionOffset = positionOffset;
         }
         else if(InBounds(screenPosition) && screenPosition.z < 0) {
             // Clamp TrackerIcon when Next Interactable when object is behind camera
@@ -166,5 +176,18 @@ public class InteractableTrackerUI : MonoBehaviour
         float y0 = 0; 
         float y1 = camera.scaledPixelHeight;
         return x0 <= pos.x && pos.x <= x1 && y0 <= pos.y && pos.y <= y1;
+    }
+
+    public void SetOpacity() {
+        Vector3 mag = player.position - InteractablePath.NextInteractable.transform.position;
+        if (mag.magnitude < nearDistance) {
+            canvasGroup.alpha = nearOpacity;
+            float scale = (mag.magnitude / nearDistance) * 0.5f + 0.5f;
+            canvasGroup.GetComponent<RectTransform>().localScale = new Vector3(scale, scale, scale);
+        }
+        else {
+            canvasGroup.alpha = 1.0f;
+            canvasGroup.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 }
