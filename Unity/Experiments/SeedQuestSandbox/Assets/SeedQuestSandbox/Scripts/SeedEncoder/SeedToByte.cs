@@ -480,8 +480,8 @@ namespace SeedQuest.SeedEncoder
                         pathAddRemainder(varList, listIndex, ref bitsShifted,
                                          ref remainder, ref remainderBits, ref path);
 
-                while (bitsShifted < 64)
-                    pathAddValues(actions, varList, ref listIndex, ref bitsShifted,
+                //while (bitsShifted < 64)
+                pathAddValues(actions, varList, ref listIndex, ref bitsShifted,
                                  ref remainder, ref remainderBits, ref path);
 
                 finalBytes = convertPathToBytes(finalBytes, path);
@@ -528,52 +528,59 @@ namespace SeedQuest.SeedEncoder
                                         ref int bitsShifted, ref int remainder,
                                         ref int remainderBits, ref ulong path)
         {
-            if (listIndex < actions.Length) // Add actions to the int64
+            while (bitsShifted < 64)
             {
-                path += (ulong)actions[listIndex];
-            }
-            if (listIndex + 1 >= varList.Count) // if there are no more ints in the list, shift to 64 bits
-            {
-                path = path << (64 - bitsShifted);
-                bitsShifted += 64;
-            }
-            else if (bitsShifted + varList[listIndex + 1] > 64) // if about to overflow 64 bits
-            {
-                int[] partialAction = findLeadingBitValue((64 - bitsShifted),
-                                                          varList[listIndex + 1], actions[listIndex + 1]);
-                remainder = partialAction[1];
-                remainderBits = partialAction[2];
-                path = path << (64 - bitsShifted);
-                path += (ulong)partialAction[0];
-                bitsShifted += 64;
-            }
-            else if (bitsShifted + varList[listIndex + 1] == 64) // if the bits divide evenly into 64 bits
-            {
-                path = path << varList[listIndex + 1];
-                path += (ulong)actions[listIndex + 1];
-                bitsShifted += varList[listIndex + 1];
-            }
-            else if ((listIndex + 1) < varList.Count) // shift the bits of the int64
-            {
-                path = path << varList[listIndex + 1];
-                bitsShifted += varList[listIndex + 1];
-            }
-            else if (listIndex == varList.Count - 1) // if the list has reached the end
-            {
-                path = path << (64 - bitsShifted);
-                bitsShifted += 64;
-            }
+                if (listIndex < actions.Length) // Add actions to the int64
+                {
+                    path += (ulong)actions[listIndex];
+                }
+                if (listIndex + 1 >= varList.Count) // if there are no more ints in the list, shift to 64 bits
+                {
+                    path = path << (64 - bitsShifted);
+                    bitsShifted += 64;
+                }
+                else if (bitsShifted + varList[listIndex + 1] > 64) // if about to overflow 64 bits
+                {
+                    int[] partialAction = findLeadingBitValue((64 - bitsShifted),
+                                                              varList[listIndex + 1], actions[listIndex + 1]);
+                    remainder = partialAction[1];
+                    remainderBits = partialAction[2];
+                    path = path << (64 - bitsShifted);
+                    path += (ulong)partialAction[0];
+                    bitsShifted += 64;
+                }
+                else if (bitsShifted + varList[listIndex + 1] == 64) // if the bits divide evenly into 64 bits
+                {
+                    path = path << varList[listIndex + 1];
+                    path += (ulong)actions[listIndex + 1];
+                    bitsShifted += varList[listIndex + 1];
+                }
+                else if ((listIndex + 1) < varList.Count) // shift the bits of the int64
+                {
+                    path = path << varList[listIndex + 1];
+                    bitsShifted += varList[listIndex + 1];
+                }
+                else if (listIndex == varList.Count - 1) // if the list has reached the end
+                {
+                    path = path << (64 - bitsShifted);
+                    bitsShifted += 64;
+                }
 
-            listIndex++;
+                listIndex++;
+            }
         }
 
         // Add remainder from previous path ulong into the current path ulong
         public static void pathAddRemainder(List<int> varList, int listIndex, ref int bitsShifted,
                                             ref int remainder, ref int remainderBits, ref ulong path)
         {
+            //Debug.Log("Current varList value: " + varList[listIndex] + " varlist length: " + varList.Count + " index: " + listIndex);
             path += (ulong)remainder;
             path = path << varList[listIndex];
-            bitsShifted += varList[listIndex + 1];
+            if (varList.Count > listIndex + 1)
+                bitsShifted += 0;//varList[listIndex + 1];
+            else
+                Debug.Log("Can't add bitsShifted by varList[listIndex+1]");
             bitsShifted += remainderBits;
             remainder = 0;
             remainderBits = 0;
