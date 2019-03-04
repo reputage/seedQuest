@@ -69,6 +69,11 @@ namespace SeedQuest.Interactables
             Instance.path = new List<Interactable>(converter.encodeSeed(seed));
         }
 
+        static public InteractableID[] GetPathIDsFromSeed(string seed) {
+            SeedConverter converter = new SeedConverter();
+            return converter.getPathIDs(seed);
+        }
+
         /// <summary> Add an interactable to Path </summary>
         static public void Add(Interactable interactable)
         {
@@ -89,6 +94,8 @@ namespace SeedQuest.Interactables
         static public void GoToNextInteractable()
         {
             if (GameManager.Mode == GameMode.Rehearsal && NextInteractable == InteractableManager.ActiveInteractable) {
+                InteractableLog.Add(NextInteractable, NextInteractable.ID.actionID);
+
                 Instance.nextIndex++;
 
                 if (PathLevelComplete)

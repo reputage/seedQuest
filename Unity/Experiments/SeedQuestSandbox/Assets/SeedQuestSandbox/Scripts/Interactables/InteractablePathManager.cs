@@ -113,6 +113,14 @@ namespace SeedQuest.Interactables {
             ShowLevelComplete = false;
         }
 
+        static public InteractableID[] GetPathIDs() {
+            return InteractablePath.GetPathIDsFromSeed(SeedString);
+        }
+
+        static public int NextInteractableSiteID() {
+            return GetPathIDs()[InteractablePath.Instance.nextIndex].siteID;
+        }
+
         /// <summary> Initializes Interactable Path Site and Interactable IDs </summary>
         static public void SetupInteractablePathIDs() {
             Interactable[] list = InteractableManager.InteractableList;

@@ -55,7 +55,6 @@ namespace SeedQuest.Interactables
 
         static public void destroyInteractables() {
             foreach (Interactable interactable in FindAllInteractables()) {
-                interactable.DeleteUI();
                 interactable.Delete();
             }
         }
