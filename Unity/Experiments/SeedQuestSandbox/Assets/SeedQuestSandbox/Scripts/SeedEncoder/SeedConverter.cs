@@ -30,7 +30,7 @@ namespace SeedQuest.SeedEncoder
         /// Returns list of Interactable IDs generated from encoding a seed string into
         /// a series of interactable actions.
         /// </summary>
-        private InteractableID[] getPathIDs(string seedString) {
+        public InteractableID[] getPathIDs(string seedString) {
             int[] actions = converter.getActions(seedString);
             List<InteractableID> locationIDs = new List<InteractableID>();
 
@@ -74,7 +74,7 @@ namespace SeedQuest.SeedEncoder
                 int row = pathIDs[i].siteID;
                 int col = pathIDs[i].spotID;
                 interactablePath[i] = LUT[row, col];
-                if(interactablePath[i] != null)
+                if (interactablePath[i] != null)
                     interactablePath[i].ID.actionID = pathIDs[i].actionID;
             }
 

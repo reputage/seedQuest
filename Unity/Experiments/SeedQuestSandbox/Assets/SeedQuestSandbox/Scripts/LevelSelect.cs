@@ -22,6 +22,7 @@ public class LevelSelect : MonoBehaviour {
 
     private GameObject levelsCanvas;
     private int currentLevel = 0;
+    private List<Button> levelButtonList;
 
     private void Start() {
         
@@ -31,17 +32,21 @@ public class LevelSelect : MonoBehaviour {
 
         // Get LevelListCanvas
         levelsCanvas = GameObject.FindGameObjectWithTag("LevelListCanvas");
+        levelButtonList = new List<Button>();
 
         // Destroy unnecessary gameobjects
         foreach (Transform child in levelsCanvas.transform)
             GameObject.Destroy(child.gameObject);
 
+
         // Create LevelButtons
         int i = 0;
         foreach(LevelInfo level in levelList) {
-            createLevelButton(levelsCanvas.transform, new Vector3(0, -i * (height + padding), 0), new Vector2(512, 512), level.levelImage);
+            Button button = createLevelButton(levelsCanvas.transform, new Vector3(0, -i * (height + padding), 0), new Vector2(512, 512), level.levelImage);
+            levelButtonList.Add(button);
             i++;
         }
+        SetValidLevelSelect();
 
         // Add Button Listeners to LevelButtons
         GameObject.FindGameObjectWithTag("NextButton").GetComponent<Button>().onClick.AddListener(nextLevel);
@@ -75,6 +80,19 @@ public class LevelSelect : MonoBehaviour {
         setCurrentLevelText();
     }
 
+    private void SetValidLevelSelect() {
+        if(GameManager.Mode == GameMode.Rehearsal) {
+            foreach (Button button in levelButtonList)
+                button.interactable = false;
+
+            levelButtonList[InteractablePathManager.NextInteractableSiteID()].interactable = true;   
+        }
+        else {
+            foreach (Button button in levelButtonList)
+                button.interactable = true;
+        }
+    }
+
     private void setBackgroundColor() {
         GameObject.FindGameObjectWithTag("BackgroundImage").GetComponent<Image>().color = levelList[currentLevel].backgroundColor;
     }
@@ -83,7 +101,7 @@ public class LevelSelect : MonoBehaviour {
         GameObject.FindGameObjectWithTag("CurrentLevelText").GetComponent<TMPro.TextMeshProUGUI>().text = levelList[currentLevel].name;
     }
 
-    private GameObject createLevelButton(Transform parent, Vector3 position, Vector2 size, Sprite image) {
+    private Button createLevelButton(Transform parent, Vector3 position, Vector2 size, Sprite image) {
         GameObject button = new GameObject("Level Button"); 
         button.transform.parent = parent;
         button.AddComponent<RectTransform>();
@@ -96,6 +114,6 @@ public class LevelSelect : MonoBehaviour {
         button.GetComponent<Image>().sprite = image;
         button.GetComponent<Button>().targetGraphic = button.GetComponent<Image>();
         button.GetComponent<Button>().onClick.AddListener(selectLevel);
-        return button;
+        return button.GetComponent<Button>();
     }
 }
