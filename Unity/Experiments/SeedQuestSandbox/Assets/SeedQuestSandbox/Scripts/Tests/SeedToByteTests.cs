@@ -27,9 +27,9 @@ namespace SeedQuest.SeedEncoder
             sumTest(ref passed, testFindLeadingBits());
             sumTest(ref passed, testBreakPoints());
             sumTest(ref passed, testSmallSeeds());
-            //sumTest(ref passed, testAllSizeSeeds());
-            //sumTest(ref passed, testSeeds4BitActions());
-            //sumTest(ref passed, testSeeds5BitActions());
+            sumTest(ref passed, testAllSizeSeeds());
+            sumTest(ref passed, testSeeds4BitActions());
+            sumTest(ref passed, testSeeds5BitActions());
             sumTest(ref passed, testSeedsVariableBitActions());
 
             string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
@@ -54,10 +54,31 @@ namespace SeedQuest.SeedEncoder
             return passedString;
         }
 
+        public IEnumerator runAllTestsCoroutine()
+        {
+            int[] passed = new int[2];
+
+            sumTest(ref passed, testByteBitConversion());
+            sumTest(ref passed, testMultipleSizeSeeds());
+            sumTest(ref passed, testFindLeadingBits());
+            sumTest(ref passed, testBreakPoints());
+            sumTest(ref passed, testSmallSeeds());
+            sumTest(ref passed, testAllSizeSeeds());
+            sumTest(ref passed, testSeeds4BitActions());
+            sumTest(ref passed, testSeeds5BitActions());
+            sumTest(ref passed, testSeedsVariableBitActions());
+
+            string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
+            Debug.Log(passedString);
+
+            yield return null;
+        }
+
         // Used in testing scenes to run tests with a button push
         public void runAllTestsButton()
         {
-            string passed = runAllTests();    
+            string passed = runAllTests();
+            //StartCoroutine(runAllTestsCoroutine());    
         }
 
         // This function helps make the test running code a bit cleaner
