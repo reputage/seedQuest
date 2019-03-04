@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 using SeedQuest.Interactables;
+using SeedQuest.SeedEncoder;
 
 public enum ProgressTrackerLocation { TopLeft, BottomCenter };
 
@@ -15,11 +16,16 @@ public class ProgressTrackerUI : MonoBehaviour {
     private RectTransform progressCanvas;
     private Image progressBar;
 	private Image[] progressTicks;
+    private TextMeshProUGUI progressText;
+    private Image progressPartialIcon;
 
     void Start() {
         progressCanvas = GameObject.FindGameObjectWithTag("ProgressCanvas").GetComponent<RectTransform>();
         progressBar = GameObject.FindGameObjectWithTag("ProgressBar").GetComponent<Image>();
-        progressTicks = GameObject.FindGameObjectWithTag("ProgressTicks").GetComponentsInChildren<Image>();
+        if(GameObject.FindGameObjectWithTag("ProgressTicks") != null)
+            progressTicks = GameObject.FindGameObjectWithTag("ProgressTicks").GetComponentsInChildren<Image>();
+        progressText = progressCanvas.GetComponentInChildren<TextMeshProUGUI>();
+        progressPartialIcon = GameObject.FindGameObjectWithTag("ProgressText").GetComponentsInChildren<Image>()[1];
 
         SetProgressBar();
         SetProgressTicks();
@@ -30,6 +36,7 @@ public class ProgressTrackerUI : MonoBehaviour {
         setProgress();
         SetProgressBar();
         SetProgressTicks();
+        SetProgressText();
         SetLocation();
     }
 
@@ -49,6 +56,7 @@ public class ProgressTrackerUI : MonoBehaviour {
     }
 
     private void SetProgressTicks() {
+        if (progressTicks == null) return;
         int value =  (int )Mathf.Round(progress * InteractableConfig.ActionsPerGame);
         for (int i = 0; i < progressTicks.Length; i++) {
             if (i < value)
@@ -56,6 +64,14 @@ public class ProgressTrackerUI : MonoBehaviour {
             else
                 progressTicks[i].sprite = tickOffIcon;
         }
+    }
+
+    private void SetProgressText() {
+        SeedConverter converter = new SeedConverter();
+        string SeedString = converter.DecodeSeed();
+        int length = Mathf.RoundToInt(10.0f / (float)InteractableConfig.ActionsPerGame * (float)InteractableLog.Log.Count);
+        progressText.text =  SeedString.Substring(0, length);
+        progressPartialIcon.GetComponent<RectTransform>().localPosition = new Vector3(length * 22 - 80, 0, 0);
     }
 
     private void SetLocation() {

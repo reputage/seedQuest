@@ -56,6 +56,9 @@ public class InteractableTrackerUI : MonoBehaviour
                                                
     /// <summary> Set Tracker Position. Follows next interactable, unless offscreen then appears in direction of next interactable. </summary>
     private void SetTrackerIconPosition() {
+        if(InteractablePath.NextInteractable == null)
+            return;
+        
         unclampedScreenPosition = camera.WorldToScreenPoint(InteractablePath.NextInteractable.transform.position);
         screenPosition = unclampedScreenPosition;
 

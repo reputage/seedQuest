@@ -10,6 +10,12 @@ namespace SeedQuest.Interactables
         public int interactableIndex;
         public int actionIndex; 
 
+        public InteractableLogItem() {
+            siteIndex = 0;
+            interactableIndex = 0;
+            actionIndex = 0;
+        }
+
         public InteractableLogItem(Interactable _interactable, int _actionIndex) {
             siteIndex = _interactable.ID.siteID;
             interactableIndex = _interactable.ID.spotID;

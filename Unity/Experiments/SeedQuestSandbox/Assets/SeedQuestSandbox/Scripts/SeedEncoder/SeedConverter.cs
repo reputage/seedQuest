@@ -85,17 +85,27 @@ namespace SeedQuest.SeedEncoder
         /// Encodes an interactable log into an encoded array of interactable id information
         /// </summary>
         private int[] EncodeInteractions() {
+
+            // Create a copy of the List and gernerate a list with zero fills if not enought log items
+            List<InteractableLogItem> log = new List<InteractableLogItem>();
+            foreach (InteractableLogItem item in InteractableLog.Log) {
+                log.Add(item);
+            }
+            while(log.Count < InteractableConfig.ActionsPerGame) {
+                log.Add(new InteractableLogItem());
+            }
+
             int totalInt = (2 * InteractableConfig.ActionsPerSite) + InteractableConfig.SitesPerGame;
             int counter = 0;
             List<int> actionLog = new List<int>();
 
             for (int j = 0; j < InteractableConfig.SitesPerGame; j++)
             {
-                actionLog.Add(InteractableLog.Log[counter].SiteIndex);
+                actionLog.Add(log[counter].SiteIndex);
                 for (int i = 0; i < InteractableConfig.ActionsPerSite; i++)
                 {
-                    actionLog.Add(InteractableLog.Log[counter].InteractableIndex);
-                    actionLog.Add(InteractableLog.Log[counter].ActionIndex);
+                    actionLog.Add(log[counter].InteractableIndex);
+                    actionLog.Add(log[counter].ActionIndex);
                     counter += 1;
                 }
             }
