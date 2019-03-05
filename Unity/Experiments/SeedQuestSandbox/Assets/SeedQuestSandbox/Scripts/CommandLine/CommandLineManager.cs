@@ -15,12 +15,14 @@ public static class CommandLineManager
     {
         {"help", help},
         {"print", print},
-        {"gamestate", setGameState},
-        {"loadscene", loadScene},
-        {"seedtests", seedTests},
+        {"get", getValue},
+        {"gethelp", getHelp},
         {"moveplayer", movePlayer},
-        {"showcolliders", showBoxColliders},
-        {"random", random}
+        {"loadscene", loadScene},
+        {"random", random},
+        //{"seedtests", seedTests},     // currently bugged
+        {"gamestate", setGameState},
+        {"showcolliders", showBoxColliders}
     };
 
     // Dictionary for 'fluff' functions. They are not necessary, and are just for fun
@@ -58,6 +60,8 @@ public static class CommandLineManager
     // Just used for displaying information to the user
     public static string print(string input)
     {
+        Debug.Log("Hello from print() " + input);
+
         return input;
     }
 
@@ -132,9 +136,31 @@ public static class CommandLineManager
         return "Your random number is: " + randI;
     }
 
+    public static string getValue(string input)
+    {
+        string returnStr = "";
+        if (CommandLineGetValues.values.ContainsKey(input))
+            returnStr = CommandLineGetValues.values[input](input);
+        else
+            returnStr = "Value not found";
+        
+        return returnStr;
+    }
+
+    public static string getHelp(string input)
+    {
+        string returnString = "Available values:";
+        foreach (string key in CommandLineGetValues.values.Keys)
+        {
+            returnString += "\n" + key;
+        }
+        return returnString;
+    }
+
     // Set the gamestate. string.StartsWith() is used so that the user input doesn't need to be
     //  perfectly correct to set some states (ex: 'rehears' will work with either 'rehearsal' 
-    //  or 'rehearse' as the user input.
+    //  or 'rehearse' as the user input. Some states are commented out because they don't exist
+    //  in this build.
     public static string setGameState(string input)
     {
         if (input.StartsWith("recal") || input.StartsWith("recover"))

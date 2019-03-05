@@ -158,13 +158,13 @@ public class CommandLineInputUI : MonoBehaviour
         else if (input.Length == 2)
             parameter = input[1];
 
-        if (CommandLineManager.commands.ContainsKey(text))
+        if (CommandLineManager.commands.ContainsKey(input[0]))
             output = CommandLineManager.commands[input[0]](parameter);
-        else if (CommandLineManager.fluffCommands.ContainsKey(text))
+        else if (CommandLineManager.fluffCommands.ContainsKey(input[0]))
             output = CommandLineManager.fluffCommands[input[0]](parameter);
         else if (output != "")
-            output = ("Command: '" + text + "' not recognized");
-
+            output = ("Command: '" + input[0] + "' not recognized");
+        
         print(output);
     }
 
