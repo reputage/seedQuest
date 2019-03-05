@@ -20,7 +20,6 @@ public static class CommandLineManager
         {"moveplayer", movePlayer},
         {"loadscene", loadScene},
         {"random", random},
-        //{"seedtests", seedTests},     // currently bugged
         {"gamestate", setGameState},
         {"showcolliders", showBoxColliders}
     };

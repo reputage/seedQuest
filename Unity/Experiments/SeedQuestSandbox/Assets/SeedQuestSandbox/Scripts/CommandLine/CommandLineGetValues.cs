@@ -21,25 +21,15 @@ public static class CommandLineGetValues
         if (GameManager.Instance == null)       // Unfortunately this doesn't seem to work right
             return "No gamemanager exists";
         if (GameManager.State == GameState.End)
-        {
             return "End";
-        }
         else if (GameManager.State == GameState.Interact)
-        {
             return "Interact";
-        }
         else if (GameManager.State == GameState.Menu)
-        {
             return "Menu";
-        }
         else if (GameManager.State == GameState.Pause)
-        {
             return "Pause";
-        }
         else if (GameManager.State == GameState.Play)
-        {
             return "Play";
-        }
         else
             return "Cannot determine game mode";
     }
@@ -47,17 +37,11 @@ public static class CommandLineGetValues
     public static string gameMode(string input)
     {
         if (GameManager.Mode == GameMode.Recall)
-        {
             return "Recall";
-        }
         else if (GameManager.Mode == GameMode.Rehearsal)
-        {
             return "Learn";
-        }
         else if (GameManager.Mode == GameMode.Sandbox)
-        {
             return "Sandbox";
-        }
         else
             return "Cannot determine game mode";
     }

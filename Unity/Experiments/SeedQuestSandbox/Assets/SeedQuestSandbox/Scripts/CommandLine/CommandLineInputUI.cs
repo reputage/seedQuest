@@ -35,7 +35,6 @@ public class CommandLineInputUI : MonoBehaviour
             fadeOut = StartCoroutine(fadeUi());
             clearInputField();
             ready = true;
-            //terminalToggleActive();
         }
     }
 
