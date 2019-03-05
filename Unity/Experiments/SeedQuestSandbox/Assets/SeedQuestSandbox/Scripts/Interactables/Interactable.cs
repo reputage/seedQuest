@@ -184,10 +184,8 @@ namespace SeedQuest.Interactables
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
 
             Renderer rend = transform.GetComponentInChildren<Renderer>();
-            if (rend != null)
-            {
-                foreach (Material material in rend.materials)
-                {
+            if (rend != null) {
+                foreach (Material material in rend.materials) {
                     if (useHighlight)
                         material.shader = highlightShader;
                     else
@@ -195,7 +193,10 @@ namespace SeedQuest.Interactables
                 }
             }
 
-            EffectsManager.PlayEffect("highlight", this.transform);
+            if (useHighlight)
+                EffectsManager.PlayEffect("highlight", this.transform);
+            else
+                EffectsManager.StopEffect(this.transform);
         }
 
         public void HighlightInteractable(bool useHighlight) {
