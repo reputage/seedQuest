@@ -87,5 +87,10 @@ namespace SeedQuest.Interactables
         {
             return states[index].actionName;
         }
+
+        public string getPrompt()
+        {
+            return prompt;
+        }
     }
 }
