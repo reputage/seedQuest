@@ -7,6 +7,9 @@ using SeedQuest.Interactables;
 [System.Serializable]
 public class InteractableTrackerProps {
     public Vector3 positionOffset = Vector3.zero;
+    public Vector2 screenPositionOffset = Vector2.zero;
+    public Vector2 screenWobbleDirection = Vector2.up;
+    public float screenRotation = 0f;
 }
 
 public class InteractableTrackerUI : MonoBehaviour
@@ -70,15 +73,23 @@ public class InteractableTrackerUI : MonoBehaviour
         if(InteractablePath.NextInteractable == null)
             return;
 
+        Vector2 screenPositionOffset = InteractablePath.NextInteractable.interactableTracker.screenPositionOffset;
         unclampedScreenPosition = camera.WorldToScreenPoint(InteractablePath.NextInteractable.transform.position + positionOffset + InteractablePath.NextInteractable.interactableTracker.positionOffset);
+        unclampedScreenPosition += new Vector3(screenPositionOffset.x, screenPositionOffset.y);
         screenPosition = unclampedScreenPosition;
 
         Vector3 wobble = Vector3.zero;
         Vector3 _positionOffset = Vector3.zero;
         if(InBounds(screenPosition) && screenPosition.z > 0) {
-            wobble = wobbleStrength * Vector3.up * Mathf.Sin(wobbleSpeed * Time.time);
+            float rotate = InteractablePath.NextInteractable.interactableTracker.screenRotation;
+            tracker.rotation = Quaternion.Euler(new Vector3(0, 0, rotate));
+
+            Vector2 wobbleDir = InteractablePath.NextInteractable.interactableTracker.screenWobbleDirection;
+            wobble = wobbleStrength * new Vector3(wobbleDir.x, wobbleDir.y, 0) * Mathf.Sin(wobbleSpeed * Time.time);
         }
         else if(InBounds(screenPosition) && screenPosition.z < 0) {
+            tracker.rotation = Quaternion.Euler(Vector3.zero);
+
             // Clamp TrackerIcon when Next Interactable when object is behind camera
             var x = Mathf.Clamp(screenPosition.x + behindCameraOffset, 0.0f + padding.x, camera.scaledPixelWidth - padding.x);
             var y = Mathf.Clamp(screenPosition.y, 0.0f + padding.y, camera.scaledPixelHeight - padding.y);
@@ -89,6 +100,8 @@ public class InteractableTrackerUI : MonoBehaviour
             }
         }
         else {
+            tracker.rotation = Quaternion.Euler(Vector3.zero);
+
             // Clamp TrackerIcon when Next Interactable if off screen
             var x = Mathf.Clamp(screenPosition.x, 0.0f + padding.x, camera.scaledPixelWidth - padding.x);
             var y = Mathf.Clamp(screenPosition.y, 0.0f + padding.y, camera.scaledPixelHeight - padding.y);
