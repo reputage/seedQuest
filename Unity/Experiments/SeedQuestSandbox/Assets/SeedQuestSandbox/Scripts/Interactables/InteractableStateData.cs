@@ -22,12 +22,14 @@ namespace SeedQuest.Interactables
         public GameObject particleEffect;
 
         public void enterState(Interactable item) {
+            
             // Remove Children GameObjects to Remove Assocaited Prefabs
-            foreach (Transform child in item.transform)
+            foreach (Transform child in item.transform) {
                 if (child.tag != "Static") {
                     child.gameObject.SetActive(false);
                     GameObject.Destroy(child.gameObject);
-                }
+                }                
+            }
 
             // Update with Prefab
             if (prefab != null) {
