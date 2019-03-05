@@ -43,7 +43,7 @@ namespace SeedQuest.Interactables
         void OnDestroy() {
             DeleteUI();
         }
-
+        
         public string Name {
             get {
                 if (interactableUI.name != "")
