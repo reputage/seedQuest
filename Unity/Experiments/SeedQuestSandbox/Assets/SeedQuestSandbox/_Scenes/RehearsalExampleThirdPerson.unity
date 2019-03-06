@@ -659,7 +659,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &237605499
 PrefabInstance:
@@ -755,6 +755,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -821,6 +824,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -1097,6 +1103,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -1163,6 +1172,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -1294,6 +1306,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -1825,6 +1840,175 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437369729}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &441636852
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6274164448505257901, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_Name
+      value: HUD Tutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164448505257872, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164447535679854, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164447535679854, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164447003729431, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164447003729431, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164447955813404, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164447955813404, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164447460775221, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274164447460775221, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387140340046781949, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387140340046781949, guid: 7eb9e99520d0348efb9e16e510818aa5,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7eb9e99520d0348efb9e16e510818aa5, type: 3}
 --- !u!1 &479087940
 GameObject:
   m_ObjectHideFlags: 0
@@ -1869,7 +2053,7 @@ Transform:
   - {fileID: 589786337}
   - {fileID: 1123801804}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &503987966
 GameObject:
@@ -1917,7 +2101,7 @@ Transform:
   - {fileID: 1706067148}
   - {fileID: 1002204102}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &549173961 stripped
 GameObject:
@@ -1948,6 +2132,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -2137,6 +2324,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -2390,6 +2580,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -3012,6 +3205,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -3260,6 +3456,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -3727,7 +3926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4355465149204088, guid: eb8b5c531e4bff74eb285c4b4d480dfe, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4355465149204088, guid: eb8b5c531e4bff74eb285c4b4d480dfe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3772,6 +3971,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -3838,6 +4040,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -4093,7 +4298,7 @@ Transform:
   - {fileID: 1541289547}
   - {fileID: 1153241535}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1490848154
 GameObject:
@@ -4553,6 +4758,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -4862,6 +5070,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}
@@ -4993,6 +5204,9 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.5, y: 0.5, z: 0.5}
     position: {x: 0, y: 0, z: 0}

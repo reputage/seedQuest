@@ -49,13 +49,15 @@ namespace SeedQuest.Level
         /// <summary> Reference to player </summary>
         private Transform player;
 
-        public void Start() {
+        public void Awake() {
             GameManager.State = GameState.Play;
 
             var playerObject = GameObject.FindGameObjectWithTag("Player");
-            if(playerObject != null)
+            if (playerObject != null)
                 player = playerObject.transform;
-            
+        }
+
+        public void Start() {
             if (InteractableManager.InteractableList.Length == 0)
                 return;
 
