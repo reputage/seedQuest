@@ -24,11 +24,9 @@ namespace SeedQuest.Interactables
         private Button checkButton;
         private Image[] checkImages;
 
-
         private bool dialogueSelected = false;
 
-        public void Update()
-        {
+        public void Update() {
             if (isReady())
             {
                 SetPosition();
@@ -38,8 +36,7 @@ namespace SeedQuest.Interactables
 
         /// <summary> Initialize Interactable UI with Prompt Text and Buttons </summary>
         /// <param name="interactable">Parent Interactable Object</param>
-        public void Initialize(Interactable interactable)
-        {
+        public void Initialize(Interactable interactable) {
             parent = interactable;
 
             if (interactable.flagDeleteUI)
@@ -182,24 +179,23 @@ namespace SeedQuest.Interactables
 
         /// <summary> Handles Clicking an Action Button </summary>
         public void ClickActionButton(int actionIndex) {
-            //parent.DoAction(actionIndex);
+            parent.DoAction(actionIndex);
 
             if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect)
                 hideActions();
 
-            else if (mode == InteractableUIMode.Dialogue)
-            {
+            else if (mode == InteractableUIMode.Dialogue) {
                 actionButtons[5].transform.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = actionButtons[actionIndex].GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
                 dialogueSelected = true;
                 hideActions();
             }
 
-            /*if (GameManager.Mode == GameMode.Rehearsal) {
+            if(GameManager.Mode == GameMode.Rehearsal) {
                 if (actionIndex == InteractablePath.NextInteractable.ID.actionID)
                     InteractablePath.GoToNextInteractable();
             }
             else if (GameManager.Mode == GameMode.Recall)
-                InteractableLog.Add(parent, parent.currentStateID);*/
+                InteractableLog.Add(parent, parent.currentStateID);
         }
 
         /// <summary> Handles Clicking a Checkmark Button </summary>
@@ -211,7 +207,6 @@ namespace SeedQuest.Interactables
             else if (GameManager.Mode == GameMode.Recall)
                 InteractableLog.Add(parent, parent.currentStateID);
         }
-
 
         /// <summary> Sets Label Text to Current Action and Activates Checkmark if necessary </summary>
         public void SetActionUI(int actionIndex) {
@@ -257,14 +252,10 @@ namespace SeedQuest.Interactables
         public void hideActions() {
             if (actionButtons == null) return;
 
-            if (mode == InteractableUIMode.Dialogue)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    if (i == 4)
-                    {
-                        if (dialogueSelected)
-                        {
+            if (mode == InteractableUIMode.Dialogue) {
+                for (int i = 0; i < 6; i++) {
+                    if (i == 4) {
+                        if (dialogueSelected) {
                             actionButtons[i].transform.localPosition = new Vector3(actionButtons[4].transform.localPosition.x, 125, 0);
                             actionButtons[i].transform.GetComponent<Image>().color = Color.gray;
                             actionButtons[5].transform.gameObject.SetActive(true);
@@ -276,8 +267,7 @@ namespace SeedQuest.Interactables
                 }
             }
 
-            else
-            {
+            else {
                 foreach (Button button in actionButtons)
                     button.transform.gameObject.SetActive(false);
             }
@@ -287,23 +277,19 @@ namespace SeedQuest.Interactables
         public void showActions()  {
             if (actionButtons == null) return;
 
-            if (mode == InteractableUIMode.Dialogue)
-            {
-                for (int i=0; i < 5; i++)
-                {
+            if (mode == InteractableUIMode.Dialogue) {
+                for (int i=0; i < 5; i++) {
                     actionButtons[i].transform.gameObject.SetActive(true);
                 }
 
-                if (dialogueSelected)
-                {
+                if (dialogueSelected) {
                     dialogueSelected = false;
                     actionButtons[4].transform.localPosition = new Vector3(actionButtons[4].transform.localPosition.x, 70, 0);
                     actionButtons[4].transform.GetComponent<Image>().color = Color.white;
                     actionButtons[5].transform.gameObject.SetActive(false);
                 }
             }
-            else
-            {
+            else{
                 foreach (Button button in actionButtons)
                     button.transform.gameObject.SetActive(true);
             }
