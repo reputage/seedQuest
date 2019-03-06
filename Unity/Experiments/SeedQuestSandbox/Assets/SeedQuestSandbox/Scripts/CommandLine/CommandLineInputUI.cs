@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class CommandLineInputUI : MonoBehaviour
 {
-
     public GameObject commandLineField;
     public GameObject panel;
     public GameObject terminalLines;
@@ -17,6 +16,7 @@ public class CommandLineInputUI : MonoBehaviour
 
     public bool ready;
 
+    // Initialize needs to be called at the start of a scene, but it could be in awake() instead
     void Start()
     {
         initialize();
@@ -63,7 +63,7 @@ public class CommandLineInputUI : MonoBehaviour
             resetAlpha();
     }
 
-
+    // Used to reset the appearance of the command line terminal
     public void resetAlpha()
     {
         float alpha = 1;

@@ -33,7 +33,10 @@ public static class CommandLineManager
         {"helpfluff", helpFluff},
         {"hello", hello},
         {"jello", jello},
-        {"hi", hi}
+        {"hi", hi},
+        {"quick", quickBrown},
+        {"lorem", loremIpsum},
+        {"dog", asciiDog}
     };
 
     // Here's a template for an example of command. 
@@ -135,6 +138,7 @@ public static class CommandLineManager
         return "Your random number is: " + randI;
     }
 
+    // Returns values from various manager scripts, for example 'get gamestate' returns the gamestate
     public static string getValue(string input)
     {
         string returnStr = "";
@@ -146,6 +150,7 @@ public static class CommandLineManager
         return returnStr;
     }
 
+    // Returns a list of the values available through the 'get' command
     public static string getHelp(string input)
     {
         string returnString = "Available values:";
@@ -220,8 +225,7 @@ public static class CommandLineManager
     }
 
     // From here all functions are 'fluff' functions - they are just here for fun, and 
-    //  are not necessary for debug purposes, but I've created them because they
-    //  make me happy 
+    //  are not necessary for debug purposes
 
     // Help - for fluff functions
     public static string helpFluff(string input)
@@ -250,6 +254,32 @@ public static class CommandLineManager
     public static string hi(string input)
     {
         return "Hi! How are you today?";
+    }
+
+    // Prints the quick brown fox line - fluff funciton
+    public static string quickBrown(string input)
+    {
+        return "The quick brown fox jumps over the lazy dog.";
+    }
+
+    // Prints out lorem ipsum - fluff funciton
+    public static string loremIpsum(string input)
+    {
+        return "Lorem ipsum dolor sit amet";
+    }
+
+    public static string asciiDog(string input)
+    {
+        string ascii = "      ,";
+        ascii += "\n      |`-.__ ";
+        ascii += "\n      /   '  _/ ";
+        ascii += "\n      ****`";
+        ascii += "\n     /       } ";
+        ascii += "\n    /    \\  / ";
+        ascii += "\n \\ /`     \\\\\\ ";
+        ascii += "\n  `\\      /_\\\\ ";
+        ascii += "\n   `~~~~``~`";
+        return ascii;
     }
 
 }
