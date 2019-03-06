@@ -28,6 +28,8 @@ public class DemoSelectUI : MonoBehaviour {
     public Vector3 buttonOffset = new Vector3(170, 250, 0);
     public int buttonPadding = 60;
 
+    private Button[] buttons;
+
     private void Start() {
         GameManager.ResetCursor();
         InteractableManager.Reset();
@@ -39,6 +41,9 @@ public class DemoSelectUI : MonoBehaviour {
             Vector3 position = buttonOffset + new Vector3(0, -i * buttonPadding, 0);
             demoList[i].select = createLevelButton(demoList[i], sideNav.transform, position);
         }
+
+        GameObject infoTitle = GameObject.FindGameObjectWithTag("InfoTitle");
+        buttons = infoTitle.GetComponentInParent<Canvas>().gameObject.GetComponentsInChildren<Button>();
 
         demoList[0].select.onClick.Invoke();
     }
@@ -66,6 +71,23 @@ public class DemoSelectUI : MonoBehaviour {
             _.select.image.sprite = null;
         }
         info.select.image.sprite = info.select.spriteState.highlightedSprite;
+
+        SetupSurveySelect(info);
+    }
+
+    public void SetupSurveySelect(DemoInfo info) {
+        if(info.name == "Survey") {
+            buttons[0].gameObject.SetActive(false);
+            buttons[1].gameObject.SetActive(false);
+            buttons[2].gameObject.SetActive(false);
+            buttons[3].gameObject.SetActive(true);
+        }
+        else {
+            buttons[0].gameObject.SetActive(true);
+            buttons[1].gameObject.SetActive(true);
+            buttons[2].gameObject.SetActive(true);
+            buttons[3].gameObject.SetActive(false);
+        }
     }
 
     public void startDemo() {
