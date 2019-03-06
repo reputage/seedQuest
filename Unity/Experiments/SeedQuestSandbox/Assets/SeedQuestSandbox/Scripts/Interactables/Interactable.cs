@@ -13,6 +13,7 @@ namespace SeedQuest.Interactables
 
         public InteractableStateData stateData = null;
         public InteractableUI interactableUI;
+        public InteractableTrackerProps interactableTracker;
         public InteractablePreviewInfo interactablePreview;  
         public InteractableID ID;
         public int currentStateID = 0;
@@ -42,7 +43,7 @@ namespace SeedQuest.Interactables
         void OnDestroy() {
             DeleteUI();
         }
-
+        
         public string Name {
             get {
                 if (interactableUI.name != "")
@@ -183,10 +184,8 @@ namespace SeedQuest.Interactables
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
 
             Renderer rend = transform.GetComponentInChildren<Renderer>();
-            if (rend != null)
-            {
-                foreach (Material material in rend.materials)
-                {
+            if (rend != null) {
+                foreach (Material material in rend.materials) {
                     if (useHighlight)
                         material.shader = highlightShader;
                     else
@@ -194,7 +193,10 @@ namespace SeedQuest.Interactables
                 }
             }
 
-            EffectsManager.PlayEffect("highlight", this.transform);
+            if (useHighlight)
+                EffectsManager.PlayEffect("highlight", this.transform);
+            else
+                EffectsManager.StopEffect(this.transform);
         }
 
         public void HighlightInteractable(bool useHighlight) {

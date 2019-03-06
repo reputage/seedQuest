@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using SeedQuest.Interactables;
 
@@ -29,6 +30,10 @@ namespace SeedQuest.Level
         /// <summary> Level Index Offset for use in InteractablePath calculations </summary>
         static public int LevelIndex { get => Instance.levelIndex; }
 
+        public string levelSelectScene = "SceneSelect";
+
+        static string LevelSelectScene { get => Instance.levelSelectScene; }
+
         /// <summary> MultiLevelGame Flag important for InteractablePath calculations </summary>
         public bool isMultiLevelGame = false;
 
@@ -44,13 +49,15 @@ namespace SeedQuest.Level
         /// <summary> Reference to player </summary>
         private Transform player;
 
-        public void Start() {
+        public void Awake() {
             GameManager.State = GameState.Play;
 
             var playerObject = GameObject.FindGameObjectWithTag("Player");
-            if(playerObject != null)
+            if (playerObject != null)
                 player = playerObject.transform;
-            
+        }
+
+        public void Start() {
             if (InteractableManager.InteractableList.Length == 0)
                 return;
 
@@ -62,6 +69,24 @@ namespace SeedQuest.Level
                 InteractablePathManager.InitalizePathAndLogForMultiLevelGame();
             else
                 InteractablePathManager.InitalizePathAndLog();
+        }
+
+        private void Update() {
+            ListenForKeyDown();
+        }
+
+        public void ListenForKeyDown() {
+            if (!isMultiLevelGame)
+                return;
+
+            bool goSceneSelect = InteractablePath.PathLevelComplete || InteractablePath.Instance.nextIndex == 0;
+            if (goSceneSelect && Input.GetKeyDown(KeyCode.H)) {
+                SceneManager.LoadScene(levelSelectScene);
+            }
+        }
+
+        public void GoToSceneSelect() {
+            SceneManager.LoadScene(levelSelectScene);
         }
 
         /// <summary>  Gets the BoundingBox of Site/Zone bound that player is currently in. Returns null if not in one. </summary>

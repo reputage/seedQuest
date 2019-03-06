@@ -94,6 +94,8 @@ namespace SeedQuest.Interactables
         public void SetPreviewProperties() {                
             if (preview != null)
             {
+                Instance.previewChild.GetComponent<Interactable>().HighlightInteractable(false);
+
                 previewChild.transform.localPosition = preview.position;
                 previewChild.transform.localRotation = Quaternion.Euler(preview.rotation);
                 previewChild.transform.localScale = preview.scale;
@@ -165,8 +167,9 @@ namespace SeedQuest.Interactables
             else 
                 Instance.previewChild = Instantiate(interactable.gameObject, Instance.previewObject.transform);
 
-            // Destroy InteractableUI
+            // Destroy InteractableUI and Remove Highlights
             Instance.previewChild.GetComponent<Interactable>().DeleteUI();
+            Instance.previewChild.GetComponent<Interactable>().HighlightInteractableDynamically(false);
 
             // Set Layer to "InteractablePreview"
             SetLayerRecursively(Instance.previewChild, 0);

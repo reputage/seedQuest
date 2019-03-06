@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace SeedQuest.Interactables
 {
-    public enum InteractableUIMode { NextPrevSelect, GridSelect, ListSelect };
+    public enum InteractableUIMode { NextPrevSelect, GridSelect, ListSelect, Dialogue };
 
     [System.Serializable]
     public class InteractableUI
@@ -24,8 +24,9 @@ namespace SeedQuest.Interactables
         private Button checkButton;
         private Image[] checkImages;
 
-        public void Update()
-        {
+        private bool dialogueSelected = false;
+
+        public void Update() {
             if (isReady())
             {
                 SetPosition();
@@ -35,8 +36,7 @@ namespace SeedQuest.Interactables
 
         /// <summary> Initialize Interactable UI with Prompt Text and Buttons </summary>
         /// <param name="interactable">Parent Interactable Object</param>
-        public void Initialize(Interactable interactable)
-        {
+        public void Initialize(Interactable interactable) {
             parent = interactable;
 
             if (interactable.flagDeleteUI)
@@ -45,6 +45,7 @@ namespace SeedQuest.Interactables
             int modeIndex = 0;
             modeIndex = mode == InteractableUIMode.GridSelect ? 1 : modeIndex;
             modeIndex = mode == InteractableUIMode.ListSelect ? 2 : modeIndex;
+            modeIndex = mode == InteractableUIMode.Dialogue ? 3 : modeIndex;
 
             actionUI = GameObject.Instantiate(InteractableManager.Instance.actionSpotIcons[modeIndex], InteractableManager.Instance.transform);
             SetScale();
@@ -89,7 +90,7 @@ namespace SeedQuest.Interactables
             if (mode == InteractableUIMode.NextPrevSelect)  {
                 actionButtons = new Button[buttons.Length - 2];
             }
-            else if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
+            else if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect || mode == InteractableUIMode.Dialogue) {
                 actionButtons = new Button[buttons.Length - 1];
                 checkImages = new Image[buttons.Length - 1];
             }
@@ -100,16 +101,29 @@ namespace SeedQuest.Interactables
                 actionButtons[0].onClick.AddListener(parent.NextAction);
                 actionButtons[1].onClick.AddListener(parent.PrevAction);
             }
-            else if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
+
+            else if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect || mode == InteractableUIMode.Dialogue) {
                 for (int i = 0; i < 4; i++) {
                     var actionText = actionButtons[i].GetComponentInChildren<TMPro.TextMeshProUGUI>();
                     actionText.text = parent.stateData.getStateName(i);
-
                     checkImages[i] = actionButtons[i].gameObject.GetComponentsInChildren<Image>()[1];
                 }
 
-                foreach (Image image in checkImages) {
-                    image.gameObject.SetActive(false);
+                if (mode == InteractableUIMode.Dialogue)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        checkImages[i].gameObject.SetActive(false);
+                    }
+                    actionButtons[4].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = parent.stateData.getPrompt();
+                }
+
+                else
+                {
+                    foreach (Image image in checkImages)
+                    {
+                        image.gameObject.SetActive(false);
+                    }
                 }
 
                 actionButtons[0].onClick.AddListener(delegate { ClickActionButton(0); });
@@ -117,6 +131,7 @@ namespace SeedQuest.Interactables
                 actionButtons[2].onClick.AddListener(delegate { ClickActionButton(2); });
                 actionButtons[3].onClick.AddListener(delegate { ClickActionButton(3); });
             }
+
 
             hideActions();
 
@@ -169,7 +184,13 @@ namespace SeedQuest.Interactables
             if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect)
                 hideActions();
 
-            if (GameManager.Mode == GameMode.Rehearsal) {
+            else if (mode == InteractableUIMode.Dialogue) {
+                actionButtons[5].transform.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = actionButtons[actionIndex].GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
+                dialogueSelected = true;
+                hideActions();
+            }
+
+            if(GameManager.Mode == GameMode.Rehearsal) {
                 if (actionIndex == InteractablePath.NextInteractable.ID.actionID)
                     InteractablePath.GoToNextInteractable();
             }
@@ -186,7 +207,6 @@ namespace SeedQuest.Interactables
             else if (GameManager.Mode == GameMode.Recall)
                 InteractableLog.Add(parent, parent.currentStateID);
         }
-
 
         /// <summary> Sets Label Text to Current Action and Activates Checkmark if necessary </summary>
         public void SetActionUI(int actionIndex) {
@@ -232,16 +252,48 @@ namespace SeedQuest.Interactables
         public void hideActions() {
             if (actionButtons == null) return;
 
-            foreach (Button button in actionButtons)
-                button.transform.gameObject.SetActive(false);
+            if (mode == InteractableUIMode.Dialogue) {
+                for (int i = 0; i < 6; i++) {
+                    if (i == 4) {
+                        if (dialogueSelected) {
+                            actionButtons[i].transform.localPosition = new Vector3(actionButtons[4].transform.localPosition.x, 125, 0);
+                            actionButtons[i].transform.GetComponent<Image>().color = Color.gray;
+                            actionButtons[5].transform.gameObject.SetActive(true);
+                            return;
+                        }
+                        continue;
+                    }
+                    actionButtons[i].transform.gameObject.SetActive(false);
+                }
+            }
+
+            else {
+                foreach (Button button in actionButtons)
+                    button.transform.gameObject.SetActive(false);
+            }
         }
 
         /// <summary> Show Action Button UI </summary>
         public void showActions()  {
             if (actionButtons == null) return;
 
-            foreach (Button button in actionButtons)
-                button.transform.gameObject.SetActive(true);
+            if (mode == InteractableUIMode.Dialogue) {
+                for (int i=0; i < 5; i++) {
+                    actionButtons[i].transform.gameObject.SetActive(true);
+                }
+
+                if (dialogueSelected) {
+                    dialogueSelected = false;
+                    actionButtons[4].transform.localPosition = new Vector3(actionButtons[4].transform.localPosition.x, 70, 0);
+                    actionButtons[4].transform.GetComponent<Image>().color = Color.white;
+                    actionButtons[5].transform.gameObject.SetActive(false);
+                }
+            }
+            else{
+                foreach (Button button in actionButtons)
+                    button.transform.gameObject.SetActive(true);
+            }
+
         }
 
         /// <summary> Handles hovering over UI </summary>
@@ -299,7 +351,7 @@ namespace SeedQuest.Interactables
 
         /// <summary> Activates Checkmark on GridSelect and ListSelect Buttons </summary>
         private void SetCheckImageActive() {
-            if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect) {
+            if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect || mode == InteractableUIMode.Dialogue) {
                 if (InteractablePath.isNextInteractable(parent))
                     checkImages[InteractablePath.NextInteractable.ID.actionID].gameObject.SetActive(true);
                 else {
