@@ -24,21 +24,6 @@ public static class CommandLineManager
         {"showcolliders", showBoxColliders}
     };
 
-    // Dictionary for 'fluff' functions. They are not necessary, and are just for fun
-    //  These are in a separate dictionary so that they won't be displayed to the 
-    //  user from the 'help' command output.
-    public static Dictionary<string, Func<string, string>> fluffCommands =
-        new Dictionary<string, Func<string, string>>
-    {
-        {"helpfluff", helpFluff},
-        {"hello", hello},
-        {"jello", jello},
-        {"hi", hi},
-        {"quick", quickBrown},
-        {"lorem", loremIpsum},
-        {"dog", asciiDog}
-    };
-
     // Here's a template for an example of command. 
     //  For a command to work, it needs to be added to the above dictionary,
     //  and the dictionary key for the function needs to be all lowercase
@@ -226,6 +211,21 @@ public static class CommandLineManager
 
     // From here all functions are 'fluff' functions - they are just here for fun, and 
     //  are not necessary for debug purposes
+
+    // Dictionary for 'fluff' functions. They are not necessary, and are just for fun
+    //  These are in a separate dictionary so that they won't be displayed to the 
+    //  user from the 'help' command output.
+    public static Dictionary<string, Func<string, string>> fluffCommands =
+        new Dictionary<string, Func<string, string>>
+    {
+        {"helpfluff", helpFluff},
+        {"hello", hello},
+        {"jello", jello},
+        {"hi", hi},
+        {"quick", quickBrown},
+        {"lorem", loremIpsum},
+        {"dog", asciiDog}
+    };
 
     // Help - for fluff functions
     public static string helpFluff(string input)
