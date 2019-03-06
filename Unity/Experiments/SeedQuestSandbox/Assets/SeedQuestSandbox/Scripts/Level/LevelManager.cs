@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using SeedQuest.Interactables;
 
@@ -28,6 +29,10 @@ namespace SeedQuest.Level
 
         /// <summary> Level Index Offset for use in InteractablePath calculations </summary>
         static public int LevelIndex { get => Instance.levelIndex; }
+
+        public string levelSelectScene = "SceneSelect";
+
+        static string LevelSelectScene { get => Instance.levelSelectScene; }
 
         /// <summary> MultiLevelGame Flag important for InteractablePath calculations </summary>
         public bool isMultiLevelGame = false;
@@ -62,6 +67,23 @@ namespace SeedQuest.Level
                 InteractablePathManager.InitalizePathAndLogForMultiLevelGame();
             else
                 InteractablePathManager.InitalizePathAndLog();
+        }
+
+        private void Update() {
+            ListenForKeyDown();
+        }
+
+        public void ListenForKeyDown() {
+            if (!isMultiLevelGame)
+                return;
+
+            if (Input.GetKeyDown(KeyCode.H)) {
+                SceneManager.LoadScene(levelSelectScene);
+            }
+        }
+
+        public void GoToSceneSelect() {
+            SceneManager.LoadScene(levelSelectScene);
         }
 
         /// <summary>  Gets the BoundingBox of Site/Zone bound that player is currently in. Returns null if not in one. </summary>
