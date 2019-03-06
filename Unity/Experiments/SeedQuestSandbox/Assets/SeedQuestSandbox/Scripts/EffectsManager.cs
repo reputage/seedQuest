@@ -49,7 +49,8 @@ public class EffectsManager : MonoBehaviour {
     }
 
     static public void StopEffect(Transform parent) {
-        parent.GetComponentInChildren<ParticleSystem>().Stop(true);
+        if (parent.GetComponentInChildren<ParticleSystem>() != null)
+            parent.GetComponentInChildren<ParticleSystem>().Stop(true);
     }
 
 
