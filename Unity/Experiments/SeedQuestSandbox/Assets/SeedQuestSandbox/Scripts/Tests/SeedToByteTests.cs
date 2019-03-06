@@ -10,8 +10,6 @@ namespace SeedQuest.SeedEncoder
 {
     public class SeedToByteTests : MonoBehaviour
     {
-
-
         private string testSeed1 = "C5E3D45D341A";
         private string testSeed2 = "AAAA";
 
@@ -20,7 +18,7 @@ namespace SeedQuest.SeedEncoder
         private SeedToByte seedToByte = new SeedToByte();
 
         // Run all tests at once
-        public void runAllTests()
+        public string runAllTests()
         {
             int[] passed = new int[2];
 
@@ -30,8 +28,57 @@ namespace SeedQuest.SeedEncoder
             sumTest(ref passed, testBreakPoints());
             sumTest(ref passed, testSmallSeeds());
             sumTest(ref passed, testAllSizeSeeds());
+            sumTest(ref passed, testSeeds4BitActions());
+            sumTest(ref passed, testSeeds5BitActions());
+            sumTest(ref passed, testSeedsVariableBitActions());
 
-            Debug.Log("Successfully passed " + passed[0] + " of " + passed[1] + " tests.");
+            string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
+            Debug.Log(passedString);
+            return passedString;
+        }
+
+        // run most tests, but exclude the more time consuming ones.
+        public string runQuickTests()
+        {
+            int[] passed = new int[2];
+
+            sumTest(ref passed, testByteBitConversion());
+            sumTest(ref passed, testMultipleSizeSeeds());
+            sumTest(ref passed, testFindLeadingBits());
+            sumTest(ref passed, testBreakPoints());
+            sumTest(ref passed, testSmallSeeds());
+            sumTest(ref passed, testSeeds5BitActions());
+
+            string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
+            Debug.Log(passedString);
+            return passedString;
+        }
+
+        public IEnumerator runAllTestsCoroutine()
+        {
+            int[] passed = new int[2];
+
+            sumTest(ref passed, testByteBitConversion());
+            sumTest(ref passed, testMultipleSizeSeeds());
+            sumTest(ref passed, testFindLeadingBits());
+            sumTest(ref passed, testBreakPoints());
+            sumTest(ref passed, testSmallSeeds());
+            sumTest(ref passed, testAllSizeSeeds());
+            sumTest(ref passed, testSeeds4BitActions());
+            sumTest(ref passed, testSeeds5BitActions());
+            sumTest(ref passed, testSeedsVariableBitActions());
+
+            string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
+            Debug.Log(passedString);
+
+            yield return null;
+        }
+
+        // Used in testing scenes to run tests with a button push
+        public void runAllTestsButton()
+        {
+            string passed = runAllTests();
+            //StartCoroutine(runAllTestsCoroutine());    
         }
 
         // This function helps make the test running code a bit cleaner
@@ -44,7 +91,7 @@ namespace SeedQuest.SeedEncoder
             passed[1] += testPassed[1];
         }
 
-        // Test to make sure everything works
+        // Test to make sure smaller conversion functions work as intended
         public int[] testByteBitConversion()
         {
             int[] passed = new int[2];
@@ -75,6 +122,7 @@ namespace SeedQuest.SeedEncoder
             return passed;
         }
 
+        // Test seeds with sizes of 112 bits and 108 bits
         public int[] testMultipleSizeSeeds()
         {
             int[] passed = new int[2];
@@ -88,14 +136,8 @@ namespace SeedQuest.SeedEncoder
             List<int> tempList1 = SeedToByte.customList(4, 4, 2, 4, 4);
             List<int> tempList2 = SeedToByte.customList(3, 4, 2, 4, 4);
 
-            BitArray seedBits1 = seedToByte.byteToBits(testRunSeed);
-            BitArray seedBits2 = seedToByte.byteToBits(testHexSeed);
-
-            int[] actions1 = seedToByte.bitToActions(seedBits1, tempList1);
-            int[] actions2 = seedToByte.bitToActions(seedBits2, tempList1);
-
-            byte[] finalSeed1 = SeedToByte.seedConverterUniversal(actions1, tempList1);
-            byte[] finalSeed2 = SeedToByte.seedConverterUniversal(actions2, tempList1);
+            byte[] finalSeed1 = conversionHelper(testRunSeed, tempList1);
+            byte[] finalSeed2 = conversionHelper(testHexSeed, tempList1);
 
             passed[1] += 1;
             if (seedToByte.byteToSeed(testRunSeed) == seedToByte.byteToSeed(finalSeed1))
@@ -114,15 +156,7 @@ namespace SeedQuest.SeedEncoder
                 Debug.Log("Test 2 for converting 112 bit seed to action list and back failed");
 
             testHexSeed = new byte[14];
-            //testRunSeed = OTPworker.randomSeedGenerator(testRunSeed);
-
-            if (testRunSeed[13] > 7)
-                testRunSeed[13] = (byte)((int)testRunSeed[13] % 7);
-
-            BitArray seedBits = seedToByte.byteToBits(testHexSeed);
-            int[] actions3 = seedToByte.bitToActions(seedBits, tempList2);
-
-            byte[] finalSeed3 = SeedToByte.seedConverterUniversal(actions3, tempList2);
+            byte[] finalSeed3 = conversionHelper(testHexSeed, tempList2);
 
             passed[1] += 1;
             if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed3))
@@ -135,6 +169,7 @@ namespace SeedQuest.SeedEncoder
             return passed;
         }
 
+        // Test smaller sized seeds of 16 bits and 24 bits
         public int[] testSmallSeeds()
         {
             int[] passed = new int[2];
@@ -142,9 +177,7 @@ namespace SeedQuest.SeedEncoder
             string testHex = "FFFF";
             byte[] testHexSeed = SeedToByte.HexStringToByteArray(testHex);
             List<int> tempList = SeedToByte.customList(6, 6, 4, 1, 1);
-            BitArray seedBits = seedToByte.byteToBits(testHexSeed);
-            int[] actions = seedToByte.bitToActions(seedBits, tempList);
-            byte[] finalSeed = SeedToByte.seedConverterUniversal(actions, tempList);
+            byte[] finalSeed = conversionHelper(testHexSeed, tempList);
 
             passed[1] += 1;
             if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
@@ -157,9 +190,7 @@ namespace SeedQuest.SeedEncoder
             testHex = "FFFFFF";
             testHexSeed = SeedToByte.HexStringToByteArray(testHex);
             tempList = SeedToByte.customList(2, 3, 2, 2, 2);
-            seedBits = seedToByte.byteToBits(testHexSeed);
-            actions = seedToByte.bitToActions(seedBits, tempList);
-            finalSeed = SeedToByte.seedConverterUniversal(actions, tempList);
+            finalSeed = finalSeed = conversionHelper(testHexSeed, tempList);
 
             passed[1] += 1;
             if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
@@ -172,6 +203,8 @@ namespace SeedQuest.SeedEncoder
             return passed;
         }
 
+        // Test seeds of size 64 bits and 128 bits. Important because these are the break points
+        //  of the converting functions using more uInt 32 variables
         public int[] testBreakPoints()
         {
             int[] passed = new int[2];
@@ -179,9 +212,7 @@ namespace SeedQuest.SeedEncoder
             string testHex = "FFFFAAAAFFFFAAAA";
             byte[] testHexSeed = SeedToByte.HexStringToByteArray(testHex);
             List<int> tempList = SeedToByte.customList(4, 8, 6, 2, 2);
-            BitArray seedBits = seedToByte.byteToBits(testHexSeed);
-            int[] actions = seedToByte.bitToActions(seedBits, tempList);
-            byte[] finalSeed = SeedToByte.seedConverterUniversal(actions, tempList);
+            byte[] finalSeed = conversionHelper(testHexSeed, tempList);
 
             passed[1] += 1;
             if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
@@ -194,9 +225,7 @@ namespace SeedQuest.SeedEncoder
             testHex = "FFFFAAAAFFFFAAAAFFFFAAAAFFFFAAAA";
             testHexSeed = SeedToByte.HexStringToByteArray(testHex);
             tempList = SeedToByte.customList(4, 8, 6, 2, 4);
-            seedBits = seedToByte.byteToBits(testHexSeed);
-            actions = seedToByte.bitToActions(seedBits, tempList);
-            finalSeed = SeedToByte.seedConverterUniversal(actions, tempList);
+            finalSeed = conversionHelper(testHexSeed, tempList);
 
             passed[1] += 1;
             if (seedToByte.byteToSeed(testHexSeed) == seedToByte.byteToSeed(finalSeed))
@@ -209,6 +238,8 @@ namespace SeedQuest.SeedEncoder
             return passed;
         }
 
+        // Tests the 'findLeadingBitValue' function. Important for handling action
+        //  lists with actions that aren't cumulatively evenly divisible by 64 bits
         public int[] testFindLeadingBits()
         {
             int[] passed = new int[2];
@@ -240,6 +271,7 @@ namespace SeedQuest.SeedEncoder
             return passed;
         }
 
+        // Helper function for the findLeadingBitValue tests
         public void runLeadingBits(ref int[] passed, int leadingBit, int totalBit, int value,
                                   int expected1, int expected2, int expected3, int testNumber)
         {
@@ -254,19 +286,52 @@ namespace SeedQuest.SeedEncoder
                 Debug.Log("Leading bits test " + testNumber + " failed");
         }
 
-        // test seed converter for all possible seed sizes
+        // Test seed converter for all possible seed sizes
         //  Creates a byte array filled with maximum possible values for N bits, and 
         //  converts to an action list and back with seedConverterUniversal()
         public int[] testAllSizeSeeds()
         {
             int[] passed = new int[2];
 
-            for (int i = 10; i < 129; i++)
+            for (int i = 10; i < 512; i++)
             {
                 List<int> hexList = new List<int>();
                 for (int j = 0; j < i; j++)
-                {
                     hexList.Add(1);
+
+                byte[] byteHex = new byte[(i / 8) + 1];
+
+                if (i % 8 == 0)
+                    byteHex = new byte[i / 8];
+
+                for (int j = 0; j < byteHex.Length; j++)
+                    byteHex[j] = 255;
+
+                byteHex[byteHex.Length - 1] = (byte)(Math.Pow(2, i % 8) - 1);
+                byte[] finalSeed = conversionHelper(byteHex, hexList);
+
+                passed[1] += 1;
+
+                if (seedToByte.byteToSeed(byteHex) == seedToByte.byteToSeed(finalSeed))
+                    passed[0] += 1;
+                else
+                    Debug.Log("Test for seed size of: " + i + " failed.");
+            }
+
+            return passed;
+        }
+
+        // Similar to the above tests, but uses 'actions' of 4 bits instead of 1 bit
+        public int[] testSeeds4BitActions()
+        {
+            int[] passed = new int[2];
+
+            for (int i = 16; i < 264; i += 4)
+            {
+                List<int> hexList = new List<int>();
+                for (int j = 0; j < i; j += 4)
+                {
+                    hexList.Add(4);
                 }
 
                 byte[] byteHex = new byte[(i / 8) + 1];
@@ -280,25 +345,109 @@ namespace SeedQuest.SeedEncoder
                 }
 
                 byteHex[byteHex.Length - 1] = (byte)(Math.Pow(2, i % 8) - 1);
-
-                BitArray hexBits = seedToByte.byteToBits(byteHex);
-                int[] hexActions = seedToByte.bitToActions(hexBits, hexList);
-                byte[] finalSeed = SeedToByte.seedConverterUniversal(hexActions, hexList);
+                byte[] finalSeed = conversionHelper(byteHex, hexList);
 
                 passed[1] += 1;
 
                 if (seedToByte.byteToSeed(byteHex) == seedToByte.byteToSeed(finalSeed))
-                {
                     passed[0] += 1;
-                }
+                
                 else
-                {
                     Debug.Log("Test for seed size of: " + i + " failed.");
-                }
             }
 
             return passed;
         }
 
+        // Similar to the above tests, but uses 'actions' of 5 bits
+        public int[] testSeeds5BitActions()
+        {
+            int[] passed = new int[2];
+
+            for (int i = 10; i < 280; i += 5)
+            {
+                List<int> hexList = new List<int>();
+                for (int j = 0; j < i; j += 5)
+                {
+                    hexList.Add(5);
+                }
+
+                byte[] byteHex = new byte[(i / 8) + 1];
+
+                if (i % 8 == 0)
+                    byteHex = new byte[i / 8];
+
+                for (int j = 0; j < byteHex.Length; j++)
+                {
+                    byteHex[j] = 255;
+                }
+
+                byteHex[byteHex.Length - 1] = (byte)(Math.Pow(2, i % 8) - 1);
+                byte[] finalSeed = conversionHelper(byteHex, hexList);
+                //Debug.Log("I: " + i + " seed: " + seedToByte.byteToSeed(byteHex) + " final seed: " + seedToByte.byteToSeed(finalSeed));
+
+                passed[1] += 1;
+
+                if (seedToByte.byteToSeed(byteHex) == seedToByte.byteToSeed(finalSeed))
+                    passed[0] += 1;
+
+                else
+                    Debug.Log("Test for seed size of: " + i + " failed.");
+            }
+
+            return passed;
+        }
+
+        // Similar to the above tests, but tests many possible bit sizes
+        public int[] testSeedsVariableBitActions()
+        {
+            int[] passed = new int[2];
+
+            for (int kBit = 1; kBit < 9; kBit++)
+            {
+                for (int i = (kBit * 5); i < 280; i += kBit)
+                {
+                    List<int> hexList = new List<int>();
+                    for (int j = 0; j < i; j += kBit)
+                    {
+                        hexList.Add(kBit);
+                    }
+
+                    byte[] byteHex = new byte[(i / 8) + 1];
+
+                    if (i % 8 == 0)
+                        byteHex = new byte[i / 8];
+
+                    for (int j = 0; j < byteHex.Length; j++)
+                    {
+                        byteHex[j] = 255;
+                    }
+
+                    byteHex[byteHex.Length - 1] = (byte)(Math.Pow(2, i % 8) - 1);
+                    byte[] finalSeed = conversionHelper(byteHex, hexList);
+
+                    passed[1] += 1;
+
+                    if (seedToByte.byteToSeed(byteHex) == seedToByte.byteToSeed(finalSeed))
+                        passed[0] += 1;
+
+                    else
+                    {
+                        Debug.Log("Test for seed size of: " + i + " and bit size of: " + kBit + " failed.");
+                    }
+                }
+            }
+            return passed;
+        }
+
+        // Helper function that converts a byte array into actions and back into a byte array
+        public byte[] conversionHelper(byte[] byteHex, List<int> hexList)
+        {
+            BitArray hexBits = seedToByte.byteToBits(byteHex);
+            int[] hexActions = seedToByte.bitToActions(hexBits, hexList);
+            byte[] finalSeed = SeedToByte.seedConverterUniversal(hexActions, hexList);
+
+            return finalSeed;
+        }
     }
 }
