@@ -77,7 +77,8 @@ namespace SeedQuest.Level
             if (!isMultiLevelGame)
                 return;
 
-            if (Input.GetKeyDown(KeyCode.H)) {
+            bool goSceneSelect = InteractablePath.PathLevelComplete || InteractablePath.Instance.nextIndex == 0;
+            if (goSceneSelect && Input.GetKeyDown(KeyCode.H)) {
                 SceneManager.LoadScene(levelSelectScene);
             }
         }
