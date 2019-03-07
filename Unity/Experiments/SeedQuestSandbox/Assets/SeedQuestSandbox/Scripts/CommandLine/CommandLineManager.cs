@@ -47,8 +47,6 @@ public static class CommandLineManager
     // Just used for displaying information to the user
     public static string print(string input)
     {
-        Debug.Log("Hello from print() " + input);
-
         return input;
     }
 
