@@ -10,8 +10,8 @@ Human memory is often incapable of remembering long strings of random characters
 
 ## SeedQuest Community
 
-SeedQuest is an open source project and we want to grow a community of people who want to work on and activately improve the SeedQuest. We welcome feedback on the project. To facilitate this we have created a Slack channel (seedquest.slack.com) that anyone can join. Join the Slack channel [here](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWQwYmIwMjIyYTEwZGJjYzNhY2RhNjlhZWE2MDVkOThmMTU5MDhlMTkyZGViNGUyNjYyNTVkYjYyNmRmM2YyZTI). 
+SeedQuest is an open source project and we want to grow a community of people working on and activately improving the SeedQuest game. We welcome feedback on the project. To facilitate this we have created a Slack channel (seedquest.slack.com) that anyone can join. Join the Slack channel [here](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWQwYmIwMjIyYTEwZGJjYzNhY2RhNjlhZWE2MDVkOThmMTU5MDhlMTkyZGViNGUyNjYyNTVkYjYyNmRmM2YyZTI). 
 
 ## Collaboration
 
-If you are wishing to be a collaborator to work on the 3D assets, please contact michael.mendoza@consensys.net or weston.bodily@consensys.net for information and access to the assets.
+If you would like to be a collaborator or work on the 3D assets, please contact michael.mendoza@consensys.net or weston.bodily@consensys.net for information and access to the assets.

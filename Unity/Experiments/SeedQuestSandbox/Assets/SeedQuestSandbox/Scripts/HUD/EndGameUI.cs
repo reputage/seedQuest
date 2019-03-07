@@ -17,6 +17,7 @@ public class EndGameUI : MonoBehaviour {
         }
     }
 
+    /// <summary> Toggles On the EndGameUI </summary>
     static public void ToggleOn() {
         if (Instance.gameObject.activeSelf)
             return;
@@ -24,21 +25,21 @@ public class EndGameUI : MonoBehaviour {
         Instance.gameObject.SetActive(true);
         var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         textList[0].text = InteractablePathManager.SeedString;
+
+        if (GameManager.Mode == GameMode.Rehearsal)
+            textList[1].text = "Rehearsal Complete! \n Need more practice? Select Rehearsal mode. \n Ready to go? Select Recall";
+        else
+            textList[1].text = "Key is Recovered!";
     }
 
-    static public void Toggle() {
-        Instance.gameObject.SetActive(!Instance.gameObject.activeSelf);
-
-        if(Instance.gameObject.activeSelf) {
-            var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-            textList[0].text = InteractablePathManager.SeedString; 
-        }
-    }
-
+    /// <summary> Handles selecting PrototypeSelect Button </summary>
     public void PrototypeSelect() {
+        InteractablePathManager.InitalizePathAndLog();
+        InteractableManager.destroyInteractables();
         SceneManager.LoadScene("PrototypeSelect");
     }
 
+    /// <summary> Handles selecting Recall Button </summary>
     public void Recall() {
         GameManager.Mode = GameMode.Recall;
         GameManager.State = GameState.Play;
@@ -50,8 +51,8 @@ public class EndGameUI : MonoBehaviour {
         SceneManager.LoadScene(scene.name);
     }
 
-    public void Rehearsal()
-    {
+    /// <summary> Handles selecting Rehearsal Button </summary>
+    public void Rehearsal() {
         GameManager.Mode = GameMode.Rehearsal;
         GameManager.State = GameState.Play;
 

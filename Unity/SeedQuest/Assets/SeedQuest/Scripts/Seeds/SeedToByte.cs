@@ -5,18 +5,7 @@ using System.Text;
 using System;
 using System.Collections.Specialized;
 
-
-/*
- * The functions in this script can be used like this:
- * 
- * To get the int[] of actions to be performed from a seed:
- *  getActions(string inputStringName, List<int> actionList);
- * 
- * if no action list is provided, the default list will be used.
- * 
- * To get the seed from an int[] of actions:
- *  getSeed(int[] actionArray, List<int> actionList);
-*/
+// See the SeedToByteExample.cs file for examples on using the functions in this script
 
 public class SeedToByte : MonoBehaviour
 {
@@ -30,7 +19,7 @@ public class SeedToByte : MonoBehaviour
     public static int[] actionToDo;
     public static BitArray inputBits;
 
-    // For reversing bits later
+    // This table is used for reversing the endian of bits
     public static byte[] BitReverseTable =
     {
             0x00, 0x80, 0x40, 0xc0, 0x20, 0xa0, 0x60, 0xe0,
@@ -67,7 +56,9 @@ public class SeedToByte : MonoBehaviour
             0x1f, 0x9f, 0x5f, 0xdf, 0x3f, 0xbf, 0x7f, 0xff
     };
 
-    public static string[] bitStrings =
+    // This table is required for the universal seed converter to handle bit size combinations
+    //  that are not divisible by 8
+    public static string[] byteStrings =
     {
         "00000000", "00000001", "00000010", "00000011", "00000100",
         "00000101", "00000110", "00000111", "00001000", "00001001",
@@ -75,13 +66,53 @@ public class SeedToByte : MonoBehaviour
         "00001111", "00010000", "00010001", "00010010", "00010011",
         "00010100", "00010101", "00010110", "00010111", "00011000",
         "00011001", "00011010", "00011011", "00011100", "00011101",
-        "00011110", "00011111", "00100000"
+        "00011110", "00011111", "00100000", "00100001", "00100010",
+        "00100011", "00100100", "00100101", "00100110", "00100111",
+        "00101000", "00101001", "00101010", "00101011", "00101100",
+        "00101101", "00101110", "00101111", "00110000", "00110001", 
+        "00110010", "00110011", "00110100", "00110101", "00110110", 
+        "00110111", "00111000", "00111001", "00111010", "00111011", 
+        "00111100", "00111101", "00111110", "00111111", "01000000",
+        "01000001", "01000010", "01000011", "01000100", "01000101", 
+        "01000110", "01000111", "01001000", "01001001", "01001010", 
+        "01001011", "01001100", "01001101", "01001110", "01001111", 
+        "01010000", "01010001", "01010010", "01010011", "01010100", 
+        "01010101", "01010110", "01010111", "01011000", "01011001", 
+        "01011010", "01011011", "01011100", "01011101", "01011110", 
+        "01011111", "01100000", "01100001", "01100010", "01100011", 
+        "01100100", "01100101", "01100110", "01100111", "01101000", 
+        "01101001", "01101010", "01101011", "01101100", "01101101", 
+        "01101110", "01101111", "01110000", "01110001", "01110010", 
+        "01110011", "01110100", "01110101", "01110110", "01110111", 
+        "01111000", "01111001", "01111010", "01111011", "01111100", 
+        "01111101", "01111110", "01111111", 
+        "10000000", "10000001", "10000010", "10000011", "10000100",
+        "10000101", "10000110", "10000111", "10001000", "10001001",
+        "10001010", "10001011", "10001100", "10001101", "10001110", 
+        "10001111", "10010000", "10010001", "10010010", "10010011",
+        "10010100", "10010101", "10010110", "10010111", "10011000",
+        "10011001", "10011010", "10011011", "10011100", "10011101",
+        "10011110", "10011111", "10100000", "10100001", "10100010",
+        "10100011", "10100100", "10100101", "10100110", "10100111",
+        "10101000", "10101001", "10101010", "10101011", "10101100",
+        "10101101", "10101110", "10101111", "10110000", "10110001", 
+        "10110010", "10110011", "10110100", "10110101", "10110110", 
+        "10110111", "10111000", "10111001", "10111010", "10111011", 
+        "10111100", "10111101", "10111110", "10111111", "11000000",
+        "11000001", "11000010", "11000011", "11000100", "11000101", 
+        "11000110", "11000111", "11001000", "11001001", "11001010", 
+        "11001011", "11001100", "11001101", "11001110", "11001111", 
+        "11010000", "11010001", "11010010", "11010011", "11010100", 
+        "11010101", "11010110", "11010111", "11011000", "11011001", 
+        "11011010", "11011011", "11011100", "11011101", "11011110", 
+        "11011111", "11100000", "11100001", "11100010", "11100011", 
+        "11100100", "11100101", "11100110", "11100111", "11101000", 
+        "11101001", "11101010", "11101011", "11101100", "11101101", 
+        "11101110", "11101111", "11110000", "11110001", "11110010", 
+        "11110011", "11110100", "11110101", "11110110", "11110111", 
+        "11111000", "11111001", "11111010", "11111011", "11111100", 
+        "11111101", "11111110", "11111111"
     };
-
-    void Start()
-    {
-
-    }
 
     // Take string for input, get the to-do list of actions
     public int[] getActions(string inputStr, List<int> actionList=null)
@@ -93,19 +124,6 @@ public class SeedToByte : MonoBehaviour
         inputBits = byteToBits(inputBytes);
         actionToDo = bitToActions(inputBits, actionList);
         int[] returnActions = actionToDo;
-        return returnActions;
-    }
-
-    // Same as getActions, but for the 108 bit seed, does not use global variables
-    public int[] getActions108(string inputStr)
-    {
-        byte[] bytes108 = seedToByte(inputStr);
-        BitArray bits108 = byteToBits(bytes108);
-        List<int> tempList = customList(3, 4, 2, 4, 4);
-        Debug.Log("Byte count: " + bytes108.Length + " Bits count: " + bits108.Length);
-        if (bytes108.Length > 14)
-            Debug.Log("Warning! Seed is longer than 108 bits!");
-        int[] returnActions = bitToActions(bits108, tempList);
         return returnActions;
     }
 
@@ -126,23 +144,6 @@ public class SeedToByte : MonoBehaviour
             actionList = listBuilder();
         returnBytes = seedConverterUniversal(actionsPerformed, actionList);
         string convertedSeed = byteToSeed(returnBytes);
-        return convertedSeed;
-    }
-
-    // Get the return seed from a list of actions
-    public string getSeedCustomList(int[] actionsPerformed, List<int> customList)
-    {
-        returnBytes = seedConverterUniversal(actionsPerformed, customList);
-        string convertedSeed = byteToSeed(returnBytes);
-        return convertedSeed;
-    }
-
-    // Get the return seed using 108 bits, does not use global variables
-    public string getSeed108(int[] actionsPerformed)
-    {
-        List<int> tempList = customList(3, 4, 2, 4, 4); //this probably shouldn't be hard-coded, but was necessary for the demo
-        byte[] bytes108 = seedConverterUniversal(actionsPerformed, tempList);
-        string convertedSeed = byteToSeed(bytes108);
         return convertedSeed;
     }
 
@@ -187,8 +188,10 @@ public class SeedToByte : MonoBehaviour
     public static byte[] HexStringToByteArray(string hex)
     {
         if (hex.Length % 2 == 1)
-            throw new Exception("The binary key cannot have an odd number of digits: " + hex.Length);
-
+        {
+            Debug.Log("The binary key cannot have an odd number of digits - shortening the string");
+            hex = hex.Substring(0, (hex.Length - 1));
+        }
         byte[] bytes = new byte[hex.Length >> 1];
 
         for (int i = 0; i < hex.Length >> 1; ++i)
@@ -259,38 +262,32 @@ public class SeedToByte : MonoBehaviour
     }
 
     // Reverse the order of bits
-    // This method is used since it's faster than other bit-reversal methods
     public static byte ReverseWithLookupTable(byte toReverse)
     {
         return BitReverseTable[toReverse];
     }
 
-    // Construct the list of how many bits represent which parts of the Path to take
+    // Construct the list of how many bits represent which parts of the Path to take,
+    //  uses the defaults specified in SeedManager
     public static List<int> listBuilder()
     {
-        int numLocationBits = SeedManager.SiteBits;
-        int numSpotBits = SeedManager.SpotBits;
-        int numActionBits = SeedManager.ActionBits;
-        int numActions = SeedManager.ActionCount;
-        int numTotalLocations = SeedManager.SiteCount;
-
         List<int> newList = new List<int>();
 
-        for (int j = 0; j < numTotalLocations; j++)
+        for (int j = 0; j < SeedManager.SiteCount; j++)
         {
-            newList.Add(numLocationBits);
-            for (int i = 0; i < numActions; i++)
+            newList.Add(SeedManager.SiteBits);
+            for (int i = 0; i < SeedManager.ActionCount; i++)
             {
-                newList.Add(numSpotBits);
-                newList.Add(numActionBits);
+                newList.Add(SeedManager.SpotBits);
+                newList.Add(SeedManager.ActionBits);
             }
         }
 
         return newList;
     }
 
-    // Makes a list without using the variables in SeedManager
-    public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc, int trailingZeros = 0)
+    // Makes a list using values passed in, not the defaults in SeedManager
+    public static List<int> customList(int numLocBit, int numSpotBit, int numActBit, int numAct, int numLoc)
     {
         List<int> newList = new List<int>();
 
@@ -302,12 +299,6 @@ public class SeedToByte : MonoBehaviour
                 newList.Add(numSpotBit);
                 newList.Add(numActBit);
             }
-        }
-
-        if (trailingZeros > 0)
-        {
-            for (int i = 0; i <= trailingZeros; i++)
-                newList.Add(0);
         }
 
         return newList;
@@ -322,7 +313,6 @@ public class SeedToByte : MonoBehaviour
         int[] actionValues = new int[varList.Count];
         int value = 0;
         int valueIndex = 0;
-        int locator = 0;
         int writeIndex = 0;
 
         if (bits.Length > 128)
@@ -343,201 +333,46 @@ public class SeedToByte : MonoBehaviour
             }
             if (writeIndex > (varList.Count - 1))
                 Debug.Log("Warning: more bits in bitarray than in the list");
-            else if (locator == (varList[writeIndex] - 1))
+            else if (valueIndex == (varList[writeIndex] - 1))
             {
                 // Store the location/spot/action
                 actionValues[writeIndex] = value;
                 writeIndex += 1;
                 value = 0;
                 valueIndex = 0;
-                locator = 0;
             }
             else
-            {
                 valueIndex += 1;
-                locator += 1;
-            }
         }
         return actionValues;
     }
 
     // Takes the list of actions, converts it back into bytes,
-    //  works for seeds of any bit size and configuration
+    //  works for seeds of any bit size < 128
     public static byte[] seedConverterUniversal(int[] actions, List<int> varList)
     {
-        // The action list passed to this function must be the right size
         if (varList.Count == 0)
             varList = listBuilder();
 
-        int[] tempArray = new int[36];
-        byte[] bytesFin = new byte[0];
+        byte[] finalBytes = new byte[0];
         int totalBits = 0;
 
         for (int i = 0; i < varList.Count; i++)
-        {
             totalBits += varList[i];
-        }
 
-        if (actions.Length != varList.Count)
-            Debug.Log("Warning! Actions and list are mismatched! They are not the same size!");
-
-        // If the total bits are less than 64, it is easy to find the bytes of the actions
         if (totalBits < 64)
-        {
-            ulong path = 0;
-            for (int i = 0; i < varList.Count; i++)
-            {
-                if (i < actions.Length)
-                    path += (ulong)actions[i];
-                if (i < (varList.Count - 1))
-                    path = path << varList[i + 1];
-            }
-
-            path = path << (64 - totalBits);
-            byte[] bytesPath = BitConverter.GetBytes(path);
-
-            // Reverse the endian of the bytes
-            for (int j = 0; j < (bytesPath.Length / 2); j++)
-            {
-                byte tmp = bytesPath[j];
-                bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
-                bytesPath[bytesPath.Length - j - 1] = tmp;
-            }
-
-            bytesFin = new byte[bytesPath.Length];
-            System.Buffer.BlockCopy(bytesPath, 0, bytesFin, 0, bytesPath.Length);
-        }
+            finalBytes = shortSeed(actions, varList, totalBits);
         else
-        {
-            int modBits = totalBits % 64;
-            int numLongs = totalBits / 64;
-            int numTraverse = 0;
-            int numShifts = 0;
-            int count = 0;
-            int remainder = 0;
-            int remainderBits = 0;
-            ulong path = 0;
+            finalBytes = longSeed(actions, varList, totalBits);
 
-            if (modBits > 0)
-                numLongs += 1;
+        // Reverse the order of the bits within each byte (yes, this is necessary)
+        for (int i = 0; i < finalBytes.Length; i++)
+            finalBytes[i] = ReverseWithLookupTable(finalBytes[i]);
 
-            count = 0;
+        finalBytes = adjustFinalBytesSize(finalBytes, totalBits);
 
-            for (int i = 0; i < numLongs; i++)
-            {
-                path = 0;
-                numShifts = 0;
-
-                if (i == 0)
-                {
-                    numShifts += varList[0];
-                }
-                else if (i > 0) // If not the first int, add remainder bits from the previous one
-                {
-                    if (remainder > 0)
-                    {
-                        path += (ulong)remainder;
-                        path = path << varList[numTraverse];
-                        numShifts += varList[numTraverse + 1];
-                        numShifts += remainderBits;
-                        remainder = 0;
-                        remainderBits = 0;
-                    }
-                }
-
-                while (numShifts < 64)
-                {
-                    if (numTraverse < actions.Length) // Add actions to the int64
-                    {
-                        path += (ulong)actions[numTraverse];
-                    }
-                    if (numTraverse + 1 >= varList.Count) // if there are no more ints in the list, shift to 64 bits
-                    {
-                        path = path << (64 - numShifts);
-                        numShifts += 64;
-                    }
-                    else if (numShifts + varList[numTraverse + 1] > 64) // if about to overflow 64 bits
-                    {
-                        int[] partialAction = findLeadingBitValue((64 - numShifts), varList[numTraverse + 1], actions[numTraverse+1]);
-                        remainder = partialAction[1];
-                        remainderBits = partialAction[2];
-                        path = path << (64 - numShifts);
-                        path += (ulong)partialAction[0];
-                        numShifts += 64;
-                    }
-                    else if (numShifts + varList[numTraverse + 1] == 64) // if the bits divide evenly into 64 bits
-                    {
-                        path = path << varList[numTraverse + 1];
-                        path += (ulong)actions[numTraverse + 1];
-                        numShifts += varList[numTraverse + 1];
-                    }
-                    else if ((numTraverse + 1) < varList.Count) // shift the bits of the int64
-                    {
-                        path = path << varList[numTraverse + 1];
-                        numShifts += varList[numTraverse + 1];
-                    }
-                    else if (numTraverse == varList.Count - 1) // if the list has reached the end
-                    {
-                        path = path << (64 - numShifts);
-                        numShifts += 64;
-                    }
-
-                    count++;
-                    numTraverse++;
-                    if (count > 1000)
-                    {
-                        numShifts += 64;
-                        break;
-                    }
-                }
-
-                byte[] bytesPath = BitConverter.GetBytes(path);
-                byte[] bytesTemp = new byte[bytesPath.Length + bytesFin.Length];
-
-                // Reverse the endian of the bytes (yes, this is necessary to get the seed out properly)
-                for (int j = 0; j < (bytesPath.Length / 2); j++)
-                {
-                    byte tmp = bytesPath[j];
-                    bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
-                    bytesPath[bytesPath.Length - j - 1] = tmp;
-                }
-
-                System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesFin.Length);
-                System.Buffer.BlockCopy(bytesPath, 0, bytesTemp, bytesFin.Length, bytesPath.Length);
-
-                bytesFin = new byte[bytesTemp.Length];
-                System.Buffer.BlockCopy(bytesTemp, 0, bytesFin, 0, bytesTemp.Length);
-            }
-        }
-
-        // Reverse the order of the bits within each byte (yes, this is also necessary)
-        for (int i = 0; i < bytesFin.Length; i++)
-        {
-            bytesFin[i] = ReverseWithLookupTable(bytesFin[i]);
-        }
-
-        if(totalBits < 64)
-        {
-            byte[] bytesTemp = new byte[bytesFin.Length - ((64 - totalBits) / 8)];
-            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
-            bytesFin = bytesTemp;
-        }
-        else if (totalBits < 128 && totalBits > 64)
-        {
-            byte[] bytesTemp = new byte[bytesFin.Length - ((128 - totalBits) / 8)];
-            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
-            bytesFin = bytesTemp;
-        }
-        else if (totalBits < 192 && totalBits > 128)
-        {
-            byte[] bytesTemp = new byte[bytesFin.Length - ((192 - totalBits) / 8)];
-            System.Buffer.BlockCopy(bytesFin, 0, bytesTemp, 0, bytesTemp.Length);
-            bytesFin = bytesTemp;
-        }
-
-        return bytesFin;
+        return finalBytes;
     }
-
 
     // This function is used to handle cases where the bits in a list of actions
     //  do not divide evenly across 64 bit integers. Returns an int array, with
@@ -546,39 +381,200 @@ public class SeedToByte : MonoBehaviour
     //  the trailing int
     public static int[] findLeadingBitValue(int leadBits, int totalBits, int value)
     {
-        int[] badReturn = new int[3];
-        //Debug.Log("leadBits: " + leadBits + " totalBits: " + totalBits + " value: " + value + " 8-total: " + (8-totalBits));
+        int[] returnArray = new int[3];
+
         if (value == 0)
-            return badReturn;
+            return returnArray;
         else if (leadBits == 0)
         {
             Debug.Log("Warning: leadBits field of findLeadingBitValue is 0 - check your function call");
-            badReturn[0] = 0;
-            badReturn[1] = value;
-            badReturn[2] = totalBits;
-            return badReturn;
+            return returnArray;
         }
-        string bits = bitStrings[value];
-        string bits2;
-        if ((8-totalBits) + leadBits <= bits.Length)
+
+        string bitPart1 = byteStrings[value];
+        string bitPart2;
+
+        if ((8-totalBits) + leadBits <= bitPart1.Length)
         {
             if ((8 - totalBits + leadBits) < 8)
-                bits2 = bits.Substring(8 - totalBits + leadBits);
+                bitPart2 = bitPart1.Substring(8 - totalBits + leadBits);
             else
-                bits2 = "0";
-            bits = bits.Substring(8 - totalBits, leadBits);
+                bitPart2 = "0";
+            bitPart1 = bitPart1.Substring(8 - totalBits, leadBits);
         }
         else
         {
             Debug.Log("Error with 'findLeadingBitValue(), incorrect parameters passed.");
-            return badReturn;
+            return returnArray;
         }
 
-        int[] returnArr = new int[3];
-        returnArr[0] = Convert.ToInt32(bits, 2);
-        returnArr[1] = Convert.ToInt32(bits2, 2);
-        returnArr[2] = totalBits - leadBits;
-        return returnArr;
+        returnArray[0] = Convert.ToInt32(bitPart1, 2);
+        returnArray[1] = Convert.ToInt32(bitPart2, 2);
+        returnArray[2] = totalBits - leadBits;
+        return returnArray;
+    }
+
+    // Converts actions into a seed if the total bits of the seed are less than 64 bits
+    public static byte[] shortSeed(int[] actions, List<int> varList, int totalBits)
+    {
+        ulong path = 0;
+        for (int i = 0; i < varList.Count; i++)
+        {
+            if (i < actions.Length)
+                path += (ulong)actions[i];
+            if (i < (varList.Count - 1))
+                path = path << varList[i + 1];
+        }
+
+        path = path << (64 - totalBits);
+        byte[] bytesPath = BitConverter.GetBytes(path);
+
+        bytesPath = reverseByteEndian(bytesPath);
+        byte[] finalBytes = new byte[bytesPath.Length];
+        System.Buffer.BlockCopy(bytesPath, 0, finalBytes, 0, bytesPath.Length);
+
+        return finalBytes;
+    }
+
+    // Converts actions into a seed if the total bits of the seed are greater than 64 bits
+    public static byte[] longSeed(int[] actions, List<int> varList, int totalBits)
+    {
+        int longIntCount = totalBits / 64;
+        int listIndex = 0;
+        int bitsShifted = 0;
+        int remainder = 0;
+        int remainderBits = 0;
+        ulong path = 0;
+        byte[] finalBytes = new byte[0];
+
+        if (totalBits % 64 > 0)
+            longIntCount += 1;
+
+        for (int i = 0; i < longIntCount; i++)
+        {
+            path = 0;
+            bitsShifted = 0;
+
+            if (i == 0)
+                bitsShifted += varList[0];
+            else if (i > 0) // If not the first int, add remainder bits from the previous one
+                if (remainder > 0)
+                    pathAddRemainder(varList, listIndex, ref bitsShifted, 
+                                     ref remainder, ref remainderBits, ref path);
+            
+            while (bitsShifted < 64)
+                pathAddValues(actions, varList, ref listIndex, ref bitsShifted, 
+                             ref remainder, ref remainderBits, ref path);
+
+            finalBytes = convertPathToBytes(finalBytes, path);
+        }
+        return finalBytes;
+    }
+
+    public static byte[] adjustFinalBytesSize(byte[] finalBytes, int totalBits)
+    {
+        if (totalBits < 64)
+            finalBytes = resizeByteArray(finalBytes, totalBits, 64);
+        else if (totalBits < 128 && totalBits > 64)
+            finalBytes = resizeByteArray(finalBytes, totalBits, 128);
+        else if (totalBits < 192 && totalBits > 128)
+            finalBytes = resizeByteArray(finalBytes, totalBits, 192);
+
+        return finalBytes;
+    }
+
+    // Resize the byte array
+    public static byte[] resizeByteArray(byte[] finalBytes, int totalBits, int upperLimit)
+    {
+        byte[] bytesTemp = new byte[finalBytes.Length - ((upperLimit - totalBits) / 8)];
+        System.Buffer.BlockCopy(finalBytes, 0, bytesTemp, 0, bytesTemp.Length);
+        return bytesTemp;
+    }
+
+    // Reverse the endian of bytes in a byte array
+    public static byte[] reverseByteEndian(byte[] bytesPath)
+    {
+        for (int j = 0; j < (bytesPath.Length / 2); j++)
+        {
+            byte tmp = bytesPath[j];
+            bytesPath[j] = bytesPath[bytesPath.Length - j - 1];
+            bytesPath[bytesPath.Length - j - 1] = tmp;
+        }
+        return bytesPath;
+    }
+
+    // Add the required values to the path ulong
+    public static void pathAddValues(int[] actions, List<int> varList, ref int listIndex, 
+                                    ref int bitsShifted, ref int remainder, 
+                                    ref int remainderBits, ref ulong path)
+    {
+        if (listIndex < actions.Length) // Add actions to the int64
+        {
+            path += (ulong)actions[listIndex];
+        }
+        if (listIndex + 1 >= varList.Count) // if there are no more ints in the list, shift to 64 bits
+        {
+            path = path << (64 - bitsShifted);
+            bitsShifted += 64;
+        }
+        else if (bitsShifted + varList[listIndex + 1] > 64) // if about to overflow 64 bits
+        {
+            int[] partialAction = findLeadingBitValue((64 - bitsShifted), 
+                                                      varList[listIndex + 1], actions[listIndex + 1]);
+            remainder = partialAction[1];
+            remainderBits = partialAction[2];
+            path = path << (64 - bitsShifted);
+            path += (ulong)partialAction[0];
+            bitsShifted += 64;
+        }
+        else if (bitsShifted + varList[listIndex + 1] == 64) // if the bits divide evenly into 64 bits
+        {
+            path = path << varList[listIndex + 1];
+            path += (ulong)actions[listIndex + 1];
+            bitsShifted += varList[listIndex + 1];
+        }
+        else if ((listIndex + 1) < varList.Count) // shift the bits of the int64
+        {
+            path = path << varList[listIndex + 1];
+            bitsShifted += varList[listIndex + 1];
+        }
+        else if (listIndex == varList.Count - 1) // if the list has reached the end
+        {
+            path = path << (64 - bitsShifted);
+            bitsShifted += 64;
+        }
+
+        listIndex++;
+    }
+
+    // Add remainder from previous path ulong into the current path ulong
+    public static void pathAddRemainder(List<int> varList, int listIndex, ref int bitsShifted, 
+                                        ref int remainder, ref int remainderBits, ref ulong path)
+    {
+        path += (ulong)remainder;
+        path = path << varList[listIndex];
+        bitsShifted += varList[listIndex + 1];
+        bitsShifted += remainderBits;
+        remainder = 0;
+        remainderBits = 0;
+    }
+
+    // Convert the path ulong into a byte array
+    public static byte[] convertPathToBytes(byte[] finalBytes, ulong path)
+    {
+        byte[] bytesPath = BitConverter.GetBytes(path);
+        byte[] bytesTemp = new byte[bytesPath.Length + finalBytes.Length];
+
+        // Reverse the endian of the bytes (yes, this is necessary)
+        bytesPath = reverseByteEndian(bytesPath);
+
+        System.Buffer.BlockCopy(finalBytes, 0, bytesTemp, 0, finalBytes.Length);
+        System.Buffer.BlockCopy(bytesPath, 0, bytesTemp, finalBytes.Length, bytesPath.Length);
+
+        finalBytes = new byte[bytesTemp.Length];
+        System.Buffer.BlockCopy(bytesTemp, 0, finalBytes, 0, bytesTemp.Length);
+
+        return finalBytes;
     }
 
 }
