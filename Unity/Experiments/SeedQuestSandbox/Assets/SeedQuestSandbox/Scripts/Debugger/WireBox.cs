@@ -40,7 +40,6 @@ namespace SeedQuest.Debugger
             GL.Color(Color.red);
 
             for (int i = 0; i < lines.Length; i += 2) {
-                Debug.Log(i);
                 GL.Vertex(points[lines[i]]);
                 GL.Vertex(points[lines[i + 1]]);
             }
