@@ -43,7 +43,7 @@ public class SurveyManager : MonoBehaviour
         var dotContainerTransform = dotContainer.transform as RectTransform;
         //float dotContainerSize = 40 * surveyQuestions - 8;
         //dotContainerTransform.sizeDelta = new Vector2(dotContainerSize, dotContainerTransform.sizeDelta.y);
-        for(int i = 0; i < surveyQuestions; i++)
+        for (int i = 0; i < surveyQuestions; i++)
         {
             if (data.surveyData[i].type == SurveyDataItem.QuestionType.Open)
             {
@@ -53,7 +53,7 @@ public class SurveyManager : MonoBehaviour
                 newCard.transform.parent = cardContainer.transform;
                 newCard.transform.localPosition = new Vector3(xOffset, 0, 0);
                 xOffset += 4000;
-                TMP_Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>();
+                Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<Text>();
                 text.text = data.surveyData[i].question;
 
                 TMP_InputField input = newCard.transform.GetChild(1).GetChild(2).GetComponent<TMP_InputField>();
@@ -62,7 +62,7 @@ public class SurveyManager : MonoBehaviour
                 {
                     data.surveyData[tempI].answer = input.text;
                 });
-                text = newCard.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+                text = newCard.transform.GetChild(1).GetChild(0).GetComponent<Text>();
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
             }
 
@@ -73,12 +73,12 @@ public class SurveyManager : MonoBehaviour
                 newCard.transform.parent = cardContainer.transform;
                 newCard.transform.localPosition = new Vector3(xOffset, 0, 0);
                 xOffset += 4000;
-                TMP_Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>();
+                Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<Text>();
                 text.text = data.surveyData[i].question;
 
                 data.surveyData[i].answers = new string[data.surveyData[i].questions.Length];
 
-                text = newCard.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+                text = newCard.transform.GetChild(1).GetChild(0).GetComponent<Text>();
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
 
                 var column = newCard.transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
@@ -102,7 +102,7 @@ public class SurveyManager : MonoBehaviour
                     newColumn.text = header;
                     columns.Add(newColumn);
 
-                    columnXOffset += columnWidth;              
+                    columnXOffset += columnWidth;
                 }
 
                 Destroy(column.gameObject);
@@ -344,6 +344,14 @@ public class SurveyManager : MonoBehaviour
     {
         List<string> questions = getQuestionsFromSurvey(data);
         List<string> responses = getAnswersFromSurvey(data);
+
+        if (responses.Count < questions.Count)
+        {
+            for (int i = responses.Count - 1; i < questions.Count - 1; i++)
+            {
+                responses.Add(" ");
+            }
+        }
 
         sendRequestData(questions, responses);
     }

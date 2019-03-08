@@ -10,9 +10,9 @@ public static class sqSurveyInterface
 
     // POSTs the survey response data to the server. Will need to have the URL changed eventually
     //  used for testing purposes
-    public static IEnumerator testPostRequest(string url=null, string textResponse=null)
+    public static IEnumerator testPostRequest(string url = null, string textResponse = null)
     {
-        if (url==null)
+        if (url == null)
             url = "http://localhost:8000/surveys";
 
         Debug.Log("url: " + url);
@@ -72,7 +72,7 @@ public static class sqSurveyInterface
     }
 
     // Sends a GET request to the survey server - probably not needed within Unity
-    public static IEnumerator getRequest(string url=null)
+    public static IEnumerator getRequest(string url = null)
     {
         string getResult;
         if (url == null)
@@ -93,16 +93,21 @@ public static class sqSurveyInterface
         }
 
         string[] getData = getResult.Split(':');
-    
+
     }
 
     // I'm not 100% sure what the final survey will look like, but here's a preliminary 
     //  function for formatting the JSON for the POST request
-    public static string jsonBodyBuilder(List<string> questions, List<string> responses)
+    public static string jsonBodyBuilder(List<string> questions, List<string> responses, string name = null, string email = null)
     {
         string dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss");
-        string testName = "xyz";
-        string testEmail = "xyz@domain.com";
+        string testName;
+        string testEmail;
+
+        if (name == null)
+            name = "xyz";
+        if (email == null)
+            email = "xyz@domain.com";
 
         Debug.Log("Date: " + dateTime);
 
@@ -113,9 +118,9 @@ public static class sqSurveyInterface
 
         body = "{";
 
-        body += "\"Name\": \"" + testName + "\",";
-        body += "\"Email\": \"" + testEmail + "\",";
-        body += "\"Response\": " + textResponseOne ;
+        body += "\"Name\": \"" + name + "\",";
+        body += "\"Email\": \"" + email + "\",";
+        body += "\"Response\": " + textResponseOne;
 
         body += "}";
         Debug.Log("Json body: " + body);
@@ -155,7 +160,7 @@ public static class sqSurveyInterface
     }
 
     // I'm not sure what format the responses will be in - this may be helpful
-    public static void addToLists(List<string> questions, List<string>responses, string quetsionToAdd, string responseToAdd)
+    public static void addToLists(List<string> questions, List<string> responses, string quetsionToAdd, string responseToAdd)
     {
         questions.Add(quetsionToAdd);
         responses.Add(responseToAdd);
