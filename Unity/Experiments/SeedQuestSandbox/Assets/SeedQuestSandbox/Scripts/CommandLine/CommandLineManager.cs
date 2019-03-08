@@ -18,13 +18,23 @@ public static class CommandLineManager
         {"help", help},
         {"print", print},
         {"get", getValue},
-        {"gethelp", getHelp},
         {"moveplayer", movePlayer},
         {"loadscene", loadScene},
-        {"random", random},
         {"gamestate", setGameState},
         {"gamemode", setGameMode},
         {"showcolliders", showBoxColliders}
+    };
+
+    public static Dictionary<string, string> helpDetails = new Dictionary<string, string>
+    {
+        {"help", "Displays a list of commands"},
+        {"print", "Prints a string to the console"},
+        {"get", "Prints an available value.\nParameters:\n string valueName\n" + getHelp("")},
+        {"moveplayer", "Moves the player to the specified location.\nParameters:\n int x, int y, int z"},
+        {"loadscene", "Loads the specified scene.\nParameters:\n string sceneName"},
+        {"gamestate", "Sets the gamestate.\nAccepted parameters:\n previous, pause, play, end, interact, menu"},
+        {"gamemode", "Sets the gamemode in GameManager.\nAccepted parameters:\n Learn, recall, sandbox"},
+        {"showcolliders", "Shows box colliders for interactables."}
     };
 
     // Here's a template for an example of command. 
@@ -39,11 +49,22 @@ public static class CommandLineManager
     // Prints out a list of available command line commands
     public static string help(string input)
     {
-        string returnString = "Available commands:";
-        foreach (string key in commands.Keys)
+        string returnString = "";
+
+        if (input == "")
         {
-            returnString += "\n" + key;
+            returnString = "Available commands:";
+            foreach (string key in commands.Keys)
+            {
+                returnString += "\n" + key;
+            }
         }
+
+        else if (helpDetails.ContainsKey(input))
+            returnString = helpDetails[input];
+        else
+            returnString = "Command not found";
+
         return returnString;
     }
 
