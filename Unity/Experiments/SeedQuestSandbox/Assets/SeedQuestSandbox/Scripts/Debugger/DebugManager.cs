@@ -44,10 +44,9 @@ namespace SeedQuest.Debugger
                 foreach(BoxCollider box in colliders) {
 
                     Vector3 position = box.center;
-                    Quaternion rotation = box.transform.rotation;
                     Vector3 scale = box.size;
 
-                    WireBox.Render(position, rotation, scale, item.transform, Instance.debugMaterial);
+                    WireBox.Render(position, scale, item.transform, Instance.debugMaterial);
                 }
             }
 
