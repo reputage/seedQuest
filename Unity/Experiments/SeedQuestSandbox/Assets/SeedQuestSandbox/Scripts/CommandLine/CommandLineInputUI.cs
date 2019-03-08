@@ -89,7 +89,6 @@ public class CommandLineInputUI : MonoBehaviour
                 alpha = i / 2.0f;
                 panelAlpha = Mathf.Min(panelAlpha, i / 2.0f);
             }
-            Debug.Log("alpha: " + alpha + " panel alpha: " + panelAlpha);
 
             Color panelColor = panelImage.color;
             Color textColor = inputText.color;

@@ -23,6 +23,7 @@ public static class CommandLineManager
         {"loadscene", loadScene},
         {"random", random},
         {"gamestate", setGameState},
+        {"gamemode", setGameMode},
         {"showcolliders", showBoxColliders}
     };
 
@@ -131,7 +132,7 @@ public static class CommandLineManager
             returnStr = CommandLineGetValues.values[input](input);
         else
             returnStr = "Value not found";
-        
+
         return returnStr;
     }
 
@@ -186,7 +187,32 @@ public static class CommandLineManager
         return "Game state by name of '" + input + "' not found.";
     }
 
+    // Set the game mode
+    public static string setGameMode(string input)
+    {
+        if (input.StartsWith("rec"))
+        {
+            GameManager.Mode = GameMode.Recall;
+            return "Game mode set to recall.";
+        }
+        if (input.StartsWith("learn"))
+        {
+            GameManager.Mode = GameMode.Rehearsal;
+            return "Game mode set to learn.";
+        }
+        if (input.StartsWith("rehea"))
+        {
+            GameManager.Mode = GameMode.Rehearsal;
+            return "Game mode set to rehearsal.";
+        }
+        if (input.StartsWith("sand"))
+        {
+            GameManager.Mode = GameMode.Sandbox;
+            return "Game mode set to sandbox.";
+        }
 
+        return "Game mode by name of '" + input + "' not found.";
+    }
 
     // From here all functions are 'fluff' functions - they are just here for fun, and 
     //  are not necessary for debug purposes
