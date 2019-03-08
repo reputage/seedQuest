@@ -270,6 +270,7 @@ public static class CommandLineManager
         return "Lorem ipsum dolor sit amet";
     }
 
+    // This ascii dog is actually pretty helpful in debugging the UI part of the command line
     public static string asciiDog(string input)
     {
         string ascii = "      ,";
