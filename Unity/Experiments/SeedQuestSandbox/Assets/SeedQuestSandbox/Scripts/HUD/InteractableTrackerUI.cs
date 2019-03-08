@@ -22,8 +22,8 @@ public class InteractableTrackerUI : MonoBehaviour
     public float nearDistance = 4;
     public float nearOpacity = 0.5f;
 
-    public bool showInSandbox;
-    public int showIndex = true;
+    public bool showInSandbox = true;
+    public int showIndex = 0;
 
     private Transform player;
     private new Camera camera;
