@@ -163,7 +163,8 @@ public class CommandLineInputUI : MonoBehaviour
             output = CommandLineManager.fluffCommands[input[0]](parameter);
         else if (output != "")
             output = ("Command: '" + input[0] + "' not recognized");
-        
+
+        print("> " + text);
         print(output);
     }
 

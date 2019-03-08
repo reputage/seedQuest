@@ -78,13 +78,19 @@ public static class CommandLineManager
     public static string showBoxColliders(string input)
     {
         if (input == "true")
+        {
             DebugManager.Instance.showBoundingBoxes = true;
+            return "Activating box colliders";
+        }
         else if (input == "false")
+        {
             DebugManager.Instance.showBoundingBoxes = false;
+            return "Deactivating box colliders";
+        }
         else
             DebugManager.Instance.showBoundingBoxes = !DebugManager.Instance.showBoundingBoxes;
 
-        return "";
+        return "Toggling box colliders";
     }
 
     // Placeholder function to move the player when playerManager gets imported into seedquest-sandbox
