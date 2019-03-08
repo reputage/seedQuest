@@ -31,11 +31,6 @@ namespace SeedQuest.Debugger
             }
         }
 
-        void Update() {
-            if (showBoundingBoxes)
-                DebugShowBoundingBox();
-        }
-
         static public void DebugShowBoundingBox() {
             Interactable[] interactables = InteractableManager.InteractableList;
             foreach(Interactable item in interactables) {
@@ -54,7 +49,8 @@ namespace SeedQuest.Debugger
         }
 
         private void OnRenderObject() {
-            DebugShowBoundingBox();
+            if (showBoundingBoxes)
+                DebugShowBoundingBox();
         }
     }
 }
