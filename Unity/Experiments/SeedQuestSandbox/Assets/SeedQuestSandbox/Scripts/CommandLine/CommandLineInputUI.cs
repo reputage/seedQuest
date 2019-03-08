@@ -84,11 +84,12 @@ public class CommandLineInputUI : MonoBehaviour
         {
             float alpha = 1f;
             float panelAlpha = panelImage.color.a;
-            if (i < 3f)
+            if (i < 2.0f)
             {
-                alpha = i / 3.0f;
-                panelAlpha = (panelAlpha * i) / 3.0f;
+                alpha = i / 2.0f;
+                panelAlpha = Mathf.Min(panelAlpha, i / 2.0f);
             }
+            Debug.Log("alpha: " + alpha + " panel alpha: " + panelAlpha);
 
             Color panelColor = panelImage.color;
             Color textColor = inputText.color;

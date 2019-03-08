@@ -49,11 +49,18 @@ public class InteractableTrackerUI : MonoBehaviour
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         tracker = GetComponentsInChildren<RectTransform>()[1];
         arrow = GetComponentsInChildren<RectTransform>()[5];
-        canvasGroup = GetComponentInChildren<CanvasGroup>();
+        canvasGroup = GetComponentInChildren<CanvasGroup>();   
+
+        if(GameManager.Mode != GameMode.Rehearsal) {
+            gameObject.SetActive(false);
+        }
+        else {
+            gameObject.SetActive(true);
+        }
     }
 
     void Update() {
-        if (InteractablePath.NextInteractable != null) {
+        if (GameManager.Mode == GameMode.Rehearsal && InteractablePath.NextInteractable != null) {
             SetScreenPosition();
             SetPositionClamp();
             SetTrackerIconPosition();
