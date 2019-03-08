@@ -154,58 +154,35 @@ public static class CommandLineManager
     //  in this build.
     public static string setGameState(string input)
     {
-        if (input.StartsWith("recal") || input.StartsWith("recover"))
-        {
-            //GameManager.State = GameState.Recall;
-            return "Game state set to Recall.";
-        }
-
-        if (input.StartsWith("rehears") || input.StartsWith("learn"))
-        {
-            //GameManager.State = GameState.Rehearsal;
-            return "Game state set to Rehearsal.";
-        }
-
         if (input.StartsWith("prev"))
         {
             GameManager.State = GameManager.PrevState;
             return "Game state set to previous state.";
         }
-
-        if (input.StartsWith("gamest") || input.StartsWith("start"))
-        {
-            //GameManager.State = GameState.GameStart;
-            return "Game state set to Recall.";
-        }
-
-        if (input.StartsWith("gameend") || input.StartsWith("end"))
-        {
-            //GameManager.State = GameState.GameEnd;
-            return "Game state set to GameEnd.";
-        }
-
-        if (input.StartsWith("pause"))
+        if (input.StartsWith("paus"))
         {
             GameManager.State = GameState.Pause;
             return "Game state set to Pause.";
         }
-
         if (input.StartsWith("inter"))
         {
             GameManager.State = GameState.Interact;
             return "Game state set to Interact.";
         }
-
-        if (input.StartsWith("loadingrecall"))
+        if (input.StartsWith("end"))
         {
-            //GameManager.State = GameState.LoadingRecall;
-            return "Game state set to Loading Recall.";
+            GameManager.State = GameState.End;
+            return "Game state set to End.";
         }
-
-        if (input.StartsWith("loadingrehearse"))
+        if (input.StartsWith("menu"))
         {
-            //GameManager.State = GameState.LoadingRehersal;
-            return "Game state set to Loading Rehearsal.";
+            GameManager.State = GameState.Menu;
+            return "Game state set to Menu.";
+        }
+        if (input.StartsWith("play"))
+        {
+            GameManager.State = GameState.Play;
+            return "Game state set to Play.";
         }
 
         return "Game state by name of '" + input + "' not found.";
