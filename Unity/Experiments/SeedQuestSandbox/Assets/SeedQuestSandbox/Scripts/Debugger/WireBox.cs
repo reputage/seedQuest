@@ -6,7 +6,7 @@ namespace SeedQuest.Debugger
 {
     public class WireBox
     {
-        static public void Render(Vector3 position, Quaternion rotation, Vector3 scale, Transform transform, Material material) {
+        static public void Render(Vector3 position, Vector3 scale, Transform transform, Material material) {
 
             if (!material)
             {
@@ -25,11 +25,6 @@ namespace SeedQuest.Debugger
             points.Add(new Vector3(position.x - scale.x / 2f, position.y - scale.y / 2f, position.z - scale.z / 2f));
 
             int[] lines = { 0, 1, 2, 3, 1, 3, 0, 2, 1, 5, 3, 7, 5, 7, 5, 4, 7, 6, 4, 6, 6, 2, 4, 0 };
-
-            for (int i = 0; i < points.Count; i++) {
-                //Quaternion rotate = Quaternion.Euler(rotation);
-                points[i] = rotation * points[i];
-            }
 
             material.SetPass(0);
 

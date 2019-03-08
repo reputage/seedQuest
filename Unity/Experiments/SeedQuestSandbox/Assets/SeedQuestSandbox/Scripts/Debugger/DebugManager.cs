@@ -31,30 +31,32 @@ namespace SeedQuest.Debugger
             }
         }
 
-        void Update() {
+        void Update()
+        {
             if (showBoundingBoxes)
                 DebugShowBoundingBox();
         }
 
         static public void DebugShowBoundingBox() {
+
             Interactable[] interactables = InteractableManager.InteractableList;
             foreach(Interactable item in interactables) {
-                
+
                 BoxCollider[] colliders = item.GetComponentsInChildren<BoxCollider>();
                 foreach(BoxCollider box in colliders) {
 
                     Vector3 position = box.center;
-                    Quaternion rotation = box.transform.rotation;
                     Vector3 scale = box.size;
 
-                    WireBox.Render(position, rotation, scale, item.transform, Instance.debugMaterial);
+                    WireBox.Render(position, scale, box.transform, Instance.debugMaterial);
                 }
             }
 
         }
 
         private void OnRenderObject() {
-            DebugShowBoundingBox();
+            if(showBoundingBoxes)
+                DebugShowBoundingBox();
         }
     }
 }
