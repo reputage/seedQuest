@@ -31,25 +31,22 @@ namespace SeedQuest.Debugger
             }
         }
 
-        void Update() {
+        void Update()
+        {
             if (showBoundingBoxes)
                 DebugShowBoundingBox();
         }
 
         static public void DebugShowBoundingBox() {
+
             Interactable[] interactables = InteractableManager.InteractableList;
             foreach(Interactable item in interactables) {
-
-                int counter = 0;
 
                 BoxCollider[] colliders = item.GetComponentsInChildren<BoxCollider>();
                 foreach(BoxCollider box in colliders) {
 
                     Vector3 position = box.center;
                     Vector3 scale = box.size;
-                    Debug.Log("box counter: " + counter + " box center: " + position + " size: " + scale);
-
-                    counter++;
 
                     WireBox.Render(position, scale, box.transform, Instance.debugMaterial);
                 }
@@ -58,7 +55,8 @@ namespace SeedQuest.Debugger
         }
 
         private void OnRenderObject() {
-            DebugShowBoundingBox();
+            if(showBoundingBoxes)
+                DebugShowBoundingBox();
         }
     }
 }

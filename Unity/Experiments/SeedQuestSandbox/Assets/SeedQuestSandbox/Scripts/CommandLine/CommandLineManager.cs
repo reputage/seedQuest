@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using SeedQuest.SeedEncoder;
 using SeedQuest.Interactables;
+using SeedQuest.Debugger;
+
 
 public static class CommandLineManager
 {
@@ -76,14 +78,14 @@ public static class CommandLineManager
     // Show box colliders on all interactables
     public static string showBoxColliders(string input)
     {
-        Interactable[] interactables = InteractableManager.InteractableList;
-        for (int i = 0; i < interactables.Length; i++)
-        {
-            // I'm not sure how to display the box colliders visually, but the code for it should go here
-            //interactables[i].
-        }
+        if (input == "true")
+            DebugManager.Instance.showBoundingBoxes = true;
+        else if (input == "false")
+            DebugManager.Instance.showBoundingBoxes = false;
+        else
+            DebugManager.Instance.showBoundingBoxes = !DebugManager.Instance.showBoundingBoxes;
 
-        return "This function is still a work in progress";
+        return "";
     }
 
     // Placeholder function to move the player when playerManager gets imported into seedquest-sandbox
