@@ -80,7 +80,7 @@ namespace SeedQuest.Level
                 return;
 
             bool goSceneSelect = InteractablePath.PathLevelComplete || InteractablePath.Instance.nextIndex == 0;
-            if (goSceneSelect && Input.GetKeyDown(KeyCode.H)) {
+            if (goSceneSelect && InputManager.GetKeyDown(KeyCode.H)) {
                 SceneManager.LoadScene(levelSelectScene);
             }
         }

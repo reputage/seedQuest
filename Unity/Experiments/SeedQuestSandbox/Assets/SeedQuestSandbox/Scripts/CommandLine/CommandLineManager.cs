@@ -10,6 +10,7 @@ using SeedQuest.Debugger;
 
 public static class CommandLineManager
 {
+    public static bool isInUse = false;
 
     // Initialize the dictionary 
     public static Dictionary<string, Func<string, string>> commands =

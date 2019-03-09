@@ -32,7 +32,7 @@ namespace SeedQuest.Debugger
             GL.MultMatrix(transform.localToWorldMatrix);
 
             GL.Begin(GL.LINES);
-            GL.Color(Color.red);
+            GL.Color(Color.white);
 
             for (int i = 0; i < lines.Length; i += 2) {
                 GL.Vertex(points[lines[i]]);

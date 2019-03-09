@@ -115,6 +115,7 @@ public class CommandLineInputUI : MonoBehaviour
             stopFade();
             ready = true;
             setActiveUi(false);
+            CommandLineManager.isInUse = true;
         }
         else
         {
@@ -125,6 +126,7 @@ public class CommandLineInputUI : MonoBehaviour
             clearInputField();
             inputField.ActivateInputField();
             inputField.Select();
+            CommandLineManager.isInUse = false;
         }
     }
 
