@@ -13,6 +13,8 @@ public class CommandLineInputUI : MonoBehaviour
     public Text inputText;
     public Text terminalText;
     public Coroutine fadeOut = null;
+    public List<string> previousCommands;
+    public int previousCommandIndex = 0;
 
     public bool ready;
 
@@ -32,9 +34,32 @@ public class CommandLineInputUI : MonoBehaviour
         if (commandLineField.activeSelf && Input.GetKeyDown(KeyCode.Return))
         {
             parseInputCommand(inputField.text);
-            fadeOut = StartCoroutine(fadeUi());
             clearInputField();
+            fadeOut = StartCoroutine(fadeUi());
             ready = true;
+        }
+
+        // If the user pushes the 'up' key, set input to the last command
+        if(commandLineField.activeSelf && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (previousCommandIndex > 0)
+                previousCommandIndex -= 1;
+            Debug.Log("Index: " + previousCommandIndex + " command: " + previousCommands[previousCommandIndex]);
+            inputField.text = previousCommands[previousCommandIndex];
+        }
+
+        // If the user pushes the 'down' key, set input to more recent command
+        if(commandLineField.activeSelf && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (previousCommandIndex < previousCommands.Count)
+                previousCommandIndex += 1;
+            if (previousCommandIndex == previousCommands.Count)
+                inputField.text = "";
+            else
+            {
+                Debug.Log("Index: " + previousCommandIndex + " command: " + previousCommands[previousCommandIndex]);
+                inputField.text = previousCommands[previousCommandIndex];
+            }
         }
     }
 
@@ -80,6 +105,8 @@ public class CommandLineInputUI : MonoBehaviour
     // Fade out UI elements
     IEnumerator fadeUi()
     {
+        commandLineField.SetActive(false);
+
         for (float i = 5; i >= 0; i -= Time.deltaTime)
         {
             float alpha = 1f;
@@ -89,7 +116,6 @@ public class CommandLineInputUI : MonoBehaviour
                 alpha = i / 2.0f;
                 panelAlpha = Mathf.Min(panelAlpha, i / 2.0f);
             }
-            Debug.Log("alpha: " + alpha + " panel alpha: " + panelAlpha);
 
             Color panelColor = panelImage.color;
             Color textColor = inputText.color;
@@ -166,8 +192,12 @@ public class CommandLineInputUI : MonoBehaviour
             output = CommandLineManager.fluffCommands[input[0]](parameter);
         else if (output != "")
             output = ("Command: '" + input[0] + "' not recognized");
-        
-        print(output);
+
+        previousCommands.Add(text);
+        previousCommandIndex = previousCommands.Count;
+        print("> " + text);
+        if(output != "")
+            print(output);
     }
 
     // Just prints to Debug.Log for now, should instead display to the front end terminal eventually

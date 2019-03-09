@@ -19,12 +19,23 @@ public static class CommandLineManager
         {"help", help},
         {"print", print},
         {"get", getValue},
-        {"gethelp", getHelp},
         {"moveplayer", movePlayer},
         {"loadscene", loadScene},
-        {"random", random},
         {"gamestate", setGameState},
+        {"gamemode", setGameMode},
         {"showcolliders", showBoxColliders}
+    };
+
+    public static Dictionary<string, string> helpDetails = new Dictionary<string, string>
+    {
+        {"help", "Displays a list of commands"},
+        {"print", "Prints a string to the console"},
+        {"get", "Prints an available value.\nParameters:\n string valueName\n" + getHelp("")},
+        {"moveplayer", "Moves the player to the specified location.\nParameters:\n int x, int y, int z"},
+        {"loadscene", "Loads the specified scene.\nParameters:\n string sceneName"},
+        {"gamestate", "Sets the gamestate.\nAccepted parameters:\n previous, pause, play, end, interact, menu"},
+        {"gamemode", "Sets the gamemode in GameManager.\nAccepted parameters:\n Learn, recall, sandbox"},
+        {"showcolliders", "Shows box colliders for interactables."}
     };
 
     // Here's a template for an example of command. 
@@ -39,19 +50,28 @@ public static class CommandLineManager
     // Prints out a list of available command line commands
     public static string help(string input)
     {
-        string returnString = "Available commands:";
-        foreach (string key in commands.Keys)
+        string returnString = "";
+
+        if (input == "")
         {
-            returnString += "\n" + key;
+            returnString = "Available commands:";
+            foreach (string key in commands.Keys)
+            {
+                returnString += "\n" + key;
+            }
         }
+
+        else if (helpDetails.ContainsKey(input))
+            returnString = helpDetails[input];
+        else
+            returnString = "Command not found";
+
         return returnString;
     }
 
     // Just used for displaying information to the user
     public static string print(string input)
     {
-        Debug.Log("Hello from print() " + input);
-
         return input;
     }
 
@@ -80,13 +100,19 @@ public static class CommandLineManager
     public static string showBoxColliders(string input)
     {
         if (input == "true")
+        {
             DebugManager.Instance.showBoundingBoxes = true;
+            return "Activating box colliders";
+        }
         else if (input == "false")
+        {
             DebugManager.Instance.showBoundingBoxes = false;
+            return "Deactivating box colliders";
+        }
         else
             DebugManager.Instance.showBoundingBoxes = !DebugManager.Instance.showBoundingBoxes;
 
-        return "";
+        return "Toggling box colliders";
     }
 
     // Placeholder function to move the player when playerManager gets imported into seedquest-sandbox
@@ -134,7 +160,7 @@ public static class CommandLineManager
             returnStr = CommandLineGetValues.values[input](input);
         else
             returnStr = "Value not found";
-        
+
         return returnStr;
     }
 
@@ -187,6 +213,33 @@ public static class CommandLineManager
         }
 
         return "Game state by name of '" + input + "' not found.";
+    }
+
+    // Set the game mode
+    public static string setGameMode(string input)
+    {
+        if (input.StartsWith("rec"))
+        {
+            GameManager.Mode = GameMode.Recall;
+            return "Game mode set to recall.";
+        }
+        if (input.StartsWith("learn"))
+        {
+            GameManager.Mode = GameMode.Rehearsal;
+            return "Game mode set to learn.";
+        }
+        if (input.StartsWith("rehea"))
+        {
+            GameManager.Mode = GameMode.Rehearsal;
+            return "Game mode set to rehearsal.";
+        }
+        if (input.StartsWith("sand"))
+        {
+            GameManager.Mode = GameMode.Sandbox;
+            return "Game mode set to sandbox.";
+        }
+
+        return "Game mode by name of '" + input + "' not found.";
     }
 
     // From here all functions are 'fluff' functions - they are just here for fun, and 
