@@ -156,13 +156,11 @@ namespace SeedQuest.Interactables
             }
         }
 
-        public void ClickOnInteractable()
-        {
+        public void ClickOnInteractable() {
             if (PauseManager.isPaused == true)
                 return;
 
-            if (Input.GetMouseButtonDown(0))
-            {
+            if (Input.GetMouseButtonDown(0)) {
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -176,16 +174,15 @@ namespace SeedQuest.Interactables
                     }
                 }
             }
-
         }
 
         public void HighlightInteractableDynamically(bool useHighlight) {
             Shader defultShader = Shader.Find("Standard");
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
 
-            Renderer rend = transform.GetComponentInChildren<Renderer>();
-            if (rend != null) {
-                foreach (Material material in rend.materials) {
+            Renderer[] rendererList = transform.GetComponentsInChildren<Renderer>();
+            foreach(Renderer renderer in rendererList) {
+                foreach (Material material in renderer.materials) {
                     if (useHighlight)
                         material.shader = highlightShader;
                     else
@@ -203,13 +200,12 @@ namespace SeedQuest.Interactables
             Shader defultShader = Shader.Find("Standard");
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
 
-            Renderer rend = transform.GetComponentInChildren<Renderer>();
-            if (rend != null)
+            Renderer[] rendererList = transform.GetComponentsInChildren<Renderer>();
+            foreach (Renderer renderer in rendererList)
             {
-                foreach (Material material in rend.materials)
+                foreach (Material material in renderer.materials)
                 {
-                    if (useHighlight)
-                    {
+                    if (useHighlight) {
                         material.shader = highlightShader;
                         material.SetFloat("_UseDynamicRim", 0.0f);
                     }
@@ -218,6 +214,5 @@ namespace SeedQuest.Interactables
                 }
             }
         }
-
     }
 }
