@@ -23,7 +23,8 @@ public static class CommandLineManager
         {"loadscene", loadScene},
         {"gamestate", setGameState},
         {"gamemode", setGameMode},
-        {"showcolliders", showBoxColliders}
+        {"showcolliders", showBoxColliders},
+        {"doAction", doNextAction}
     };
 
     public static Dictionary<string, string> helpDetails = new Dictionary<string, string>
@@ -35,7 +36,8 @@ public static class CommandLineManager
         {"loadscene", "Loads the specified scene.\nParameters:\n string sceneName"},
         {"gamestate", "Sets the gamestate.\nAccepted parameters:\n previous, pause, play, end, interact, menu"},
         {"gamemode", "Sets the gamemode in GameManager.\nAccepted parameters:\n Learn, recall, sandbox"},
-        {"showcolliders", "Shows box colliders for interactables."}
+        {"showcolliders", "Shows box colliders for interactables."},
+        {"doAction", "Performs the next action in the interactable path list, only works in learn mode."}
     };
 
     // Here's a template for an example of command. 
@@ -150,6 +152,17 @@ public static class CommandLineManager
         float rand = UnityEngine.Random.Range(1.0f, 100.0f);
         int randI = (int)rand;
         return "Your random number is: " + randI;
+    }
+
+    // In learn mode, perform the next queued action
+    public static string doNextAction(string input)
+    {
+        if (InteractablePath.NextInteractable != null && GameManager.Mode == GameMode.Recall)
+        {
+            Debug.Log(InteractablePath.NextInteractable.ID.actionID);
+            InteractablePath.NextInteractable.DoAction(InteractablePath.NextInteractable.ID.actionID);
+        }
+        return "Performing next queued action";
     }
 
     // Returns values from various manager scripts, for example 'get gamestate' returns the gamestate
