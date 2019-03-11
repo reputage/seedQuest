@@ -47,15 +47,38 @@ public class GameManager : MonoBehaviour {
 
     public GameObject HUDEndGamePrefab;
     public GameObject HUDLevelClearPrefab;
+    public GameObject HUDMenuPrefab;
+
+    private string scene = null;
+    private GameObject menu = null;
+
+    public static string Scene
+    {
+        get { return Instance.scene; }
+        set { Instance.scene = value; }
+    }
 
     public void Update() {
         CheckButtonClick();
         ListenForKeyDown();
         CheckForEndGame();
+        CheckForNewScene();
     }
 
     public void CheckForEndGame() {
 
+    }
+
+    public void CheckForNewScene()
+    {
+        if (scene != SceneManager.GetActiveScene().name)
+        {
+            scene = SceneManager.GetActiveScene().name;
+            if (HUDMenuPrefab != null)
+            {
+               menu = Instantiate(HUDMenuPrefab);
+            }
+        }
     }
 
     static public void ResetCursor() {
@@ -66,6 +89,10 @@ public class GameManager : MonoBehaviour {
     public void ListenForKeyDown() {
         if (Input.GetKeyDown("escape") && Mode != GameMode.Sandbox) {
             //SceneManager.LoadScene("PrototypeSelect");
+            if (menu)
+            {
+                menu.SetActive(true);
+            }
         }
     }
 
