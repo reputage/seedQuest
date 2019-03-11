@@ -170,8 +170,7 @@ public static class CommandLineManager
     {
         if (InteractablePath.NextInteractable != null && GameManager.Mode == GameMode.Recall)
         {
-            // I'm not actually sure if NextInteractable.ID.actionID is the value we need to use here
-            InteractablePath.NextInteractable.DoAction(InteractablePath.NextInteractable.ID.actionID);
+            InteractablePath.GoToNextInteractable();
         }
         return "Performing next queued action";
     }
