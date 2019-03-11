@@ -33,7 +33,8 @@ public static class CommandLineManager
         {"print", "Prints a string to the console"},
         {"get", "Prints an available value.\nParameters:\n string valueName\n" + getHelp("")},
         {"moveplayer", "Moves the player to the specified location.\nParameters:\n int x, int y, int z"},
-        {"loadscene", "Loads the specified scene.\nParameters:\n string sceneName"},
+        {"loadscene", "Loads the specified scene. 'help scenes' returns a list of available scene names. \nParameters:\n string sceneName"},
+        {"scenes", getSceneNames("")},
         {"gamestate", "Sets the gamestate.\nAccepted parameters:\n previous, pause, play, end, interact, menu"},
         {"gamemode", "Sets the gamemode in GameManager.\nAccepted parameters:\n Learn, recall, sandbox"},
         {"showcolliders", "Shows box colliders for interactables."},
@@ -86,6 +87,18 @@ public static class CommandLineManager
 
         SceneManager.LoadScene(input);
         return "Loading scene: " + input;
+    }
+
+    // Returns a list of all the available scenes in the build by name
+    public static string getSceneNames(string input)
+    {
+        int sceneCount = SceneManager.sceneCountInBuildSettings; 
+        string returnString = "Available scenes:";
+
+        for (int i = 0; i < sceneCount; i++)
+            returnString += "\n" + System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+
+        return returnString;
     }
 
     // Example of running tests in command line, not actually funcitonal yet.
