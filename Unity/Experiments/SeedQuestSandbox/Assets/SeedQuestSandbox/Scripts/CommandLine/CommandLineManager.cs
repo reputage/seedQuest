@@ -133,8 +133,10 @@ public static class CommandLineManager
     // Placeholder function to move the player when playerManager gets imported into seedquest-sandbox
     public static string movePlayer(string input)
     {
-        // Replace this line with the reference to the player object to move
-        //GameObject player = new GameObject();
+        GameObject player = GameObject.FindWithTag("Player");
+
+        if (player == null)
+            return "Cannot find a 'Player' object.";
 
         string[] stringInputs = input.Split(null);
         int[] intInput = new int[3];
@@ -148,13 +150,9 @@ public static class CommandLineManager
         Vector3 coordinates = new Vector3(intInput[0], intInput[1], intInput[2]);
 
         if (!validInts)
-        {
             return "Invalid coordinates entered";
-        }
-
-        // Replace this with code relevant to changing the player position
-        //else
-        //{ player.transform.position = coordinates; }
+        else
+            player.transform.position = coordinates;
 
         return "Moving player to " + intInput[0] + " " + intInput[1] + " " + intInput[2];
     }
@@ -172,7 +170,7 @@ public static class CommandLineManager
     {
         if (InteractablePath.NextInteractable != null && GameManager.Mode == GameMode.Recall)
         {
-            Debug.Log(InteractablePath.NextInteractable.ID.actionID);
+            // I'm not actually sure if NextInteractable.ID.actionID is the value we need to use here
             InteractablePath.NextInteractable.DoAction(InteractablePath.NextInteractable.ID.actionID);
         }
         return "Performing next queued action";
