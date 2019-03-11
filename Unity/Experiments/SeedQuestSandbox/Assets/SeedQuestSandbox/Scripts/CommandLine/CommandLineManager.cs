@@ -168,10 +168,8 @@ public static class CommandLineManager
     // In learn mode, perform the next queued action
     public static string doNextAction(string input)
     {
-        if (InteractablePath.NextInteractable != null && GameManager.Mode == GameMode.Recall)
-        {
+        if (InteractablePath.NextInteractable != null && GameManager.Mode == GameMode.Rehearsal)
             InteractablePath.GoToNextInteractable();
-        }
         return "Performing next queued action";
     }
 
