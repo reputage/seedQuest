@@ -35,13 +35,16 @@ public static class sqSurveyInterface
 
         yield return uwr.SendWebRequest();
 
+
         if (uwr.isNetworkError)
         {
             Debug.Log("Error While Sending: " + uwr.error);
+            Application.Quit();
         }
         else
         {
             Debug.Log("Received: " + uwr.downloadHandler.text);
+            Application.Quit();
         }
     }
 
@@ -64,10 +67,12 @@ public static class sqSurveyInterface
         if (uwr.isNetworkError)
         {
             Debug.Log("Error While Sending: " + uwr.error);
+            Application.Quit();
         }
         else
         {
             Debug.Log("Received: " + uwr.downloadHandler.text);
+            Application.Quit();
         }
     }
 
