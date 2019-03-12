@@ -47,7 +47,17 @@ namespace SeedQuest.Interactables
             modeIndex = mode == InteractableUIMode.ListSelect ? 2 : modeIndex;
             modeIndex = mode == InteractableUIMode.Dialogue ? 3 : modeIndex;
 
-            actionUI = GameObject.Instantiate(InteractableManager.Instance.actionSpotIcons[modeIndex], InteractableManager.Instance.transform);
+            Transform UIContainer;
+            if (!GameObject.Find("InteractableUIContainer")) {
+                UIContainer = new GameObject("InteractableUIContainer").transform;
+                UIContainer.parent = InteractableManager.Instance.transform;
+            }
+            else  {
+                UIContainer = GameObject.Find("InteractableUIContainer").transform;
+            }
+
+            actionUI = GameObject.Instantiate(InteractableManager.Instance.actionSpotIcons[modeIndex], UIContainer);
+
             SetScale();
             SetPosition();
             SetupLabelButton();
@@ -109,17 +119,14 @@ namespace SeedQuest.Interactables
                     checkImages[i] = actionButtons[i].gameObject.GetComponentsInChildren<Image>()[1];
                 }
 
-                if (mode == InteractableUIMode.Dialogue)
-                {
+                if (mode == InteractableUIMode.Dialogue) {
                     for (int i = 0; i < 4; i++)
                     {
                         checkImages[i].gameObject.SetActive(false);
                     }
                     actionButtons[4].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = parent.stateData.getPrompt();
                 }
-
-                else
-                {
+                else {
                     foreach (Image image in checkImages)
                     {
                         image.gameObject.SetActive(false);
