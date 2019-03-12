@@ -35,8 +35,10 @@ public class CommandLineInputUI : MonoBehaviour
         {
             parseInputCommand(inputField.text);
             clearInputField();
-            fadeOut = StartCoroutine(fadeUi());
-            ready = true;
+            //fadeOut = StartCoroutine(fadeUi());
+            inputField.ActivateInputField();
+            inputField.Select();
+            //ready = true;
         }
 
         // If the user pushes the 'up' key, set input to the last command
