@@ -37,7 +37,6 @@ namespace SeedQuest.Interactables
             else {
                 interactableUI.Initialize(this);
             }
-
         }
 
         void OnDestroy() {
@@ -149,6 +148,7 @@ namespace SeedQuest.Interactables
                 else {
                     if (isOnHover) {
                         GameManager.State = GameState.Play;
+                        HighlightInteractable(false);
                     }
 
                     isOnHover = false;
@@ -177,16 +177,20 @@ namespace SeedQuest.Interactables
         }
 
         public void HighlightInteractableDynamically(bool useHighlight) {
-            Shader defultShader = Shader.Find("Standard");
+            Shader defaultShader = Shader.Find("Standard");
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
 
             Renderer[] rendererList = transform.GetComponentsInChildren<Renderer>();
             foreach(Renderer renderer in rendererList) {
+
+                if (renderer.GetComponent<ParticleSystem>() != null)
+                    continue;
+
                 foreach (Material material in renderer.materials) {
                     if (useHighlight)
                         material.shader = highlightShader;
                     else
-                        material.shader = defultShader;
+                        material.shader = defaultShader;
                 }
             }
 
@@ -197,20 +201,22 @@ namespace SeedQuest.Interactables
         }
 
         public void HighlightInteractable(bool useHighlight) {
-            Shader defultShader = Shader.Find("Standard");
+            Shader defaultShader = Shader.Find("Standard");
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
 
             Renderer[] rendererList = transform.GetComponentsInChildren<Renderer>();
-            foreach (Renderer renderer in rendererList)
-            {
-                foreach (Material material in renderer.materials)
-                {
+            foreach (Renderer renderer in rendererList) {
+
+                if (renderer.GetComponent<ParticleSystem>() != null)
+                    continue;
+
+                foreach (Material material in renderer.materials) {
                     if (useHighlight) {
                         material.shader = highlightShader;
                         material.SetFloat("_UseDynamicRim", 0.0f);
                     }
                     else
-                        material.shader = defultShader;
+                        material.shader = defaultShader;
                 }
             }
         }
