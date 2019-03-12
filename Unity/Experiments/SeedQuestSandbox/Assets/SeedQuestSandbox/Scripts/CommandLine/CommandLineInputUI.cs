@@ -188,6 +188,12 @@ public class CommandLineInputUI : MonoBehaviour
         else if (input.Length == 2)
             parameter = input[1];
 
+        if (input[0] == "clear")
+        {
+            terminalText.text = "";
+            return;
+        }
+
         if (CommandLineManager.commands.ContainsKey(input[0]))
             output = CommandLineManager.commands[input[0]](parameter);
         else if (CommandLineManager.fluffCommands.ContainsKey(input[0]))
