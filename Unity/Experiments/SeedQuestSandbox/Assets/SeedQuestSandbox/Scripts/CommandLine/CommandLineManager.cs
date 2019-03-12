@@ -24,7 +24,7 @@ public static class CommandLineManager
         {"gamestate", setGameState},
         {"gamemode", setGameMode},
         {"showcolliders", showBoxColliders},
-        {"doaction", doNextAction}
+        {"nextaction", doNextAction}
     };
 
     public static Dictionary<string, string> helpDetails = new Dictionary<string, string>
