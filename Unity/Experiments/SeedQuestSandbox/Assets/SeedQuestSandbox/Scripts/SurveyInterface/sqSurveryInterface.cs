@@ -2,6 +2,7 @@
 using System.Net;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -22,8 +23,10 @@ public static class sqSurveyInterface
 
         questions.Add("q1");
         questions.Add("q2");
+        questions.Add("bad question{}:><>?{}}}{");
         responses.Add("r1");
         responses.Add("r2");
+        responses.Add("bad response{}:><>?{}}}{\"\'/");
 
         string json = jsonBodyBuilder(questions, responses);
 
@@ -106,8 +109,6 @@ public static class sqSurveyInterface
     public static string jsonBodyBuilder(List<string> questions, List<string> responses, string name = null, string email = null)
     {
         string dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss");
-        string testName;
-        string testEmail;
 
         if (name == null)
             name = "xyz";
@@ -117,15 +118,13 @@ public static class sqSurveyInterface
         Debug.Log("Date: " + dateTime);
 
         string body;
-        string textResponseOne;
-
-        textResponseOne = groupResponses(questions, responses);
+        string response = groupResponses(questions, responses);;
 
         body = "{";
 
         body += "\"Name\": \"" + name + "\",";
         body += "\"Email\": \"" + email + "\",";
-        body += "\"Response\": " + textResponseOne;
+        body += "\"Response\": " + response;
 
         body += "}";
         Debug.Log("Json body: " + body);
@@ -136,6 +135,10 @@ public static class sqSurveyInterface
     // Another JSON formatter function. Again, don't know what the survey will look like yet
     public static string responseFormatter(string questionId, string userResponse)
     {
+        questionId = sanitizeInput(questionId);
+        userResponse = sanitizeInput(userResponse);
+        Debug.Log("questionID: " + questionId);
+        Debug.Log("userResponse" + userResponse);
         string json = "\"" + questionId + "\": \"" + userResponse + "\"";
         return json;
     }
@@ -162,6 +165,22 @@ public static class sqSurveyInterface
         Debug.Log("Json group formatted: " + json);
 
         return json;
+    }
+
+    // Sanitize input strings
+    public static string sanitizeInput(string input)
+    {
+        // Replace invalid characters with empty strings.
+        try
+        {
+            return Regex.Replace(input, @"[^\w\.@\s-]", "",
+                                 RegexOptions.None, TimeSpan.FromSeconds(1.5));
+        }
+        // If we timeout when replacing invalid characters, we should return Empty.
+        catch (RegexMatchTimeoutException)
+        {
+            return String.Empty;
+        }
     }
 
     // I'm not sure what format the responses will be in - this may be helpful
