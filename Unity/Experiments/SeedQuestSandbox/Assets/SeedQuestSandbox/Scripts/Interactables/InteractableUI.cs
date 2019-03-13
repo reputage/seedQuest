@@ -77,18 +77,12 @@ namespace SeedQuest.Interactables
 
         /// <summary> Intialize and Setupt Label Button </summary>
         public void SetupLabel() {
-
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
             textList[0].text = parent.Name;
-
-            //Button[] buttons = actionUI.GetComponentsInChildren<Button>();
-            //labelButton = buttons[0];
-            //labelButton.onClick.AddListener(onClickLabel);
         }
 
         /// <summary> Intialize and Setup Action Buttons </summary>
-        public void SetupActionButtons()
-        {
+        public void SetupActionButtons() {
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
             foreach (TMPro.TextMeshProUGUI text in textList)
                 text.fontSize = fontSize;
@@ -118,15 +112,13 @@ namespace SeedQuest.Interactables
                 }
 
                 if (mode == InteractableUIMode.Dialogue) {
-                    for (int i = 0; i < 4; i++)
-                    {
+                    for (int i = 0; i < 4; i++) {
                         checkImages[i].gameObject.SetActive(false);
                     }
                     actionButtons[4].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = parent.stateData.getPrompt();
                 }
                 else {
-                    foreach (Image image in checkImages)
-                    {
+                    foreach (Image image in checkImages) {
                         image.gameObject.SetActive(false);
                     }
                 }
@@ -285,7 +277,6 @@ namespace SeedQuest.Interactables
         public void offHoverUI() {
             GameManager.State = GameState.Play;
         }
-
 
         /// <summary> Sets UI Size Scale </summary>
         public void SetScale() {

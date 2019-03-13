@@ -10,7 +10,6 @@ public class InteractButton : MonoBehaviour
 {
     private bool isOnHover = false;
 
-
     void Awake() {
         SetButtonClickEvents();
         SetButtonHoverEvents();
@@ -28,7 +27,7 @@ public class InteractButton : MonoBehaviour
         AudioManager.Play("UI_Hover");
 
         if (Cursor.lockState == CursorLockMode.Locked)
-            GetComponent<Button>().targetGraphic.color = new Color32(253, 205, 48, 255);
+            GetComponent<Button>().targetGraphic.color = GetComponent<Button>().colors.highlightedColor;
     }
 
     private void OnHoverExit()  {
@@ -36,7 +35,7 @@ public class InteractButton : MonoBehaviour
         GameManager.State = GameState.Play;
 
         if (Cursor.lockState == CursorLockMode.Locked)
-            GetComponent<Button>().targetGraphic.color = Color.white;
+            GetComponent<Button>().targetGraphic.color = GetComponent<Button>().colors.normalColor;
     }
 
     public void SetButtonClickEvents() {
@@ -59,6 +58,9 @@ public class InteractButton : MonoBehaviour
     }
 
     public void OnClickForLockedCursor() {
+        if (PauseManager.isPaused == true)
+            return;
+
         if (Input.GetMouseButtonDown(0)) {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -78,8 +80,7 @@ public class InteractButton : MonoBehaviour
         }
     }
 
-    public void OnHoverForLockedCursor()
-    {
+    public void OnHoverForLockedCursor() {
         if (PauseManager.isPaused == true)
             return;
 
