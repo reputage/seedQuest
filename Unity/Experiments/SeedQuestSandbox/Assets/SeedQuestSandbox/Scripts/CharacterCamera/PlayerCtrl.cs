@@ -53,6 +53,8 @@ public class PlayerCtrl : MonoBehaviour {
                 {
                     NavMeshAgent agent = GetComponent<NavMeshAgent>();
                     agent.SetDestination(hit.point);
+
+                    MarkerManager.GenerateMarker(hit.point + new Vector3(0, 0.1f, 0), Quaternion.identity);
                 }
             }
             
@@ -72,15 +74,17 @@ public class PlayerCtrl : MonoBehaviour {
             NavMeshHit navHit;
             int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
             if (NavMesh.SamplePosition(hit.point, out navHit, 1.0f, walkableMask)) {
-                Debug.Log("Walkable: ");
-                Cursor.SetCursor(cursorTextureWalking, Vector2.zero, CursorMode.Auto);
+                //Cursor.SetCursor(cursorTextureWalking, Vector2.zero, CursorMode.Auto);
+                CursorActionUI.Show = true;
             }
             else {
-                Cursor.SetCursor(cursorTextureDefault, Vector2.zero, CursorMode.Auto);
+                //Cursor.SetCursor(cursorTextureDefault, Vector2.zero, CursorMode.Auto);
+                CursorActionUI.Show = false;
             }
         }
         else {
-            Cursor.SetCursor(cursorTextureDefault, Vector2.zero, CursorMode.Auto);
+            //Cursor.SetCursor(cursorTextureDefault, Vector2.zero, CursorMode.Auto);
+            CursorActionUI.Show = false;
         }
     }
 
