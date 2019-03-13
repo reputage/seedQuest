@@ -45,8 +45,6 @@ public class GameManager : MonoBehaviour {
     public GameSoundData gameSound = null;
     public static GameSoundData GameSound { get { return Instance.gameSound; } }
 
-    public GameObject HUDEndGamePrefab;
-    public GameObject HUDLevelClearPrefab;
     public GameObject HUDMenuPrefab;
 
     private string scene = null;
@@ -59,7 +57,6 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Update() {
-        CheckButtonClick();
         ListenForKeyDown();
         CheckForEndGame();
         CheckForNewScene();
@@ -88,33 +85,11 @@ public class GameManager : MonoBehaviour {
 
     public void ListenForKeyDown() {
         if (Input.GetKeyDown("escape") && Mode != GameMode.Sandbox) {
-            //SceneManager.LoadScene("PrototypeSelect");
             if (menu)
-            {
                 menu.SetActive(true);
-            }
+            //else
+            //    menu.SetActive(false);
         }
     }
 
-    public void CheckButtonClick() {
-        if (Cursor.lockState == CursorLockMode.Locked) {
-            ClickButtons();
-        }
-    }
-
-    public void ClickButtons()
-    {
-        if (Input.GetMouseButtonDown(0)) {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit, 100.0f)) {
-                IPointerClickHandler clickHandler = hit.transform.gameObject.GetComponent<IPointerClickHandler>();
-                PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
-                if (clickHandler != null) {
-                    clickHandler.OnPointerClick(pointerEventData);
-                }
-            }
-        }
-    }
-}
+} 

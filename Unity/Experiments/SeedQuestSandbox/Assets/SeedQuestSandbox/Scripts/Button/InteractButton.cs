@@ -8,39 +8,100 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Button))]
 public class InteractButton : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private bool isOnHover = false;
+
+
     void Awake() {
-        setButtonClickEvents();
-        setButtonHoverEvents();
+        SetButtonClickEvents();
+        SetButtonHoverEvents();
     }
 
-    public void setButtonClickEvents()
-    {
+    void Update() {
+        if (Cursor.lockState == CursorLockMode.Locked) {
+            OnClickForLockedCursor();
+            OnHoverForLockedCursor();
+        }
+    }
+    private void OnHoverEnter() {
+        if (PauseManager.isPaused == true) return;
+        GameManager.State = GameState.Interact;
+        AudioManager.Play("UI_Hover");
+
+        if (Cursor.lockState == CursorLockMode.Locked)
+            GetComponent<Button>().targetGraphic.color = new Color32(253, 205, 48, 255);
+    }
+
+    private void OnHoverExit()  {
+        if (PauseManager.isPaused == true) return;
+        GameManager.State = GameState.Play;
+
+        if (Cursor.lockState == CursorLockMode.Locked)
+            GetComponent<Button>().targetGraphic.color = Color.white;
+    }
+
+    public void SetButtonClickEvents() {
         Button button = GetComponent<Button>();
         button.onClick.AddListener(delegate () { AudioManager.Play("UI_Click"); });
     }
 
-    // Set hover and click sounds
-    public void setButtonHoverEvents()
-    {
+    public void SetButtonHoverEvents() {
         EventTrigger trigger = GetComponent<EventTrigger>();
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerEnter;
-        entry.callback.AddListener((data) => {
-            if (PauseManager.isPaused == true) return;
-            GameManager.State = GameState.Interact;
-            AudioManager.Play("UI_Hover");
-
-        });
+        entry.callback.AddListener((data) => { OnHoverEnter(); });
         trigger.triggers.Add(entry);
 
         EventTrigger.Entry exit = new EventTrigger.Entry();
         exit.eventID = EventTriggerType.PointerExit;
-        exit.callback.AddListener((data) => {
-            if (PauseManager.isPaused == true) return;
-            GameManager.State = GameState.Play;
-        });
+        exit.callback.AddListener((data) => { OnHoverExit(); });
         trigger.triggers.Add(exit);
+    }
+
+    public void OnClickForLockedCursor() {
+        if (Input.GetMouseButtonDown(0)) {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, 100.0f))  {
+                bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
+                if (!hitThis)
+                    return;
+
+                IPointerClickHandler clickHandler = hit.transform.gameObject.GetComponent<IPointerClickHandler>();
+                PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+                if (clickHandler != null)
+                {
+                    clickHandler.OnPointerClick(pointerEventData);
+                }
+            }
+        }
+    }
+
+    public void OnHoverForLockedCursor()
+    {
+        if (PauseManager.isPaused == true)
+            return;
+
+        Camera c = Camera.main;
+        RaycastHit hit;
+        Ray ray = c.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 100.0f))
+        {
+            bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
+            if (hitThis)  {
+                if (!isOnHover) {
+                    OnHoverEnter();
+                }
+                isOnHover = true;
+            }
+            else {
+                if (isOnHover) {
+                    OnHoverExit();
+                }
+                isOnHover = false;
+            }
+        }
     }
 }

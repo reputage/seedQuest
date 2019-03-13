@@ -60,7 +60,7 @@ namespace SeedQuest.Interactables
 
             SetScale();
             SetPosition();
-            SetupLabelButton();
+            SetupLabel();
             SetupActionButtons();
             SetupCheckButton();
         }
@@ -76,14 +76,14 @@ namespace SeedQuest.Interactables
         }
 
         /// <summary> Intialize and Setupt Label Button </summary>
-        public void SetupLabelButton() {
+        public void SetupLabel() {
 
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
             textList[0].text = parent.Name;
 
-            Button[] buttons = actionUI.GetComponentsInChildren<Button>();
-            labelButton = buttons[0];
-            labelButton.onClick.AddListener(onClickLabel);
+            //Button[] buttons = actionUI.GetComponentsInChildren<Button>();
+            //labelButton = buttons[0];
+            //labelButton.onClick.AddListener(onClickLabel);
         }
 
         /// <summary> Intialize and Setup Action Buttons </summary>
@@ -136,7 +136,6 @@ namespace SeedQuest.Interactables
                 actionButtons[2].onClick.AddListener(delegate { ClickActionButton(2); });
                 actionButtons[3].onClick.AddListener(delegate { ClickActionButton(3); });
             }
-
 
             hideActions();
         }

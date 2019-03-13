@@ -138,9 +138,7 @@ public class InteractableTrackerUI : MonoBehaviour
     public Vector3 NearPositionOffset()
     {
         Vector3 mag = player.position - target.transform.position;
-        if (mag.magnitude < nearDistance)
-        {
-            Debug.Log(Vector3.Lerp(nearPositionOffset, Vector3.zero, mag.magnitude / nearDistance ));
+        if (mag.magnitude < nearDistance) {
             return Vector3.Lerp(nearPositionOffset, Vector3.zero, mag.magnitude / nearDistance);
         }
         else

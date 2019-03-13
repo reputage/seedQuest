@@ -11,8 +11,6 @@ public class EndGameUI : MonoBehaviour {
         get {
             if (instance == null)
                 instance = Resources.FindObjectsOfTypeAll<EndGameUI>()[0];
-            else if(instance == null)
-                instance = Instantiate(GameManager.Instance.HUDEndGamePrefab).GetComponent<EndGameUI>();
             return instance;
         }
     }
