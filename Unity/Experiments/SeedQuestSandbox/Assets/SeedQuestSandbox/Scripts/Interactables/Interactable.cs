@@ -60,6 +60,8 @@ namespace SeedQuest.Interactables
             }
         }
 
+        public bool IsNextInteractable { get => InteractablePath.NextInteractable == this; }
+
         int Mod(int x, int m)
         {
             return (x % m + m) % m;
@@ -81,9 +83,8 @@ namespace SeedQuest.Interactables
             currentStateID = Mod(currentStateID + 1, 4);
             InteractableState state = stateData.states[currentStateID];
             state.enterState(this);
-
+            HighlightInteractable(true, true);
             interactableUI.SetActionUI(currentStateID);
-            //interactableUI.SetText(state.actionName);
         }
 
         public void PrevAction()
@@ -91,9 +92,8 @@ namespace SeedQuest.Interactables
             currentStateID = Mod(currentStateID - 1, 4);
             InteractableState state = stateData.states[currentStateID];
             state.enterState(this);
-
+            HighlightInteractable(true, true);
             interactableUI.SetActionUI(currentStateID);
-            //interactableUI.SetText(state.actionName);
         }
 
         public void DoAction(int actionIndex)
@@ -101,9 +101,8 @@ namespace SeedQuest.Interactables
             currentStateID = actionIndex;
             InteractableState state = stateData.states[actionIndex];
             state.enterState(this);
-
+            HighlightInteractable(true, true);
             interactableUI.SetActionUI(actionIndex);
-            //interactableUI.SetText(state.actionName);
         }
 
         public void SelectAction(int actionIndex)
@@ -148,7 +147,11 @@ namespace SeedQuest.Interactables
                 else {
                     if (isOnHover) {
                         GameManager.State = GameState.Play;
-                        HighlightInteractable(false);
+
+                        if (IsNextInteractable)
+                            HighlightInteractable(true, true);
+                        else
+                            HighlightInteractable(false);
                     }
 
                     isOnHover = false;
@@ -176,31 +179,11 @@ namespace SeedQuest.Interactables
             }
         }
 
-        public void HighlightInteractableDynamically(bool useHighlight) {
-            Shader defaultShader = Shader.Find("Standard");
-            Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
-
-            Renderer[] rendererList = transform.GetComponentsInChildren<Renderer>();
-            foreach(Renderer renderer in rendererList) {
-
-                if (renderer.GetComponent<ParticleSystem>() != null)
-                    continue;
-
-                foreach (Material material in renderer.materials) {
-                    if (useHighlight)
-                        material.shader = highlightShader;
-                    else
-                        material.shader = defaultShader;
-                }
-            }
-
-            if (useHighlight)
-                EffectsManager.PlayEffect("highlight", this.transform);
-            else
-                EffectsManager.StopEffect(this.transform);
+        public void HighlightInteractable(bool useHighlight) {
+            HighlightInteractable(useHighlight, false);
         }
 
-        public void HighlightInteractable(bool useHighlight) {
+        public void HighlightInteractable(bool useHighlight, bool useDynamicRim) {
             Shader defaultShader = Shader.Find("Standard");
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
 
@@ -213,12 +196,25 @@ namespace SeedQuest.Interactables
                 foreach (Material material in renderer.materials) {
                     if (useHighlight) {
                         material.shader = highlightShader;
-                        material.SetFloat("_UseDynamicRim", 0.0f);
+
+                        if(useDynamicRim)
+                            material.SetFloat("_UseDynamicRim", 1.0f);
+                        else
+                            material.SetFloat("_UseDynamicRim", 0.0f);
                     }
                     else
                         material.shader = defaultShader;
                 }
             }
+        }
+
+        public void HighlightInteractableWithEffect(bool useHighlight) {
+            HighlightInteractable(true, true);
+
+            if (useHighlight)
+                EffectsManager.PlayEffect("highlight", this.transform);
+            else
+                EffectsManager.StopEffect(this.transform);
         }
     }
 }

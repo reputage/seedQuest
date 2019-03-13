@@ -36,7 +36,6 @@ namespace SeedQuest.Interactables
 
             if (GameManager.Mode == GameMode.Sandbox && interactable != null)
                 InteractablePreviewUI.SetPreviewObject(interactable); 
-           
         }
 
         private Interactable[,] interactableLUT;

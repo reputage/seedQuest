@@ -35,7 +35,7 @@ namespace SeedQuest.Interactables
             if (prefab != null) {
                 GameObject _prefab = GameObject.Instantiate(prefab, item.transform);
                 _prefab.transform.position += positionOffset;
-
+               
                 if (item.GetComponent<MeshFilter>() != null)
                     item.GetComponent<MeshFilter>().sharedMesh = null;
             }

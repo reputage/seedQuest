@@ -110,7 +110,7 @@ namespace SeedQuest.Interactables
         static public void InitializeNextInteractable() {
             if (GameManager.Mode == GameMode.Rehearsal) {
                 InteractableManager.UnHighlightAllInteractables();
-                NextInteractable.HighlightInteractableDynamically(true);
+                NextInteractable.HighlightInteractableWithEffect(true);
                 InteractablePreviewUI.SetPreviewObject(NextInteractable);
             }
         }
