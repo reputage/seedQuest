@@ -139,6 +139,7 @@ public class CommandLineInputUI : MonoBehaviour
         if (!ready)
         {
             // Deactivate the UI
+            GameManager.State = GameManager.PrevState;
             clearInputField();
             stopFade();
             ready = true;
@@ -148,6 +149,7 @@ public class CommandLineInputUI : MonoBehaviour
         else
         {
             // Activate the UI
+            GameManager.State = GameState.Menu;
             stopFade();
             ready = false;
             setActiveUi(true);

@@ -25,6 +25,8 @@ public static class CommandLineManager
         {"gamemode", setGameMode},
         {"showcolliders", showBoxColliders},
         {"nextaction", doNextAction}
+        // make a function for 'select action' in recall mode that takes parameters for site id, interactable id, action id, in that order
+        // make a function for sandbox mode that shows the preview for an interactabel. takes parameters for site id, interactable id, and action id
     };
 
     public static Dictionary<string, string> helpDetails = new Dictionary<string, string>
@@ -41,7 +43,7 @@ public static class CommandLineManager
         {"doAction", "Performs the next action in the interactable path list, only works in learn mode."}
     };
 
-    // Here's a template for an example of command. 
+    // Here's a template for an example of a command. 
     //  For a command to work, it needs to be added to the above dictionary,
     //  and the dictionary key for the function needs to be all lowercase
     public static string templateCommand(string input)
@@ -92,7 +94,7 @@ public static class CommandLineManager
     // Returns a list of all the available scenes in the build by name
     public static string getSceneNames(string input)
     {
-        int sceneCount = SceneManager.sceneCountInBuildSettings; 
+        int sceneCount = SceneManager.sceneCountInBuildSettings;
         string returnString = "Available scenes:";
 
         for (int i = 0; i < sceneCount; i++)
@@ -123,6 +125,11 @@ public static class CommandLineManager
         {
             DebugManager.Instance.showBoundingBoxes = false;
             return "Deactivating box colliders";
+        }
+        else if (input == "b")
+        {
+            DebugManager.Instance.showOtherBoxes = !DebugManager.Instance.showOtherBoxes;
+            return "Toggling other boxes";
         }
         else
             DebugManager.Instance.showBoundingBoxes = !DebugManager.Instance.showBoundingBoxes;
