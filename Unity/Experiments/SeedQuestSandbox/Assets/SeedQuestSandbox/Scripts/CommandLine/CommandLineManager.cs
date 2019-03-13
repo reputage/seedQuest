@@ -39,7 +39,7 @@ public static class CommandLineManager
         {"scenes", getSceneNames("")},
         {"gamestate", "Sets the gamestate.\nAccepted parameters:\n previous, pause, play, end, interact, menu"},
         {"gamemode", "Sets the gamemode in GameManager.\nAccepted parameters:\n Learn, recall, sandbox"},
-        {"showcolliders", "Shows box colliders for interactables."},
+        {"showcolliders", "Shows box colliders for interactables.\nUse 'showcolliders b' to show colliders for non-interctable objects"},
         {"doAction", "Performs the next action in the interactable path list, only works in learn mode."}
     };
 
