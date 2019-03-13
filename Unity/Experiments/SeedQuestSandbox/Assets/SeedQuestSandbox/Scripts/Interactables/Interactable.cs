@@ -7,6 +7,11 @@ using TMPro;
 
 namespace SeedQuest.Interactables
 {
+    [System.Serializable]
+    public class InteractableHighlightsProps {
+        public bool useHighlightsShader = true;
+    }
+
     //[ExecuteInEditMode] 
     [RequireComponent(typeof(BoxCollider))]
     public class Interactable : MonoBehaviour {
@@ -14,7 +19,8 @@ namespace SeedQuest.Interactables
         public InteractableStateData stateData = null;
         public InteractableUI interactableUI;
         public InteractableTrackerProps interactableTracker;
-        public InteractablePreviewInfo interactablePreview;  
+        public InteractablePreviewInfo interactablePreview;
+        public InteractableHighlightsProps interactableHighlights;
         public InteractableID ID;
         public int currentStateID = 0;
 
@@ -184,6 +190,9 @@ namespace SeedQuest.Interactables
         }
 
         public void HighlightInteractable(bool useHighlight, bool useDynamicRim) {
+            if (!interactableHighlights.useHighlightsShader)
+                return;
+
             Shader defaultShader = Shader.Find("Standard");
             Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
 
