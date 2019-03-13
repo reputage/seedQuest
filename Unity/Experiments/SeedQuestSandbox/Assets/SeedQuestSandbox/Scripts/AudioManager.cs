@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour {
 
-    public Sound[] sounds = null;
-
     static private AudioManager instance = null;
+
+    public List<Sound> sounds = new List<Sound>();
+    public GameSoundData UISounds;
+    public GameSoundData DefaultSounds;
+    public GameSoundData GameSounds;
 
     private void Awake() {
 
@@ -24,9 +26,16 @@ public class AudioManager : MonoBehaviour {
         //Play("ThemeMusic");
     }
 
-    public void InitAudioSettings()
-    {
-        sounds = GameManager.GameSound.Sounds;
+    public void InitAudioSettings() {
+        if(UISounds != null)
+            sounds.AddRange(UISounds.Sounds);
+        if(DefaultSounds != null)
+            sounds.AddRange(DefaultSounds.Sounds);
+        if(GameSounds != null) 
+            sounds.AddRange(GameSounds.Sounds);
+        if(GameManager.GameSound != null)
+            sounds.AddRange(GameManager.GameSound.Sounds);
+
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -50,12 +59,11 @@ public class AudioManager : MonoBehaviour {
                 volumeFactor = 0f;
 
             s.source.volume = s.volume * SettingsManager.MasterVolume * volumeFactor;
-            //Debug.Log("Updating Audio Settings to " + s.source.volume);
         }
     }
 
     static public void Play (string name) {
-        Sound s = Array.Find(instance.sounds, Sound => Sound.name == name);
+        Sound s = Array.Find(instance.sounds.ToArray(), Sound => Sound.name == name);
         if (s == null)
             Debug.LogWarning("Sounds : " + name + " was not found.");
         else

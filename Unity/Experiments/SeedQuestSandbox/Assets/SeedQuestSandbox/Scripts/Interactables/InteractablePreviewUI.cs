@@ -169,7 +169,7 @@ namespace SeedQuest.Interactables
 
             // Destroy InteractableUI and Remove Highlights
             Instance.previewChild.GetComponent<Interactable>().DeleteUI();
-            Instance.previewChild.GetComponent<Interactable>().HighlightInteractableDynamically(false);
+            Instance.previewChild.GetComponent<Interactable>().HighlightInteractableWithEffect(false);
 
             // Set Layer to "InteractablePreview"
             SetLayerRecursively(Instance.previewChild, 0);

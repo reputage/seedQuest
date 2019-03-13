@@ -47,10 +47,20 @@ namespace SeedQuest.Interactables
             modeIndex = mode == InteractableUIMode.ListSelect ? 2 : modeIndex;
             modeIndex = mode == InteractableUIMode.Dialogue ? 3 : modeIndex;
 
-            actionUI = GameObject.Instantiate(InteractableManager.Instance.actionSpotIcons[modeIndex], InteractableManager.Instance.transform);
+            Transform UIContainer;
+            if (!GameObject.Find("InteractableUIContainer")) {
+                UIContainer = new GameObject("InteractableUIContainer").transform;
+                UIContainer.parent = InteractableManager.Instance.transform;
+            }
+            else  {
+                UIContainer = GameObject.Find("InteractableUIContainer").transform;
+            }
+
+            actionUI = GameObject.Instantiate(InteractableManager.Instance.actionSpotIcons[modeIndex], UIContainer);
+
             SetScale();
             SetPosition();
-            SetupLabelButton();
+            SetupLabel();
             SetupActionButtons();
             SetupCheckButton();
         }
@@ -66,21 +76,13 @@ namespace SeedQuest.Interactables
         }
 
         /// <summary> Intialize and Setupt Label Button </summary>
-        public void SetupLabelButton() {
-
+        public void SetupLabel() {
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
             textList[0].text = parent.Name;
-
-            Button[] buttons = actionUI.GetComponentsInChildren<Button>();
-            labelButton = buttons[0];
-            labelButton.onClick.AddListener(onClickLabel);
-
-            setButtonHoverEvents(labelButton);
         }
 
         /// <summary> Intialize and Setup Action Buttons </summary>
-        public void SetupActionButtons()
-        {
+        public void SetupActionButtons() {
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
             foreach (TMPro.TextMeshProUGUI text in textList)
                 text.fontSize = fontSize;
@@ -109,19 +111,14 @@ namespace SeedQuest.Interactables
                     checkImages[i] = actionButtons[i].gameObject.GetComponentsInChildren<Image>()[1];
                 }
 
-                if (mode == InteractableUIMode.Dialogue)
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
+                if (mode == InteractableUIMode.Dialogue) {
+                    for (int i = 0; i < 4; i++) {
                         checkImages[i].gameObject.SetActive(false);
                     }
                     actionButtons[4].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = parent.stateData.getPrompt();
                 }
-
-                else
-                {
-                    foreach (Image image in checkImages)
-                    {
+                else {
+                    foreach (Image image in checkImages) {
                         image.gameObject.SetActive(false);
                     }
                 }
@@ -132,12 +129,7 @@ namespace SeedQuest.Interactables
                 actionButtons[3].onClick.AddListener(delegate { ClickActionButton(3); });
             }
 
-
             hideActions();
-
-            // Create Triggers for HoverEvents
-            foreach (Button button in actionButtons)
-                setButtonHoverEvents(button);
         }
 
         /// <summary> Setup Checkmark Button for use with NextPrevSelect Button only </summary>
@@ -147,31 +139,9 @@ namespace SeedQuest.Interactables
                 checkButton = buttons[1];
                 checkButton.onClick.AddListener(onClickCheck);
                 checkButton.gameObject.SetActive(false);
-                setButtonHoverEvents(checkButton);
             }
         }
-
-        /// <summary> Set up button hover events for use in ThirdPerson and FirstPerson scenes </summary>
-        public void setButtonHoverEvents(Button button) {
-            EventTrigger trigger = button.GetComponent<EventTrigger>();
-
-            EventTrigger.Entry entry = new EventTrigger.Entry();
-            entry.eventID = EventTriggerType.PointerEnter;
-            entry.callback.AddListener((data) => {
-                if (PauseManager.isPaused == true) return;
-                GameManager.State = GameState.Interact;
-            });
-            trigger.triggers.Add(entry);
-
-            EventTrigger.Entry exit = new EventTrigger.Entry();
-            exit.eventID = EventTriggerType.PointerExit;
-            exit.callback.AddListener((data) => {
-                if (PauseManager.isPaused == true) return;
-                GameManager.State = GameState.Play;
-            });
-            trigger.triggers.Add(exit);
-        }
-
+        
         /// <summary> Handles Clicking the Label Button </summary>
         public void onClickLabel() {
             parent.NextAction();
@@ -307,7 +277,6 @@ namespace SeedQuest.Interactables
         public void offHoverUI() {
             GameManager.State = GameState.Play;
         }
-
 
         /// <summary> Sets UI Size Scale </summary>
         public void SetScale() {

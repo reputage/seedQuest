@@ -14,14 +14,21 @@ public class InteractableTrackerProps {
 
 public class InteractableTrackerUI : MonoBehaviour
 {
+    [Header("Position/Angle Properties")]
     public bool isFixedToCenterEdge = true;
     public Vector3 positionOffset = Vector3.zero;
     public float angleOffset = 25;
+
+    [Header("Wobble Properties")]
     public float wobbleStrength = 10;
     public float wobbleSpeed = 5;
+
+    [Header("Near Properties")]
     public float nearDistance = 4;
     public float nearOpacity = 0.5f;
+    public Vector3 nearPositionOffset = new Vector3(0, 5.0f, 0);
 
+    [Header("Sandbox Options")]
     public bool showInSandbox = true;
     public int showIndex = 0;
 
@@ -114,7 +121,7 @@ public class InteractableTrackerUI : MonoBehaviour
         unclampedScreenPosition = camera.WorldToScreenPoint(target.transform.position);
 
         // Set Adjusted ScreenPosition
-        adjustedScreenPosition = camera.WorldToScreenPoint(target.transform.position + positionOffset + target.interactableTracker.positionOffset);
+        adjustedScreenPosition = camera.WorldToScreenPoint(target.transform.position + positionOffset + target.interactableTracker.positionOffset + NearPositionOffset());
         Vector2 screenPositionOffset = target.interactableTracker.screenPositionOffset;
         adjustedScreenPosition += new Vector3(screenPositionOffset.x, screenPositionOffset.y);
     }
@@ -125,6 +132,17 @@ public class InteractableTrackerUI : MonoBehaviour
         isClampedLeft = unclampedScreenPosition.x < padding.x;
         isClampedTop = unclampedScreenPosition.y > camera.scaledPixelHeight - padding.y;
         isClampedBottom = unclampedScreenPosition.y < padding.y;
+    }
+
+    /// <summary> Gets Interpolated NearPositionOffset Vector </summary>
+    public Vector3 NearPositionOffset()
+    {
+        Vector3 mag = player.position - target.transform.position;
+        if (mag.magnitude < nearDistance) {
+            return Vector3.Lerp(nearPositionOffset, Vector3.zero, mag.magnitude / nearDistance);
+        }
+        else
+            return Vector3.zero;
     }
 
     /// <summary> Set Tracker Position. Follows next interactable, unless offscreen then appears in direction of next interactable. </summary>

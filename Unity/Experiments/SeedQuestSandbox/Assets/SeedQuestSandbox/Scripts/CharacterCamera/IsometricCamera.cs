@@ -9,8 +9,11 @@ public class IsometricCamera : MonoBehaviour {
     public float smoothSpeed = 10f;                  // Camera lerp smoothing speed parameter
     public Vector3 offset = new Vector3(0, 1, -10);  // Camera position offset
 
+    private Transform playerTransform;
+
     private void Awake()
     {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         IsometricCamera.Camera = gameObject.GetComponent<Camera>();
     }
 
@@ -22,19 +25,19 @@ public class IsometricCamera : MonoBehaviour {
     /* A simple follow camera */
     public void FollowCamera()
     {
-        if (PlayerCtrl.PlayerTransform.position == Vector3.zero)
+        if (playerTransform.position == Vector3.zero)
             return;
 
-        transform.position = PlayerCtrl.PlayerTransform.position + offset;
+        transform.position = playerTransform.position + offset;
     }
 
     /* A simple follow camera with Smoothing */
     public void SmoothFollowCamera()
     {
-        if (PlayerCtrl.PlayerTransform.position == Vector3.zero)
+        if (playerTransform.position == Vector3.zero)
             return;
 
-        Vector3 desiredPosition = PlayerCtrl.PlayerTransform.position + offset;
+        Vector3 desiredPosition = playerTransform.position + offset;
         Vector3 currentPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = currentPosition;
     }
