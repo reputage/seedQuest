@@ -197,6 +197,8 @@ namespace SeedQuest.Interactables
                     if (useHighlight) {
                         material.shader = highlightShader;
 
+                        material.SetFloat("_RimPower", 2.0f);
+
                         if(useDynamicRim)
                             material.SetFloat("_UseDynamicRim", 1.0f);
                         else
