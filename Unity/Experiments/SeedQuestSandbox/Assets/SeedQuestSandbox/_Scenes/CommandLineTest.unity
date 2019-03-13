@@ -128,7 +128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &335841172
 RectTransform:
   m_ObjectHideFlags: 0
@@ -170,6 +170,8 @@ MonoBehaviour:
   panelImage: {fileID: 0}
   inputText: {fileID: 0}
   terminalText: {fileID: 0}
+  previousCommands: []
+  previousCommandIndex: 0
   ready: 0
 --- !u!1 &362087229
 GameObject:
@@ -1166,7 +1168,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1240,7 +1242,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1770,6 +1772,7 @@ MonoBehaviour:
   gameSound: {fileID: 0}
   HUDEndGamePrefab: {fileID: 0}
   HUDLevelClearPrefab: {fileID: 0}
+  HUDMenuPrefab: {fileID: 0}
 --- !u!4 &2057407176
 Transform:
   m_ObjectHideFlags: 0
@@ -2202,6 +2205,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommandLineInputPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6715017671270794058, guid: 1b13c82933424491296615771a872668,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2573079313631320004, guid: 1b13c82933424491296615771a872668,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2240,7 +2248,7 @@ PrefabInstance:
     - target: {fileID: 2573079313631320004, guid: 1b13c82933424491296615771a872668,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2573079313631320004, guid: 1b13c82933424491296615771a872668,
         type: 3}
@@ -2265,7 +2273,7 @@ PrefabInstance:
     - target: {fileID: 2573079313631320004, guid: 1b13c82933424491296615771a872668,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2573079313631320004, guid: 1b13c82933424491296615771a872668,
         type: 3}
@@ -2306,6 +2314,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633355156395731578, guid: 1b13c82933424491296615771a872668,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b13c82933424491296615771a872668, type: 3}

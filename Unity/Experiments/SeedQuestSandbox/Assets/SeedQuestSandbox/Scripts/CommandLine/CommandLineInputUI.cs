@@ -35,8 +35,10 @@ public class CommandLineInputUI : MonoBehaviour
         {
             parseInputCommand(inputField.text);
             clearInputField();
-            fadeOut = StartCoroutine(fadeUi());
-            ready = true;
+            //fadeOut = StartCoroutine(fadeUi());
+            inputField.ActivateInputField();
+            inputField.Select();
+            //ready = true;
         }
 
         // If the user pushes the 'up' key, set input to the last command
@@ -185,6 +187,12 @@ public class CommandLineInputUI : MonoBehaviour
         }
         else if (input.Length == 2)
             parameter = input[1];
+
+        if (input[0] == "clear")
+        {
+            terminalText.text = "";
+            return;
+        }
 
         if (CommandLineManager.commands.ContainsKey(input[0]))
             output = CommandLineManager.commands[input[0]](parameter);

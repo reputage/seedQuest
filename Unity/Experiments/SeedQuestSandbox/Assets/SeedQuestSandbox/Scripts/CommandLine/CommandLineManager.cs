@@ -23,7 +23,8 @@ public static class CommandLineManager
         {"loadscene", loadScene},
         {"gamestate", setGameState},
         {"gamemode", setGameMode},
-        {"showcolliders", showBoxColliders}
+        {"showcolliders", showBoxColliders},
+        {"nextaction", doNextAction}
     };
 
     public static Dictionary<string, string> helpDetails = new Dictionary<string, string>
@@ -32,10 +33,12 @@ public static class CommandLineManager
         {"print", "Prints a string to the console"},
         {"get", "Prints an available value.\nParameters:\n string valueName\n" + getHelp("")},
         {"moveplayer", "Moves the player to the specified location.\nParameters:\n int x, int y, int z"},
-        {"loadscene", "Loads the specified scene.\nParameters:\n string sceneName"},
+        {"loadscene", "Loads the specified scene. 'help scenes' returns a list of available scene names. \nParameters:\n string sceneName"},
+        {"scenes", getSceneNames("")},
         {"gamestate", "Sets the gamestate.\nAccepted parameters:\n previous, pause, play, end, interact, menu"},
         {"gamemode", "Sets the gamemode in GameManager.\nAccepted parameters:\n Learn, recall, sandbox"},
-        {"showcolliders", "Shows box colliders for interactables."}
+        {"showcolliders", "Shows box colliders for interactables."},
+        {"doAction", "Performs the next action in the interactable path list, only works in learn mode."}
     };
 
     // Here's a template for an example of command. 
@@ -86,6 +89,18 @@ public static class CommandLineManager
         return "Loading scene: " + input;
     }
 
+    // Returns a list of all the available scenes in the build by name
+    public static string getSceneNames(string input)
+    {
+        int sceneCount = SceneManager.sceneCountInBuildSettings; 
+        string returnString = "Available scenes:";
+
+        for (int i = 0; i < sceneCount; i++)
+            returnString += "\n" + System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+
+        return returnString;
+    }
+
     // Example of running tests in command line, not actually funcitonal yet.
     public static string seedTests(string input)
     {
@@ -118,8 +133,10 @@ public static class CommandLineManager
     // Placeholder function to move the player when playerManager gets imported into seedquest-sandbox
     public static string movePlayer(string input)
     {
-        // Replace this line with the reference to the player object to move
-        //GameObject player = new GameObject();
+        GameObject player = GameObject.FindWithTag("Player");
+
+        if (player == null)
+            return "Cannot find a 'Player' object.";
 
         string[] stringInputs = input.Split(null);
         int[] intInput = new int[3];
@@ -133,13 +150,9 @@ public static class CommandLineManager
         Vector3 coordinates = new Vector3(intInput[0], intInput[1], intInput[2]);
 
         if (!validInts)
-        {
             return "Invalid coordinates entered";
-        }
-
-        // Replace this with code relevant to changing the player position
-        //else
-        //{ player.transform.position = coordinates; }
+        else
+            player.transform.position = coordinates;
 
         return "Moving player to " + intInput[0] + " " + intInput[1] + " " + intInput[2];
     }
@@ -150,6 +163,14 @@ public static class CommandLineManager
         float rand = UnityEngine.Random.Range(1.0f, 100.0f);
         int randI = (int)rand;
         return "Your random number is: " + randI;
+    }
+
+    // In learn mode, perform the next queued action
+    public static string doNextAction(string input)
+    {
+        if (InteractablePath.NextInteractable != null && GameManager.Mode == GameMode.Rehearsal)
+            InteractablePath.GoToNextInteractable();
+        return "Performing next queued action";
     }
 
     // Returns values from various manager scripts, for example 'get gamestate' returns the gamestate
