@@ -46,7 +46,6 @@ public class CommandLineInputUI : MonoBehaviour
         {
             if (previousCommandIndex > 0)
                 previousCommandIndex -= 1;
-            Debug.Log("Index: " + previousCommandIndex + " command: " + previousCommands[previousCommandIndex]);
             inputField.text = previousCommands[previousCommandIndex];
         }
 
@@ -59,7 +58,6 @@ public class CommandLineInputUI : MonoBehaviour
                 inputField.text = "";
             else
             {
-                Debug.Log("Index: " + previousCommandIndex + " command: " + previousCommands[previousCommandIndex]);
                 inputField.text = previousCommands[previousCommandIndex];
             }
         }
