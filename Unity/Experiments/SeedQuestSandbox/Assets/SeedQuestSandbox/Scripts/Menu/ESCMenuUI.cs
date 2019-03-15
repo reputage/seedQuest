@@ -13,7 +13,7 @@ public class ESCMenuUI : MonoBehaviour
     private Button mainmenu;
 
     static private ESCMenuUI instance = null;
-    static private ESCMenuUI setInstance() { instance = Resources.FindObjectsOfTypeAll<ESCMenuUI>()[0]; return instance; }
+    static private ESCMenuUI setInstance() { instance = HUDManager.Instance.GetComponentInChildren<ESCMenuUI>(true); return instance; }
     static public ESCMenuUI Instance { get { return instance == null ? setInstance() : instance; } }
 
     void Start() {
