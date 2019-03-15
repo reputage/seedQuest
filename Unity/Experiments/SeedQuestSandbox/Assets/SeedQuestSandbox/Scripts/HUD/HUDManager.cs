@@ -17,12 +17,17 @@ public class HUDManager : MonoBehaviour {
     public HUDItemProps useInteractablePreview;
     public HUDItemProps useHomeSelect;
     public HUDItemProps useEndGame;
+    public HUDItemProps useESCMenu;
     public HUDItemProps useLevelClear;
     public HUDItemProps useLevelName;
     public HUDItemProps useProgressTracker;
     public HUDItemProps useCLI;
     public HUDItemProps useTutorial;
     public HUDItemProps useInteractableTracker;
+
+    static private HUDManager instance = null;
+    static private HUDManager setInstance() { instance = GameObject.FindObjectOfType<HUDManager>(); return instance; }
+    static public HUDManager Instance { get => instance == null ? setInstance() : instance; }
 
     public void Awake() {
         GenerateHUD();
@@ -45,6 +50,7 @@ public class HUDManager : MonoBehaviour {
         InstantiateHUDElement<CommandLineInputUI>(useCLI);
         InstantiateHUDElement<CursorUI>(useCursor);
         InstantiateHUDElement<EndGameUI>(useEndGame);
+        InstantiateHUDElement<ESCMenuUI>(useESCMenu);
         InstantiateHUDElement<HomeSelectUI>(useHomeSelect);
         InstantiateHUDElement<InteractablePreviewUI>(useInteractablePreview);
         InstantiateHUDElement<InteractableTrackerUI>(useInteractableTracker);
@@ -58,6 +64,7 @@ public class HUDManager : MonoBehaviour {
         DestroyHUDElement<CommandLineInputUI>(useCLI);
         DestroyHUDElement<CursorUI>(useCursor);
         DestroyHUDElement<EndGameUI>(useEndGame);
+        DestroyHUDElement<ESCMenuUI>(useESCMenu);
         DestroyHUDElement<HomeSelectUI>(useHomeSelect);
         DestroyHUDElement<InteractablePreviewUI>(useInteractablePreview);
         DestroyHUDElement<InteractableTrackerUI>(useInteractableTracker);
