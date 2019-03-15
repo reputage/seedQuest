@@ -18,6 +18,7 @@ public static class CommandLineManager
     {
         {"help", help},
         {"print", print},
+        {"quit", quit},
         {"get", getValue},
         {"moveplayer", movePlayer},
         {"loadscene", loadScene},
@@ -34,6 +35,7 @@ public static class CommandLineManager
     {
         {"help", "Displays a list of commands"},
         {"print", "Prints a string to the console"},
+        {"quit", "Quits the application"},
         {"get", "Prints an available value.\nParameters:\n string valueName\n" + getHelp("")},
         {"moveplayer", "Moves the player to the specified location.\nParameters:\n int x, int y, int z"},
         {"loadscene", "Loads the specified scene. 'help scenes' returns a list of available scene names. \nParameters:\n string sceneName"},
@@ -80,6 +82,12 @@ public static class CommandLineManager
     public static string print(string input)
     {
         return input;
+    }
+
+    public static string quit(string input)
+    {
+        Application.Quit();
+        return "";
     }
 
     // Loads the scene specified by input, if it exists. A scene must be in the build settings
