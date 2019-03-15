@@ -33,8 +33,6 @@ public class AudioManager : MonoBehaviour {
             sounds.AddRange(DefaultSounds.Sounds);
         if(GameSounds != null) 
             sounds.AddRange(GameSounds.Sounds);
-        if(GameManager.GameSound != null)
-            sounds.AddRange(GameManager.GameSound.Sounds);
 
         foreach (Sound s in sounds)
         {

@@ -1,10 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-
-using SeedQuest.Interactables;
 
 public enum GameMode { Sandbox, Rehearsal, Recall } 
 public enum GameState { Play, Pause, Interact, Menu, End }
@@ -42,40 +38,8 @@ public class GameManager : MonoBehaviour {
         get { return Instance.prevState; }
     }
 
-    public GameSoundData gameSound = null;
-    public static GameSoundData GameSound { get { return Instance.gameSound; } }
-
-    public GameObject HUDMenuPrefab;
-
-    private string scene = null;
-    private GameObject menu = null;
-
-    public static string Scene
-    {
-        get { return Instance.scene; }
-        set { Instance.scene = value; }
-    }
-
     public void Update() {
         ListenForKeyDown();
-        CheckForEndGame();
-        CheckForNewScene();
-    }
-
-    public void CheckForEndGame() {
-
-    }
-
-    public void CheckForNewScene()
-    {
-        if (scene != SceneManager.GetActiveScene().name)
-        {
-            scene = SceneManager.GetActiveScene().name;
-            if (HUDMenuPrefab != null)
-            {
-               menu = Instantiate(HUDMenuPrefab);
-            }
-        }
     }
 
     static public void ResetCursor() {
@@ -85,11 +49,7 @@ public class GameManager : MonoBehaviour {
 
     public void ListenForKeyDown() {
         if (Input.GetKeyDown("escape") && Mode != GameMode.Sandbox) {
-            if (menu)
-                menu.SetActive(true);
-            //else
-            //    menu.SetActive(false);
+            ESCMenuUI.ToggleOn();
         }
     }
-
 } 
