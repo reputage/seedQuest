@@ -18,30 +18,36 @@ public static class CommandLineManager
     {
         {"help", help},
         {"print", print},
+        {"quit", quit},
         {"get", getValue},
         {"moveplayer", movePlayer},
         {"loadscene", loadScene},
         {"gamestate", setGameState},
         {"gamemode", setGameMode},
         {"showcolliders", showBoxColliders},
-        {"nextaction", doNextAction}
+        {"nextaction", doNextAction},
+        {"selectaction", selectAction}
+        // make a function for 'select action' in recall mode that takes parameters for site id, interactable id, action id, in that order
+        // make a function for sandbox mode that shows the preview for an interactabel. takes parameters for site id, interactable id, and action id
     };
 
     public static Dictionary<string, string> helpDetails = new Dictionary<string, string>
     {
         {"help", "Displays a list of commands"},
         {"print", "Prints a string to the console"},
+        {"quit", "Quits the application"},
         {"get", "Prints an available value.\nParameters:\n string valueName\n" + getHelp("")},
         {"moveplayer", "Moves the player to the specified location.\nParameters:\n int x, int y, int z"},
         {"loadscene", "Loads the specified scene. 'help scenes' returns a list of available scene names. \nParameters:\n string sceneName"},
         {"scenes", getSceneNames("")},
         {"gamestate", "Sets the gamestate.\nAccepted parameters:\n previous, pause, play, end, interact, menu"},
         {"gamemode", "Sets the gamemode in GameManager.\nAccepted parameters:\n Learn, recall, sandbox"},
-        {"showcolliders", "Shows box colliders for interactables."},
-        {"doAction", "Performs the next action in the interactable path list, only works in learn mode."}
+        {"showcolliders", "Shows box colliders for interactables.\nUse 'showcolliders b' to show colliders for non-interctable objects"},
+        {"nextaction", "Performs the next action in the interactable path list, only works in learn mode."},
+        {"selectaction", "Performs an action using the specified interactable.\nParameters:\nint siteID, int spotID, int action"}
     };
 
-    // Here's a template for an example of command. 
+    // Here's a template for an example of a command. 
     //  For a command to work, it needs to be added to the above dictionary,
     //  and the dictionary key for the function needs to be all lowercase
     public static string templateCommand(string input)
@@ -78,6 +84,12 @@ public static class CommandLineManager
         return input;
     }
 
+    public static string quit(string input)
+    {
+        Application.Quit();
+        return "";
+    }
+
     // Loads the scene specified by input, if it exists. A scene must be in the build settings
     //  for this command to work
     public static string loadScene(string input)
@@ -92,7 +104,7 @@ public static class CommandLineManager
     // Returns a list of all the available scenes in the build by name
     public static string getSceneNames(string input)
     {
-        int sceneCount = SceneManager.sceneCountInBuildSettings; 
+        int sceneCount = SceneManager.sceneCountInBuildSettings;
         string returnString = "Available scenes:";
 
         for (int i = 0; i < sceneCount; i++)
@@ -124,6 +136,11 @@ public static class CommandLineManager
             DebugManager.Instance.showBoundingBoxes = false;
             return "Deactivating box colliders";
         }
+        else if (input == "b")
+        {
+            DebugManager.Instance.showOtherBoxes = !DebugManager.Instance.showOtherBoxes;
+            return "Toggling other boxes";
+        }
         else
             DebugManager.Instance.showBoundingBoxes = !DebugManager.Instance.showBoundingBoxes;
 
@@ -139,12 +156,16 @@ public static class CommandLineManager
             return "Cannot find a 'Player' object.";
 
         string[] stringInputs = input.Split(null);
+        if (stringInputs.Length <= 3)
+        {
+            return "Invalid parameters: three integers required";
+        }
+
         int[] intInput = new int[3];
-        bool validInts = false;
+        bool validInts = true;
         for (int i = 0; i < intInput.Length; i++)
         {
-            validInts = int.TryParse(stringInputs[i], out intInput[i]);
-            Debug.Log("int " + i + ": " + intInput[i]);
+            validInts = int.TryParse(stringInputs[i], out intInput[i]) && validInts;
         }
 
         Vector3 coordinates = new Vector3(intInput[0], intInput[1], intInput[2]);
@@ -171,6 +192,36 @@ public static class CommandLineManager
         if (InteractablePath.NextInteractable != null && GameManager.Mode == GameMode.Rehearsal)
             InteractablePath.GoToNextInteractable();
         return "Performing next queued action";
+    }
+
+    // Input paramters: interactableID, action #
+    public static string selectAction(string input)
+    {
+        string[] stringInputs = input.Split(null);
+        if (stringInputs.Length <= 3)
+        {
+            return "Invalid parameters: please enter a siteID, spotID, and action.";
+        }
+        int[] intInput = new int[3];
+        bool validInts = true;
+        for (int i = 0; i < intInput.Length; i++)
+        {
+            validInts = int.TryParse(stringInputs[i], out intInput[i]) && validInts;
+        }
+
+        if (!validInts)
+            return "Invalid parameters: please use integers";
+
+        foreach (Interactable item in InteractableManager.InteractableList)
+        {
+            if (item.ID.siteID == intInput[0] && item.ID.spotID == intInput[1])
+            {
+                item.SelectAction(intInput[2]);
+                return "Preforming action with interactable at site: " + intInput[0] + " spot: " + intInput[1] + " and action: " + intInput[2];
+            }
+        }
+        
+        return "Could not find interactable with site ID " + intInput[0] + " and spot ID " + intInput[1];
     }
 
     // Returns values from various manager scripts, for example 'get gamestate' returns the gamestate

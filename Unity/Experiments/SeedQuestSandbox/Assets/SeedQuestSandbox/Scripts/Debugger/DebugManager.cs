@@ -10,7 +10,9 @@ namespace SeedQuest.Debugger
     public class DebugManager : MonoBehaviour
     {
         public Material debugMaterial;
+        public Material debugMaterial2;
         public bool showBoundingBoxes = false;
+        public bool showOtherBoxes = false;
 
         private static DebugManager instance = null;
         public static DebugManager Instance
@@ -45,12 +47,29 @@ namespace SeedQuest.Debugger
                     WireBox.Render(position, scale, box.transform, Instance.debugMaterial);
                 }
             }
+        }
 
+        static public void DebugBoxColliders()
+        {
+            BoxCollider[] boxColliders = FindObjectsOfType<BoxCollider>();
+            foreach (BoxCollider item in boxColliders)
+            {
+                Interactable[] parent = item.GetComponentsInParent<Interactable>();
+                if (parent.Length <= 0)
+                {
+                    Vector3 position = item.center;
+                    Vector3 scale = item.size;
+
+                    WireBox.Render(position, scale, item.transform, Instance.debugMaterial2);
+                }
+            }
         }
 
         private void OnRenderObject() {
             if(showBoundingBoxes)
                 DebugShowBoundingBox();
+            if (showOtherBoxes)
+                DebugBoxColliders();        
         }
     }
 }
