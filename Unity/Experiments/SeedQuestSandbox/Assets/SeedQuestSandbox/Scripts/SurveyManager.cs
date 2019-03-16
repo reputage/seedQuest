@@ -20,7 +20,6 @@ public class SurveyManager : MonoBehaviour
     public Sprite ring;
     public Sprite dot;
 
-    private Coroutine sendingData = null;
     private string serverUrl = "http://178.128.0.208:8000/surveys";
     private int xOffset = 0;
     private int imageXOffset = -34;

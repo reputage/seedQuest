@@ -70,7 +70,7 @@ public static class sqSurveyInterface
         if (uwr.isNetworkError)
         {
             Debug.Log("Error While Sending: " + uwr.error);
-            //Application.Quit();
+            Application.Quit();
         }
         else
         {
@@ -107,14 +107,9 @@ public static class sqSurveyInterface
 
     // I'm not 100% sure what the final survey will look like, but here's a preliminary 
     //  function for formatting the JSON for the POST request
-    public static string jsonBodyBuilder(List<string> questions, List<string> responses, string name = null, string email = null)
+    public static string jsonBodyBuilder(List<string> questions, List<string> responses)
     {
         string dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss");
-
-        if (name == null)
-            name = "xyz";
-        if (email == null)
-            email = "xyz@domain.com";
 
         //Debug.Log("Date: " + dateTime);
 
@@ -122,11 +117,7 @@ public static class sqSurveyInterface
         string response = groupResponses(questions, responses);;
 
         body = "{";
-
-        body += "\"Name\": \"" + name + "\",";
-        body += "\"Email\": \"" + email + "\",";
         body += "\"Response\": " + response;
-
         body += "}";
         Debug.Log("Json body: " + body);
 
@@ -136,10 +127,19 @@ public static class sqSurveyInterface
     // Another JSON formatter function. Again, don't know what the survey will look like yet
     public static string responseFormatter(string questionId, string userResponse)
     {
+        questionId = questionSizeReducer(questionId);
         questionId = sanitizeInput(questionId);
         userResponse = sanitizeInput(userResponse);
-        //Debug.Log("questionID: " + questionId);
-        //Debug.Log("userResponse" + userResponse);
+        if (userResponse.Length <= 0)
+            userResponse = "1";
+        
+        // This is a temporary measure to deal with the 1000 character limit on the post body size.
+        //  Should be removed if larger post bodies are accepted, to allow more user feedback
+        else if (userResponse.Length > 99)
+        {
+            userResponse = userResponse.Remove(99);
+        }
+
         string json = "\"" + questionId + "\": \"" + userResponse + "\"";
         return json;
     }
@@ -147,11 +147,6 @@ public static class sqSurveyInterface
     // Another JSON formatter function. Again, don't know what the survey will look like yet
     public static string groupResponses(List<string> questions, List<string> responses)
     {
-        if (questions.Count != responses.Count)
-        {
-            Debug.Log("Warning: insufficient responses for number of questions");
-        }
-
         int maxResponses = Math.Min(questions.Count, responses.Count);
         string json = "{";
 
@@ -163,23 +158,21 @@ public static class sqSurveyInterface
         }
 
         json += "}";
-        //Debug.Log("Json group formatted: " + json);
+        Debug.Log("Json group formatted: " + json);
 
         return json;
     }
 
-    // Sanitize input strings
+    // Sanitize input strings by replacing invalid characters with empty strings
     public static string sanitizeInput(string input)
     {
         if (input != null)
         {
-            // Replace invalid characters with empty strings.
             try
             {
                 return Regex.Replace(input, @"[^\w\.@\s-]", "",
                                      RegexOptions.None, TimeSpan.FromSeconds(1.5));
             }
-            // If we timeout when replacing invalid characters, we should return Empty.
             catch (RegexMatchTimeoutException)
             {
                 return String.Empty;
@@ -195,5 +188,35 @@ public static class sqSurveyInterface
         responses.Add(responseToAdd);
     }
 
+    public static string questionSizeReducer(string question)
+    {
+        // Rank each of the five game concepts on ease of navigation.
+        // Rank each of the five game concepts on how intuitive and enjoyable the gameplay is.
+        // Rank each of the five game concepts on how quickly you were able to learn the game path.
+        // Rank each of the five game concepts on overall experience.
+
+        if (question.StartsWith("Rank each of the five game concepts on ease of navigation"))
+        {
+            question = question.Remove(0, 58);
+            question = "navigation" + question;
+        }
+        else if (question.StartsWith("Rank each of the five game concepts on how intuitive and enjoyable the gameplay is"))
+        {
+            question = question.Remove(0, 83);
+            question = "gameplay" + question;
+        }
+        else if (question.StartsWith("Rank each of the five game concepts on how quickly you were able to learn the game path"))
+        {
+            question = question.Remove(0, 88);
+            question = "learn path" + question;
+        }
+        else if (question.StartsWith("Rank each of the five game concepts on overall experience"))
+        {
+            question = question.Remove(0, 58);
+            question = "overall" + question;
+        }
+
+        return question;
+    }
 
 }
