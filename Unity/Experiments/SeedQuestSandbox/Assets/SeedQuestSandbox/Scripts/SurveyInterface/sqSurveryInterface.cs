@@ -70,12 +70,14 @@ public static class sqSurveyInterface
         if (uwr.isNetworkError)
         {
             Debug.Log("Error While Sending: " + uwr.error);
-            Application.Quit();
+            //Application.Quit();
         }
         else
         {
             Debug.Log("Received: " + uwr.downloadHandler.text);
-            Application.Quit();
+            // Application.Quit can't be called here - it causes problems with sending 
+            //  the data to server in builds of the prototype demo
+            //Application.Quit();
         }
 
     }
