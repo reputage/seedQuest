@@ -20,6 +20,7 @@ public class SurveyManager : MonoBehaviour
     public Sprite ring;
     public Sprite dot;
 
+    private Coroutine sendingData = null;
     private string serverUrl = "http://178.128.0.208:8000/surveys";
     private int xOffset = 0;
     private int imageXOffset = -34;
@@ -287,14 +288,14 @@ public class SurveyManager : MonoBehaviour
         Button submitButton = submitCard.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<Button>();
         submitButton.onClick.AddListener(delegate
         {
-            OnApplicationQuit();
+            sendSurveyData();
         });
 
         PreviousButton.onClick.AddListener(onClickPrevious);
         NextButton.onClick.AddListener(onClickNext);
     }
 
-    void OnApplicationQuit()
+	void OnApplicationQuit()
     {
         StartCoroutine("sendSurveyData");
     }
@@ -357,15 +358,7 @@ public class SurveyManager : MonoBehaviour
             }
         }
 
-        sendRequestData(questions, responses);
-    }
-
-    // Send survey data to the server
-    public void sendRequestData(List<string> questions, List<string> responses)
-    {
-        Debug.Log("Starting Request.");
         StartCoroutine(sqSurveyInterface.postRequest(questions, responses, serverUrl));
-        Debug.Log("Request Finished.");
     }
 
     // Get the questions from the scriptable object

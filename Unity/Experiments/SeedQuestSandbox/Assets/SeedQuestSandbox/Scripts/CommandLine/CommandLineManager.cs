@@ -247,6 +247,18 @@ public static class CommandLineManager
         return returnString;
     }
 
+    public static string findUiErrors(string input)
+    {
+        foreach (Interactable item in InteractableManager.InteractableList)
+        {
+            BoxCollider box = item.GetComponent<BoxCollider>();
+            // I'm not sure if interactableUI components have a public object with 
+            //  bounds to check against intersections...
+            //if (box.bounds.Intersects(item.interactableUI.actionUI.bounds)) ;
+        }
+        return "Finding UI errors...";
+    }
+
     // Set the gamestate. string.StartsWith() is used so that the user input doesn't need to be
     //  perfectly correct to set some states (ex: 'rehears' will work with either 'rehearsal' 
     //  or 'rehearse' as the user input. Some states are commented out because they don't exist

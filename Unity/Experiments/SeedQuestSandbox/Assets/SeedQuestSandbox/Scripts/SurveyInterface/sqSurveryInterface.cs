@@ -42,12 +42,12 @@ public static class sqSurveyInterface
         if (uwr.isNetworkError)
         {
             Debug.Log("Error While Sending: " + uwr.error);
-            Application.Quit();
+            //Application.Quit();
         }
         else
         {
             Debug.Log("Received: " + uwr.downloadHandler.text);
-            Application.Quit();
+            //Application.Quit();
         }
     }
 
@@ -70,13 +70,14 @@ public static class sqSurveyInterface
         if (uwr.isNetworkError)
         {
             Debug.Log("Error While Sending: " + uwr.error);
-            Application.Quit();
+            //Application.Quit();
         }
         else
         {
             Debug.Log("Received: " + uwr.downloadHandler.text);
             Application.Quit();
         }
+
     }
 
     // Sends a GET request to the survey server - probably not needed within Unity
@@ -115,7 +116,7 @@ public static class sqSurveyInterface
         if (email == null)
             email = "xyz@domain.com";
 
-        Debug.Log("Date: " + dateTime);
+        //Debug.Log("Date: " + dateTime);
 
         string body;
         string response = groupResponses(questions, responses);;
@@ -137,8 +138,8 @@ public static class sqSurveyInterface
     {
         questionId = sanitizeInput(questionId);
         userResponse = sanitizeInput(userResponse);
-        Debug.Log("questionID: " + questionId);
-        Debug.Log("userResponse" + userResponse);
+        //Debug.Log("questionID: " + questionId);
+        //Debug.Log("userResponse" + userResponse);
         string json = "\"" + questionId + "\": \"" + userResponse + "\"";
         return json;
     }
@@ -162,7 +163,7 @@ public static class sqSurveyInterface
         }
 
         json += "}";
-        Debug.Log("Json group formatted: " + json);
+        //Debug.Log("Json group formatted: " + json);
 
         return json;
     }
@@ -170,17 +171,21 @@ public static class sqSurveyInterface
     // Sanitize input strings
     public static string sanitizeInput(string input)
     {
-        // Replace invalid characters with empty strings.
-        try
+        if (input != null)
         {
-            return Regex.Replace(input, @"[^\w\.@\s-]", "",
-                                 RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            // Replace invalid characters with empty strings.
+            try
+            {
+                return Regex.Replace(input, @"[^\w\.@\s-]", "",
+                                     RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            }
+            // If we timeout when replacing invalid characters, we should return Empty.
+            catch (RegexMatchTimeoutException)
+            {
+                return String.Empty;
+            }
         }
-        // If we timeout when replacing invalid characters, we should return Empty.
-        catch (RegexMatchTimeoutException)
-        {
-            return String.Empty;
-        }
+        return "";
     }
 
     // I'm not sure what format the responses will be in - this may be helpful
