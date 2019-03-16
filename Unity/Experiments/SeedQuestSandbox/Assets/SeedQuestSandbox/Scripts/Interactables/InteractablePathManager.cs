@@ -39,7 +39,7 @@ namespace SeedQuest.Interactables {
         static public bool ShowLevelComplete = false;
 
         /// <summary> Flag for Interactabled Initlized first time </summary>
-        private bool isNextHighlighted = false;
+        static private bool isNextHighlighted = false;
 
         private void Awake() {
             path = InteractablePath.Instance;
@@ -99,7 +99,7 @@ namespace SeedQuest.Interactables {
             InteractablePath.GeneratePathFromSeed(SeedString);
             InteractableLog.Clear();
 
-            Instance.isNextHighlighted = false;
+            isNextHighlighted = false;
             IsPathInitialized = true;
             ShowLevelComplete = false;
         }
@@ -109,7 +109,7 @@ namespace SeedQuest.Interactables {
             InteractablePath.GeneratePathFromSeed(SeedString);
             InteractablePath.InitializeNextInteractable();
 
-            Instance.isNextHighlighted = false;
+            isNextHighlighted = false;
             ShowLevelComplete = false;
         }
 
