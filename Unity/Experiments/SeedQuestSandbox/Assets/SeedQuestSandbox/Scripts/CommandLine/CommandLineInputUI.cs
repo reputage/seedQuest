@@ -142,7 +142,7 @@ public class CommandLineInputUI : MonoBehaviour
             stopFade();
             ready = true;
             setActiveUi(false);
-            CommandLineManager.isInUse = true;
+            CommandLineManager.isInUse = false;
         }
         else
         {
@@ -154,7 +154,7 @@ public class CommandLineInputUI : MonoBehaviour
             clearInputField();
             inputField.ActivateInputField();
             inputField.Select();
-            CommandLineManager.isInUse = false;
+            CommandLineManager.isInUse = true;
         }
     }
 
