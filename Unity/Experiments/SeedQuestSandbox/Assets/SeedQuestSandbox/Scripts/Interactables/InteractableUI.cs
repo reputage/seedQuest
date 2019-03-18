@@ -349,9 +349,21 @@ namespace SeedQuest.Interactables
             }
         }
 
-        public BoxCollider actionUiBox()
+        public Bounds actionUiBox()
         {
-            return actionUI.GetComponent<BoxCollider>();
+            if (actionUI.GetComponent<Collider>() != null)
+                return actionUI.GetComponent<Collider>().bounds;
+            else if (actionUI.GetComponent<Mesh>() != null)
+                return actionUI.GetComponent<Mesh>().bounds;
+            else if (actionUI.GetComponent<Renderer>() != null)
+                return actionUI.GetComponent<Renderer>().bounds;
+
+            else
+            {
+                Bounds returnBounds = new Bounds();
+                return returnBounds;
+            }
         }
+
     }
 }
