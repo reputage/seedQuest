@@ -137,11 +137,12 @@ public static class sqSurveyInterface
         
         // This is a temporary measure to deal with the 1000 character limit on the post body size.
         //  Should be removed if larger post bodies are accepted, to allow more user feedback
+        /*
         else if (userResponse.Length > 99)
         {
             userResponse = userResponse.Remove(99);
         }
-
+        */
         string json = "\"" + questionId + "\": \"" + userResponse + "\"";
         return json;
     }
@@ -190,13 +191,9 @@ public static class sqSurveyInterface
         responses.Add(responseToAdd);
     }
 
+    // Question size being reduced here because of the 1000 character limit on posts to the server
     public static string questionSizeReducer(string question)
     {
-        // Rank each of the five game concepts on ease of navigation.
-        // Rank each of the five game concepts on how intuitive and enjoyable the gameplay is.
-        // Rank each of the five game concepts on how quickly you were able to learn the game path.
-        // Rank each of the five game concepts on overall experience.
-
         if (question.StartsWith("Rank each of the five game concepts on ease of navigation"))
         {
             question = question.Remove(0, 58);
