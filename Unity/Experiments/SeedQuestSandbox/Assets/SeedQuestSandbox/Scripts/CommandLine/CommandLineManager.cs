@@ -249,13 +249,28 @@ public static class CommandLineManager
 
     public static string findUiErrors(string input)
     {
+        string returnStr = "";
+
         foreach (Interactable item in InteractableManager.InteractableList)
         {
             BoxCollider box = item.GetComponent<BoxCollider>();
             // I'm not sure if interactableUI components have a public object with 
             //  bounds to check against intersections...
-            //if (box.bounds.Intersects(item.interactableUI.actionUI.bounds)) ;
+            if (box.bounds.Intersects(item.interactableUI.actionUiBox().bounds))
+            {
+                Debug.Log("Intersection between item:" + item.name + " and it's UI.");
+                returnStr += "item: " + item.name + " ";
+            }
+            else
+            {
+                Debug.Log("No collision found for item:" + item.name + " and it's UI.");
+            }
         }
+        if (returnStr.Length <= 1)
+        {
+            returnStr = "No collisions found for interactables and UI";
+        }
+
         return "Finding UI errors...";
     }
 
