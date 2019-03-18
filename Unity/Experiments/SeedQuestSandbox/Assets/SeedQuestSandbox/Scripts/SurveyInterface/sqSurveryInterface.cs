@@ -14,7 +14,7 @@ public static class sqSurveyInterface
     public static IEnumerator testPostRequest(string url = null, string textResponse = null)
     {
         if (url == null)
-            url = "http://localhost:8000/surveys";
+            url = "http://178.128.0.208:8000/surveys";
 
         Debug.Log("url: " + url);
 
@@ -24,9 +24,39 @@ public static class sqSurveyInterface
         questions.Add("q1");
         questions.Add("q2");
         questions.Add("bad question{}:><>?{}}}{");
+        questions.Add("q4");
+        questions.Add("q5");
+        questions.Add("q6");
+        questions.Add("q7");
+        questions.Add("q8");
+        questions.Add("q9");
+        questions.Add("q10");
+        questions.Add("q11");
+        questions.Add("q12");
+        questions.Add("q13");
+        questions.Add("q14");
+        questions.Add("q15");
+        questions.Add("q16");
+        questions.Add("q17");
+
+
         responses.Add("r1");
         responses.Add("r2");
         responses.Add("bad response{}:><>?{}}}{\"\'/");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        responses.Add("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
 
         string json = jsonBodyBuilder(questions, responses);
 
@@ -35,6 +65,7 @@ public static class sqSurveyInterface
         uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
         uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         uwr.SetRequestHeader("Content-Type", "application/json");
+        uwr.useHttpContinue = false;
 
         yield return uwr.SendWebRequest();
 
@@ -64,20 +95,19 @@ public static class sqSurveyInterface
         uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
         uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         uwr.SetRequestHeader("Content-Type", "application/json");
+        uwr.useHttpContinue = false;
 
         yield return uwr.SendWebRequest();
 
         if (uwr.isNetworkError)
         {
             Debug.Log("Error While Sending: " + uwr.error);
-            //Application.Quit();
+            Application.Quit();
         }
         else
         {
             Debug.Log("Received: " + uwr.downloadHandler.text);
-            // Application.Quit can't be called here - it causes problems with sending 
-            //  the data to server in builds of the prototype demo
-            //Application.Quit();
+            Application.Quit();
         }
 
     }
@@ -87,7 +117,7 @@ public static class sqSurveyInterface
     {
         string getResult;
         if (url == null)
-            url = "http://localhost:8080/surveys";
+            url = "http://localhost:8000/surveys";
 
         UnityWebRequest uwr = UnityWebRequest.Get(url);
         yield return uwr.SendWebRequest();
@@ -116,7 +146,7 @@ public static class sqSurveyInterface
         //Debug.Log("Date: " + dateTime);
 
         string body;
-        string response = groupResponses(questions, responses);;
+        string response = groupResponses(questions, responses); ;
 
         body = "{";
         body += "\"Response\": " + response;
@@ -134,15 +164,14 @@ public static class sqSurveyInterface
         userResponse = sanitizeInput(userResponse);
         if (userResponse.Length <= 0)
             userResponse = "1";
-        
+
         // This is a temporary measure to deal with the 1000 character limit on the post body size.
         //  Should be removed if larger post bodies are accepted, to allow more user feedback
-        /*
         else if (userResponse.Length > 99)
         {
             userResponse = userResponse.Remove(99);
         }
-        */
+
         string json = "\"" + questionId + "\": \"" + userResponse + "\"";
         return json;
     }
@@ -191,13 +220,17 @@ public static class sqSurveyInterface
         responses.Add(responseToAdd);
     }
 
-    // Question size being reduced here because of the 1000 character limit on posts to the server
     public static string questionSizeReducer(string question)
     {
+        // Rank each of the five game concepts on ease of navigation.
+        // Rank each of the five game concepts on how intuitive and enjoyable the gameplay is.
+        // Rank each of the five game concepts on how quickly you were able to learn the game path.
+        // Rank each of the five game concepts on overall experience.
+
         if (question.StartsWith("Rank each of the five game concepts on ease of navigation"))
         {
             question = question.Remove(0, 58);
-            question = "navigation" + question;
+            question = "nav" + question;
         }
         else if (question.StartsWith("Rank each of the five game concepts on how intuitive and enjoyable the gameplay is"))
         {
@@ -207,7 +240,7 @@ public static class sqSurveyInterface
         else if (question.StartsWith("Rank each of the five game concepts on how quickly you were able to learn the game path"))
         {
             question = question.Remove(0, 88);
-            question = "learn path" + question;
+            question = "path" + question;
         }
         else if (question.StartsWith("Rank each of the five game concepts on overall experience"))
         {
