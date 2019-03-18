@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 using SeedQuest.Interactables;
 
@@ -23,6 +24,7 @@ public class LevelSelect : MonoBehaviour {
     private GameObject levelsCanvas;
     private int currentLevel = 0;
     private List<Button> levelButtonList;
+    private TextMeshProUGUI modeText;
 
     private void Start() {
         
@@ -32,6 +34,7 @@ public class LevelSelect : MonoBehaviour {
 
         // Get LevelListCanvas
         levelsCanvas = GameObject.FindGameObjectWithTag("LevelListCanvas");
+        modeText = GetComponentsInChildren<TextMeshProUGUI>()[2];
         levelButtonList = new List<Button>();
 
         // Destroy unnecessary gameobjects
@@ -55,6 +58,7 @@ public class LevelSelect : MonoBehaviour {
         // Setup Text and Background Color
         setBackgroundColor();
         setCurrentLevelText();
+        setCurrentModeText();
     }
 
     private void selectLevel() {
@@ -99,6 +103,15 @@ public class LevelSelect : MonoBehaviour {
 
     private void setCurrentLevelText() {
         GameObject.FindGameObjectWithTag("CurrentLevelText").GetComponent<TMPro.TextMeshProUGUI>().text = levelList[currentLevel].name;
+    }
+
+    private void setCurrentModeText() {
+        if (GameManager.Mode == GameMode.Rehearsal)
+            modeText.text = "Learn Mode";
+        else if (GameManager.Mode == GameMode.Recall)
+            modeText.text = "Recover Mode";
+        else if (GameManager.Mode == GameMode.Sandbox)
+            modeText.text = "Sandbox Mode";
     }
 
     private Button createLevelButton(Transform parent, Vector3 position, Vector2 size, Sprite image) {
