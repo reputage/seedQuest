@@ -353,7 +353,7 @@ public class SurveyManager : MonoBehaviour
         {
             for (int i = responses.Count - 1; i < questions.Count - 1; i++)
             {
-                responses.Add(" ");
+                responses.Add(".");
             }
         }
 

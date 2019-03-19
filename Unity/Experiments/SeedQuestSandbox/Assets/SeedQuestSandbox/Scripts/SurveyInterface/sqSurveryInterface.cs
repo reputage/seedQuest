@@ -162,7 +162,7 @@ public static class sqSurveyInterface
         questionId = sanitizeInput(questionId);
         userResponse = sanitizeInput(userResponse);
         if (userResponse.Length <= 0)
-            userResponse = "1";
+            userResponse = ".";
         
         string json = "\"" + questionId + "\": \"" + userResponse + "\"";
         return json;
