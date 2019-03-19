@@ -31,6 +31,10 @@ public class CardPopupUI : MonoBehaviour
     }
 
     public void Update() {
+        UpdateCardInfo();
+    }
+
+    public void UpdateCardInfo() {
         images[0].color = backdropColor;
         images[1].color = cardColor;
         images[2].color = headerColor;
@@ -53,6 +57,9 @@ public class CardPopupUI : MonoBehaviour
             else
                 GameManager.State = GameManager.PrevState;    
         }
+
+        if (!gameObject.activeSelf)
+            UpdateCardInfo();
 
         gameObject.SetActive(!gameObject.activeSelf);
     }
