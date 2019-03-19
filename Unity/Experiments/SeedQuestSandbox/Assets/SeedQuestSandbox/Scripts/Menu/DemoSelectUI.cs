@@ -29,11 +29,16 @@ public class DemoSelectUI : MonoBehaviour {
     public int buttonPadding = 60;
 
     private Button[] buttons;
+    private TMP_InputField seedInputField;
 
     private void Start() {
         GameManager.ResetCursor();
         InteractableManager.Reset();
         InteractablePathManager.Reset();
+
+        seedInputField = GetComponentInChildren<TMP_InputField>();
+        seedInputField.text = InteractablePathManager.SeedString;
+        seedInputField.characterLimit = 10;
 
         GameObject sideNav = GameObject.FindGameObjectWithTag("SideNav");
 
@@ -95,8 +100,21 @@ public class DemoSelectUI : MonoBehaviour {
         SceneManager.LoadScene(sceneName);
     }
 
+    public bool CheckValidSeed() {
+        bool valid = seedInputField.text.Length == 10 && SeedQuest.Utils.StringUtils.CheckIfValidHex(seedInputField.text);
+        if(!valid)
+            GetComponentInChildren<CardPopupUI>(true).toggleShow();
+
+        return valid;
+    }
+
     public void StartDemoWithRehearsalMode()
     {
+        if (CheckValidSeed())
+            return;
+
+        InteractablePathManager.SeedString = seedInputField.text;
+
         GameManager.Mode = GameMode.Rehearsal;
         string sceneName = selectedDemo.sceneName;
         SceneManager.LoadScene(sceneName);
@@ -104,6 +122,11 @@ public class DemoSelectUI : MonoBehaviour {
 
     public void StartDemoWithRecallMode()
     {
+        if (CheckValidSeed())
+            return;
+
+        InteractablePathManager.SeedString = seedInputField.text;
+
         GameManager.Mode = GameMode.Recall;
         string sceneName = selectedDemo.sceneName;
         SceneManager.LoadScene(sceneName);
