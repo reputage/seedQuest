@@ -24,17 +24,20 @@ public class CardPopupUI : MonoBehaviour
     private TextMeshProUGUI[] texts;
     private Button[] buttons;
 
-    public void Start() {
+    public void Update() {
+        UpdateCardInfo();
+    }
+
+    public void GetCardReferences() {
         images = GetComponentsInChildren<Image>();
         texts = GetComponentsInChildren<TextMeshProUGUI>();
         buttons = GetComponentsInChildren<Button>();
     }
 
-    public void Update() {
-        UpdateCardInfo();
-    }
-
     public void UpdateCardInfo() {
+        if (images == null)
+            GetCardReferences();
+
         images[0].color = backdropColor;
         images[1].color = cardColor;
         images[2].color = headerColor;
