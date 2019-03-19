@@ -61,6 +61,10 @@ public class AudioManager : MonoBehaviour {
     }
 
     static public void Play (string name) {
+        if (instance == null)
+            Debug.LogWarning("Warning: Can't find AudioManager instance.");
+            return;
+        
         Sound s = Array.Find(instance.sounds.ToArray(), Sound => Sound.name == name);
         if (s == null)
             Debug.LogWarning("Sounds : " + name + " was not found.");

@@ -81,6 +81,10 @@ public class InteractableTrackerUI : MonoBehaviour
             SetArrowIconPosition();
             SetOpacity();
         }
+        else {
+            target = null;
+            SetActive(); 
+        }
     }
 
     /// <summary> Checks if InteractableTrackerUI is ready </summary>

@@ -22,18 +22,17 @@ public class PopupUI : MonoBehaviour {
         // Default popup inactive
         gameObject.SetActive(false);
 
-        // Setup Close Button
-        Button button = GetComponentInChildren<Button>();
-        button.onClick.AddListener(toggleShow);
-
         // Setup Toggle Button
         GameObject toggle = GameObject.FindGameObjectWithTag("PopupToggle");
-        toggle.GetComponent<Button>().onClick.AddListener(toggleShow);
+        if(toggle != null)
+            toggle.GetComponent<Button>().onClick.AddListener(toggleShow);
     }
 
     public void toggleShow() {
         gameObject.SetActive(!gameObject.activeSelf);
-        TextMeshProUGUI text = GameObject.FindGameObjectWithTag("PopupText").GetComponent<TextMeshProUGUI>();
-        text.text = popupText;
+
+        TextMeshProUGUI text = GetComponentsInChildren<TextMeshProUGUI>()[1];
+        if(text != null)
+            text.text = popupText;
     }
 }

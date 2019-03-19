@@ -39,7 +39,7 @@ namespace SeedQuest.Interactables {
         static public bool ShowLevelComplete = false;
 
         /// <summary> Flag for Interactabled Initlized first time </summary>
-        private bool isNextHighlighted = false;
+        static private bool isNextHighlighted = false;
 
         private void Awake() {
             path = InteractablePath.Instance;
@@ -82,6 +82,13 @@ namespace SeedQuest.Interactables {
             }
         }
 
+        static public void UndoLastAction() {
+            if (GameManager.Mode == GameMode.Rehearsal)
+                InteractablePath.UndoLastAction();
+            else if (GameManager.Mode == GameMode.Recall)
+                InteractableLog.UndoLastAction();
+        }
+
         static public void InitializeSeed() {
             SeedString = "EB204654C9";
             //seedString = RandomUtils.GetRandomHexNumber(10);
@@ -99,7 +106,7 @@ namespace SeedQuest.Interactables {
             InteractablePath.GeneratePathFromSeed(SeedString);
             InteractableLog.Clear();
 
-            Instance.isNextHighlighted = false;
+            isNextHighlighted = false;
             IsPathInitialized = true;
             ShowLevelComplete = false;
         }
@@ -109,7 +116,7 @@ namespace SeedQuest.Interactables {
             InteractablePath.GeneratePathFromSeed(SeedString);
             InteractablePath.InitializeNextInteractable();
 
-            Instance.isNextHighlighted = false;
+            isNextHighlighted = false;
             ShowLevelComplete = false;
         }
 

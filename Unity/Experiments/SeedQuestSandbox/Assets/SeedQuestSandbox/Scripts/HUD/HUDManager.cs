@@ -24,6 +24,7 @@ public class HUDManager : MonoBehaviour {
     public HUDItemProps useCLI;
     public HUDItemProps useTutorial;
     public HUDItemProps useInteractableTracker;
+    public HUDItemProps useUndo;
 
     static private HUDManager instance = null;
     static private HUDManager setInstance() { instance = GameObject.FindObjectOfType<HUDManager>(); return instance; }
@@ -58,6 +59,7 @@ public class HUDManager : MonoBehaviour {
         InstantiateHUDElement<LevelNameUI>(useLevelName);
         InstantiateHUDElement<ProgressTrackerUI>(useProgressTracker);
         InstantiateHUDElement<TutorialManager>(useTutorial);
+        InstantiateHUDElement<UndoUI>(useUndo);
     }
 
     public void DestroyImmediateHUD() {
@@ -72,5 +74,6 @@ public class HUDManager : MonoBehaviour {
         DestroyHUDElement<LevelNameUI>(useLevelName);
         DestroyHUDElement<ProgressTrackerUI>(useProgressTracker);
         DestroyHUDElement<TutorialManager>(useTutorial);
+        DestroyHUDElement<UndoUI>(useUndo);
     }
 }
