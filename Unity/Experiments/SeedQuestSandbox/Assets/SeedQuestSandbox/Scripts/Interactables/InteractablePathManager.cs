@@ -89,6 +89,10 @@ namespace SeedQuest.Interactables {
                 InteractableLog.UndoLastAction();
         }
 
+        static public int LevelsComplete {
+            get => (int) Mathf.Floor((float)InteractableLog.Count / (float)InteractableConfig.ActionsPerSite);
+        }
+
         static public void InitializeSeed() {
             SeedString = "EB204654C9";
             //seedString = RandomUtils.GetRandomHexNumber(10);
