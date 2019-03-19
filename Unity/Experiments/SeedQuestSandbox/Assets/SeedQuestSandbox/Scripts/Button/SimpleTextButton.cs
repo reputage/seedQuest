@@ -18,6 +18,10 @@ public class SimpleTextButton : MonoBehaviour
     public void SetButtonHoverEvents()
     {
         EventTrigger trigger = GetComponent<EventTrigger>();
+        if (trigger == null) {
+            gameObject.AddComponent<EventTrigger>();
+            trigger = GetComponent<EventTrigger>();
+        }
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerEnter;
@@ -33,13 +37,20 @@ public class SimpleTextButton : MonoBehaviour
     private void OnHoverEnter()
     {
         TextMeshProUGUI text = GetComponentInChildren<TextMeshProUGUI>();
-        text.color = hoverColor;
+        if (text != null)
+            text.color = hoverColor;
+        else
+            Debug.LogError("Error: Button doesn't TextMeshProUGUI.");
+                
         AudioManager.Play("UI_Hover");
     }
 
     private void OnHoverExit()
     {
         TextMeshProUGUI text = GetComponentInChildren<TextMeshProUGUI>();
-        text.color = defaultColor;
+        if (text != null)
+            text.color = defaultColor;
+        else
+            Debug.LogError("Error: Button doesn't TextMeshProUGUI.");
     }
 }
