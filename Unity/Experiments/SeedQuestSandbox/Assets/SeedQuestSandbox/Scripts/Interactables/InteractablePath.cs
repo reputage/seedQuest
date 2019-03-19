@@ -90,6 +90,20 @@ namespace SeedQuest.Interactables
             Instance.nextIndex = 0;
         }
 
+        static public void UndoLastAction() {
+            if (GameManager.Mode == GameMode.Rehearsal) {
+                InteractableLog.UndoLastAction();
+
+                if (Instance.nextIndex > 0)
+                    Instance.nextIndex--;
+
+                // TODO: fix Danger to break for muli-level
+
+                if (NextInteractable != null)
+                    InitializeNextInteractable();
+            }
+        }
+
         /// <summary> Increament NextIndex and Initialize NextInteractable in Path </summary>
         static public void GoToNextInteractable()
         {

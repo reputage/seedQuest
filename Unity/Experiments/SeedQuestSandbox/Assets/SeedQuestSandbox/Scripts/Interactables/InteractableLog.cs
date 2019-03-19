@@ -73,6 +73,16 @@ namespace SeedQuest.Interactables
                 InteractablePathManager.ShowLevelComplete = true;
         }
 
+        /// <summary> Removes the last action from log </summary>
+        static public void UndoLastAction()
+        {
+            int count = Instance.log.Count;
+            if (count == 0)
+                return;
+
+            Instance.log.RemoveAt(count - 1);
+        }
+
         /// <summary> Clear all Interactables from Log </summary>
         static public void Clear () {
             Instance.log.Clear();

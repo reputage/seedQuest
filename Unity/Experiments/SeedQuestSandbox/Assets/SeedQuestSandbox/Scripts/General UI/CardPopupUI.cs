@@ -25,8 +25,6 @@ public class CardPopupUI : MonoBehaviour
     private Button[] buttons;
 
     public void Start() {
-        gameObject.SetActive(false);         // Default popup inactive
-
         images = GetComponentsInChildren<Image>();
         texts = GetComponentsInChildren<TextMeshProUGUI>();
         buttons = GetComponentsInChildren<Button>();
@@ -49,6 +47,13 @@ public class CardPopupUI : MonoBehaviour
     }
 
     public void toggleShow() {
+        if(GameManager.Instance != null) {
+            if (!gameObject.activeSelf)
+                GameManager.State = GameState.Menu;
+            else
+                GameManager.State = GameManager.PrevState;    
+        }
+
         gameObject.SetActive(!gameObject.activeSelf);
     }
 }

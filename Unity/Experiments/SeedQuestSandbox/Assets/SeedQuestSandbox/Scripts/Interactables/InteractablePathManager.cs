@@ -82,6 +82,13 @@ namespace SeedQuest.Interactables {
             }
         }
 
+        static public void UndoLastAction() {
+            if (GameManager.Mode == GameMode.Rehearsal)
+                InteractablePath.UndoLastAction();
+            else if (GameManager.Mode == GameMode.Recall)
+                InteractableLog.UndoLastAction();
+        }
+
         static public void InitializeSeed() {
             SeedString = "EB204654C9";
             //seedString = RandomUtils.GetRandomHexNumber(10);
