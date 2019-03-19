@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 2855818756506440500}
   - component: {fileID: 2855818756506440501}
   - component: {fileID: 2855818756506440498}
-  - component: {fileID: 4519872200809053713}
+  - component: {fileID: 8335011033835557549}
   m_Layer: 5
   m_Name: CardPopupCanvas
   m_TagString: Popup
@@ -440,7 +440,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4519872200809053713
+--- !u!114 &8335011033835557549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -452,13 +452,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3799c3a81d3c0448185acbba1808b343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primaryColor:
+  headerColor:
     serializedVersion: 2
     rgba: 4294153761
-  backgroundColor:
+  headerTextColor:
     serializedVersion: 2
     rgba: 4294967295
+  cardColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  cardTextColor:
+    serializedVersion: 2
+    rgba: 4278190080
   backdropColor: {r: 0, g: 0, b: 0, a: 0.4}
+  headerText: Title
+  cardText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. '
+  useButtonOne: 1
+  buttonOneText: Accept
+  useButtonTwo: 1
+  buttonTwoText: Cancel
 --- !u!1 &2855818756589118837
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +587,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4519872200809053713}
+      - m_Target: {fileID: 8335011033835557549}
         m_MethodName: toggleShow
         m_Mode: 1
         m_Arguments:
@@ -833,7 +846,7 @@ PrefabInstance:
     - target: {fileID: 8591163805155016585, guid: 70f19685a4982453c947c3cadc6f9cfc,
         type: 3}
       propertyPath: m_Name
-      value: CancelButton
+      value: ButtonTwo
       objectReference: {fileID: 0}
     - target: {fileID: 8591163805155016586, guid: 70f19685a4982453c947c3cadc6f9cfc,
         type: 3}
@@ -959,7 +972,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4519872200809053713}
+      objectReference: {fileID: 8335011033835557549}
     - target: {fileID: 8591163805155016587, guid: 70f19685a4982453c947c3cadc6f9cfc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -1015,7 +1028,7 @@ PrefabInstance:
     - target: {fileID: 8591163805155016585, guid: 70f19685a4982453c947c3cadc6f9cfc,
         type: 3}
       propertyPath: m_Name
-      value: AcceptButton
+      value: ButtonOne
       objectReference: {fileID: 0}
     - target: {fileID: 8591163805155016586, guid: 70f19685a4982453c947c3cadc6f9cfc,
         type: 3}
@@ -1141,7 +1154,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4519872200809053713}
+      objectReference: {fileID: 8335011033835557549}
     - target: {fileID: 8591163805155016587, guid: 70f19685a4982453c947c3cadc6f9cfc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
