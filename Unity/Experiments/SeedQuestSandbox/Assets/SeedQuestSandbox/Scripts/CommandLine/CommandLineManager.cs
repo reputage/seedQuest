@@ -292,14 +292,17 @@ public static class CommandLineManager
         foreach (Interactable item in InteractableManager.InteractableList)
         {
             BoxCollider box = item.GetComponent<BoxCollider>();
-            if (box.bounds.Intersects(item.interactableUI.actionUiBox()))
+            if (box != null && item.interactableUI.actionUiBox().center != new Vector3(-997,-997,-997))
             {
-                Debug.Log("Intersection between item: " + item.name + " and it's UI.");
-                returnStr += "\nItem: " + item.name + " ";
-            }
-            else
-            {
-                Debug.Log("No collision found for item:" + item.name + " and it's UI.");
+                if (box.bounds.Intersects(item.interactableUI.actionUiBox()))
+                {
+                    Debug.Log("Intersection between item: " + item.name + " and it's UI.");
+                    returnStr += "\nItem: " + item.name + " ";
+                }
+                else
+                {
+                    Debug.Log("No collision found for item:" + item.name + " and it's UI.");
+                }
             }
         }
         if (returnStr.Length <= 39)
