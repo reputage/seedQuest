@@ -26,7 +26,8 @@ public static class CommandLineManager
         {"gamemode", setGameMode},
         {"showcolliders", showBoxColliders},
         {"nextaction", doNextAction},
-        {"selectaction", selectAction}
+        {"selectaction", selectAction},
+        {"finduierrors", findUiErrors}
         // make a function for 'select action' in recall mode that takes parameters for site id, interactable id, action id, in that order
         // make a function for sandbox mode that shows the preview for an interactabel. takes parameters for site id, interactable id, and action id
     };
@@ -44,7 +45,8 @@ public static class CommandLineManager
         {"gamemode", "Sets the gamemode in GameManager.\nAccepted parameters:\n Learn, recall, sandbox"},
         {"showcolliders", "Shows box colliders for interactables.\nUse 'showcolliders b' to show colliders for non-interctable objects"},
         {"nextaction", "Performs the next action in the interactable path list, only works in learn mode."},
-        {"selectaction", "Performs an action using the specified interactable.\nParameters:\nint siteID, int spotID, int action"}
+        {"selectaction", "Performs an action using the specified interactable.\nParameters:\nint siteID, int spotID, int action"},
+        {"finduierrors", "Finds collisions between interactable objects and their interactableUIs"}
     };
 
     // Here's a template for an example of a command. 
@@ -245,6 +247,32 @@ public static class CommandLineManager
             returnString += "\n" + key;
         }
         return returnString;
+    }
+
+    public static string findUiErrors(string input)
+    {
+        string returnStr = "Errors found for these interactables:";
+
+        foreach (Interactable item in InteractableManager.InteractableList)
+        {
+            BoxCollider box = item.GetComponent<BoxCollider>();
+            if (box.bounds.Intersects(item.interactableUI.actionUiBox()))
+            {
+                Debug.Log("Intersection between item: " + item.name + " and it's UI.");
+                returnStr += "\nItem: " + item.name + " ";
+            }
+            else
+            {
+                Debug.Log("No collision found for item:" + item.name + " and it's UI.");
+            }
+        }
+        if (returnStr.Length <= 39)
+        {
+            Debug.Log("No collisions found.");
+            returnStr = "No collisions found for interactables and UI";
+        }
+
+        return returnStr;
     }
 
     // Set the gamestate. string.StartsWith() is used so that the user input doesn't need to be

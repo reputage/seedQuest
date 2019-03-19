@@ -16,6 +16,7 @@ namespace SeedQuest.Interactables
         public bool useRotateToCamera = true;
         public Vector3 rotationOffset = new Vector3(0, 0, 0);
         public Vector3 positionOffset = new Vector3(0, 0, 0);
+        public GameObject debugActionUI = null;
 
         private Interactable parent;
         private GameObject actionUI = null;
@@ -57,6 +58,7 @@ namespace SeedQuest.Interactables
             }
 
             actionUI = GameObject.Instantiate(InteractableManager.Instance.actionSpotIcons[modeIndex], UIContainer);
+            debugActionUI = actionUI;
 
             SetScale();
             SetPosition();
@@ -346,5 +348,22 @@ namespace SeedQuest.Interactables
                 SetCheckButtonActive(true);
             }
         }
+
+        public Bounds actionUiBox()
+        {
+            if (actionUI.GetComponent<Collider>() != null)
+                return actionUI.GetComponent<Collider>().bounds;
+            else if (actionUI.GetComponent<Mesh>() != null)
+                return actionUI.GetComponent<Mesh>().bounds;
+            else if (actionUI.GetComponent<Renderer>() != null)
+                return actionUI.GetComponent<Renderer>().bounds;
+
+            else
+            {
+                Bounds returnBounds = new Bounds();
+                return returnBounds;
+            }
+        }
+
     }
 }
