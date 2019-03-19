@@ -27,7 +27,8 @@ public static class CommandLineManager
         {"showcolliders", showBoxColliders},
         {"nextaction", doNextAction},
         {"selectaction", selectAction},
-        {"finduierrors", findUiErrors}
+        {"finduierrors", findUiErrors},
+        {"resetitem", resetInteractable}
         // make a function for 'select action' in recall mode that takes parameters for site id, interactable id, action id, in that order
         // make a function for sandbox mode that shows the preview for an interactabel. takes parameters for site id, interactable id, and action id
     };
@@ -42,11 +43,12 @@ public static class CommandLineManager
         {"loadscene", "Loads the specified scene. 'help scenes' returns a list of available scene names. \nParameters:\n string sceneName"},
         {"scenes", getSceneNames("")},
         {"gamestate", "Sets the gamestate.\nAccepted parameters:\n previous, pause, play, end, interact, menu"},
-        {"gamemode", "Sets the gamemode in GameManager.\nAccepted parameters:\n Learn, recall, sandbox"},
+        {"gamemode", "Sets the gamemode in GameManager.\nParameters:\n Learn, recall, sandbox"},
         {"showcolliders", "Shows box colliders for interactables.\nUse 'showcolliders b' to show colliders for non-interctable objects"},
         {"nextaction", "Performs the next action in the interactable path list, only works in learn mode."},
         {"selectaction", "Performs an action using the specified interactable.\nParameters:\nint siteID, int spotID, int action"},
-        {"finduierrors", "Finds collisions between interactable objects and their interactableUIs"}
+        {"finduierrors", "Finds collisions between interactable objects and their interactableUIs"},
+        {"resetitem", "Finds and resets an item at the given site ID and spot ID.\nParameters:\n int siteID, int spotID"}
     };
 
     // Here's a template for an example of a command. 
@@ -224,6 +226,40 @@ public static class CommandLineManager
         }
         
         return "Could not find interactable with site ID " + intInput[0] + " and spot ID " + intInput[1];
+    }
+
+    // Reset the state of interactable with given siteID and spotID
+    public static string resetInteractable(string input)
+    {
+        string[] stringInputs = input.Split(null);
+        if (stringInputs.Length <= 2)
+        {
+            return "Invalid parameters: please enter a siteID and spotID.";
+        }
+        int[] intInput = new int[2];
+        bool validInts = true;
+        for (int i = 0; i < intInput.Length; i++)
+        {
+            validInts = int.TryParse(stringInputs[i], out intInput[i]) && validInts;
+        }
+
+        if (!validInts)
+            return "Invalid parameters: please use integers";
+        
+        foreach (Interactable item in InteractableManager.InteractableList)
+        {
+            if (item.ID.siteID == intInput[0] && item.ID.spotID == intInput[1])
+            {
+                item.currentStateID = 0;
+                InteractableState state = item.stateData.states[item.currentStateID];
+                state.enterState(item);
+                //item.HighlightInteractable(true, true);
+                item.interactableUI.SetActionUI(item.currentStateID);
+                return "resetting interactable at site: " + intInput[0] + " and spot: " + intInput[1];
+            }
+        }
+
+        return "Could not find interactable at site: " + intInput[0] + " and spot: " + intInput[1];
     }
 
     // Returns values from various manager scripts, for example 'get gamestate' returns the gamestate
