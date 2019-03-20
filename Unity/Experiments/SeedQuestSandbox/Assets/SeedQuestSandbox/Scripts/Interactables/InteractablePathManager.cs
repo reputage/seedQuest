@@ -30,7 +30,7 @@ namespace SeedQuest.Interactables {
         public InteractableLog log;
 
         /// <summary> Seed String </summary>
-        public static string SeedString; 
+        public static string SeedString = "EB204654C9";
 
         /// <summary> Has the Interactabled Path been initialized before important for MultiLevel Games </summary>
         static public bool IsPathInitialized = false;
@@ -45,7 +45,7 @@ namespace SeedQuest.Interactables {
             path = InteractablePath.Instance;
             log = InteractableLog.Instance;
 
-            InitializeSeed();
+            //InitializeSeed();
         }
 
         private void Update() {
@@ -89,11 +89,18 @@ namespace SeedQuest.Interactables {
                 InteractableLog.UndoLastAction();
         }
 
+        static public int LevelsComplete {
+            get => (int) Mathf.Floor((float)InteractableLog.Count / (float)InteractableConfig.ActionsPerSite);
+        }
+
         static public void InitializeSeed() {
             SeedString = "EB204654C9";
             //seedString = RandomUtils.GetRandomHexNumber(10);
         }
 
+        static public void SetRandomSeed() {
+            SeedString = RandomUtils.GetRandomHexNumber(10);
+        }
 
         static public void Reset() {
             IsPathInitialized = false;
@@ -132,7 +139,8 @@ namespace SeedQuest.Interactables {
         static public void SetupInteractablePathIDs() {
             Interactable[] list = InteractableManager.InteractableList;
 
-            int[] indices = RandomUtils.GetRandomIndexArray(InteractableConfig.InteractableCount);
+            //int[] indices = RandomUtils.GetRandomIndexArray(InteractableConfig.InteractableCount);
+            int[] indices = NumberUtils.GetIndexArray(InteractableConfig.InteractableCount);
 
             // Set InteractablePath IDs based on BoundingBoxes in Scene 
             int siteCount = LevelManager.LevelIndex;

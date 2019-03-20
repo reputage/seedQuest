@@ -6,14 +6,8 @@ using SeedQuest.Interactables;
 public class EndGameUI : MonoBehaviour {
 
     static private EndGameUI instance = null;
-
-    static public EndGameUI Instance  {
-        get {
-            if (instance == null)
-                instance = Resources.FindObjectsOfTypeAll<EndGameUI>()[0];
-            return instance;
-        }
-    }
+    static private EndGameUI setInstance() { instance = HUDManager.Instance.GetComponentInChildren<EndGameUI>(true); return instance; }
+    static public EndGameUI Instance { get { return instance == null ? setInstance() : instance; } }
 
     /// <summary> Toggles On the EndGameUI </summary>
     static public void ToggleOn() {

@@ -13,6 +13,7 @@ public class CardPopupUI : MonoBehaviour
     public Color backdropColor = new Color(0, 0, 0, 0.4f);
 
     public string headerText = "Title";
+    [TextArea]
     public string cardText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ";
 
     public bool useButtonOne = true;

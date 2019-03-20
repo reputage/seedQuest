@@ -50,6 +50,9 @@ namespace SeedQuest.Interactables
             get { return Instance.log; }
         }
 
+        /// <summary> Gets number of log elements </summary>
+        static public int Count { get => Instance.log.Count; }
+
         /// <summary> Path Percent Complete based on ActionsPerGame </summary>
         static public float PercentComplete {
             get { return 100.0f * Instance.log.Count / InteractableConfig.ActionsPerGame; }
