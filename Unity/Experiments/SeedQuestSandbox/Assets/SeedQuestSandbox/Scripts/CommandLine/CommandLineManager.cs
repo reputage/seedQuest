@@ -250,11 +250,11 @@ public static class CommandLineManager
         {
             if (item.ID.siteID == intInput[0] && item.ID.spotID == intInput[1])
             {
-                item.currentStateID = 0;
-                InteractableState state = item.stateData.states[item.currentStateID];
+                item.ActionIndex = 0;
+                InteractableState state = item.stateData.states[item.ActionIndex];
                 state.enterState(item);
                 //item.HighlightInteractable(true, true);
-                item.interactableUI.SetActionUI(item.currentStateID);
+                item.interactableUI.SetActionUI(item.ActionIndex);
                 return "resetting interactable at site: " + intInput[0] + " and spot: " + intInput[1];
             }
         }

@@ -24,7 +24,7 @@ namespace SeedQuest.Interactables
         public InteractableID ID;
         
         private int actionIndex = -1;
-        public int ActionIndex { get => actionIndex; }
+        public int ActionIndex { get => actionIndex; set => actionIndex = value; }
 
         [HideInInspector]
         public float interactDistance = 2.0f;
