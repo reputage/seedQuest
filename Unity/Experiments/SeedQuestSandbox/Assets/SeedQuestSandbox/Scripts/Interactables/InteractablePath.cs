@@ -30,6 +30,9 @@ namespace SeedQuest.Interactables
             get { return Instance.path; }
         }
 
+        /// <summary> Gets number of path elements </summary>
+        static public int Count { get => Instance.path.Count; }
+
         /// <summary> Path Percent Complete based on ActionsPerGame </summary>
         static public float PercentComplete {
             get { return 100.0f * Instance.nextIndex / InteractableConfig.ActionsPerGame; }

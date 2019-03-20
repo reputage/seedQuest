@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+using SeedQuest.Interactables;
+
 public class TutorialManager : MonoBehaviour {
 
     public GameObject body;
@@ -18,90 +20,69 @@ public class TutorialManager : MonoBehaviour {
 
     private int card = 0;
 
-    void Start ()
-    {
-        if (GameManager.Mode == GameMode.Rehearsal && TutorialState.Skip == false)
-        {
+    void Start () {
+        if (GameManager.Mode == GameMode.Rehearsal && TutorialState.Skip == false && InteractablePathManager.LevelsComplete == 0) {
             GameManager.State = GameState.Menu;
             button.onClick.AddListener(onButtonClick);
             skip.onClick.AddListener(onSkipClick);
             setCard();
         }
-
-        else
-        {
+        else {
             gameObject.SetActive(false);
         }
     }
 
-    private void setCard()
-    {
-
+    private void setCard() {
         body.GetComponent<RectTransform>().sizeDelta = new Vector2(850, data.tutorialData[card].popupHeight);
         headerText.text = data.tutorialData[card].headerText;
         bodyText.text = data.tutorialData[card].bodyText;
         bodyText.GetComponent<RectTransform>().sizeDelta = new Vector2(590, data.tutorialData[card].bodyTextHeight);
         bodyText.transform.localPosition = new Vector3(bodyText.transform.localPosition.x, data.tutorialData[card].bodyTextYOffset, 0);
 
-        if (data.tutorialData[card].useSecondBodyText)
-        {
+        if (data.tutorialData[card].useSecondBodyText) {
             bodyText2.enabled = true;
             bodyText2.text = data.tutorialData[card].secondBodyText;
             bodyText2.GetComponent<RectTransform>().sizeDelta = new Vector2(590, data.tutorialData[card].secondBodyTextHeight);
             bodyText2.transform.localPosition = new Vector3(bodyText2.transform.localPosition.x, data.tutorialData[card].secondBodyTextYOffset, 0);
 
         }
-
-        else
-        {
+        else {
             bodyText2.enabled = false;
         }
 
-        if (data.tutorialData[card].useArrow)
-        {
+        if (data.tutorialData[card].useArrow) {
             arrow.enabled = true;
             arrow.transform.localPosition = data.tutorialData[card].arrowPosition;
             arrow.transform.eulerAngles = data.tutorialData[card].arrowRotation;
         }
-
-        else
-        {
+        else {
             arrow.enabled = false;
         }
 
-        if (data.tutorialData[card].useImage)
-        {
+        if (data.tutorialData[card].useImage) {
             image.enabled = true;
             image.sprite = data.tutorialData[card].image;
             image.GetComponent<RectTransform>().sizeDelta = data.tutorialData[card].imageSize;
             image.transform.localPosition = data.tutorialData[card].imageLocalPosition;
-        }
-
-        else
-        {
+        }  
+        else {
             image.enabled = false;
         }
 
-
-
-        if (card == data.tutorialData.Count - 1)
-        {
+        if (card == data.tutorialData.Count - 1) {
             button.transform.GetChild(0).GetComponent<TMP_Text>().text = "Finish";
         }
     }
 
-    private void onSkipClick()
-    {
+    private void onSkipClick() {
         gameObject.SetActive(false);
         GameManager.State = GameState.Play;
         TutorialState.Skip = true;
     }
 
-    private void onButtonClick()
-    {
+    private void onButtonClick() {
         card++;
-        if (card >= data.tutorialData.Count)
-        {
+        if (card >= data.tutorialData.Count) {
             gameObject.SetActive(false);
             GameManager.State = GameState.Play;
             return;
