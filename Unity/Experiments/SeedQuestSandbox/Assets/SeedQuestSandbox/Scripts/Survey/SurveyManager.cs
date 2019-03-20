@@ -344,6 +344,28 @@ public class SurveyManager : MonoBehaviour
         NextButton.enabled = true;
     }
 
+
+    public void submitButton()
+    {
+
+        List<string> questions = getQuestionsFromSurvey(data);
+        List<string> responses = getAnswersFromSurvey(data);
+
+        int empty = 0;
+
+        if (responses.Count == 0)
+        {
+            Debug.Log("No responses found.");
+            // put code here for UI card popup to inform user
+        }
+
+        else if (responses.Count < questions.Count)
+        {
+            
+        }
+
+    }
+
     // Send the survey data to the server
     public void sendSurveyData()
     {
@@ -354,6 +376,8 @@ public class SurveyManager : MonoBehaviour
 
             if (responses.Count < questions.Count)
             {
+                // put code here to ask user if they want to submit without answering all questions
+
                 for (int i = responses.Count - 1; i < questions.Count - 1; i++)
                 {
                     responses.Add(".");
