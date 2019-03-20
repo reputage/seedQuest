@@ -25,7 +25,7 @@ namespace SeedQuest.Interactables
             enterState(item, true);
         }
 
-        public void enterState(Interactable item, bool useParticleEffect) {
+        public void enterState(Interactable item, bool useEffects) {
             
             // Remove Children GameObjects to Remove Assocaited Prefabs
             foreach (Transform child in item.transform) {
@@ -66,12 +66,12 @@ namespace SeedQuest.Interactables
             if (animatorController != null)
                 item.GetComponentInChildren<Animator>().runtimeAnimatorController = animatorController;
 
-            // Play sound effect clip
-            if (soundEffectName != "")
-                AudioManager.Play(soundEffectName);
+            if (useEffects) {
+                // Play sound effect clip
+                if (soundEffectName != "")
+                    AudioManager.Play(soundEffectName);
 
-            // Create and Play Particle Effects
-            if(useParticleEffect) {
+                // Create and Play Particle Effects
                 if (particleEffectName != "")
                     EffectsManager.PlayEffect(particleEffectName, item.transform);
                 else if (particleEffect != null)
