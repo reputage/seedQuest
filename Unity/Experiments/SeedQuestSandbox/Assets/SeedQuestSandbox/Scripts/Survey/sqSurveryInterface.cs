@@ -31,32 +31,16 @@ public static class sqSurveyInterface
         questions.Add("q8");
         questions.Add("q9");
         questions.Add("q10");
-        questions.Add("q11");
-        questions.Add("q12");
-        questions.Add("q13");
-        questions.Add("q14");
-        questions.Add("q15");
-        questions.Add("q16");
-        questions.Add("q17");
-
 
         responses.Add("r1");
         responses.Add("r2");
         responses.Add("bad response{}:><>?{}}}{\"\'/");
-        responses.Add("012345678901234567890123456789012345678901234567890");
-        responses.Add("012345678901234567890123456789012345678901234567891");
-        responses.Add("012345678901234567890123456789012345678901234567892");
-        responses.Add("012345678901234567890123456789012345678901234567893");
-        responses.Add("012345678901234567890123456789012345678901234567894");
-        responses.Add("012345678901234567890123456789012345678901234567895");
-        responses.Add("012345678901234567890123456789012345678901234567896");
-        responses.Add("012345678901234567890123456789012345678901234567897");
-        responses.Add("012345678901234567890123456789012345678901234567898");
-        responses.Add("012345678901234567890123456789012345678901234567899");
-        responses.Add("012345678901234567890123456789012345678901234567891");
-        responses.Add("012345678901234567890123456789012345678901234567892");
-        responses.Add("012345678901234567890123456789012345678901234567893");
-        responses.Add("012345678901234567890123456789012345678901234567894");
+        responses.Add("0123456789");
+        responses.Add("0123456789");
+        responses.Add("0123456789");
+        responses.Add("0123456789");
+        responses.Add("0123456789");
+        responses.Add("0123456789");
 
         string json = jsonBodyBuilder(questions, responses);
 
@@ -68,7 +52,6 @@ public static class sqSurveyInterface
         uwr.useHttpContinue = false;
 
         yield return uwr.SendWebRequest();
-
 
         if (uwr.isNetworkError)
         {
@@ -142,16 +125,20 @@ public static class sqSurveyInterface
     public static string jsonBodyBuilder(List<string> questions, List<string> responses)
     {
         string dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss");
-
         //Debug.Log("Date: " + dateTime);
+
+        string version = Application.version;
+        //Debug.Log("Version number: " + version);
 
         string body;
         string response = groupResponses(questions, responses); ;
 
         body = "{";
         body += "\"Response\": " + response;
+        body += ",\"Version\": \"" + version + "\"";
+        //body += ",\"Timestamp\": \"" + dateTime + "\"";
         body += "}";
-        Debug.Log("Json body: " + body);
+        //Debug.Log("Json body: " + body);
 
         return body;
     }
