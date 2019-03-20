@@ -360,7 +360,7 @@ namespace SeedQuest.Interactables
 
             else
             {
-                Bounds returnBounds = new Bounds();
+                Bounds returnBounds = new Bounds(new Vector3(-997, -997, -997), new Vector3(0,0,0));
                 return returnBounds;
             }
         }

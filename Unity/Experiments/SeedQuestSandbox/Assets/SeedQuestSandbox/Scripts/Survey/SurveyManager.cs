@@ -25,6 +25,7 @@ public class SurveyManager : MonoBehaviour
     private int imageXOffset = -34;
     private float cardContainerSize = 0;
     private int currentCardIndex = 0;
+    private bool sentDataOnce = false;
 
     private List<GameObject> dots = new List<GameObject>();
 
@@ -346,18 +347,22 @@ public class SurveyManager : MonoBehaviour
     // Send the survey data to the server
     public void sendSurveyData()
     {
-        List<string> questions = getQuestionsFromSurvey(data);
-        List<string> responses = getAnswersFromSurvey(data);
-
-        if (responses.Count < questions.Count)
+        if (sentDataOnce == false)
         {
-            for (int i = responses.Count - 1; i < questions.Count - 1; i++)
-            {
-                responses.Add(" ");
-            }
-        }
+            List<string> questions = getQuestionsFromSurvey(data);
+            List<string> responses = getAnswersFromSurvey(data);
 
-        StartCoroutine(sqSurveyInterface.postRequest(questions, responses, serverUrl));
+            if (responses.Count < questions.Count)
+            {
+                for (int i = responses.Count - 1; i < questions.Count - 1; i++)
+                {
+                    responses.Add(".");
+                }
+            }
+
+            sentDataOnce = true;
+            StartCoroutine(sqSurveyInterface.postRequest(questions, responses, serverUrl));
+        }
     }
 
     // Get the questions from the scriptable object

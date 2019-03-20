@@ -159,21 +159,11 @@ public static class sqSurveyInterface
     // Another JSON formatter function. Again, don't know what the survey will look like yet
     public static string responseFormatter(string questionId, string userResponse)
     {
-        questionId = questionSizeReducer(questionId);
         questionId = sanitizeInput(questionId);
         userResponse = sanitizeInput(userResponse);
         if (userResponse.Length <= 0)
-            userResponse = "1";
-
-        // This is a temporary measure to deal with the 1000 character limit on the post body size.
-        //  Should be removed if larger post bodies are accepted, to allow more user feedback
-        /*
-        else if (userResponse.Length > 99)
-        {
-            userResponse = userResponse.Remove(99);
-        }
-        */
-
+            userResponse = ".";
+        
         string json = "\"" + questionId + "\": \"" + userResponse + "\"";
         return json;
     }
@@ -220,32 +210,6 @@ public static class sqSurveyInterface
     {
         questions.Add(quetsionToAdd);
         responses.Add(responseToAdd);
-    }
-
-    public static string questionSizeReducer(string question)
-    {
-        if (question.StartsWith("Rank each of the five game concepts on ease of navigation"))
-        {
-            question = question.Remove(0, 58);
-            question = "nav" + question;
-        }
-        else if (question.StartsWith("Rank each of the five game concepts on how intuitive and enjoyable the gameplay is"))
-        {
-            question = question.Remove(0, 83);
-            question = "gameplay" + question;
-        }
-        else if (question.StartsWith("Rank each of the five game concepts on how quickly you were able to learn the game path"))
-        {
-            question = question.Remove(0, 88);
-            question = "path" + question;
-        }
-        else if (question.StartsWith("Rank each of the five game concepts on overall experience"))
-        {
-            question = question.Remove(0, 58);
-            question = "overall" + question;
-        }
-
-        return question;
     }
 
 }
