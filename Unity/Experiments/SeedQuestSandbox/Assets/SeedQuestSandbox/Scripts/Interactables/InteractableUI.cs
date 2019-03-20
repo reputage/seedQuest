@@ -167,7 +167,7 @@ namespace SeedQuest.Interactables
                     InteractablePath.GoToNextInteractable();
             }
             else if (GameManager.Mode == GameMode.Recall)
-                InteractableLog.Add(parent, parent.currentStateID);
+                InteractableLog.Add(parent, parent.ActionIndex);
         }
 
         /// <summary> Handles Clicking a Checkmark Button </summary>
@@ -177,7 +177,7 @@ namespace SeedQuest.Interactables
             if (GameManager.Mode == GameMode.Rehearsal)
                 InteractablePath.GoToNextInteractable();
             else if (GameManager.Mode == GameMode.Recall)
-                InteractableLog.Add(parent, parent.currentStateID);
+                InteractableLog.Add(parent, parent.ActionIndex);
         }
 
         /// <summary> Sets Label Text to Current Action and Activates Checkmark if necessary </summary>
