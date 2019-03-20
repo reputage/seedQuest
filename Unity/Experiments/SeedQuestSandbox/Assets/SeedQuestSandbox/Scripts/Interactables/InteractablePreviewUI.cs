@@ -192,5 +192,15 @@ namespace SeedQuest.Interactables
             foreach (Transform child in gameObject.transform)
                 SetLayerRecursively(child.gameObject, depth+1);
         }
+
+        /// <summary> Set interactable state with given action index </summary>
+        /// <param name="actionIndex"> Action Index </param>
+        static public void SetPreviewAction(int actionIndex) {
+            Interactable interactable = Instance.previewChild.GetComponent<Interactable>();
+            InteractableState state = interactable.stateData.states[actionIndex];
+            state.enterState(interactable, false);
+
+            SetLayerRecursively(Instance.previewChild, 0);
+        }
     }
 }

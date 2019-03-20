@@ -22,7 +22,9 @@ namespace SeedQuest.Interactables
         public InteractablePreviewInfo interactablePreview;
         public InteractableHighlightsProps interactableHighlights;
         public InteractableID ID;
-        public int currentStateID = 0;
+        
+        private int actionIndex = -1;
+        public int ActionIndex { get => actionIndex; }
 
         [HideInInspector]
         public float interactDistance = 2.0f;
@@ -68,8 +70,7 @@ namespace SeedQuest.Interactables
 
         public bool IsNextInteractable { get => InteractablePath.NextInteractable == this; }
 
-        int Mod(int x, int m)
-        {
+        int Mod(int x, int m) {
             return (x % m + m) % m;
         }
 
@@ -84,40 +85,32 @@ namespace SeedQuest.Interactables
             interactableUI.DeleteUI();
         }
 
-        public void NextAction()
-        {
-            currentStateID = Mod(currentStateID + 1, 4);
-            InteractableState state = stateData.states[currentStateID];
-            state.enterState(this);
-            HighlightInteractable(true, true);
-            interactableUI.SetActionUI(currentStateID);
+        public void NextAction() {
+            actionIndex = (actionIndex == -1) ? 0 : Mod(actionIndex + 1, 4);
+            DoAction(actionIndex);
         }
 
-        public void PrevAction()
-        {
-            currentStateID = Mod(currentStateID - 1, 4);
-            InteractableState state = stateData.states[currentStateID];
-            state.enterState(this);
-            HighlightInteractable(true, true);
-            interactableUI.SetActionUI(currentStateID);
+        public void PrevAction() {
+            actionIndex = (actionIndex == -1) ? (4-1) : Mod(actionIndex - 1, 4);
+            DoAction(actionIndex);
         }
 
-        public void DoAction(int actionIndex)
-        {
-            currentStateID = actionIndex;
+        public void DoAction(int actionIndex)  {
+            this.actionIndex = actionIndex;
             InteractableState state = stateData.states[actionIndex];
             state.enterState(this);
             HighlightInteractable(true, true);
             interactableUI.SetActionUI(actionIndex);
+
+            if (GameManager.Mode == GameMode.Sandbox)
+                InteractablePreviewUI.SetPreviewAction(this.actionIndex);
         }
 
-        public void SelectAction(int actionIndex)
-        {
+        public void SelectAction(int actionIndex) {
             InteractableLog.Add(this, actionIndex);
         }
 
-        private bool PlayerIsNear()
-        {
+        private bool PlayerIsNear() {
             Vector3 playerPosition = PlayerCtrl.PlayerTransform.position;
             float dist = (transform.position - playerPosition).magnitude;
             if (dist < interactDistance)
@@ -126,8 +119,7 @@ namespace SeedQuest.Interactables
                 return false;
         }
 
-        public void HoverOnInteractable()
-        {
+        public void HoverOnInteractable() {
             if (PauseManager.isPaused == true)
                 return;
 
@@ -135,12 +127,10 @@ namespace SeedQuest.Interactables
             RaycastHit hit;
             Ray ray = c.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, 100.0f))
-            {
+            if (Physics.Raycast(ray, out hit, 100.0f)) {
                 bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
                 
-                if (hitThisInteractable)
-                { 
+                if (hitThisInteractable) { 
                     interactableUI.showCurrentActions();
 
                     if (!isOnHover)  {

@@ -110,7 +110,7 @@ public class DemoSelectUI : MonoBehaviour {
 
     public void StartDemoWithRehearsalMode()
     {
-        if (CheckValidSeed())
+        if (!CheckValidSeed())
             return;
 
         InteractablePathManager.SeedString = seedInputField.text;
