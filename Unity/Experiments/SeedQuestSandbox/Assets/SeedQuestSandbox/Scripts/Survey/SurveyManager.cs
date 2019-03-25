@@ -347,21 +347,25 @@ public class SurveyManager : MonoBehaviour
 
     public void submitButton()
     {
-
         List<string> questions = getQuestionsFromSurvey(data);
         List<string> responses = getAnswersFromSurvey(data);
 
-        int empty = 0;
+        GameObject cardPopup = FindObjectOfType<CardPopupUI>().gameObject;
 
         if (responses.Count == 0)
         {
             Debug.Log("No responses found.");
             // put code here for UI card popup to inform user
         }
-
         else if (responses.Count < questions.Count)
         {
-            
+            // put code here to ask user if they want to submit without answering all the questions    
+            Debug.Log("A");
+        }
+        else
+        {
+            //sendSurveyData();
+            Debug.Log("A");
         }
 
     }
@@ -376,12 +380,9 @@ public class SurveyManager : MonoBehaviour
 
             if (responses.Count < questions.Count)
             {
-                // put code here to ask user if they want to submit without answering all questions
-
+                // If there are empty responses, fill in with "." as dummy data
                 for (int i = responses.Count - 1; i < questions.Count - 1; i++)
-                {
                     responses.Add(".");
-                }
             }
 
             sentDataOnce = true;
