@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using MaterialUI;
@@ -14,6 +15,7 @@ public class SurveyManager : MonoBehaviour
     public GameObject cardTemplateScale;
     public GameObject cardTemplateSubmit;
     //public GameObject CardTemplateRank;
+    public GameObject cardWarningPopup;
     public Button PreviousButton;
     public Button NextButton;
 
@@ -288,7 +290,8 @@ public class SurveyManager : MonoBehaviour
         Button submitButton = submitCard.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<Button>();
         submitButton.onClick.AddListener(delegate
         {
-            sendSurveyData();
+            //sendSurveyData();
+            submitButtonFunc();
         });
 
         PreviousButton.onClick.AddListener(onClickPrevious);
@@ -297,7 +300,7 @@ public class SurveyManager : MonoBehaviour
 
 	void OnApplicationQuit()
     {
-        StartCoroutine("sendSurveyData");
+        //StartCoroutine("sendSurveyData");
     }
    
     public void onClickPrevious()
@@ -345,27 +348,54 @@ public class SurveyManager : MonoBehaviour
     }
 
 
-    public void submitButton()
+    public void submitButtonFunc()
     {
         List<string> questions = getQuestionsFromSurvey(data);
         List<string> responses = getAnswersFromSurvey(data);
+        int counter = 0;
 
-        GameObject cardPopup = FindObjectOfType<CardPopupUI>().gameObject;
+        foreach (string response in responses)
+        {
+            string trimmed = response;
+            if (trimmed != null)
+                trimmed = Regex.Replace(trimmed, @"\s+", "");
 
-        if (responses.Count == 0)
+            if (trimmed == "" || trimmed == null)
+            {
+                counter += 1;
+            }
+        }
+
+        if (counter >= questions.Count)
         {
             Debug.Log("No responses found.");
             // put code here for UI card popup to inform user
+            GameObject cardPopup = Instantiate(cardWarningPopup);
+            cardPopup.SetActive(true);
+
+            CardPopupUI ui = cardPopup.GetComponentInChildren<CardPopupUI>();
+            ui.headerText = "Cannot submit survey";
+            ui.cardText = "You haven't answered any questions yet. Please answer at least one question before submitting your survey.";
+            ui.useButtonOne = false;
+            ui.buttonTwoText = "Return to survey";
         }
-        else if (responses.Count < questions.Count)
+        else if (counter > 0)
         {
-            // put code here to ask user if they want to submit without answering all the questions    
-            Debug.Log("A");
+            Debug.Log("Some questions have not been answered.");
+            // put code here to ask user if they want to submit without answering all the questions   
+            GameObject cardPopup = Instantiate(cardWarningPopup);
+            cardPopup.SetActive(true);
+
+            CardPopupUI ui = cardPopup.GetComponentInChildren<CardPopupUI>();
+            ui.headerText = "Unanswered questions";
+            ui.cardText = "You haven't answered some questions in the survey. Do you want to submit your survey anyways?";
+            ui.buttonOneText = "No";
+            ui.buttonTwoText = "Yes";
         }
         else
         {
+            Debug.Log("All responses recorded! Sending data...");
             //sendSurveyData();
-            Debug.Log("A");
         }
 
     }
