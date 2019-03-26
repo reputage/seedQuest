@@ -25,7 +25,7 @@ public class InteractableTrackerUI : MonoBehaviour
 
     [Header("Near Properties")]
     public float nearDistance = 4;
-    public float nearOpacity = 0.5f;
+    public float nearOpacity = 0.8f;
     public Vector3 nearPositionOffset = new Vector3(0, 5.0f, 0);
 
     [Header("Sandbox Options")]
