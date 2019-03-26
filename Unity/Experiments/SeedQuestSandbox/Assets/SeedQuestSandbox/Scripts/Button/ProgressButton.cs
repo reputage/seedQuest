@@ -10,6 +10,7 @@ public class ProgressButton : MonoBehaviour
     private Image progress;
     private Image checkmark;
     private Animator[] animators;
+    private bool isOnHover = false;
 
     [SerializeField]
     private bool progressComplete;
@@ -18,8 +19,8 @@ public class ProgressButton : MonoBehaviour
     [SerializeField]
     private float progressTime = 0;
     private Action progressCompleteAction;
-    public float maxTime = 2.0f;
 
+    public float maxTime = 2.0f;
     public bool ProgressComplete { get => progressComplete; }
     public Action ProgressCompleteAction { set => progressCompleteAction = value; }
 
@@ -40,6 +41,11 @@ public class ProgressButton : MonoBehaviour
     }
 
     void Update() {
+        if (Cursor.lockState == CursorLockMode.Locked) {
+            OnClickForLockedCursor();
+            OnHoverForLockedCursor();
+        }
+
         if (isActive)
             updateProgress();
     }
@@ -75,13 +81,13 @@ public class ProgressButton : MonoBehaviour
         EventTrigger trigger = GetComponent<EventTrigger>();
         var pointerDown = new EventTrigger.Entry();
         pointerDown.eventID = EventTriggerType.PointerDown;
-        pointerDown.callback.AddListener((e) => startProgress());
+        pointerDown.callback.AddListener((e) => OnPointerDown());
         trigger.triggers.Add(pointerDown);
 
         trigger = GetComponent<EventTrigger>();
         var pointerUp = new EventTrigger.Entry();
         pointerUp.eventID = EventTriggerType.PointerUp;
-        pointerUp.callback.AddListener((e) => checkProgress());
+        pointerUp.callback.AddListener((e) => OnPointerUp());
         trigger.triggers.Add(pointerUp);
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -91,8 +97,16 @@ public class ProgressButton : MonoBehaviour
 
         EventTrigger.Entry exit = new EventTrigger.Entry();
         exit.eventID = EventTriggerType.PointerExit;
-        exit.callback.AddListener((data) => { checkProgress(); OnHoverExit(); });
+        exit.callback.AddListener((data) => { OnHoverExit(); });
         trigger.triggers.Add(exit);
+    }
+
+    private void OnPointerDown() {
+        startProgress();
+    }
+
+    private void OnPointerUp() {
+        checkProgress();
     }
 
     private void OnHoverEnter() {
@@ -100,6 +114,8 @@ public class ProgressButton : MonoBehaviour
     }
 
     private void OnHoverExit() {
+        checkProgress();
+
         if (progressComplete) {
             isActive = true;
             ResetProgress();
@@ -155,5 +171,63 @@ public class ProgressButton : MonoBehaviour
         animators[0].Play("ProgressCompleteAnimation");
         animators[1].Play("CompleteCheckAnimation");
         AudioManager.Play("UI_CheckmarkComplete");
+    }
+
+    public void OnClickForLockedCursor()
+    {
+        if (PauseManager.isPaused == true)
+            return;
+
+        if (Input.GetMouseButtonDown(0)) {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, 100.0f)) {
+                bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
+                if (!hitThis)
+                    return;
+
+                OnPointerDown();
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0)) {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, 100.0f)) {
+                bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
+                if (!hitThis)
+                    return;
+
+                OnPointerUp();
+            }
+        }
+    }
+
+    public void OnHoverForLockedCursor()
+    {
+        if (PauseManager.isPaused == true)
+            return;
+
+        Camera c = Camera.main;
+        RaycastHit hit;
+        Ray ray = c.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 100.0f)) {
+            bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
+            if (hitThis) {
+                if (!isOnHover) {
+                    OnHoverEnter();
+                }
+                isOnHover = true;
+            }
+            else {
+                if (isOnHover) {
+                    OnHoverExit();
+                }
+                isOnHover = false;
+            }
+        }
     }
 }
