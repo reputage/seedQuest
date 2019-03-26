@@ -27,7 +27,7 @@ namespace SeedQuest.Interactables
     {
         private static InteractablePreviewUI instance = null;
 
-        public static InteractablePreviewUI Instance 
+        public static InteractablePreviewUI Instance
         {
             get
             {
@@ -39,9 +39,11 @@ namespace SeedQuest.Interactables
 
         public float previewScale = 1f;
         public InteractablePreviewLocation location = InteractablePreviewLocation.bottomright;
+
+        static public bool Show = true;
         private Observable<InteractablePreviewLocation> locationObservable;
         private Observable<float> scaleObservable;
-        private InteractablePreviewInfo preview = null; 
+        private InteractablePreviewInfo preview = null;
         //private Observer previewObserver = new Observer();
 
         private int depthMax = 10;
@@ -53,25 +55,27 @@ namespace SeedQuest.Interactables
         private List<RectTransform> canvasTransforms;
         private RectTransform imageTransform;
 
-        private void Awake()  {
-            locationObservable = new Observable<InteractablePreviewLocation>( () => location, _ => {location = _;} );
-            scaleObservable = new Observable<float>(() => previewScale, _ => { previewScale = _; } );
+        private void Awake()
+        {
+            locationObservable = new Observable<InteractablePreviewLocation>(() => location, _ => { location = _; });
+            scaleObservable = new Observable<float>(() => previewScale, _ => { previewScale = _; });
 
             SetReferencesFromTags();
             SetLocationTransform();
         }
 
-        private void Update()  {
-            if (GameManager.Mode == GameMode.Recall)
-                gameObject.SetActive(false);
-            else 
-                gameObject.SetActive(true);
-
+        private void Update() {
+            gameObject.SetActive(Show);
             locationObservable.onChange(SetLocationTransform);
             scaleObservable.onChange(SetLocationTransform);
             //previewObserver.onChange(SetPreviewProperties);
             SetPreviewProperties();
-        } 
+        }
+
+        static public void ToggleShow() {
+            Show = !Show;
+            Instance.gameObject.SetActive(Show);
+        }
 
         public static bool IsActive {
             get { return Instance.preview != null; }

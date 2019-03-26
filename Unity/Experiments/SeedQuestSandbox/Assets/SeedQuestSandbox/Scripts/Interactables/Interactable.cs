@@ -102,7 +102,7 @@ namespace SeedQuest.Interactables
             HighlightInteractable(true, true);
             interactableUI.SetActionUI(actionIndex);
 
-            if (GameManager.Mode == GameMode.Sandbox)
+            if (GameManager.Mode == GameMode.Sandbox || GameManager.Mode == GameMode.Recall)
                 InteractablePreviewUI.SetPreviewAction(this.actionIndex);
         }
 
