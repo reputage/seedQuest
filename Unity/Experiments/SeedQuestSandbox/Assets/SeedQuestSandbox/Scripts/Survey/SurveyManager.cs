@@ -142,7 +142,7 @@ public class SurveyManager : MonoBehaviour
                     {
                         image.sprite = data.surveyData[i].sprites[j];
                     }
-                    catch(System.IndexOutOfRangeException e)
+                    catch (System.IndexOutOfRangeException e)
                     {
                         Debug.LogError("Questions and sprites are not equal.");
                     }
@@ -183,7 +183,6 @@ public class SurveyManager : MonoBehaviour
                 xOffset += 4000;
                 Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<Text>();
                 text.text = data.surveyData[i].question;
-
                 text = newCard.transform.GetChild(1).GetChild(0).GetComponent<Text>();
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
                 Slider slider = newCard.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<Slider>();
@@ -191,7 +190,6 @@ public class SurveyManager : MonoBehaviour
                 slider.maxValue = data.surveyData[i].scaleStop;
                 slider.value = data.surveyData[i].scaleDefault;
             }
-
             else
             {
                 int dropdownXOffset = 0;
@@ -203,42 +201,33 @@ public class SurveyManager : MonoBehaviour
                 xOffset += 4000;
                 Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<Text>();
                 text.text = data.surveyData[i].question;
-
                 text = newCard.transform.GetChild(1).GetChild(0).GetComponent<Text>();
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
-
                 TMP_Text number = newCard.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_Text>();
                 TMP_Dropdown dropdown = newCard.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<TMP_Dropdown>();
-
                 List<TMP_Dropdown> dropdownList = new List<TMP_Dropdown>();
                 dropdownList.Add(dropdown);
                 List<TMP_Dropdown.OptionData> optionList = new List<TMP_Dropdown.OptionData>();
-
                 foreach (string rank in data.surveyData[i].ranks)
                 {
                     TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData(rank, null);
                     optionList.Add(option);
-
                     if(optionList.Count > dropdownList.Count)
                     {
-
                         TMP_Text newNumber = Instantiate(number);
                         newNumber.transform.parent = number.transform.parent;
                         newNumber.transform.localPosition = new Vector3(-260, dropdownXOffset, 0);
                         newNumber.transform.localScale = new Vector3(1, 1, 1);
                         newNumber.text = numberText.ToString() + ".";
-
                         TMP_Dropdown newDropdown = Instantiate(dropdown);
                         newDropdown.transform.parent = dropdown.transform.parent;
                         newDropdown.transform.localPosition = new Vector3(32, dropdownXOffset, 0);
                         newDropdown.transform.localScale = new Vector3(1, 1, 1);
                         dropdownList.Add(newDropdown);
-
                         dropdownXOffset -= 80;
                         numberText += 1;
                     }
                 }
-
                 foreach (TMP_Dropdown item in dropdownList)
                 {
                     foreach(TMP_Dropdown.OptionData option in optionList)
@@ -246,8 +235,6 @@ public class SurveyManager : MonoBehaviour
                         item.options.Add(option);
                     }
                 }
-
-
             }*/
 
             GameObject newDot = new GameObject();
@@ -295,11 +282,11 @@ public class SurveyManager : MonoBehaviour
         NextButton.onClick.AddListener(onClickNext);
     }
 
-	void OnApplicationQuit()
+    void OnApplicationQuit()
     {
         StartCoroutine("sendSurveyData");
     }
-   
+
     public void onClickPrevious()
     {
         if (currentCardIndex > 0)

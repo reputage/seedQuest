@@ -52,11 +52,7 @@ public class sqSurveyStarter : MonoBehaviour
     // Send survey data to the server
     public void testRequestData()
     {
-        //string textResponse = "Hello from unity!";
-
-        Debug.Log("Starting Request.");
         StartCoroutine(sqSurveyInterface.testPostRequest());
-        Debug.Log("Request Finished.");
     }
 
     // Send survey data to the server
@@ -65,9 +61,7 @@ public class sqSurveyStarter : MonoBehaviour
         //string textResponse = "Hello from unity!";
         string serverUrl = "http://178.128.0.208:8080/surveys";
 
-        Debug.Log("Starting Request.");
         StartCoroutine(sqSurveyInterface.postRequest(questions, responses, serverUrl));
-        Debug.Log("Request Finished.");
     }
 
     // Get the questions from the scriptable object
@@ -115,5 +109,19 @@ public class sqSurveyStarter : MonoBehaviour
             }
         }
         return responses;
+    }
+
+    public void debugBodyBuilder()
+    {
+        List<string> questions = new List<string>();
+        List<string> responses = new List<string>();
+
+        questions.Add("q1");
+        questions.Add("q2");
+
+        responses.Add("r1");
+        responses.Add("r2");
+
+        string json = sqSurveyInterface.jsonBodyBuilder(questions, responses);
     }
 }
