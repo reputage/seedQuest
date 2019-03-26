@@ -177,8 +177,13 @@ namespace SeedQuest.Interactables
         public void onClickCheck() {
             SetCheckButtonActive(false);
 
-            if (GameManager.Mode == GameMode.Rehearsal)
+            if (GameManager.Mode == GameMode.Rehearsal) {
                 InteractablePath.GoToNextInteractable();
+
+                if (mode == InteractableUIMode.NextPrevSelect) {
+                    actionUI.GetComponentInChildren<ProgressButton>().SetActive(false);
+                } 
+            }
             else if (GameManager.Mode == GameMode.Recall)
                 InteractableLog.Add(parent, parent.ActionIndex);
         }
@@ -320,19 +325,10 @@ namespace SeedQuest.Interactables
         /// <summary> Activates Checkmark Button for use with NextPrevSelect </summary>
         private void SetCheckButtonActive(bool active) {
             if (mode == InteractableUIMode.NextPrevSelect) {
-                checkButton.gameObject.SetActive(active);
-                actionUI.GetComponentInChildren<ProgressButton>().SetActive(active, 3.0f);
+                //checkButton.gameObject.SetActive(active);
+                actionUI.GetComponentInChildren<ProgressButton>().SetShow(active, 3.0f);
                 actionUI.GetComponentInChildren<ProgressButton>().ProgressCompleteAction = onClickCheck;
             }
-        }
-
-        private void SetCheckButtonActive(bool active, float delay) {
-            if (mode == InteractableUIMode.NextPrevSelect) {
-                checkButton.gameObject.SetActive(active);
-                actionUI.GetComponentInChildren<ProgressButton>().SetActive(active, delay);
-                actionUI.GetComponentInChildren<ProgressButton>().ProgressCompleteAction = onClickCheck;
-            }
-
         }
 
         /// <summary> Activates Checkmark on GridSelect and ListSelect Buttons </summary>

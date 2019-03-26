@@ -9,12 +9,15 @@ public class ProgressButton : MonoBehaviour
     private Canvas canvas;
     private Image progress;
     private Image checkmark;
-    private Animator animator;
+    private Animator[] animators;
 
+    [SerializeField]
     private bool progressComplete;
+    [SerializeField]
     private bool isActive;
-    private Action progressCompleteAction;
+    [SerializeField]
     private float progressTime = 0;
+    private Action progressCompleteAction;
     public float maxTime = 2.0f;
 
     public bool ProgressComplete { get => progressComplete; }
@@ -26,11 +29,12 @@ public class ProgressButton : MonoBehaviour
         progressCompleteAction = null;
 
         canvas = GetComponentInChildren<Canvas>();
-        canvas.gameObject.SetActive(false);
         progress = canvas.GetComponentsInChildren<Image>()[1];
         checkmark = canvas.GetComponentsInChildren<Image>()[2];
+        animators = GetComponentsInChildren<Animator>();
+
+        canvas.gameObject.SetActive(false);
         checkmark.gameObject.SetActive(false);
-        animator = checkmark.GetComponent<Animator>();
 
         SetupLabelClickEvents();
     }
@@ -40,30 +44,31 @@ public class ProgressButton : MonoBehaviour
             updateProgress();
     }
 
-    private void Reset() {
-        progressComplete = true;
-        isActive = false;
+    private void ResetProgress() {
+        progressComplete = false;
         progressTime = 0;
-        canvas.gameObject.SetActive(false);
-        checkmark.gameObject.SetActive(false);
+        progress.GetComponent<RectTransform>().offsetMax = new Vector2(-200, 0);
     }
 
-    public void SetActive(bool value, float delay) {
+    public void SetActive(bool value) {
+        canvas.gameObject.SetActive(value);
+        if (!value)
+            ResetProgress();
+    }
+
+    public void SetShow(bool value, float delay) {
         isActive = value;
 
         if(value)  {
-            canvas.gameObject.SetActive(value);
-            progress.GetComponent<RectTransform>().offsetMax = new Vector2(-200, 0);
+            if(!canvas.gameObject.activeSelf)
+                canvas.gameObject.SetActive(true);
+
+            animators[0].Play("ProgressShowAnimation");
+            ResetProgress();
         }
         else {
-            StartCoroutine(ExecuteAfterTime(delay));
+            animators[0].Play("ProgressHideAnimation");
         }
-    }
-
-    IEnumerator ExecuteAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        canvas.gameObject.SetActive(false);
     }
 
     private void SetupLabelClickEvents() {
@@ -79,16 +84,34 @@ public class ProgressButton : MonoBehaviour
         pointerUp.callback.AddListener((e) => checkProgress());
         trigger.triggers.Add(pointerUp);
 
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerEnter;
+        entry.callback.AddListener((data) => { OnHoverEnter(); });
+        trigger.triggers.Add(entry);
+
         EventTrigger.Entry exit = new EventTrigger.Entry();
         exit.eventID = EventTriggerType.PointerExit;
-        exit.callback.AddListener((data) => { checkProgress(); });
+        exit.callback.AddListener((data) => { checkProgress(); OnHoverExit(); });
         trigger.triggers.Add(exit);
+    }
+
+    private void OnHoverEnter() {
+        animators[0].Play("ProgressHoverAnimation");
+    }
+
+    private void OnHoverExit() {
+        if (progressComplete) {
+            isActive = true;
+            ResetProgress();
+        }
+
+        animators[0].Play("ProgressIdleAnimation");
     }
 
     public void startProgress() {
         if (!isActive)
             return;
-
+        
         canvas.gameObject.SetActive(true);
         GameManager.State = GameState.Interact;
 
@@ -129,7 +152,8 @@ public class ProgressButton : MonoBehaviour
     
     private void checkmarkAnimate() {
         checkmark.gameObject.SetActive(true);
-        animator.Play("CompleteCheckAnimation");
+        animators[0].Play("ProgressCompleteAnimation");
+        animators[1].Play("CompleteCheckAnimation");
         AudioManager.Play("UI_CheckmarkComplete");
     }
 }
