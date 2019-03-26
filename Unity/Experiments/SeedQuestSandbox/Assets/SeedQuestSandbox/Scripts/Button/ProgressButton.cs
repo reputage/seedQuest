@@ -29,9 +29,9 @@ public class ProgressButton : MonoBehaviour
         isActive = false;
         progressCompleteAction = null;
 
-        canvas = GetComponentInChildren<Canvas>();
-        progress = canvas.GetComponentsInChildren<Image>()[1];
-        checkmark = canvas.GetComponentsInChildren<Image>()[2];
+        canvas = GetComponentInChildren<Canvas>(true);
+        progress = canvas.GetComponentsInChildren<Image>(true)[1];
+        checkmark = canvas.GetComponentsInChildren<Image>(true)[2];
         animators = GetComponentsInChildren<Animator>();
 
         canvas.gameObject.SetActive(false);
