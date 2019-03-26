@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using MaterialUI;
@@ -15,9 +14,6 @@ public class SurveyManager : MonoBehaviour
     public GameObject cardTemplateScale;
     public GameObject cardTemplateSubmit;
     //public GameObject CardTemplateRank;
-    public GameObject cardWarningPopup;
-    public GameObject cardPopup;
-
     public Button PreviousButton;
     public Button NextButton;
 
@@ -35,8 +31,6 @@ public class SurveyManager : MonoBehaviour
 
     private void Start()
     {
-        cardPopup = Instantiate(cardWarningPopup);
-
         int surveyQuestions = data.surveyData.Count;
         var cardContainerTransform = cardContainer.transform as RectTransform;
         //cardContainerSize = surveyQuestions * 4000f;
@@ -148,7 +142,7 @@ public class SurveyManager : MonoBehaviour
                     {
                         image.sprite = data.surveyData[i].sprites[j];
                     }
-                    catch(System.IndexOutOfRangeException e)
+                    catch (System.IndexOutOfRangeException e)
                     {
                         Debug.LogError("Questions and sprites are not equal.");
                     }
@@ -189,7 +183,6 @@ public class SurveyManager : MonoBehaviour
                 xOffset += 4000;
                 Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<Text>();
                 text.text = data.surveyData[i].question;
-
                 text = newCard.transform.GetChild(1).GetChild(0).GetComponent<Text>();
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
                 Slider slider = newCard.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<Slider>();
@@ -197,7 +190,6 @@ public class SurveyManager : MonoBehaviour
                 slider.maxValue = data.surveyData[i].scaleStop;
                 slider.value = data.surveyData[i].scaleDefault;
             }
-
             else
             {
                 int dropdownXOffset = 0;
@@ -209,42 +201,33 @@ public class SurveyManager : MonoBehaviour
                 xOffset += 4000;
                 Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<Text>();
                 text.text = data.surveyData[i].question;
-
                 text = newCard.transform.GetChild(1).GetChild(0).GetComponent<Text>();
                 text.text = (i + 1).ToString() + "/" + surveyQuestions;
-
                 TMP_Text number = newCard.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_Text>();
                 TMP_Dropdown dropdown = newCard.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<TMP_Dropdown>();
-
                 List<TMP_Dropdown> dropdownList = new List<TMP_Dropdown>();
                 dropdownList.Add(dropdown);
                 List<TMP_Dropdown.OptionData> optionList = new List<TMP_Dropdown.OptionData>();
-
                 foreach (string rank in data.surveyData[i].ranks)
                 {
                     TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData(rank, null);
                     optionList.Add(option);
-
                     if(optionList.Count > dropdownList.Count)
                     {
-
                         TMP_Text newNumber = Instantiate(number);
                         newNumber.transform.parent = number.transform.parent;
                         newNumber.transform.localPosition = new Vector3(-260, dropdownXOffset, 0);
                         newNumber.transform.localScale = new Vector3(1, 1, 1);
                         newNumber.text = numberText.ToString() + ".";
-
                         TMP_Dropdown newDropdown = Instantiate(dropdown);
                         newDropdown.transform.parent = dropdown.transform.parent;
                         newDropdown.transform.localPosition = new Vector3(32, dropdownXOffset, 0);
                         newDropdown.transform.localScale = new Vector3(1, 1, 1);
                         dropdownList.Add(newDropdown);
-
                         dropdownXOffset -= 80;
                         numberText += 1;
                     }
                 }
-
                 foreach (TMP_Dropdown item in dropdownList)
                 {
                     foreach(TMP_Dropdown.OptionData option in optionList)
@@ -252,8 +235,6 @@ public class SurveyManager : MonoBehaviour
                         item.options.Add(option);
                     }
                 }
-
-
             }*/
 
             GameObject newDot = new GameObject();
@@ -294,19 +275,18 @@ public class SurveyManager : MonoBehaviour
         Button submitButton = submitCard.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<Button>();
         submitButton.onClick.AddListener(delegate
         {
-            //sendSurveyData();
-            submitButtonFunc();
+            sendSurveyData();
         });
 
         PreviousButton.onClick.AddListener(onClickPrevious);
         NextButton.onClick.AddListener(onClickNext);
     }
 
-	void OnApplicationQuit()
+    void OnApplicationQuit()
     {
-        //StartCoroutine("sendSurveyData");
+        StartCoroutine("sendSurveyData");
     }
-   
+
     public void onClickPrevious()
     {
         if (currentCardIndex > 0)
@@ -351,85 +331,6 @@ public class SurveyManager : MonoBehaviour
         NextButton.enabled = true;
     }
 
-
-    public void submitButtonFunc()
-    {
-        List<string> questions = getQuestionsFromSurvey(data);
-        List<string> responses = getAnswersFromSurvey(data);
-        int counter = 0;
-
-        foreach (string response in responses)
-        {
-            string trimmed = response;
-            if (trimmed != null)
-                trimmed = Regex.Replace(trimmed, @"\s+", "");
-
-            if (trimmed == "" || trimmed == null)
-            {
-                counter += 1;
-            }
-        }
-
-        if (counter >= questions.Count)
-        {
-            Debug.Log("No responses found.");
-            // put code here for UI card popup to inform user
-            Button[] buttons = cardPopup.GetComponentsInChildren<Button>();
-            cardPopup.SetActive(true);
-
-            buttons[2].onClick.AddListener(delegate
-            {
-                cardPopup.SetActive(false);
-            });
-
-            CardPopupUI ui = cardPopup.GetComponentInChildren<CardPopupUI>();
-            ui.headerText = "Cannot submit survey";
-            ui.cardText = "You haven't answered any questions yet. Please answer at least one question before submitting your survey.";
-            //ui.useButtonOne = false;
-            ui.useButtonTwo = false;
-            ui.buttonOneText = "Return to survey"; // this button should deactivate this card popup
-
-        }
-        else if (counter > 0)
-        {
-            Debug.Log("Some questions have not been answered.");
-            // put code here to ask user if they want to submit without answering all the questions   
-            Button[] buttons = cardPopup.GetComponentsInChildren<Button>();
-            //Button buttonA = Instantiate();
-            cardPopup.SetActive(true);
-
-            buttons[1].onClick.AddListener(delegate
-            {
-                cardPopup.SetActive(false);
-            });
-
-            buttons[2].onClick.AddListener(delegate
-            {
-                sendSurveyData();
-            });
-
-            CardPopupUI ui = cardPopup.GetComponentInChildren<CardPopupUI>();
-            ui.headerText = "Unanswered questions";
-            ui.cardText = "You haven't answered some questions in the survey. Do you want to submit your survey anyways?";
-            //ui.buttonOneText = "No"; // this button should deactivate this card popup
-            //ui.buttonTwoText = "Yes"; // this button should call sendSurveyData() when clicked
-            ui.useButtonOne = false;
-            ui.useButtonTwo = false;
-
-        }
-        else
-        {
-            Debug.Log("All responses recorded! Sending data...");
-            //sendSurveyData();
-        }
-
-    }
-
-    public void deactivateWarning()
-    {
-        cardPopup.SetActive(false);
-    }
-
     // Send the survey data to the server
     public void sendSurveyData()
     {
@@ -440,9 +341,10 @@ public class SurveyManager : MonoBehaviour
 
             if (responses.Count < questions.Count)
             {
-                // If there are empty responses, fill in with "." as dummy data
                 for (int i = responses.Count - 1; i < questions.Count - 1; i++)
+                {
                     responses.Add(".");
+                }
             }
 
             sentDataOnce = true;
