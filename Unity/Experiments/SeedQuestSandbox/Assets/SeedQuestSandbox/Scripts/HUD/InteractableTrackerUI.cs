@@ -30,7 +30,6 @@ public class InteractableTrackerUI : MonoBehaviour
 
     [Header("Sandbox Options")]
     public bool showInSandbox = true;
-    public int showIndex = 0;
 
     private Transform player;
     private new Camera camera;
@@ -56,7 +55,6 @@ public class InteractableTrackerUI : MonoBehaviour
     private float MidScreenY { get => camera.scaledPixelHeight / 2.0f; }
 
     void Start() {
-        showIndex = 0;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         tracker = GetComponentsInChildren<RectTransform>()[1];
@@ -95,10 +93,7 @@ public class InteractableTrackerUI : MonoBehaviour
         if (GameManager.Mode == GameMode.Rehearsal)
             target = InteractablePath.NextInteractable;
         else if (GameManager.Mode == GameMode.Sandbox) {
-            if (showIndex < InteractableManager.InteractableList.Length)
-                target = InteractableManager.InteractableList[showIndex];
-            else
-                target = null;
+            target = InteractableManager.ActiveInteractable;
         }
         else
             target = null;
