@@ -16,6 +16,8 @@ public class SurveyManager : MonoBehaviour
     public GameObject cardTemplateSubmit;
     //public GameObject CardTemplateRank;
     public GameObject cardWarningPopup;
+    public GameObject cardPopup;
+
     public Button PreviousButton;
     public Button NextButton;
 
@@ -33,6 +35,8 @@ public class SurveyManager : MonoBehaviour
 
     private void Start()
     {
+        cardPopup = Instantiate(cardWarningPopup);
+
         int surveyQuestions = data.surveyData.Count;
         var cardContainerTransform = cardContainer.transform as RectTransform;
         //cardContainerSize = surveyQuestions * 4000f;
@@ -370,27 +374,48 @@ public class SurveyManager : MonoBehaviour
         {
             Debug.Log("No responses found.");
             // put code here for UI card popup to inform user
-            GameObject cardPopup = Instantiate(cardWarningPopup);
+            Button[] buttons = cardPopup.GetComponentsInChildren<Button>();
             cardPopup.SetActive(true);
+
+            buttons[2].onClick.AddListener(delegate
+            {
+                cardPopup.SetActive(false);
+            });
 
             CardPopupUI ui = cardPopup.GetComponentInChildren<CardPopupUI>();
             ui.headerText = "Cannot submit survey";
             ui.cardText = "You haven't answered any questions yet. Please answer at least one question before submitting your survey.";
-            ui.useButtonOne = false;
-            ui.buttonTwoText = "Return to survey";
+            //ui.useButtonOne = false;
+            ui.useButtonTwo = false;
+            ui.buttonOneText = "Return to survey"; // this button should deactivate this card popup
+
         }
         else if (counter > 0)
         {
             Debug.Log("Some questions have not been answered.");
             // put code here to ask user if they want to submit without answering all the questions   
-            GameObject cardPopup = Instantiate(cardWarningPopup);
+            Button[] buttons = cardPopup.GetComponentsInChildren<Button>();
+            //Button buttonA = Instantiate();
             cardPopup.SetActive(true);
+
+            buttons[1].onClick.AddListener(delegate
+            {
+                cardPopup.SetActive(false);
+            });
+
+            buttons[2].onClick.AddListener(delegate
+            {
+                sendSurveyData();
+            });
 
             CardPopupUI ui = cardPopup.GetComponentInChildren<CardPopupUI>();
             ui.headerText = "Unanswered questions";
             ui.cardText = "You haven't answered some questions in the survey. Do you want to submit your survey anyways?";
-            ui.buttonOneText = "No";
-            ui.buttonTwoText = "Yes";
+            //ui.buttonOneText = "No"; // this button should deactivate this card popup
+            //ui.buttonTwoText = "Yes"; // this button should call sendSurveyData() when clicked
+            ui.useButtonOne = false;
+            ui.useButtonTwo = false;
+
         }
         else
         {
@@ -398,6 +423,11 @@ public class SurveyManager : MonoBehaviour
             //sendSurveyData();
         }
 
+    }
+
+    public void deactivateWarning()
+    {
+        cardPopup.SetActive(false);
     }
 
     // Send the survey data to the server
