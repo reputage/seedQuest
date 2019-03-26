@@ -81,6 +81,9 @@ namespace SeedQuest.Interactables
         public void SetupLabel() {
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
             textList[0].text = parent.Name;
+
+            labelButton = actionUI.GetComponentInChildren<Button>();
+            labelButton.onClick.AddListener(delegate { onClickLabel(); });
         }
 
         /// <summary> Intialize and Setup Action Buttons </summary>
@@ -146,7 +149,7 @@ namespace SeedQuest.Interactables
         
         /// <summary> Handles Clicking the Label Button </summary>
         public void onClickLabel() {
-            parent.NextAction();
+            //parent.NextAction();
         }
 
         /// <summary> Handles Clicking an Action Button </summary>
@@ -174,8 +177,13 @@ namespace SeedQuest.Interactables
         public void onClickCheck() {
             SetCheckButtonActive(false);
 
-            if (GameManager.Mode == GameMode.Rehearsal)
+            if (GameManager.Mode == GameMode.Rehearsal) {
                 InteractablePath.GoToNextInteractable();
+
+                if (mode == InteractableUIMode.NextPrevSelect) {
+                    actionUI.GetComponentInChildren<ProgressButton>().SetActive(false);
+                } 
+            }
             else if (GameManager.Mode == GameMode.Recall)
                 InteractableLog.Add(parent, parent.ActionIndex);
         }
@@ -316,8 +324,11 @@ namespace SeedQuest.Interactables
 
         /// <summary> Activates Checkmark Button for use with NextPrevSelect </summary>
         private void SetCheckButtonActive(bool active) {
-            if (mode == InteractableUIMode.NextPrevSelect)
-                checkButton.gameObject.SetActive(active);
+            if (mode == InteractableUIMode.NextPrevSelect) {
+                //checkButton.gameObject.SetActive(active);
+                actionUI.GetComponentInChildren<ProgressButton>().SetShow(active, 3.0f);
+                actionUI.GetComponentInChildren<ProgressButton>().ProgressCompleteAction = onClickCheck;
+            }
         }
 
         /// <summary> Activates Checkmark on GridSelect and ListSelect Buttons </summary>
