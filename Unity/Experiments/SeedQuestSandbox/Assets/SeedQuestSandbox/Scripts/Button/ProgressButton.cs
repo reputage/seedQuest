@@ -101,14 +101,18 @@ public class ProgressButton : MonoBehaviour
         checkProgress();
     }
 
-    private void OnHoverEnter() {
-        animators[0].Play("ProgressHoverAnimation");
+    private void OnHoverEnter(){
+        if (isActive)
+            animators[0].Play("ProgressHoverAnimation");
     }
 
-    private void OnHoverExit() {
+    private void OnHoverExit(){
+        if (!isActive)
+            return;
+
         checkProgress();
 
-        if (progressComplete) {
+        if (progressComplete){
             isActive = true;
             ResetProgress();
         }
