@@ -9,6 +9,10 @@ public class EndGameUI : MonoBehaviour {
     static private EndGameUI setInstance() { instance = HUDManager.Instance.GetComponentInChildren<EndGameUI>(true); return instance; }
     static public EndGameUI Instance { get { return instance == null ? setInstance() : instance; } }
 
+    public string PrototypeSelectScene = "PrototypeSelect";
+    public string RehearsalScene = "PrototypeSelect";
+    public string RecallScene = "PrototypeSelect";
+
     /// <summary> Toggles On the EndGameUI </summary>
     static public void ToggleOn() {
         if (Instance.gameObject.activeSelf)
@@ -28,7 +32,7 @@ public class EndGameUI : MonoBehaviour {
     public void PrototypeSelect() {
         InteractablePathManager.InitalizePathAndLog();
         InteractableManager.destroyInteractables();
-        SceneManager.LoadScene("PrototypeSelect");
+        SceneManager.LoadScene(PrototypeSelectScene);
     }
 
     /// <summary> Handles selecting Recall Button </summary>
@@ -38,9 +42,7 @@ public class EndGameUI : MonoBehaviour {
 
         InteractablePathManager.InitalizePathAndLog();
         InteractableManager.destroyInteractables();
-
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene(RecallScene);
     }
 
     /// <summary> Handles selecting Rehearsal Button </summary>
@@ -50,8 +52,6 @@ public class EndGameUI : MonoBehaviour {
 
         InteractablePathManager.InitalizePathAndLog();
         InteractableManager.destroyInteractables();
-        
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene(RehearsalScene);
     }
 }
