@@ -169,8 +169,24 @@ namespace SeedQuest.Interactables
 
                     if (hitThisInteractable)
                     {
-                        NextAction();
+                        interactableUI.StartProgress();
                     }
+                }
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out hit, 100.0f))
+                {
+                    bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
+                    if (!hitThis)
+                        return;
+
+                    interactableUI.CheckProgress();
+                    NextAction();
                 }
             }
         }

@@ -21,6 +21,7 @@ public class ProgressButton : MonoBehaviour
     public float maxTime = 2.0f;
     public bool ProgressComplete { get => progressComplete; }
     public Action ProgressCompleteAction { set => progressCompleteAction = value; }
+    public bool IsActive { get => isActive; }
 
     void Start() {
         progressComplete = false;
@@ -142,7 +143,7 @@ public class ProgressButton : MonoBehaviour
         }
     }
 
-    private void checkProgress() {
+    public void checkProgress() {
         if (!isActive)
             return;
 
