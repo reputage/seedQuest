@@ -29,12 +29,22 @@ namespace SeedQuest.Interactables
             //InitalizeLookUp();
         }
 
+        private void Update() {
+            ListenForKey();
+        }
+
+        private void ListenForKey() {
+            if (InputManager.GetKeyDown(KeyCode.P)) {
+                InteractablePreviewUI.ToggleShow();
+            }
+        }
+
         static public void SetActiveInteractable(Interactable interactable)
         {
             Instance.activeInteractable = interactable;
             interactable.HighlightInteractable(true);
 
-            if (GameManager.Mode == GameMode.Sandbox && interactable != null)
+            if ((GameManager.Mode == GameMode.Sandbox || GameManager.Mode == GameMode.Recall) && interactable != null)
                 InteractablePreviewUI.SetPreviewObject(interactable); 
         }
 
