@@ -58,6 +58,11 @@ namespace SeedQuest.Level
         }
 
         public void Start() {
+            if (GameManager.Mode == GameMode.Rehearsal || GameManager.Mode == GameMode.Sandbox)
+                InteractablePreviewUI.Show = true;
+            else
+                InteractablePreviewUI.Show = false;
+
             if (InteractableManager.InteractableList.Length == 0)
                 return;
 
