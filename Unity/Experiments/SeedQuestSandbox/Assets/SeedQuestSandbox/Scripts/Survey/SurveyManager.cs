@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using MaterialUI;
 using TMPro;
+using System.Text.RegularExpressions;
 
 public class SurveyManager : MonoBehaviour
 {
