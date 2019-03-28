@@ -20,6 +20,7 @@ public class HUDManager : MonoBehaviour {
     public HUDItemProps useESCMenu;
     public HUDItemProps useLevelClear;
     public HUDItemProps useLevelName;
+    public HUDItemProps useLoadingScreen;
     public HUDItemProps useProgressTracker;
     public HUDItemProps useCLI;
     public HUDItemProps useTutorial;
@@ -57,6 +58,7 @@ public class HUDManager : MonoBehaviour {
         InstantiateHUDElement<InteractableTrackerUI>(useInteractableTracker);
         InstantiateHUDElement<LevelClearUI>(useLevelClear);
         InstantiateHUDElement<LevelNameUI>(useLevelName);
+        InstantiateHUDElement<LoadingScreenUI>(useLoadingScreen);
         InstantiateHUDElement<ProgressTrackerUI>(useProgressTracker);
         InstantiateHUDElement<TutorialManager>(useTutorial);
         InstantiateHUDElement<UndoUI>(useUndo);
@@ -72,6 +74,7 @@ public class HUDManager : MonoBehaviour {
         DestroyHUDElement<InteractableTrackerUI>(useInteractableTracker);
         DestroyHUDElement<LevelClearUI>(useLevelClear);
         DestroyHUDElement<LevelNameUI>(useLevelName);
+        DestroyHUDElement<LoadingScreenUI>(useLoadingScreen);
         DestroyHUDElement<ProgressTrackerUI>(useProgressTracker);
         DestroyHUDElement<TutorialManager>(useTutorial);
         DestroyHUDElement<UndoUI>(useUndo);
