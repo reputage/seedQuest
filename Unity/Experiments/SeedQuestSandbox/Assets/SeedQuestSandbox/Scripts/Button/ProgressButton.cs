@@ -18,7 +18,7 @@ public class ProgressButton : MonoBehaviour
     private float progressTime = 0;
     private Action progressCompleteAction;
 
-    public float maxTime = 2.0f;
+    public float maxTime = 1.0f;
     public bool ProgressComplete { get => progressComplete; }
     public Action ProgressCompleteAction { set => progressCompleteAction = value; }
     public bool IsActive { get => isActive; }

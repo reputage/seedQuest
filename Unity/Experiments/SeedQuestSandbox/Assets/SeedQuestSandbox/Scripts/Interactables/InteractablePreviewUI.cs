@@ -40,7 +40,7 @@ namespace SeedQuest.Interactables
         public float previewScale = 1f;
         public InteractablePreviewLocation location = InteractablePreviewLocation.bottomright;
 
-        static public bool Show = true;
+        static public bool Show = false;
         private Observable<InteractablePreviewLocation> locationObservable;
         private Observable<float> scaleObservable;
         private InteractablePreviewInfo preview = null;
@@ -57,6 +57,9 @@ namespace SeedQuest.Interactables
 
         private void Awake()
         {
+            if (GameManager.Mode == GameMode.Rehearsal)
+                Show = true;
+
             locationObservable = new Observable<InteractablePreviewLocation>(() => location, _ => { location = _; });
             scaleObservable = new Observable<float>(() => previewScale, _ => { previewScale = _; });
 

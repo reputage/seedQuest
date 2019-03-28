@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,7 +40,16 @@ public class HUDManager : MonoBehaviour {
     public void InstantiateHUDElement<T>(HUDItemProps props) {
         if(props.use && props.prefab != null && GetComponentInChildren<T>(true) == null) {
             var gameobj = Instantiate(props.prefab, transform);
-            //gameobj.name.Replace("(Clone)", "");            
+        }
+    }
+
+    static public void InstantiateHUDElement<T>() {
+        if (Instance == null)
+            return;
+
+        HUDItemProps props = Instance.GetProps<T>();
+        if (props.prefab != null && Instance.GetComponentInChildren<T>(true) == null) {
+            var gameobj = Instantiate(props.prefab, Instance.transform);
         }
     }
 
@@ -78,5 +88,23 @@ public class HUDManager : MonoBehaviour {
         DestroyHUDElement<ProgressTrackerUI>(useProgressTracker);
         DestroyHUDElement<TutorialManager>(useTutorial);
         DestroyHUDElement<UndoUI>(useUndo);
+    }
+
+    public HUDItemProps GetProps<T>() {
+        Type listType = typeof(T);
+        if (listType == typeof(CommandLineInputUI)) { return useCLI; }
+        else if (listType == typeof(CursorUI)) { return useCursor; }
+        else if (listType == typeof(EndGameUI)) { return useEndGame; }
+        else if (listType == typeof(ESCMenuUI)) { return useESCMenu; }
+        else if (listType == typeof(HomeSelectUI)) { return useHomeSelect; }
+        else if (listType == typeof(InteractablePreviewUI)) { return useInteractablePreview; }
+        else if (listType == typeof(InteractableTrackerUI)) { return useInteractableTracker; }
+        else if (listType == typeof(LevelClearUI)) { return useLevelClear; }
+        else if (listType == typeof(LevelNameUI)) { return useLevelName; }
+        else if (listType == typeof(LoadingScreenUI)) { return useLoadingScreen; }
+        else if (listType == typeof(ProgressTrackerUI)) { return useProgressTracker; }
+        else if (listType == typeof(TutorialManager)) { return useTutorial; }
+        else if (listType == typeof(UndoUI)) { return useUndo; }
+        return null;
     }
 }

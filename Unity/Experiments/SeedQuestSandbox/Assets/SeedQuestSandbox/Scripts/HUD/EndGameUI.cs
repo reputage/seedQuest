@@ -35,23 +35,14 @@ public class EndGameUI : MonoBehaviour {
         SceneManager.LoadScene(PrototypeSelectScene);
     }
 
-    /// <summary> Handles selecting Recall Button </summary>
-    public void Recall() {
-        GameManager.Mode = GameMode.Recall;
-        GameManager.State = GameState.Play;
-
-        InteractablePathManager.InitalizePathAndLog();
-        InteractableManager.destroyInteractables();
-        SceneManager.LoadScene(RecallScene);
-    }
-
     /// <summary> Handles selecting Rehearsal Button </summary>
     public void Rehearsal() {
-        GameManager.Mode = GameMode.Rehearsal;
-        GameManager.State = GameState.Play;
-
-        InteractablePathManager.InitalizePathAndLog();
-        InteractableManager.destroyInteractables();
-        SceneManager.LoadScene(RehearsalScene);
+        LoadingScreenUI.LoadRehearsal(RehearsalScene);
     }
+
+    /// <summary> Handles selecting Recall Button </summary>
+    public void Recall() {
+        LoadingScreenUI.LoadRecall(RecallScene);
+    }
+
 }
