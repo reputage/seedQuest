@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -116,6 +117,20 @@ public class DemoSelectUI : MonoBehaviour {
         return valid;
     }
 
+    IEnumerator LoadAsync(string sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            if(LoadingScreenUI.Instance != null)
+                LoadingScreenUI.LoadProgress = progress;
+            Debug.Log(progress);
+            yield return null;
+        }
+    }
+
     public void StartDemoWithRehearsalMode()
     {
         if (!CheckValidSeed())
@@ -125,7 +140,8 @@ public class DemoSelectUI : MonoBehaviour {
 
         GameManager.Mode = GameMode.Rehearsal;
         string sceneName = selectedDemo.sceneName;
-        SceneManager.LoadScene(sceneName);
+        //SceneManager.LoadScene(sceneName);
+        StartCoroutine(LoadAsync(sceneName));
     }
 
     public void StartDemoWithRecallMode()
@@ -137,8 +153,9 @@ public class DemoSelectUI : MonoBehaviour {
 
         GameManager.Mode = GameMode.Recall;
         string sceneName = selectedDemo.sceneName;
-        SceneManager.LoadScene(sceneName);
-    }
+        //SceneManager.LoadScene(sceneName);
+        StartCoroutine(LoadAsync(sceneName));
+    } 
 
     private Button createLevelButton(DemoInfo info, Transform parent, Vector3 position)
     {
