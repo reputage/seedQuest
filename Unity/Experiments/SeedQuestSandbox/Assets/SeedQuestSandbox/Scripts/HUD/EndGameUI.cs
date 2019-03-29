@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 
 using SeedQuest.Interactables;
+using SeedQuest.SeedEncoder;
 
 public class EndGameUI : MonoBehaviour {
 
@@ -20,7 +21,8 @@ public class EndGameUI : MonoBehaviour {
         
         Instance.gameObject.SetActive(true);
         var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        textList[0].text = InteractablePathManager.SeedString;
+        SeedConverter converter = new SeedConverter();
+        textList[0].text = converter.DecodeSeed();
 
         if (GameManager.Mode == GameMode.Rehearsal)
             textList[1].text = "Rehearsal Complete! \n Need more practice? Select Rehearsal mode. \n Ready to go? Select Recall";

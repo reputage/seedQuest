@@ -105,7 +105,7 @@ public class DemoSelectUI : MonoBehaviour {
     }
 
     public bool CheckValidSeed() {
-        bool valid = seedInputField.text.Length == 10 && SeedQuest.Utils.StringUtils.CheckIfValidHex(seedInputField.text);
+        bool valid = seedInputField.text.Length == 8 && SeedQuest.Utils.StringUtils.CheckIfValidHex(seedInputField.text);
         if (!valid)
             GetComponentInChildren<CardPopupUI>(true).toggleShow();
 

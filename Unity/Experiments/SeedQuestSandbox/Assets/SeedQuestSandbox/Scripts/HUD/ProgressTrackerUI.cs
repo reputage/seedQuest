@@ -86,11 +86,10 @@ public class ProgressTrackerUI : MonoBehaviour
         }
     }
 
-    private void SetProgressText()
-    {
+    private void SetProgressText() {
         SeedConverter converter = new SeedConverter();
         string SeedString = converter.DecodeSeed();
-        int length = Mathf.RoundToInt(10.0f / (float)InteractableConfig.ActionsPerGame * (float)InteractableLog.Log.Count);
+        int length = Mathf.RoundToInt(8.0f / (float)InteractableConfig.ActionsPerGame * (float)InteractableLog.Log.Count);
         progressText.text = SeedString.Substring(0, length);
         progressPartialIcon.GetComponent<RectTransform>().localPosition = new Vector3(length * 22 - 80, 0, 0);
     }
@@ -114,6 +113,6 @@ public class ProgressTrackerUI : MonoBehaviour
     }
 
     private void SetProgressMessage() {
-        progressMessageText.text = "You have completed " + InteractableLog.Count.ToString() + " of 8 actions";
+        progressMessageText.text = "You have completed " + InteractableLog.Count.ToString() + " of " +  InteractableConfig.ActionsPerGame + " actions";
     }
 }

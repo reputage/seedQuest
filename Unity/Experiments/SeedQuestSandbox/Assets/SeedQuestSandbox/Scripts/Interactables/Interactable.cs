@@ -184,8 +184,11 @@ namespace SeedQuest.Interactables
                     bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
                     if (!hitThis)
                         return;
-
+                    
+                    //int tmp = InteractableLog.Count;
                     interactableUI.CheckProgress();
+
+                    //if(tmp == InteractableLog.Count)
                     NextAction();
                 }
             }
