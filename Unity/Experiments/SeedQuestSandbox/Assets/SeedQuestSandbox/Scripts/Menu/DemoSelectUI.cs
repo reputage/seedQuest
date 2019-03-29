@@ -37,7 +37,7 @@ public class DemoSelectUI : MonoBehaviour {
 
         seedInputField = GetComponentInChildren<TMP_InputField>();
         seedInputField.text = InteractablePathManager.SeedString;
-        seedInputField.characterLimit = 10;
+        seedInputField.characterLimit = InteractableConfig.SeedHexLength; 
 
         GameObject sideNav = GameObject.FindGameObjectWithTag("SideNav");
 
@@ -105,7 +105,7 @@ public class DemoSelectUI : MonoBehaviour {
     }
 
     public bool CheckValidSeed() {
-        bool valid = seedInputField.text.Length == 8 && SeedQuest.Utils.StringUtils.CheckIfValidHex(seedInputField.text);
+        bool valid = seedInputField.text.Length == InteractableConfig.SeedHexLength && SeedQuest.Utils.StringUtils.CheckIfValidHex(seedInputField.text);
         if (!valid)
             GetComponentInChildren<CardPopupUI>(true).toggleShow();
 

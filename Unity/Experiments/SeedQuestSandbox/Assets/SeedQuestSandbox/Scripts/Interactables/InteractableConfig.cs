@@ -36,5 +36,11 @@ namespace SeedQuest.Interactables
 
         /// <summary> Nubmer of Actions per Game </summary>
         static public float ActionsPerGame { get { return ActionsPerSite * SitesPerGame; } }
+
+        static public int BitEncodingCount { get => (SiteBits + (InteractableBits + ActionBits) * ActionsPerSite) * SitesPerGame; } 
+
+        static public float SeedHexSize { get => BitEncodingCount / 4.0f; } 
+
+        static public int SeedHexLength { get => Mathf.CeilToInt(BitEncodingCount / 4.0f); }
     }
 }
