@@ -347,6 +347,16 @@ namespace SeedQuest.Interactables
             }
         }
 
+        public float ProgressTime {
+            get {
+                if (mode == InteractableUIMode.NextPrevSelect) {
+                    return actionUI.GetComponentInChildren<ProgressButton>().ProgressTime;
+                }
+                else
+                    return 0;
+            }
+        }
+
         public bool ProgressComplete { 
             get {
                 if (mode == InteractableUIMode.NextPrevSelect)

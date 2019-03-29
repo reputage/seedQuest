@@ -155,6 +155,7 @@ namespace SeedQuest.Interactables
             }
         }
 
+        int mouseDownICount = 0;
         public void ClickOnInteractable() {
             if (PauseManager.isPaused == true)
                 return;
@@ -163,13 +164,12 @@ namespace SeedQuest.Interactables
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out hit, 100.0f))
-                {
+                if (Physics.Raycast(ray, out hit, 100.0f)) {
                     bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
 
-                    if (hitThisInteractable)
-                    {
+                    if (hitThisInteractable) {
                         interactableUI.StartProgress();
+                        mouseDownICount = InteractableLog.Count;
                     }
                 }
             }
@@ -184,12 +184,12 @@ namespace SeedQuest.Interactables
                     bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
                     if (!hitThis)
                         return;
-                    
-                    //int tmp = InteractableLog.Count;
+
+                    bool progressIsSmall = interactableUI.ProgressTime < 0.25f;
                     interactableUI.CheckProgress();
 
-                    //if(tmp == InteractableLog.Count)
-                    NextAction();
+                    if(mouseDownICount == InteractableLog.Count && progressIsSmall)
+                        NextAction();
                 }
             }
         }
