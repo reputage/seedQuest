@@ -36,6 +36,7 @@ public class SurveyManager : MonoBehaviour
     private void Start()
     {
         Button[] buttons = cardWarningPopup.GetComponentsInChildren<Button>();
+        warningSubmit = buttons[0].gameObject;
         buttons[0].onClick.AddListener(sendSurveyData);
         buttons[1].onClick.AddListener(deactivateWarning);
 
@@ -283,7 +284,7 @@ public class SurveyManager : MonoBehaviour
         Button submitButton = submitCard.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<Button>();
         submitButton.onClick.AddListener(delegate
         {
-            sendSurveyData();
+            submitButtonFunc();
         });
 
         PreviousButton.onClick.AddListener(onClickPrevious);
@@ -292,7 +293,7 @@ public class SurveyManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        StartCoroutine("sendSurveyData");
+        //StartCoroutine("sendSurveyData");
     }
 
     public void onClickPrevious()
