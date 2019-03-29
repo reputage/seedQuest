@@ -6,9 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ProgressButton : MonoBehaviour
 {
-    private Canvas canvas;
     private Image progress;
-    private Image checkmark;
     private Animator[] animators;
     private bool isOnHover = false;
 
@@ -20,22 +18,22 @@ public class ProgressButton : MonoBehaviour
     private float progressTime = 0;
     private Action progressCompleteAction;
 
-    public float maxTime = 2.0f;
+    public float maxTime = 1.0f;
+
     public bool ProgressComplete { get => progressComplete; }
+    public float ProgressTime { get => progressTime; }
     public Action ProgressCompleteAction { set => progressCompleteAction = value; }
+    public bool IsActive { get => isActive; }
 
     void Start() {
         progressComplete = false;
         isActive = false;
         progressCompleteAction = null;
 
-        canvas = GetComponentInChildren<Canvas>(true);
+        Canvas canvas = GetComponentInChildren<Canvas>(true);
         progress = canvas.GetComponentsInChildren<Image>(true)[1];
-        checkmark = canvas.GetComponentsInChildren<Image>(true)[2];
         animators = GetComponentsInChildren<Animator>();
-
-        canvas.gameObject.SetActive(false);
-        checkmark.gameObject.SetActive(false);
+        animators[0].Play("ProgressOffAnimation");
 
         SetupLabelClickEvents();
     }
@@ -57,24 +55,21 @@ public class ProgressButton : MonoBehaviour
     }
 
     public void SetActive(bool value) {
-        canvas.gameObject.SetActive(value);
         if (!value)
             ResetProgress();
     }
 
     public void SetShow(bool value, float delay) {
-        isActive = value;
 
         if(value)  {
-            if(!canvas.gameObject.activeSelf)
-                canvas.gameObject.SetActive(true);
-
             animators[0].Play("ProgressShowAnimation");
             ResetProgress();
         }
-        else {
-            animators[0].Play("ProgressHideAnimation");
+        else if(isActive) { 
+                animators[0].Play("ProgressHideAnimation");
         }
+
+        isActive = value;
     }
 
     private void SetupLabelClickEvents() {
@@ -109,14 +104,18 @@ public class ProgressButton : MonoBehaviour
         checkProgress();
     }
 
-    private void OnHoverEnter() {
-        animators[0].Play("ProgressHoverAnimation");
+    private void OnHoverEnter(){
+        if (isActive)
+            animators[0].Play("ProgressHoverAnimation");
     }
 
-    private void OnHoverExit() {
+    private void OnHoverExit(){
+        if (!isActive)
+            return;
+
         checkProgress();
 
-        if (progressComplete) {
+        if (progressComplete){
             isActive = true;
             ResetProgress();
         }
@@ -128,7 +127,6 @@ public class ProgressButton : MonoBehaviour
         if (!isActive)
             return;
         
-        canvas.gameObject.SetActive(true);
         GameManager.State = GameState.Interact;
 
         progressTime += Time.deltaTime;
@@ -147,7 +145,7 @@ public class ProgressButton : MonoBehaviour
         }
     }
 
-    private void checkProgress() {
+    public void checkProgress() {
         if (!isActive)
             return;
 
@@ -167,7 +165,6 @@ public class ProgressButton : MonoBehaviour
     }
     
     private void checkmarkAnimate() {
-        checkmark.gameObject.SetActive(true);
         animators[0].Play("ProgressCompleteAnimation");
         animators[1].Play("CompleteCheckAnimation");
         AudioManager.Play("UI_CheckmarkComplete");

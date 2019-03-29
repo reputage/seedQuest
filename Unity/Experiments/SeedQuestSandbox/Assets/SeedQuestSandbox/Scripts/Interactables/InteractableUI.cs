@@ -331,6 +331,41 @@ namespace SeedQuest.Interactables
             }
         }
 
+        public void StartProgress() {
+            if (mode == InteractableUIMode.NextPrevSelect) {
+                if(actionUI.GetComponentInChildren<ProgressButton>().IsActive) {
+                    actionUI.GetComponentInChildren<ProgressButton>().startProgress();
+                }
+            }
+        }
+
+        public void CheckProgress() {
+            if (mode == InteractableUIMode.NextPrevSelect)  {
+                if (actionUI.GetComponentInChildren<ProgressButton>().IsActive) {
+                    actionUI.GetComponentInChildren<ProgressButton>().checkProgress();
+                }
+            }
+        }
+
+        public float ProgressTime {
+            get {
+                if (mode == InteractableUIMode.NextPrevSelect) {
+                    return actionUI.GetComponentInChildren<ProgressButton>().ProgressTime;
+                }
+                else
+                    return 0;
+            }
+        }
+
+        public bool ProgressComplete { 
+            get {
+                if (mode == InteractableUIMode.NextPrevSelect)
+                    return actionUI.GetComponentInChildren<ProgressButton>().ProgressComplete;
+                else
+                    return false;
+            }
+        }
+
         /// <summary> Activates Checkmark on GridSelect and ListSelect Buttons </summary>
         private void SetCheckImageActive() {
             if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect || mode == InteractableUIMode.Dialogue) {

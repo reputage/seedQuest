@@ -2,12 +2,17 @@
 using UnityEngine.SceneManagement;
 
 using SeedQuest.Interactables;
+using SeedQuest.SeedEncoder;
 
 public class EndGameUI : MonoBehaviour {
 
     static private EndGameUI instance = null;
     static private EndGameUI setInstance() { instance = HUDManager.Instance.GetComponentInChildren<EndGameUI>(true); return instance; }
     static public EndGameUI Instance { get { return instance == null ? setInstance() : instance; } }
+
+    public string PrototypeSelectScene = "PrototypeSelect";
+    public string RehearsalScene = "PrototypeSelect";
+    public string RecallScene = "PrototypeSelect";
 
     /// <summary> Toggles On the EndGameUI </summary>
     static public void ToggleOn() {
@@ -16,7 +21,8 @@ public class EndGameUI : MonoBehaviour {
         
         Instance.gameObject.SetActive(true);
         var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        textList[0].text = InteractablePathManager.SeedString;
+        SeedConverter converter = new SeedConverter();
+        textList[0].text = converter.DecodeSeed();
 
         if (GameManager.Mode == GameMode.Rehearsal)
             textList[1].text = "Rehearsal Complete! \n Need more practice? Select Rehearsal mode. \n Ready to go? Select Recall";
@@ -28,30 +34,17 @@ public class EndGameUI : MonoBehaviour {
     public void PrototypeSelect() {
         InteractablePathManager.InitalizePathAndLog();
         InteractableManager.destroyInteractables();
-        SceneManager.LoadScene("PrototypeSelect");
-    }
-
-    /// <summary> Handles selecting Recall Button </summary>
-    public void Recall() {
-        GameManager.Mode = GameMode.Recall;
-        GameManager.State = GameState.Play;
-
-        InteractablePathManager.InitalizePathAndLog();
-        InteractableManager.destroyInteractables();
-
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene(PrototypeSelectScene);
     }
 
     /// <summary> Handles selecting Rehearsal Button </summary>
     public void Rehearsal() {
-        GameManager.Mode = GameMode.Rehearsal;
-        GameManager.State = GameState.Play;
-
-        InteractablePathManager.InitalizePathAndLog();
-        InteractableManager.destroyInteractables();
-        
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        LoadingScreenUI.LoadRehearsal(RehearsalScene);
     }
+
+    /// <summary> Handles selecting Recall Button </summary>
+    public void Recall() {
+        LoadingScreenUI.LoadRecall(RecallScene);
+    }
+
 }
