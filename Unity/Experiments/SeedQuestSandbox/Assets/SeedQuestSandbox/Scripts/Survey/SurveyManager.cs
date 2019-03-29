@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using MaterialUI;
 using TMPro;
+using System.Text.RegularExpressions;
 
 public class SurveyManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class SurveyManager : MonoBehaviour
     public GameObject cardTemplateScale;
     public GameObject cardTemplateSubmit;
     //public GameObject CardTemplateRank;
+    public GameObject cardWarningPopup;
+    public GameObject warningSubmit;
+
     public Button PreviousButton;
     public Button NextButton;
 
@@ -31,6 +35,10 @@ public class SurveyManager : MonoBehaviour
 
     private void Start()
     {
+        Button[] buttons = cardWarningPopup.GetComponentsInChildren<Button>();
+        buttons[0].onClick.AddListener(sendSurveyData);
+        buttons[1].onClick.AddListener(deactivateWarning);
+
         int surveyQuestions = data.surveyData.Count;
         var cardContainerTransform = cardContainer.transform as RectTransform;
         //cardContainerSize = surveyQuestions * 4000f;
@@ -329,6 +337,61 @@ public class SurveyManager : MonoBehaviour
         objectToMove.transform.position = end;
         PreviousButton.enabled = true;
         NextButton.enabled = true;
+    }
+
+
+    public void submitButtonFunc()
+    {
+        List<string> questions = getQuestionsFromSurvey(data);
+        List<string> responses = getAnswersFromSurvey(data);
+        Text[] texts = cardWarningPopup.GetComponentsInChildren<Text>();
+        Button[] buttons = cardWarningPopup.GetComponentsInChildren<Button>();
+
+        int counter = 0;
+
+        foreach (string response in responses)
+        {
+            string trimmed = response;
+            if (trimmed != null)
+                trimmed = Regex.Replace(trimmed, "\\s+", "");
+
+            if (trimmed == "" || trimmed == null)
+            {
+                counter += 1;
+            }
+            else
+            {
+                Debug.Log("Question with a non-empty non-null response: " + response + " t " + trimmed);
+            }
+        }
+
+        if (counter >= questions.Count)
+        {
+            Debug.Log("No responses found.");
+            texts[0].text = "You have not answered any questions in the survey. Please answer at least one question.";
+            cardWarningPopup.SetActive(true);
+            warningSubmit.SetActive(false);
+        }
+        else if (counter > 0)
+        {
+            int dis = questions.Count - counter;
+            Debug.Log("Some questions have not been answered." + dis);
+            texts[0].text = "Some questions have not been answered. Submit survey responses anyways?";
+            cardWarningPopup.SetActive(true);
+            warningSubmit.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("All responses recorded! Sending data...");
+            sendSurveyData();
+        }
+
+    }
+
+    public void deactivateWarning()
+    {
+        Debug.Log("Deactivating warning popup");
+        cardWarningPopup.SetActive(false);
     }
 
     // Send the survey data to the server

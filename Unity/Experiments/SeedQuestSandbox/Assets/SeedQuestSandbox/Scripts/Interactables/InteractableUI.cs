@@ -397,18 +397,18 @@ namespace SeedQuest.Interactables
 
         public Bounds actionUiBox()
         {
-            if (actionUI.GetComponent<Collider>() != null)
-                return actionUI.GetComponent<Collider>().bounds;
-            else if (actionUI.GetComponent<Mesh>() != null)
-                return actionUI.GetComponent<Mesh>().bounds;
-            else if (actionUI.GetComponent<Renderer>() != null)
-                return actionUI.GetComponent<Renderer>().bounds;
-
-            else
+            if (actionUI != null)
             {
-                Bounds returnBounds = new Bounds(new Vector3(-997, -997, -997), new Vector3(0,0,0));
-                return returnBounds;
+                if (actionUI.GetComponent<Collider>() != null)
+                    return actionUI.GetComponent<Collider>().bounds;
+                else if (actionUI.GetComponent<Mesh>() != null)
+                    return actionUI.GetComponent<Mesh>().bounds;
+                else if (actionUI.GetComponent<Renderer>() != null)
+                    return actionUI.GetComponent<Renderer>().bounds;
             }
+            Debug.Log("Action UI is null or has some other issue");
+            Bounds returnBounds = new Bounds(new Vector3(-997, -997, -997), new Vector3(0,0,0));
+            return returnBounds;
         }
 
     }

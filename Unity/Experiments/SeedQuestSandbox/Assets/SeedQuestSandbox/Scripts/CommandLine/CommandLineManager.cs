@@ -288,27 +288,50 @@ public static class CommandLineManager
     public static string findUiErrors(string input)
     {
         string returnStr = "Errors found for these interactables:";
+        int lacksCollider = 0;
 
         foreach (Interactable item in InteractableManager.InteractableList)
         {
-            BoxCollider box = item.GetComponent<BoxCollider>();
-            if (box != null && item.interactableUI.actionUiBox().center != new Vector3(-997,-997,-997))
+            BoxCollider[] boxes = item.GetComponentsInChildren<BoxCollider>();
+            if (boxes != null && boxes.Length > 1)
             {
-                if (box.bounds.Intersects(item.interactableUI.actionUiBox()))
+                for (int i = 0; i < boxes.Length; i++)
                 {
-                    Debug.Log("Intersection between item: " + item.name + " and it's UI.");
-                    returnStr += "\nItem: " + item.name + " ";
-                }
-                else
-                {
-                    Debug.Log("No collision found for item:" + item.name + " and it's UI.");
+                    if (i < boxes.Length - 1)
+                    {
+                        for (int j = i + 1; j < boxes.Length; j++)
+                        {
+                            if (boxes[i].bounds.Intersects(boxes[j].bounds))
+                            {
+                                Debug.Log("Intersection between item: " + item.name + " and it's UI.");
+                                returnStr += "\nItem: " + item.name + " ";
+                            }
+                        }
+                    }
                 }
             }
+            else if (boxes.Length <= 1)
+            {
+                lacksCollider += 1;
+            }
         }
-        if (returnStr.Length <= 39)
+        // Collision errors were found, and also some UI elements had no colliders
+        if (lacksCollider > 0 && returnStr.Length > 40)
+        {
+            returnStr = returnStr + "\nCould not find collider objects for " + lacksCollider + " interactable UIs.";
+        }
+
+        // If no collisions were found, but also there were some UI elements with no colliders
+        else if (lacksCollider > 0 && returnStr.Length <= 39)
+        {
+            returnStr = "No collisions found between interactables and UI.\nCould not find collider objects for " + lacksCollider + " interactable UIs.";
+        }
+
+        // If no collisions were found, and all interactables had UI elements with colliders
+        else if (lacksCollider == 0 && returnStr.Length <= 39)
         {
             Debug.Log("No collisions found.");
-            returnStr = "No collisions found for interactables and UI";
+            returnStr = "No collisions found between interactables and UI";
         }
 
         return returnStr;
