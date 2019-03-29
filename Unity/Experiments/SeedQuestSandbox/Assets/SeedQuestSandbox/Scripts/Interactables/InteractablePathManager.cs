@@ -97,7 +97,7 @@ namespace SeedQuest.Interactables {
         }
 
         static public void SetRandomSeed() {
-            SeedString = RandomUtils.GetRandomHexNumber(10);
+            SeedString = RandomUtils.GetRandomHexNumber(InteractableConfig.SeedHexLength);
         }
 
         static public void Reset() {

@@ -141,4 +141,9 @@ public class DemoSelectUI : MonoBehaviour {
         button.onClick.AddListener(delegate { selectDemo(info); });
         return button;
     }
+
+    public void SetRandomSeed() {
+        InteractablePathManager.SetRandomSeed();
+        seedInputField.text = InteractablePathManager.SeedString;
+    }
 }
