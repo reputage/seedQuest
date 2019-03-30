@@ -58,6 +58,20 @@ public class LoadingScreenUI : MonoBehaviour
         }
     }
 
+    static public void LoadScene(string sceneName) {
+        if (Instance == null) {
+            HUDManager.InstantiateHUDElement<LoadingScreenUI>();
+            if (Instance == null) return;
+        }
+
+        if (Instance == null) return;
+        LoadingScreenUI.Show = true;
+        GameManager.State = GameState.Play;
+        InteractablePathManager.InitalizePathAndLog();
+        InteractableManager.destroyInteractables();
+        Instance.StartCoroutine(Instance.LoadAsync(sceneName));
+    }
+
     static public void LoadRehearsal(string sceneName) {
         if (Instance == null) {
             HUDManager.InstantiateHUDElement<LoadingScreenUI>();

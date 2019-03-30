@@ -32,9 +32,7 @@ public class EndGameUI : MonoBehaviour {
 
     /// <summary> Handles selecting PrototypeSelect Button </summary>
     public void PrototypeSelect() {
-        InteractablePathManager.InitalizePathAndLog();
-        InteractableManager.destroyInteractables();
-        SceneManager.LoadScene(PrototypeSelectScene);
+        LoadingScreenUI.LoadScene(PrototypeSelectScene);
     }
 
     /// <summary> Handles selecting Rehearsal Button </summary>
