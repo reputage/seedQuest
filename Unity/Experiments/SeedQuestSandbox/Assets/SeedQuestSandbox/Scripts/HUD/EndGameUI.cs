@@ -25,7 +25,7 @@ public class EndGameUI : MonoBehaviour {
         textList[0].text = converter.DecodeSeed();
 
         if (GameManager.Mode == GameMode.Rehearsal)
-            textList[1].text = "Rehearsal Complete! \n Need more practice? Select Rehearsal mode. \n Ready to go? Select Recall";
+            textList[1].text = "Rehearsal Complete! \n Need more practice? Select Learn mode. \n Ready to go? Select Recover mode";
         else
             textList[1].text = "Key is Recovered!";
     }
