@@ -32,9 +32,6 @@ public class DemoSelectUI : MonoBehaviour {
 
     private void Start() {
         GameManager.ResetCursor();
-        InteractableManager.Reset();
-        InteractablePathManager.Reset();
-
         seedInputField = GetComponentInChildren<TMP_InputField>();
         seedInputField.text = InteractablePathManager.SeedString;
         seedInputField.characterLimit = InteractableConfig.SeedHexLength; 

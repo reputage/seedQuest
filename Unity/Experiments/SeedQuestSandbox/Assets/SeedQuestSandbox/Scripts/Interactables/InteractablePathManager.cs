@@ -99,11 +99,11 @@ namespace SeedQuest.Interactables {
             SeedString = RandomUtils.GetRandomHexNumber(InteractableConfig.SeedHexLength);
         }
 
+        /// <summary>  Reset InteractablePathManager State </summary>
         static public void Reset() {
             IsPathInitialized = false;
             ShowLevelComplete = false;
         }
-
 
         /// <summary> Initalizes Interactable Path and Log </summary>
         static public void Initalize(bool resetPath) {
