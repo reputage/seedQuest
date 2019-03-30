@@ -32,7 +32,7 @@ namespace SeedQuest.Level
 
         public string levelSelectScene = "SceneSelect";
 
-        static string LevelSelectScene { get => Instance.levelSelectScene; }
+        static public string LevelSelectScene { get => Instance.levelSelectScene; }
 
         /// <summary> MultiLevelGame Flag important for InteractablePath calculations </summary>
         public bool isMultiLevelGame = false;
@@ -68,12 +68,10 @@ namespace SeedQuest.Level
 
             InteractablePathManager.SetupInteractablePathIDs();
 
-            if (!isMultiLevelGame)
-                InteractablePathManager.InitalizePathAndLog();
-            else if (InteractablePathManager.IsPathInitialized)
-                InteractablePathManager.InitalizePathAndLogForMultiLevelGame();
+            if (isMultiLevelGame && InteractablePathManager.IsPathInitialized)
+                InteractablePathManager.Initalize(false);
             else
-                InteractablePathManager.InitalizePathAndLog();
+                InteractablePathManager.Initalize(true);
         }
 
         private void Update() {
@@ -83,15 +81,15 @@ namespace SeedQuest.Level
         public void ListenForKeyDown() {
             if (!isMultiLevelGame)
                 return;
-
+            
             bool goSceneSelect = InteractablePath.PathLevelComplete || InteractablePath.Instance.nextIndex == 0;
             if (goSceneSelect && InputManager.GetKeyDown(KeyCode.H)) {
-                SceneManager.LoadScene(levelSelectScene);
+                LoadingScreenUI.LoadScene(levelSelectScene, false);
             }
         }
 
         public void GoToSceneSelect() {
-            SceneManager.LoadScene(levelSelectScene);
+            LoadingScreenUI.LoadScene(levelSelectScene, false);
         }
 
         /// <summary>  Gets the BoundingBox of Site/Zone bound that player is currently in. Returns null if not in one. </summary>

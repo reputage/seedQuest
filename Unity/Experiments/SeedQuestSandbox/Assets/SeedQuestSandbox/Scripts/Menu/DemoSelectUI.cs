@@ -117,7 +117,7 @@ public class DemoSelectUI : MonoBehaviour {
             return;
         InteractablePathManager.SeedString = seedInputField.text;
         string sceneName = selectedDemo.sceneName;
-        LoadingScreenUI.LoadRehearsal(sceneName);
+        LoadingScreenUI.LoadRehearsal(sceneName, true);
     }
 
     public void StartDemoWithRecallMode() {
@@ -125,7 +125,7 @@ public class DemoSelectUI : MonoBehaviour {
             return;
         InteractablePathManager.SeedString = seedInputField.text;
         string sceneName = selectedDemo.sceneName;
-        LoadingScreenUI.LoadRecall(sceneName);
+        LoadingScreenUI.LoadRecall(sceneName, true);
     } 
 
     private Button createLevelButton(DemoInfo info, Transform parent, Vector3 position) {

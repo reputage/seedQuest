@@ -32,17 +32,17 @@ public class EndGameUI : MonoBehaviour {
 
     /// <summary> Handles selecting PrototypeSelect Button </summary>
     public void PrototypeSelect() {
-        LoadingScreenUI.LoadScene(PrototypeSelectScene);
+        LoadingScreenUI.LoadScene(PrototypeSelectScene, true);
     }
 
     /// <summary> Handles selecting Rehearsal Button </summary>
     public void Rehearsal() {
-        LoadingScreenUI.LoadRehearsal(RehearsalScene);
+        LoadingScreenUI.LoadRehearsal(RehearsalScene, true);
     }
 
     /// <summary> Handles selecting Recall Button </summary>
     public void Recall() {
-        LoadingScreenUI.LoadRecall(RecallScene);
+        LoadingScreenUI.LoadRecall(RecallScene, true);
     }
 
 }

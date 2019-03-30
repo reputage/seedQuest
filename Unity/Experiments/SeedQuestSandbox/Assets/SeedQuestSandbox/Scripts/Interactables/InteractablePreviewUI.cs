@@ -25,17 +25,9 @@ namespace SeedQuest.Interactables
 
     public class InteractablePreviewUI : MonoBehaviour
     {
-        private static InteractablePreviewUI instance = null;
-
-        public static InteractablePreviewUI Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = GameObject.FindObjectOfType<InteractablePreviewUI>();
-                return instance;
-            }
-        }
+        static private InteractablePreviewUI instance = null;
+        static private InteractablePreviewUI setInstance() { instance = HUDManager.Instance.GetComponentInChildren<InteractablePreviewUI>(true); return instance; }
+        static public InteractablePreviewUI Instance { get { return instance == null ? setInstance() : instance; } }
 
         public float previewScale = 1f;
         public InteractablePreviewLocation location = InteractablePreviewLocation.bottomright;
@@ -94,9 +86,11 @@ namespace SeedQuest.Interactables
         }
 
         private float rotateAccumlator = 0;
-        public void SetPreviewProperties() {                
-            if (preview != null)
-            {
+        public void SetPreviewProperties() {
+            if (Instance == null) return;
+            if (Instance.previewChild == null) return;
+            
+            if (preview != null) {
                 Instance.previewChild.GetComponent<Interactable>().HighlightInteractable(false);
 
                 previewChild.transform.localPosition = preview.position;
@@ -199,7 +193,13 @@ namespace SeedQuest.Interactables
         /// <summary> Set interactable state with given action index </summary>
         /// <param name="actionIndex"> Action Index </param>
         static public void SetPreviewAction(int actionIndex) {
+            if (Instance == null) return;
+            if (Instance.previewChild == null) return;
+
             Interactable interactable = Instance.previewChild.GetComponent<Interactable>();
+            if (interactable == null) return;
+            if (interactable.stateData == null) return;
+
             InteractableState state = interactable.stateData.states[actionIndex];
             state.enterState(interactable, false);
 

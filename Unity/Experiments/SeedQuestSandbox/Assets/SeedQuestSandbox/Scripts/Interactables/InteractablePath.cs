@@ -125,6 +125,8 @@ namespace SeedQuest.Interactables
 
         /// <summary> Initialize Next Interactable with Hightlights and Setup PreviewUI </summary>
         static public void InitializeNextInteractable() {
+            if (NextInteractable == null) return;
+
             if (GameManager.Mode == GameMode.Rehearsal) {
                 InteractableManager.UnHighlightAllInteractables();
                 NextInteractable.HighlightInteractableWithEffect(true);

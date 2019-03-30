@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using SeedQuest.Level;
+
 public class HomeSelectUI : MonoBehaviour {
-
-    public string sceneName = "SceneSelect";
-
-    public void GoToSceneSelect()
-    {
-        SceneManager.LoadScene(sceneName);
+    
+    public void GoToSceneSelect() {
+        LoadingScreenUI.LoadScene(LevelManager.LevelSelectScene, false);
     }
 }

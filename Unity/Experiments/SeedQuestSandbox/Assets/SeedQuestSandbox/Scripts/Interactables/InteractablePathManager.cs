@@ -104,24 +104,22 @@ namespace SeedQuest.Interactables {
             ShowLevelComplete = false;
         }
 
-        /// <summary> Reset Interactable Path and Log </summary>
-        static public void InitalizePathAndLog() {
-            InteractablePath.ResetPath();
-            InteractablePath.GeneratePathFromSeed(SeedString);
-            InteractableLog.Clear();
 
+        /// <summary> Initalizes Interactable Path and Log </summary>
+        static public void Initalize(bool resetPath) {
+            if(resetPath) {
+                InteractablePath.ResetPath();
+                InteractableLog.Clear();
+            }
+            else {
+                InteractablePath.InitializeNextInteractable();
+            }
+
+            InteractablePath.GeneratePathFromSeed(SeedString);
+
+            ShowLevelComplete = false;
             isNextHighlighted = false;
             IsPathInitialized = true;
-            ShowLevelComplete = false;
-        }
-
-        /// <summary> Intialize Interactable Path and Log for MultiLevel Game </summary>
-        static public void InitalizePathAndLogForMultiLevelGame() {
-            InteractablePath.GeneratePathFromSeed(SeedString);
-            InteractablePath.InitializeNextInteractable();
-
-            isNextHighlighted = false;
-            ShowLevelComplete = false;
         }
 
         static public InteractableID[] GetPathIDs() {

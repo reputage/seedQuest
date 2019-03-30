@@ -63,7 +63,7 @@ public class LevelSelect : MonoBehaviour {
 
     private void selectLevel() {
         string sceneName = levelList[currentLevel].sceneName;
-        LoadingScreenUI.LoadScene(sceneName);
+        LoadingScreenUI.LoadScene(sceneName, false);
     }
 
     private void nextLevel() {

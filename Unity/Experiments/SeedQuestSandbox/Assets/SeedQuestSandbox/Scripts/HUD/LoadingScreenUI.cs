@@ -58,21 +58,20 @@ public class LoadingScreenUI : MonoBehaviour
         }
     }
 
-    static public void LoadScene(string sceneName) {
+    static public void LoadScene(string sceneName, bool resetPath) {
         if (Instance == null) {
             HUDManager.InstantiateHUDElement<LoadingScreenUI>();
             if (Instance == null) return;
         }
-
         if (Instance == null) return;
+
         LoadingScreenUI.Show = true;
         GameManager.State = GameState.Play;
-        InteractablePathManager.InitalizePathAndLog();
-        InteractableManager.destroyInteractables();
+        if(resetPath) InteractablePathManager.Reset();
         Instance.StartCoroutine(Instance.LoadAsync(sceneName));
     }
 
-    static public void LoadRehearsal(string sceneName) {
+    static public void LoadRehearsal(string sceneName, bool resetPath) {
         if (Instance == null) {
             HUDManager.InstantiateHUDElement<LoadingScreenUI>();
             if (Instance == null) return;
@@ -82,12 +81,11 @@ public class LoadingScreenUI : MonoBehaviour
         LoadingScreenUI.Show = true;
         GameManager.Mode = GameMode.Rehearsal;
         GameManager.State = GameState.Play;
-        InteractablePathManager.InitalizePathAndLog();
-        InteractableManager.destroyInteractables();
+        if(resetPath) InteractablePathManager.Reset();
         Instance.StartCoroutine(Instance.LoadAsync(sceneName));
     }
 
-    static public void LoadRecall(string sceneName) {
+    static public void LoadRecall(string sceneName, bool resetPath) {
         if (Instance == null) {
             HUDManager.InstantiateHUDElement<LoadingScreenUI>();
             if (Instance == null) return;
@@ -96,8 +94,7 @@ public class LoadingScreenUI : MonoBehaviour
         LoadingScreenUI.Show = true;
         GameManager.Mode = GameMode.Recall;
         GameManager.State = GameState.Play;
-        InteractablePathManager.InitalizePathAndLog();
-        InteractableManager.destroyInteractables();
+        if(resetPath) InteractablePathManager.Reset();
         Instance.StartCoroutine(Instance.LoadAsync(sceneName));
     }
 }
