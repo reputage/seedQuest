@@ -12,7 +12,7 @@ namespace SeedQuest.Interactables
         public float rimPower = 0.6f;
         public Color outlineColor = Color.white;
         public float outlineWidth = 0.02f;
-        public float outlinePower = 0.8f;
+        public float outlinePower = 0.2f;
         public float dynamicFlashSpeed = 0.5f;
     }
 
