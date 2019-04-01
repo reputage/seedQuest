@@ -8,8 +8,8 @@ namespace SeedQuest.Interactables
         public Color highlightColor = Color.white;
         public float highlightPower = 0.2f;
         public Color rimColor = Color.white;
-        public float rimExponent = 2.0f;
-        public float rimPower = 0.8f;
+        public float rimExponent = 3.0f;
+        public float rimPower = 0.6f;
         public Color outlineColor = Color.white;
         public float outlineWidth = 0.02f;
         public float outlinePower = 0.8f;

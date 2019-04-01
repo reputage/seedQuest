@@ -10,7 +10,7 @@ Shader "SeedQuest/RimOutline" {
 
 		[Header(Outline Parameters)]
 		_OutlineColor("Outline Color", Color) = (1.0, 1.0, 1.0, 1.0)
-		_OutlineThickness("Outline Width", Range(0,.1)) = 0.03
+		_OutlineWidth("Outline Width", Range(0,.1)) = 0.03
         _OutlinePower("Outline Power", Range(0,1)) = 1
 
         [Header(Highlight Parameters)]
@@ -30,9 +30,6 @@ Shader "SeedQuest/RimOutline" {
 	SubShader {
 		Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" }
 		LOD 200
-
-        ZWrite Off
-        Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass {
 			CGPROGRAM
@@ -77,6 +74,8 @@ Shader "SeedQuest/RimOutline" {
 
 		Pass {
 			Cull front
+            ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
 
 			CGPROGRAM
 
@@ -85,7 +84,7 @@ Shader "SeedQuest/RimOutline" {
 			#pragma fragment frag
 
 			fixed4 _OutlineColor;
-			float _OutlineThickness;
+			float _OutlineWidth;
             float _OutlinePower;
 
 			// Vertex shader object data
@@ -104,7 +103,7 @@ Shader "SeedQuest/RimOutline" {
 				v2f o;
 				//calculate the position of the expanded object
 				float3 normal = normalize(v.normal);
-				float3 outlineOffset = normal * _OutlineThickness;
+				float3 outlineOffset = normal * _OutlineWidth;
 				float3 position = v.vertex + outlineOffset;
 
 				o.position = UnityObjectToClipPos(position);
@@ -114,7 +113,9 @@ Shader "SeedQuest/RimOutline" {
 
 			// Fragment shader
 			fixed4 frag(v2f i) : SV_TARGET{
-				return _OutlinePower * _OutlineColor;
+                fixed4 outline = _OutlineColor;
+                outline.a = _OutlinePower * _OutlineColor.a;
+				return outline;
 			}
 
 			ENDCG
