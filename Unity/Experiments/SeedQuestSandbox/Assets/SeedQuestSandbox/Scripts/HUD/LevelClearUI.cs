@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using SeedQuest.Level;
+
 public class LevelClearUI : MonoBehaviour {
     
     static private LevelClearUI instance = null;
@@ -13,5 +15,9 @@ public class LevelClearUI : MonoBehaviour {
             return;
 
         Instance.gameObject.SetActive(true);
+    }
+
+    public void GoToSceneSelect() {
+        LevelManager.GoToSceneSelect();
     }
 }
