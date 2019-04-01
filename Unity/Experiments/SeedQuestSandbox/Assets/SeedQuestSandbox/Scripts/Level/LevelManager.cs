@@ -65,13 +65,9 @@ namespace SeedQuest.Level
 
             if (InteractableManager.InteractableList.Length == 0)
                 return;
-
+            
             InteractablePathManager.SetupInteractablePathIDs();
-
-            if (isMultiLevelGame && InteractablePathManager.IsPathInitialized)
-                InteractablePathManager.Initalize(false);
-            else
-                InteractablePathManager.Initalize(true);
+            InteractablePathManager.Initalize();
         }
 
         private void Update() {

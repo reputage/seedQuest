@@ -32,9 +32,6 @@ namespace SeedQuest.Interactables {
         /// <summary> Seed String </summary>
         public static string SeedString = "EBE0AC8C"; //"EB204654C9";
 
-        /// <summary> Has the Interactabled Path been initialized before important for MultiLevel Games </summary>
-        static public bool IsPathInitialized = false;
-
         /// <summary> Has a Level been compleleted for MultiLevel Game </summary>
         static public bool ShowLevelComplete = false;
 
@@ -101,25 +98,18 @@ namespace SeedQuest.Interactables {
 
         /// <summary>  Reset InteractablePathManager State </summary>
         static public void Reset() {
-            IsPathInitialized = false;
             ShowLevelComplete = false;
+            InteractablePath.ResetPath();
+            InteractableLog.Clear();
         }
 
         /// <summary> Initalizes Interactable Path and Log </summary>
-        static public void Initalize(bool resetPath) {
-            if(resetPath) {
-                InteractablePath.ResetPath();
-                InteractableLog.Clear();
-            }
-            else {
-                InteractablePath.InitializeNextInteractable();
-            }
-
+        static public void Initalize() {
             InteractablePath.GeneratePathFromSeed(SeedString);
+            InteractablePath.InitializeNextInteractable();
 
             ShowLevelComplete = false;
             isNextHighlighted = false;
-            IsPathInitialized = true;
         }
 
         static public InteractableID[] GetPathIDs() {
