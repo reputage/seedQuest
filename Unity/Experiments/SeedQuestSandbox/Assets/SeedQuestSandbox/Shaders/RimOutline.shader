@@ -11,17 +11,28 @@ Shader "SeedQuest/RimOutline" {
 		[Header(Outline Parameters)]
 		_OutlineColor("Outline Color", Color) = (1.0, 1.0, 1.0, 1.0)
 		_OutlineThickness("Outline Width", Range(0,.1)) = 0.03
+        _OutlinePower("Outline Power", Range(0,1)) = 1
+
+        [Header(Highlight Parameters)]
+        _HighlightColor("Hightlight Color", Color) = (1.0, 1.0, 1.0, 1.0)
+        _HighlightPower("Hightlight Power", Range(0,1)) = 0.0
 
 		[Header(Rim Parameters)]
 		_RimColor("Rim Color", Color) = (1.0, 1.0, 1.0, 1.0)
-		_RimPower("Rim Power", Range(0.5, 8.0)) = 1.0
-		[MaterialToggle] _UseDynamicRim("Use Rim Flashing", Float) = 1
-		_DynamicRimSpeed("Rim Speed (Flash per Second)", Range(0.1, 4.0)) = 0.5
+		_RimExponent("Rim Exponent", Range(0.5, 10.0)) = 1.0
+        _RimPower("Rim Power", Range(0,1)) = 1.0
+
+        [Header(Flashing Parameters)]
+		[MaterialToggle] _UseDynamicColor("Use Flashing Highlights/Rim", Float) = 1
+		_DynamicColorSpeed("Flash Speed (Flash per Second)", Range(0.1, 4.0)) = 0.5
 	}
 
 	SubShader {
-		Tags{ "Queue" = "Transparent" "RenderType" = "Opaque" }
+		Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" }
 		LOD 200
+
+        ZWrite Off
+        Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass {
 			CGPROGRAM
@@ -75,6 +86,7 @@ Shader "SeedQuest/RimOutline" {
 
 			fixed4 _OutlineColor;
 			float _OutlineThickness;
+            float _OutlinePower;
 
 			// Vertex shader object data
 			struct appdata {
@@ -102,7 +114,7 @@ Shader "SeedQuest/RimOutline" {
 
 			// Fragment shader
 			fixed4 frag(v2f i) : SV_TARGET{
-				return _OutlineColor;
+				return _OutlinePower * _OutlineColor;
 			}
 
 			ENDCG
@@ -127,10 +139,13 @@ Shader "SeedQuest/RimOutline" {
 		half _Metallic;
 		fixed4 _Color;
 
+        float4 _HighlightColor;
+        float _HighlightPower;
 		float4 _RimColor;
-		float _RimPower;
-		float _UseDynamicRim;
-		float _DynamicRimSpeed;
+		float _RimExponent;
+        float _RimPower;
+		float _UseDynamicColor;
+		float _DynamicColorSpeed;
 
 		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
 		UNITY_INSTANCING_BUFFER_START(Props)
@@ -146,12 +161,18 @@ Shader "SeedQuest/RimOutline" {
 			const float PI = 3.14159;
 			half rim = 1.0 - saturate(dot(normalize(IN.viewDir), o.Normal));
 			half rimPower;
-			if(_UseDynamicRim)
-				rimPower = pow(rim, _RimPower) * ((1.0 + sin(_DynamicRimSpeed * 2 *PI * _Time.y)) * 0.5);
+			if(_UseDynamicColor)
+				rimPower = _RimPower * pow(rim, _RimExponent) * ((1.0 + sin(_DynamicColorSpeed * 2 *PI * _Time.y)) * 0.5);
 			else
-				rimPower = pow(rim, _RimPower); 
+				rimPower = _RimPower * pow(rim, _RimExponent); 
 
-			o.Emission = _RimColor.rgb * rimPower;
+            half highlightPower;
+            if(_UseDynamicColor)
+                highlightPower = _HighlightPower * ((1.0 + sin(_DynamicColorSpeed * 2 *PI * _Time.y)) * 0.5);
+            else
+                highlightPower = _HighlightPower;
+
+			o.Emission = _RimColor.rgb * rimPower + _HighlightPower * highlightPower;
 
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
