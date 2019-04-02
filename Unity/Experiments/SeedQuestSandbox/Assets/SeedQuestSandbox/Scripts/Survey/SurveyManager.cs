@@ -280,8 +280,12 @@ public class SurveyManager : MonoBehaviour
     }
 
 
-    public void submitButtonFunc()
-    {
+    public void submitButtonFunc() {
+        if (sentDataOnce) {
+            SceneManager.LoadScene("PrototypeSelect");
+            return;
+        }
+
         List<string> questions = getQuestionsFromSurvey(data);
         List<string> responses = getAnswersFromSurvey(data);
         Text[] texts = cardWarningPopup.GetComponentsInChildren<Text>();
