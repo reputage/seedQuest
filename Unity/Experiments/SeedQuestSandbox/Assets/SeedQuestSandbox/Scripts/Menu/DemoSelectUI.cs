@@ -29,32 +29,35 @@ public class DemoSelectUI : MonoBehaviour {
 
     private Button[] buttons;
     private TMP_InputField seedInputField;
+    private TextMeshProUGUI infoName;
+    private TextMeshProUGUI infoTitle;
+    private TextMeshProUGUI infoText;
+    private Image infoImage;
+    private RectTransform welcome;
 
     private void Start() {
         GameManager.ResetCursor();
+
+        infoName = GetComponentsInChildren<Canvas>()[3].GetComponentInChildren<TextMeshProUGUI>();
+        infoTitle = GameObject.FindGameObjectWithTag("InfoTitle").GetComponentInChildren<TextMeshProUGUI>();
+        infoText = GameObject.FindGameObjectWithTag("InfoText").GetComponentInChildren<TextMeshProUGUI>();
+        infoImage = GameObject.FindGameObjectWithTag("InfoImage").GetComponent<Image>();
+        welcome = infoTitle.GetComponentInParent<Canvas>().GetComponentsInChildren<RectTransform>(true)[5];
+        buttons = infoTitle.GetComponentInParent<Canvas>().gameObject.GetComponentsInChildren<Button>();
         seedInputField = GetComponentInChildren<TMP_InputField>();
         seedInputField.text = InteractablePathManager.SeedString;
         seedInputField.characterLimit = InteractableConfig.SeedHexLength; 
 
         GameObject sideNav = GameObject.FindGameObjectWithTag("SideNav");
-
-        for (int i = 0; i < demoList.Length; i++)
-        {
+        for (int i = 0; i < demoList.Length; i++) {
             Vector3 position = buttonOffset + new Vector3(0, -i * buttonPadding, 0);
             demoList[i].select = createLevelButton(demoList[i], sideNav.transform, position);
         }
-
-        GameObject infoTitle = GameObject.FindGameObjectWithTag("InfoTitle");
-        buttons = infoTitle.GetComponentInParent<Canvas>().gameObject.GetComponentsInChildren<Button>();
 
         demoList[0].select.onClick.Invoke();
     }
 
     private void selectDemo(DemoInfo info) {
-        TextMeshProUGUI infoName = GetComponentsInChildren<Canvas>()[3].GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI infoTitle = GameObject.FindGameObjectWithTag("InfoTitle").GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI infoText = GameObject.FindGameObjectWithTag("InfoText").GetComponentInChildren<TextMeshProUGUI>();
-        Image infoImage = GameObject.FindGameObjectWithTag("InfoImage").GetComponent<Image>();
         PopupUI popup = PopupUI.Instance;
 
         // Set demo title, info text, and image
@@ -80,15 +83,29 @@ public class DemoSelectUI : MonoBehaviour {
     }
 
     public void SetupSurveySelect(DemoInfo info) {
-        if (info.name == "Survey")
-        {
+
+        welcome.gameObject.SetActive(false);
+        infoTitle.gameObject.SetActive(true);
+        infoText.gameObject.SetActive(true);
+        infoImage.gameObject.SetActive(true);
+
+        if (info.name == "Survey") {
             buttons[0].gameObject.SetActive(false);
             buttons[1].gameObject.SetActive(false);
             buttons[2].gameObject.SetActive(false);
             buttons[3].gameObject.SetActive(true);
         }
-        else
-        {
+        else if(info.name == "Welcome") {
+            welcome.gameObject.SetActive(true);
+            infoTitle.gameObject.SetActive(false);
+            infoText.gameObject.SetActive(false);
+            infoImage.gameObject.SetActive(false);
+            buttons[0].gameObject.SetActive(false);
+            buttons[1].gameObject.SetActive(false);
+            buttons[2].gameObject.SetActive(false);
+            buttons[3].gameObject.SetActive(false);  
+        }
+        else {
             buttons[0].gameObject.SetActive(true);
             buttons[1].gameObject.SetActive(true);
             buttons[2].gameObject.SetActive(true);

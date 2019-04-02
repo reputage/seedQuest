@@ -65,13 +65,9 @@ namespace SeedQuest.Level
 
             if (InteractableManager.InteractableList.Length == 0)
                 return;
-
+            
             InteractablePathManager.SetupInteractablePathIDs();
-
-            if (isMultiLevelGame && InteractablePathManager.IsPathInitialized)
-                InteractablePathManager.Initalize(false);
-            else
-                InteractablePathManager.Initalize(true);
+            InteractablePathManager.Initalize();
         }
 
         private void Update() {
@@ -88,8 +84,8 @@ namespace SeedQuest.Level
             }
         }
 
-        public void GoToSceneSelect() {
-            LoadingScreenUI.LoadScene(levelSelectScene, false);
+        static public void GoToSceneSelect() {
+            LoadingScreenUI.LoadScene(Instance.levelSelectScene, false);
         }
 
         /// <summary>  Gets the BoundingBox of Site/Zone bound that player is currently in. Returns null if not in one. </summary>

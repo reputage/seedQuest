@@ -5,6 +5,15 @@ namespace SeedQuest.Interactables
     [System.Serializable]
     public class InteractableHighlightsProps {
         public bool useHighlightsShader = true;
+        public Color highlightColor = Color.white;
+        public float highlightPower = 0.2f;
+        public Color rimColor = Color.white;
+        public float rimExponent = 3.0f;
+        public float rimPower = 0.6f;
+        public Color outlineColor = Color.white;
+        public float outlineWidth = 0.02f;
+        public float outlinePower = 0.2f;
+        public float dynamicFlashSpeed = 0.5f;
     }
 
     //[ExecuteInEditMode] 
@@ -210,12 +219,17 @@ namespace SeedQuest.Interactables
                     if (useHighlight) {
                         material.shader = highlightShader;
 
-                        material.SetFloat("_RimPower", 2.0f);
+                        material.SetFloat("_HighlightPower", interactableHighlights.highlightPower);
+                        material.SetFloat("_RimExponent", interactableHighlights.rimExponent);
+                        material.SetFloat("_RimPower", interactableHighlights.rimPower);
+                        material.SetFloat("_OutlineWidth", interactableHighlights.outlineWidth);
+                        material.SetFloat("_OutlinePower", interactableHighlights.outlinePower);
+                        material.SetFloat("_DynamicColorSpeed", interactableHighlights.dynamicFlashSpeed);
 
                         if(useDynamicRim)
-                            material.SetFloat("_UseDynamicRim", 1.0f);
+                            material.SetFloat("_UseDynamicColor", 1.0f);
                         else
-                            material.SetFloat("_UseDynamicRim", 0.0f);
+                            material.SetFloat("_UseDynamicColor", 0.0f);
                     }
                     else
                         material.shader = defaultShader;
