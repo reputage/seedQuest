@@ -7,3 +7,4 @@ PC:
 Mac:
 
 
+Instructions for running can be found here 
