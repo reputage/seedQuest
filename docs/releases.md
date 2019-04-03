@@ -12,3 +12,5 @@ The following are the links to the releases of SeedQuest: [Mac](https://github.c
  - Memorize and Learn the order of actions in 'Learn mode'
  - Prove your memory to recover your seed string in 'Recover mode'
  - After completing the games, take a survey to give feedback on the direction of SeedQuest
+ 
+To see installation instructions for **Windows 10** click [here](https://github.com/reputage/seedQuest/blob/master/docs/run_instructions.md).
