@@ -84,11 +84,8 @@ namespace SeedQuest.SeedEncoder
 
         public void runQuickTestsButton()
         {
-            int[] passed = new int[2];
-            passed = rouvenTest();
-
-            string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
-            Debug.Log(passedString);
+            string passedString = runQuickTests();
+            //Debug.Log(passedString);
         }
 
         // This function helps make the test running code a bit cleaner
