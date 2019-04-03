@@ -1,9 +1,11 @@
 # SeedQuest: A 3D Mnemonic Game for Key Recovery
 
+![Logo](https://github.com/reputage/seedQuest/blob/master/media/SeedQuestLogo-Github.png)
+
 You can find the latest version of the SeedQuest [here](https://github.com/reputage/seedQuest/blob/master/docs/releases.md). 
 Please try out the lastest prototype for SeedQuest.
 
-To report issues with the applciation or bugs, please use the Issues page.
+To report issues with the applciation or bugs, please use the [Issues Page](https://github.com/reputage/seedQuest/issues).
  
 For help with SeedQuest or talk with developers about this project, visit our [Slack Channel](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWQwYmIwMjIyYTEwZGJjYzNhY2RhNjlhZWE2MDVkOThmMTU5MDhlMTkyZGViNGUyNjYyNTVkYjYyNmRmM2YyZTI). 
 
