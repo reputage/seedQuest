@@ -293,6 +293,7 @@ public static class CommandLineManager
         foreach (Interactable item in InteractableManager.InteractableList)
         {
             BoxCollider[] boxes = item.GetComponentsInChildren<BoxCollider>();
+            bool checkedOnce = false;
             if (boxes != null && boxes.Length > 1)
             {
                 for (int i = 0; i < boxes.Length; i++)
@@ -301,10 +302,11 @@ public static class CommandLineManager
                     {
                         for (int j = i + 1; j < boxes.Length; j++)
                         {
-                            if (boxes[i].bounds.Intersects(boxes[j].bounds))
+                            if (boxes[i].bounds.Intersects(boxes[j].bounds) && !checkedOnce)
                             {
                                 Debug.Log("Intersection between item: " + item.name + " and it's UI.");
                                 returnStr += "\nItem: " + item.name + " ";
+                                checkedOnce = true;
                             }
                         }
                     }
