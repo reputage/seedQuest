@@ -4,6 +4,7 @@
 
 1. Download the SeedQuest zip file from the [release archive](https://github.com/reputage/seedQuest/releases).
 2. Once the download completes, locate it in your downloads folder.
+![Windows Download Directory](https://github.com/reputage/seedQuest/blob/master/docs/images/windows_file_viewer_download_dir.png)
 3. Unzip the file by first selecting it then right clicking and choose "Extract All".
 ![Windows File Right Click Menu](https://github.com/reputage/seedQuest/blob/master/docs/images/windows_file_right_click_menu.png)
 4. Select Extract.
