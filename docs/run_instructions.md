@@ -5,12 +5,13 @@
 1. Download the SeedQuest zip file from the [release archive](https://github.com/reputage/seedQuest/releases).
 2. Once the download completes, locate it in your downloads folder.
 3. Unzip the file by first selecting it then right clicking and choose "Extract All".
-
-4. Select Extract
+![Windows File Right Click Menu](seedQuest/docs/images/windows_file_right_click_menu.png)
+Format: ![Alt Text](url)
+4. Select Extract.
 5. This will create a new folder with the name SeedQuest_V0.1.X
 6. Open the folder(There will likely be another folder with the same name you need to open).
 7. Double click on SeedQuest.exe 
-8. This will generate the following warning
+8. This will generate the following warning.
 9. Click the "More info" link and then click "Run anyway". 
 10. A SeedQuest configuration window will appear. Select 'Play'.
-11. To Exit SeedQuest press the ESC key 
+11. To Exit SeedQuest press the ESC key. 
