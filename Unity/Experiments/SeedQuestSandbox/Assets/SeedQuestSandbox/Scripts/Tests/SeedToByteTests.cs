@@ -48,6 +48,7 @@ namespace SeedQuest.SeedEncoder
             sumTest(ref passed, testBreakPoints());
             sumTest(ref passed, testSmallSeeds());
             sumTest(ref passed, testSeeds5BitActions());
+            sumTest(ref passed, rouvenTest());
 
             string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
             Debug.Log(passedString);
@@ -81,6 +82,15 @@ namespace SeedQuest.SeedEncoder
             //StartCoroutine(runAllTestsCoroutine());    
         }
 
+        public void runQuickTestsButton()
+        {
+            int[] passed = new int[2];
+            passed = rouvenTest();
+
+            string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
+            Debug.Log(passedString);
+        }
+
         // This function helps make the test running code a bit cleaner
         public void sumTest(ref int[] passed, int[] testPassed)
         {
@@ -89,6 +99,46 @@ namespace SeedQuest.SeedEncoder
 
             passed[0] += testPassed[0];
             passed[1] += testPassed[1];
+        }
+
+        public int[] rouvenTest()
+        {
+            int[] passed = new int[2];
+            passed[1] = 2;
+
+            List<int> prototypeSize = new List<int> { 1, 3, 2, 3, 2, 3, 2, 1, 3, 2, 3, 2, 3, 2 };
+            string rouvenSeed = "ABCDEE07";
+            string rouvenSeed2 = "EFFFEFFF";
+
+            int[] actions1 = seedToByte.getActions(rouvenSeed, prototypeSize);
+            int[] actions2 = seedToByte.getActions(rouvenSeed2, prototypeSize);
+
+            /*
+            Debug.Log("Actions 1: " + actions1[0] + " " + actions1[1] + " " + actions1[2] + " " + actions1[3] + " " + actions1[4]
+                      + " " + actions1[5] + " " + actions1[6] + " " + actions1[7] + " " + actions1[8] + " " + actions1[9]
+                      + " " + actions1[10] + " " + actions1[11] + " " + actions1[12] + " " + actions1[13]);
+
+            Debug.Log("Actions 2: " + actions2[0] + " " + actions2[1] + " " + actions2[2] + " " + actions2[3] + " " + actions2[4]
+          + " " + actions2[5] + " " + actions2[6] + " " + actions2[7] + " " + actions2[8] + " " + actions2[9]
+          + " " + actions2[10] + " " + actions2[11] + " " + actions2[12] + " " + actions2[13]);
+            */
+
+            string rouvenConvertedSeed = seedToByte.getSeed(actions1, prototypeSize);
+            string rouvenConvertedSeed2 = seedToByte.getSeed(actions2, prototypeSize);
+
+            Debug.Log("1st seed: " + rouvenSeed + " converted: " + rouvenConvertedSeed);
+            Debug.Log("2nd seed: " + rouvenSeed2 + " converted: " + rouvenConvertedSeed2);
+
+            if (rouvenSeed == rouvenConvertedSeed)
+            {
+                passed[0] += 1;
+            }
+            if (rouvenSeed2 == rouvenConvertedSeed2)
+            {
+                passed[0] += 1;
+            }
+
+            return passed;
         }
 
         // Test to make sure smaller conversion functions work as intended

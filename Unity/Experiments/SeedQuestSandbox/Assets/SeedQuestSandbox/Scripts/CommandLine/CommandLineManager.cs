@@ -285,6 +285,7 @@ public static class CommandLineManager
         return returnString;
     }
 
+    // Finds collisions between interactable objects and their child objects, and displays them on the terminal
     public static string findUiErrors(string input)
     {
         string returnStr = "Errors found for these interactables:";
@@ -317,6 +318,7 @@ public static class CommandLineManager
                 lacksCollider += 1;
             }
         }
+
         // Collision errors were found, and also some UI elements had no colliders
         if (lacksCollider > 0 && returnStr.Length > 40)
         {
