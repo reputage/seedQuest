@@ -105,11 +105,11 @@ namespace SeedQuest.Interactables {
 
         /// <summary> Initalizes Interactable Path and Log </summary>
         static public void Initalize() {
-            InteractablePath.GeneratePathFromSeed(SeedString);
-            InteractablePath.InitializeNextInteractable();
-
             ShowLevelComplete = false;
             isNextHighlighted = false;
+
+            InteractablePath.GeneratePathFromSeed(SeedString);
+            InteractablePath.InitializeNextInteractable();
         }
 
         static public InteractableID[] GetPathIDs() {

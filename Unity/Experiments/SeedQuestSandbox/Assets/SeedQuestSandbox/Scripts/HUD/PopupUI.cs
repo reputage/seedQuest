@@ -18,16 +18,6 @@ public class PopupUI : MonoBehaviour {
     [TextArea]
     public string popupText;
 
-    public void Start() {
-        // Default popup inactive
-        gameObject.SetActive(false);
-
-        // Setup Toggle Button
-        GameObject toggle = GameObject.FindGameObjectWithTag("PopupToggle");
-        if(toggle != null)
-            toggle.GetComponent<Button>().onClick.AddListener(toggleShow);
-    }
-
     public void toggleShow() {
         gameObject.SetActive(!gameObject.activeSelf);
 

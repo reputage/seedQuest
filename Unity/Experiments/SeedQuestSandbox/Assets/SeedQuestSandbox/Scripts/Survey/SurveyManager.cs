@@ -28,11 +28,13 @@ public class SurveyManager : MonoBehaviour
     public Sprite dot;
 
     private string serverUrl = "http://178.128.0.208:8000/surveys";
-    private int xOffset = 0;
+    private float xOffset = 0;
     private int imageXOffset = -34;
     private float cardContainerSize = 0;
     private int currentCardIndex = 0;
     private bool sentDataOnce = false;
+
+    private float cardXSpacing = 4000;
 
     private List<GameObject> dots = new List<GameObject>();
 
@@ -61,11 +63,11 @@ public class SurveyManager : MonoBehaviour
             if (data.surveyData[i].type == SurveyDataItem.QuestionType.Open)
             {
 
-                var newCard = Instantiate(cardTemplateOpen);
+                var newCard = Instantiate(cardTemplateOpen, transform, false);
                 newCard.SetActive(true);
                 newCard.transform.parent = cardContainer.transform;
                 newCard.transform.localPosition = new Vector3(xOffset, 0, 0);
-                xOffset += 4000;
+                xOffset += cardXSpacing;
                 TMP_Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>();
                 text.text = data.surveyData[i].question;
 
@@ -81,11 +83,11 @@ public class SurveyManager : MonoBehaviour
 
             else
             {
-                var newCard = Instantiate(cardTemplateScale);
+                var newCard = Instantiate(cardTemplateScale, transform, false);
                 newCard.SetActive(true);
                 newCard.transform.parent = cardContainer.transform;
                 newCard.transform.localPosition = new Vector3(xOffset, 0, 0);
-                xOffset += 4000;
+                xOffset += cardXSpacing;
                 TMP_Text text = newCard.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>();
                 text.text = data.surveyData[i].question;
 
@@ -107,7 +109,7 @@ public class SurveyManager : MonoBehaviour
 
                 foreach (string header in data.surveyData[i].headers)
                 {
-                    TMP_Text newColumn = Instantiate(column);
+                    TMP_Text newColumn = Instantiate(column, transform, false);
                     newColumn.transform.parent = column.transform.parent;
                     newColumn.transform.localPosition = new Vector3(columnXOffset, 66, 0);
                     newColumn.transform.localScale = new Vector3(1, 1, 1);
@@ -122,7 +124,7 @@ public class SurveyManager : MonoBehaviour
 
                 foreach (string question in data.surveyData[i].questions)
                 {
-                    GameObject newRow = Instantiate(row);
+                    GameObject newRow = Instantiate(row, transform, false);
                     newRow.transform.parent = row.transform.parent;
                     newRow.transform.localPosition = new Vector3(0, 0, 0);
                     newRow.transform.localScale = new Vector3(1, 1, 1);
@@ -130,7 +132,7 @@ public class SurveyManager : MonoBehaviour
 
 
 
-                    GameObject newThumbnail = Instantiate(thumbnail);
+                    GameObject newThumbnail = Instantiate(thumbnail, transform, false);
                     newThumbnail.transform.parent = thumbnail.transform.parent;
                     newThumbnail.transform.localScale = new Vector3(1, 1, 1);
                     thumbnails.Add(newThumbnail);
@@ -161,7 +163,7 @@ public class SurveyManager : MonoBehaviour
 
                     for (int k = 0; k < columns.Count; k++)
                     {
-                        Toggle newToggle = Instantiate(rows[j].transform.GetChild(1).GetChild(0).GetComponent<Toggle>());
+                        Toggle newToggle = Instantiate(rows[j].transform.GetChild(1).GetChild(0).GetComponent<Toggle>(), transform, false);
                         newToggle.transform.parent = rows[j].transform.GetChild(1).GetChild(0).parent;
                         newToggle.transform.localPosition = new Vector3(columns[k].transform.localPosition.x, rowYOffset, 0);
                         newToggle.transform.localScale = new Vector3(1, 1, 1);
@@ -217,7 +219,7 @@ public class SurveyManager : MonoBehaviour
         submitDot.transform.localPosition = new Vector3(imageXOffset, 0, 0);
         dots.Add(submitDot);
 
-        var submitCard = Instantiate(cardTemplateSubmit);
+        var submitCard = Instantiate(cardTemplateSubmit, transform, false);
         submitCard.SetActive(true);
         submitCard.transform.parent = cardContainer.transform;
         submitCard.transform.localPosition = new Vector3(xOffset, 0, 0);
@@ -237,9 +239,8 @@ public class SurveyManager : MonoBehaviour
 
     public void onClickPrevious()
     {
-        if (currentCardIndex > 0)
-        {
-            Vector3 destination = cardContainer.transform.position + new Vector3(4000, 0, 0);
+        if (currentCardIndex > 0) {
+            Vector3 destination =  cardContainer.transform.localPosition + new Vector3(cardXSpacing, 0, 0);
             StartCoroutine(MoveOverSeconds(cardContainer, destination, 1));
 
             dots[currentCardIndex].GetComponent<Image>().sprite = ring;
@@ -252,7 +253,7 @@ public class SurveyManager : MonoBehaviour
     {
         if (currentCardIndex < data.surveyData.Count)
         {
-            Vector3 destination = cardContainer.transform.position - new Vector3(4000, 0, 0);
+            Vector3 destination = cardContainer.transform.localPosition - new Vector3(cardXSpacing, 0, 0);
             StartCoroutine(MoveOverSeconds(cardContainer, destination, 1));
 
 
@@ -267,24 +268,20 @@ public class SurveyManager : MonoBehaviour
         PreviousButton.enabled = false;
         NextButton.enabled = false;
         float elapsedTime = 0;
-        Vector3 startingPos = objectToMove.transform.position;
+        Vector3 startingPos = objectToMove.transform.localPosition;
         while (elapsedTime < seconds)
         {
-            objectToMove.transform.position = Vector3.Lerp(startingPos, end, (elapsedTime / seconds));
+            objectToMove.transform.localPosition = Vector3.Lerp(startingPos, end, (elapsedTime / seconds));
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        objectToMove.transform.position = end;
+        objectToMove.transform.localPosition = end;
         PreviousButton.enabled = true;
         NextButton.enabled = true;
     }
 
 
     public void submitButtonFunc() {
-        if (sentDataOnce) {
-            SceneManager.LoadScene("PrototypeSelect");
-            return;
-        }
 
         List<string> questions = getQuestionsFromSurvey(data);
         List<string> responses = getAnswersFromSurvey(data);
@@ -342,7 +339,7 @@ public class SurveyManager : MonoBehaviour
     public void sendSurveyData()
     {
         cardWarningPopup.SetActive(false);
-        SubmitButton.GetComponentInChildren<TextMeshProUGUI>().text = "Main Menu";
+        SubmitButton.gameObject.SetActive(false);
         SubmitInfoText.text = "Thanks for your feedback!";
 
         if (sentDataOnce == false)
@@ -361,9 +358,11 @@ public class SurveyManager : MonoBehaviour
             sentDataOnce = true;
             StartCoroutine(sqSurveyInterface.postRequest(questions, responses, serverUrl));
         }
-        else {
-            SceneManager.LoadScene("PrototypeSelect");
-        }
+    }
+
+    public void OnBackClick()
+    {
+        SceneManager.LoadScene("PrototypeSelect");
     }
 
     // Get the questions from the scriptable object

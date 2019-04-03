@@ -144,7 +144,7 @@ public class DemoSelectUI : MonoBehaviour {
 
     private Button createLevelButton(DemoInfo info, Transform parent, Vector3 position) {
         GameObject buttonObj = Instantiate(selectButtonPrefab);
-        buttonObj.transform.SetParent(parent);
+        buttonObj.transform.SetParent(parent, false);
         buttonObj.GetComponent<RectTransform>().anchoredPosition3D = position;
         buttonObj.name = info.name + " Button";
 

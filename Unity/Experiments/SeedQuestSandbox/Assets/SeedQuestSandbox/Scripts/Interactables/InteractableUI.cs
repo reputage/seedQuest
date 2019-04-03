@@ -326,7 +326,7 @@ namespace SeedQuest.Interactables
         private void SetCheckButtonActive(bool active) {
             if (mode == InteractableUIMode.NextPrevSelect) {
                 //checkButton.gameObject.SetActive(active);
-                actionUI.GetComponentInChildren<ProgressButton>().SetShow(active, 3.0f);
+                actionUI.GetComponentInChildren<ProgressButton>().SetShow(true, 3.0f);
                 actionUI.GetComponentInChildren<ProgressButton>().ProgressCompleteAction = onClickCheck;
             }
         }

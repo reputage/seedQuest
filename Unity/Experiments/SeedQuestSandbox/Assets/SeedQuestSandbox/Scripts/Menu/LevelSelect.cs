@@ -70,7 +70,7 @@ public class LevelSelect : MonoBehaviour {
         if (currentLevel >= levelList.Length - 1) return;
 
         currentLevel++;
-        levelsCanvas.transform.position += new Vector3(0, height + padding);
+        levelsCanvas.transform.localPosition += new Vector3(0, height + padding);
         setBackgroundColor();
         setCurrentLevelText();
     }
@@ -79,7 +79,7 @@ public class LevelSelect : MonoBehaviour {
         if (currentLevel <= 0) return;
 
         currentLevel--;
-        levelsCanvas.transform.position += new Vector3(0, -(height + padding));
+        levelsCanvas.transform.localPosition += new Vector3(0, -(height + padding));
         setBackgroundColor();
         setCurrentLevelText();
     }
@@ -115,8 +115,8 @@ public class LevelSelect : MonoBehaviour {
     }
 
     private Button createLevelButton(Transform parent, Vector3 position, Vector2 size, Sprite image) {
-        GameObject button = new GameObject("Level Button"); 
-        button.transform.parent = parent;
+        GameObject button = new GameObject("Level Button");
+        button.transform.SetParent(parent, false);
         button.AddComponent<RectTransform>();
         button.AddComponent<Button>();
         button.AddComponent<Image>();
