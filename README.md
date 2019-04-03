@@ -7,12 +7,12 @@
 
 ## You have just found SeedQuest
 
-SeedQuest is 3D mnemonic game used for key recoevery. It is designed to be simple and fun, and only require a few minutes to complete. 
-
-You can find the latest version of the SeedQuest [here](https://github.com/reputage/seedQuest/blob/master/docs/releases.md). 
+SeedQuest is 3D mnemonic game used for key recovery. It is designed to be simple and fun, and only require a few minutes to complete. 
 Please try out the lastest prototype for SeedQuest, and complete a survey to give feedback on the game.
 
-To report issues with the applciation or bugs, please use the [Issues Page](https://github.com/reputage/seedQuest/issues).
+You can find the latest version of the SeedQuest [here](https://github.com/reputage/seedQuest/blob/master/docs/releases.md). 
+
+To report issues with the application or bugs, please use the [Issues Page](https://github.com/reputage/seedQuest/issues).
  
 For help with SeedQuest or talk with developers about this project, visit our [Slack Channel](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWQwYmIwMjIyYTEwZGJjYzNhY2RhNjlhZWE2MDVkOThmMTU5MDhlMTkyZGViNGUyNjYyNTVkYjYyNmRmM2YyZTI). 
 
