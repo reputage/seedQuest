@@ -16,6 +16,6 @@
 ![Windows Protected Your PC Warning](https://github.com/reputage/seedQuest/blob/master/docs/images/windows_protected_your_pc_warning.png)
 9. Click the "More info" link and then click "Run anyway". 
 ![Windows Protected Your PC More Info](https://github.com/reputage/seedQuest/blob/master/docs/images/windows_protected_your_pc_more_info_view.png)
-10. A SeedQuest configuration window will appear. Select 'Play'.
+10. A SeedQuest configuration window will appear. Select "Play".
 ![SeedQuest Configuration Window](https://github.com/reputage/seedQuest/blob/master/docs/images/seedQuest_configuration_window.png)
 11. To Exit SeedQuest press the ESC key. 
