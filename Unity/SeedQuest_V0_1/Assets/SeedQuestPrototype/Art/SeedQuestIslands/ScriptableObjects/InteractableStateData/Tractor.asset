@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
+  m_Name: Tractor
+  m_EditorClassIdentifier: 
+  interactableName: Tractor
+  labelPosOffset: {x: 0, y: 2, z: 0}
+  states:
+  - actionName: Turn On
+    mesh: {fileID: 4300000, guid: d2f343975ab294638a30a56f7035e46e, type: 3}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Engine
+  - actionName: Check Engine
+    mesh: {fileID: 4300000, guid: 84579f39062684bf2827f8ac47bc4ebc, type: 3}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Creak
+  - actionName: Paint Red
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+    materialIndex: 1
+    uvOffset: {x: -0.1, y: 0.3125}
+    animatorController: {fileID: 0}
+    soundEffectName: Splash
+  - actionName: Park
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 9100000, guid: 50424f70469364d5d95f12c01554780e,
+      type: 2}
+    soundEffectName: Whoosh
+  effect: {fileID: 0}
