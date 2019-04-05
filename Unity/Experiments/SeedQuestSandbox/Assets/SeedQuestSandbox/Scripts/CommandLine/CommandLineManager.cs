@@ -266,8 +266,21 @@ public static class CommandLineManager
     public static string getValue(string input)
     {
         string returnStr = "";
-        if (CommandLineGetValues.values.ContainsKey(input))
-            returnStr = CommandLineGetValues.values[input](input);
+        string parameter = "";
+
+        string[] splitText = input.Split(null);
+
+        if (splitText.Length > 2)
+        {
+            for (int i = 1; i < splitText.Length; i++)
+                parameter += splitText[i] + " ";
+            parameter.Trim();
+        }
+        else if (splitText.Length == 2)
+            parameter = splitText[1];
+        
+        if (CommandLineGetValues.values.ContainsKey(splitText[0]))
+            returnStr = CommandLineGetValues.values[splitText[0]](parameter);
         else
             returnStr = "Value not found";
 

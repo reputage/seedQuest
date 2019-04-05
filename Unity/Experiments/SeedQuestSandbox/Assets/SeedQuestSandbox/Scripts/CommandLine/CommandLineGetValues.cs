@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using SeedQuest.Interactables;
 
 public static class CommandLineGetValues
 {
@@ -13,7 +15,8 @@ public static class CommandLineGetValues
     {
         {"gamestate", gameState},
         {"gamemode", gameMode},
-        {"prevstate", prevState}
+        {"prevstate", prevState},
+        {"statics", statics}
     };
 
     public static string gameState(string input)
@@ -60,6 +63,31 @@ public static class CommandLineGetValues
             return "Play";
         else
             return "Cannot determine game mode";
+    }
+
+    public static string statics(string input)
+    {
+        object obj = null;
+
+        string[] splitText = input.Split(null);
+        if (splitText[0] == "path")
+            obj = InteractablePathManager.Instance;
+
+        string returnString = getFieldValues(obj, input);
+        return returnString;
+    }
+
+    public static string getFieldValues(object obj, string objName)
+    {
+        string returnString = "Variables for object: " + objName;
+
+        FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
+        foreach (FieldInfo field in fields)
+        {
+            returnString += "\nField: " + field.Name + " Value: " + field.GetValue(null).ToString();
+        }
+
+        return returnString;
     }
 
 }
