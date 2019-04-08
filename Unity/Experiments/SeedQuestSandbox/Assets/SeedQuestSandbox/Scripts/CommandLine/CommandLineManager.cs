@@ -12,7 +12,7 @@ public static class CommandLineManager
 {
     public static bool isInUse = false;
 
-    // Initialize the dictionary 
+    // Initialize the dictionary. All key strings must be lowercase.
     public static Dictionary<string, Func<string, string>> commands =
         new Dictionary<string, Func<string, string>>
     {
@@ -33,6 +33,7 @@ public static class CommandLineManager
         // make a function for sandbox mode that shows the preview for an interactabel. takes parameters for site id, interactable id, and action id
     };
 
+    // Initialize the help dictionary. All key strings must be lowercase.
     public static Dictionary<string, string> helpDetails = new Dictionary<string, string>
     {
         {"help", "Displays a list of commands"},

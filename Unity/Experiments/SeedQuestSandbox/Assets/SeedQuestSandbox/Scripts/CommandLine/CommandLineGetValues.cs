@@ -9,7 +9,7 @@ using SeedQuest.Interactables;
 public static class CommandLineGetValues
 {
 
-    // Initialize the dictionary 
+    // Initialize the dictionary. All key strings must be lowercase.
     public static Dictionary<string, Func<string, string>> values =
         new Dictionary<string, Func<string, string>>
     {
@@ -17,7 +17,8 @@ public static class CommandLineGetValues
         {"gamemode", gameMode},
         {"prevstate", prevState},
         {"statics", statics},
-        {"log", getLogData}
+        {"log", getLogData},
+        {"path", getPathData}
     };
 
     public static string gameState(string input)
@@ -91,6 +92,27 @@ public static class CommandLineGetValues
         return returnString;
     }
 
+    // Returns the path data from the existing interactable path instance
+    public static string getPathData(string input)
+    {
+        return formatPathData(InteractablePath.Instance);
+    }
+
+    //Formats the path data into a more readable format
+    public static string formatPathData(InteractablePath pathObject)
+    {
+        if (pathObject == null)
+        {
+            return "Could not find instance of InteractablePath object";
+        }
+        string data = "Interactable path data:";
+        foreach (Interactable item in pathObject.path)
+        {
+            data += "\n" + stringifyInteractable(item);
+        }
+        return data;
+    }
+
     // Returns the log data from the existing interactable log instance
     public static string getLogData(string input)
     {
@@ -100,8 +122,12 @@ public static class CommandLineGetValues
     // Formats the log data into a more readable form
     public static string formatLogData(InteractableLog logObject)
     {
-        string data = "Interactable log data:";
+        if (logObject == null)
+        {
+            return "Could not find instance of InteractableLog object";
+        }
 
+        string data = "Interactable log data:";
         foreach(InteractableLogItem item in logObject.log)
         {
             data += "\n" + stringifyLogItem(item);
@@ -119,14 +145,14 @@ public static class CommandLineGetValues
     // Returns a string of an Interactable's data
     public static string stringifyInteractable(Interactable item)
     {
-        string data = "Site: " + item.ID.siteID + " Index/spot: " + item.ID.spotID + " Action: " + item.ID.actionID;
+        string data = "Site: " + item.ID.siteID + " Index: " + item.ID.spotID + " Action: " + item.ID.actionID;
         return data;
     }
 
     // Overload function for the above function. Accepts Interactable ID instead of Interactable
     public static string stringifyInteractable(InteractableID item)
     {
-        string data = "Site: " + item.siteID + " Index/spot: " + item.spotID + " Action: " + item.actionID;
+        string data = "Site: " + item.siteID + " Index: " + item.spotID + " Action: " + item.actionID;
         return data;
     }
 
