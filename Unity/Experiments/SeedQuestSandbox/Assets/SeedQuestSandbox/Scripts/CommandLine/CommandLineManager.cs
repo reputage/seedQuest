@@ -275,11 +275,11 @@ public static class CommandLineManager
         {
             for (int i = 1; i < splitText.Length; i++)
                 parameter += splitText[i] + " ";
-            parameter.Trim();
+            parameter = parameter.Trim();
         }
         else if (splitText.Length == 2)
             parameter = splitText[1];
-        
+
         if (CommandLineGetValues.values.ContainsKey(splitText[0]))
             returnStr = CommandLineGetValues.values[splitText[0]](parameter);
         else

@@ -18,7 +18,8 @@ public static class CommandLineGetValues
         {"prevstate", prevState},
         {"statics", statics},
         {"log", getLogData},
-        {"path", getPathData}
+        {"path", getPathData},
+        {"interactable", getInteractableData}
     };
 
     public static string gameState(string input)
@@ -82,7 +83,6 @@ public static class CommandLineGetValues
     public static string getFieldValues(object obj, string objName)
     {
         string returnString = "Variables for object: " + objName;
-
         FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
         foreach (FieldInfo field in fields)
         {
@@ -113,6 +113,40 @@ public static class CommandLineGetValues
         return data;
     }
 
+    // This function parses out the input to determine if the user is searching
+    //  by interactable name or by ID, and returns data for the found interactable.
+    public static string getInteractableData(string input)
+    {
+        string[] stringInputs = input.Split(null);
+        int[] intInput = new int[stringInputs.Length];
+        bool validInts = true;
+
+        if (stringInputs.Length > 1)
+            for (int i = 0; i < stringInputs.Length; i++)
+                validInts = int.TryParse(stringInputs[i], out intInput[i]) && validInts;
+        else
+            validInts = false;
+
+        foreach (Interactable item in InteractableManager.InteractableList)
+        {
+            // if integers were input for the command, check for site and spot ID matches
+            if (validInts)
+                if (item.ID.siteID == intInput[0] && item.ID.spotID == intInput[1])
+                    return stringifyInteractable(item);
+
+            if (item.Name.ToLower() == input) // first checks the interactable's 'Name' variable
+                return stringifyInteractable(item);
+            else if (item.Name.ToLower() == stringInputs[0])
+                return stringifyInteractable(item);
+            else if (item.name.ToLower() == input) // checks the interactable's unity object name
+                return stringifyInteractable(item);
+            else if (item.Name.ToLower() == stringInputs[0])
+                return stringifyInteractable(item);
+        }
+
+        return "Could not find any interactable by that name or ID.";
+    }
+
     // Returns the log data from the existing interactable log instance
     public static string getLogData(string input)
     {
@@ -128,17 +162,11 @@ public static class CommandLineGetValues
         }
 
         string data = "Interactable log data:";
-        foreach(InteractableLogItem item in logObject.log)
+        foreach (InteractableLogItem item in logObject.log)
         {
             data += "\n" + stringifyLogItem(item);
         }
         return data;
-    }
-
-    public static string getInteractableData(string input)
-    {
-
-        return "";
     }
 
     // Returns a string of an Interactable Log item's data
@@ -151,7 +179,7 @@ public static class CommandLineGetValues
     // Returns a string of an Interactable's data
     public static string stringifyInteractable(Interactable item)
     {
-        string data = "Name: " + item.name + " Site: " + item.ID.siteID + " Index: " + item.ID.spotID + " Action: " + item.ID.actionID;
+        string data = "Name: " + item.Name + " Site: " + item.ID.siteID + " Index: " + item.ID.spotID + " Action: " + item.ID.actionID;
         return data;
     }
 
@@ -161,5 +189,7 @@ public static class CommandLineGetValues
         string data = "Site: " + item.siteID + " Index: " + item.spotID + " Action: " + item.actionID;
         return data;
     }
+
+    //coneinteractable
 
 }
