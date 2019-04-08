@@ -135,6 +135,12 @@ public static class CommandLineGetValues
         return data;
     }
 
+    public static string getInteractableData(string input)
+    {
+
+        return "";
+    }
+
     // Returns a string of an Interactable Log item's data
     public static string stringifyLogItem(InteractableLogItem item)
     {
@@ -145,7 +151,7 @@ public static class CommandLineGetValues
     // Returns a string of an Interactable's data
     public static string stringifyInteractable(Interactable item)
     {
-        string data = "Site: " + item.ID.siteID + " Index: " + item.ID.spotID + " Action: " + item.ID.actionID;
+        string data = "Name: " + item.name + " Site: " + item.ID.siteID + " Index: " + item.ID.spotID + " Action: " + item.ID.actionID;
         return data;
     }
 
