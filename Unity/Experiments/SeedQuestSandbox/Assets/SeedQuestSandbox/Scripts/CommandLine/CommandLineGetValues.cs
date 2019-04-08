@@ -16,7 +16,8 @@ public static class CommandLineGetValues
         {"gamestate", gameState},
         {"gamemode", gameMode},
         {"prevstate", prevState},
-        {"statics", statics}
+        {"statics", statics},
+        {"log", getLogData}
     };
 
     public static string gameState(string input)
@@ -88,6 +89,45 @@ public static class CommandLineGetValues
         }
 
         return returnString;
+    }
+
+    // Returns the log data from the existing interactable log instance
+    public static string getLogData(string input)
+    {
+        return formatLogData(InteractableLog.Instance);
+    }
+
+    // Formats the log data into a more readable form
+    public static string formatLogData(InteractableLog logObject)
+    {
+        string data = "Interactable log data:";
+
+        foreach(InteractableLogItem item in logObject.log)
+        {
+            data += "\n" + stringifyLogItem(item);
+        }
+        return data;
+    }
+
+    // Returns a string of an Interactable Log item's data
+    public static string stringifyLogItem(InteractableLogItem item)
+    {
+        string data = "Site: " + item.SiteIndex + " Index: " + item.InteractableIndex + " Action: " + item.ActionIndex;
+        return data;
+    }
+
+    // Returns a string of an Interactable's data
+    public static string stringifyInteractable(Interactable item)
+    {
+        string data = "Site: " + item.ID.siteID + " Index/spot: " + item.ID.spotID + " Action: " + item.ID.actionID;
+        return data;
+    }
+
+    // Overload function for the above function. Accepts Interactable ID instead of Interactable
+    public static string stringifyInteractable(InteractableID item)
+    {
+        string data = "Site: " + item.siteID + " Index/spot: " + item.spotID + " Action: " + item.actionID;
+        return data;
     }
 
 }
