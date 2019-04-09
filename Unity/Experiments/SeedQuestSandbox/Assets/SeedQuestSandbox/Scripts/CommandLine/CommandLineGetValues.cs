@@ -35,12 +35,12 @@ public static class CommandLineGetValues
         {"interactablelog", InteractableLog.Instance},
         {"interactablemanager", InteractableManager.Instance},
         {"interactablepath", InteractablePath.Instance},
-        {"interactablepathmanager", InteractablePathManager.Instance}, //***
-        {"interactablepreviewui", InteractablePreviewUI.Instance}, // ****
+        {"interactablepathmanager", InteractablePathManager.Instance}, 
+        {"interactablepreviewui", InteractablePreviewUI.Instance}, 
         {"levelclearui", LevelClearUI.Instance},
         {"levelmanager", LevelManager.Instance},
-        {"markermanager", MarkerManager.instance}, // ***
-        {"settingsmanager", SettingsManager.Instance}, // ***
+        {"markermanager", MarkerManager.instance}, 
+        {"settingsmanager", SettingsManager.Instance}, 
         {"tutorialstate", TutorialState.Instance}
     };
 
@@ -126,12 +126,12 @@ public static class CommandLineGetValues
     {
         string returnString = "Variables for object: " + objName;
         FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
+
         foreach (FieldInfo field in fields)
         {
             returnString += "\nField: " + field.Name + " Value: " + field.GetValue(null).ToString();
         }
-
-        if (returnString.Length < 25)
+        if (returnString.Length < (25 + objName.Length))
         {
             returnString = "Could not find any available variables";
         }
