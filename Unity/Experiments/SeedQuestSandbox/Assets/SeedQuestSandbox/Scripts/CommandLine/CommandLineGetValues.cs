@@ -5,6 +5,8 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using SeedQuest.Interactables;
+using SeedQuest.Debugger;
+using SeedQuest.Level;
 
 public static class CommandLineGetValues
 {
@@ -20,6 +22,26 @@ public static class CommandLineGetValues
         {"log", getLogData},
         {"path", getPathData},
         {"interactable", getInteractableData}
+    };
+
+    // Initialize the dictionary of references to static classes. All key strings must be lowercase.
+    public static Dictionary<string, object> staticsDict = new Dictionary<string, object>
+    {
+        {"debugmanager", DebugManager.Instance},
+        {"effectsmanager", EffectsManager.instance},
+        {"endgameui", EndGameUI.Instance},
+        {"gamemanager", GameManager.Instance},
+        {"hudmanager", HUDManager.Instance},
+        {"interactablelog", InteractableLog.Instance},
+        {"interactablemanager", InteractableManager.Instance},
+        {"interactablepath", InteractablePath.Instance},
+        {"interactablepathmanager", InteractablePathManager.Instance}, //***
+        {"interactablepreviewui", InteractablePreviewUI.Instance}, // ****
+        {"levelclearui", LevelClearUI.Instance},
+        {"levelmanager", LevelManager.Instance},
+        {"markermanager", MarkerManager.instance}, // ***
+        {"settingsmanager", SettingsManager.Instance}, // ***
+        {"tutorialstate", TutorialState.Instance}
     };
 
     public static string gameState(string input)
@@ -73,20 +95,45 @@ public static class CommandLineGetValues
         object obj = null;
 
         string[] splitText = input.Split(null);
-        if (splitText[0] == "path")
-            obj = InteractablePathManager.Instance;
 
-        string returnString = getFieldValues(obj, input);
+        if (staticsDict.ContainsKey(input))
+        {
+            obj = staticsDict[input];
+        }
+        else if (staticsDict.ContainsKey(splitText[0]))
+        {
+            obj = staticsDict[splitText[0]];
+        }
+        else
+            return "Could not find an object, class, or manager by that name.\n" + getAvailableStatics("");
+
+        string returnString = getStaticFields(obj, input);
         return returnString;
     }
 
-    public static string getFieldValues(object obj, string objName)
+    // Returns a list of the values available through the 'get statics' command
+    public static string getAvailableStatics(string input)
+    {
+        string returnString = "Available classes:";
+        foreach (string key in staticsDict.Keys)
+        {
+            returnString += "\n" + key;
+        }
+        return returnString;
+    }
+
+    public static string getStaticFields(object obj, string objName)
     {
         string returnString = "Variables for object: " + objName;
         FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
         foreach (FieldInfo field in fields)
         {
             returnString += "\nField: " + field.Name + " Value: " + field.GetValue(null).ToString();
+        }
+
+        if (returnString.Length < 25)
+        {
+            returnString = "Could not find any available variables";
         }
 
         return returnString;
