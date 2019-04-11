@@ -31,19 +31,15 @@ public static class CommandLineGetValues
     {
         {"debugmanager", DebugManager.Instance},
         {"effectsmanager", EffectsManager.instance},
-        {"endgameui", EndGameUI.Instance},
         {"gamemanager", GameManager.Instance},
         {"hudmanager", HUDManager.Instance},
         {"interactablelog", InteractableLog.Instance},
         {"interactablemanager", InteractableManager.Instance},
         {"interactablepath", InteractablePath.Instance},
         {"interactablepathmanager", InteractablePathManager.Instance}, 
-        {"interactablepreviewui", InteractablePreviewUI.Instance}, 
-        {"levelclearui", LevelClearUI.Instance},
         {"levelmanager", LevelManager.Instance},
         {"markermanager", MarkerManager.instance}, 
         {"settingsmanager", SettingsManager.Instance}, 
-        {"tutorialstate", TutorialState.Instance}
     };
 
     public static string interactableCount(string input)
