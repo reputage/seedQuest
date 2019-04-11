@@ -15,13 +15,14 @@ public static class CommandLineGetValues
     public static Dictionary<string, Func<string, string>> values =
         new Dictionary<string, Func<string, string>>
     {
+        {"count", interactableCount},
         {"gamestate", gameState},
         {"gamemode", gameMode},
-        {"prevstate", prevState},
-        {"statics", statics},
+        {"interactable", getInteractableData},
         {"log", getLogData},
         {"path", getPathData},
-        {"interactable", getInteractableData}
+        {"prevstate", prevState},
+        {"statics", statics}
     };
 
     // Initialize the dictionary of references to static classes. All key strings must be lowercase.
@@ -43,6 +44,16 @@ public static class CommandLineGetValues
         {"settingsmanager", SettingsManager.Instance}, 
         {"tutorialstate", TutorialState.Instance}
     };
+
+    public static string interactableCount(string input)
+    {
+        int counter = 0;
+        foreach (Interactable item in InteractableManager.InteractableList)
+            counter += 1;
+
+        string result = counter + " interactables found in this scene.";
+        return result;
+    }
 
     public static string gameState(string input)
     {
