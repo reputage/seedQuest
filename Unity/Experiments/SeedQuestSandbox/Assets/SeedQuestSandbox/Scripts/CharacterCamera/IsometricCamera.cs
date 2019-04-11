@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class IsometricCamera : MonoBehaviour
 {
 
@@ -21,20 +21,32 @@ public class IsometricCamera : MonoBehaviour
     private float time = 0f;
     private float startTime = 1.0f;
     private float stopTime = 3.0f;
-    private bool useCameraMove = false;
+    [SerializeField]
+    private bool useCameraMove = true;
 
     private void Awake()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         IsometricCamera.Camera = gameObject.GetComponent<Camera>();
+
+    }
+
+    private void Start()
+    {
+        moveOffset = Vector3.zero;
+        useCameraMove = true;
+        //currentOffset = cameraDirection.normalized * distance;
+        //startPosition = transform.position;
+        //targetPosition = playerTransform.position + currentOffset;
     }
 
     private void Update()
     {
-        CheckIfClickOnScreenEdge();
+        CheckIfMouseOnEdge();
+        CheckForClickMove();
     }
 
-    public void CheckIfClickOnScreenEdge()
+    public void CheckForClickMove()
     {
         if (PauseManager.isPaused || PauseManager.isInteracting)
             return;
@@ -47,10 +59,12 @@ public class IsometricCamera : MonoBehaviour
             float minX = Screen.width * 0.2f;
             float maxX = Screen.width * 0.8f;
             float minY = Screen.height * 0.2f;
-            float maxY = Screen.width * 0.8f;
+            float maxY = Screen.height * 0.8f;
             bool isOnEdge = (mouse.x < minX || maxX < mouse.x || mouse.y < minY || maxY < mouse.y);
 
-            useCameraMove = isOnEdge;
+            if (!useCameraMove)
+                useCameraMove = isOnEdge;
+
             return;
 
             if (isOnEdge)
@@ -67,6 +81,31 @@ public class IsometricCamera : MonoBehaviour
         }
     }
 
+    public void CheckIfMouseOnEdge()
+    {
+        Vector3 mouse = Input.mousePosition;
+        Vector2 screen = new Vector2(Screen.width, Screen.height);
+
+        float minX = Screen.width * 0.1f;
+        float maxX = Screen.width * 0.9f;
+        float minY = Screen.height * 0.1f;
+        float maxY = Screen.height * 0.9f;
+        bool isOnEdge = (mouse.x < minX || maxX < mouse.x || mouse.y < minY || maxY < mouse.y);
+
+        if (isOnEdge)
+        {
+            if (mouse.x < minX)
+                MoveCamera(ScreenSpaceDirection.left);
+            else if (maxX < mouse.x)
+                MoveCamera(ScreenSpaceDirection.right);
+            else if (maxY < mouse.y)
+                MoveCamera(ScreenSpaceDirection.up);
+            else if (mouse.y < minY)
+                MoveCamera(ScreenSpaceDirection.down);
+        }
+    }
+
+    public Vector3 moveOffset = Vector3.zero;
     public void MoveCamera(ScreenSpaceDirection direction)
     {
         float moveSpeed = 10f;
@@ -77,20 +116,40 @@ public class IsometricCamera : MonoBehaviour
         else if (direction == ScreenSpaceDirection.right)
             moveDirection = Camera.transform.rotation * Vector3.right * Time.deltaTime * moveSpeed;
         else if (direction == ScreenSpaceDirection.up)
-            moveDirection = Camera.transform.rotation * Vector3.up * Time.deltaTime * moveSpeed;
+            moveDirection = Camera.transform.rotation * Vector3.forward * Time.deltaTime * moveSpeed;
         else
-            moveDirection = Camera.transform.rotation * Vector3.down * Time.deltaTime * moveSpeed;
+            moveDirection = Camera.transform.rotation * Vector3.back * Time.deltaTime * moveSpeed;
 
-        transform.position = playerTransform.position + currentOffset + moveDirection;
+        moveOffset += moveDirection;
+        //transform.position = transform.position + moveDirection;
     }
 
+    Vector3 startPosition;
+    Vector3 targetPosition;
+    bool continueSmoothCamera = false;
     private void LateUpdate()
     {
-        SetOffset();
-        if (useCameraMove)
-            SmoothFollowCamera();
 
-        //SmoothMoveCamera()
+        SetOffset();
+        //if(useCameraMove)
+        SmoothFollowCamera();
+
+
+        /*
+        if(useCameraMove) {
+            startPosition = transform.position;
+            targetPosition = playerTransform.position + currentOffset;
+        }
+
+        SmoothMoveCamera(startPosition, targetPosition, 1.0f);
+
+        */
+
+        /*
+        if (useCameraMove) {
+            SmoothFollowCamera();
+        }
+        */
     }
 
     public void SetOffset()
@@ -117,9 +176,14 @@ public class IsometricCamera : MonoBehaviour
         if (playerTransform.position == Vector3.zero)
             return;
 
-        Vector3 desiredPosition = playerTransform.position + currentOffset;
+        Vector3 desiredPosition = playerTransform.position + currentOffset + moveOffset;
         Vector3 currentPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = currentPosition;
+
+        if ((desiredPosition - currentPosition).magnitude < 0.1f)
+        {
+            useCameraMove = false;
+        }
     }
 
     private float lerp_time = 0;
