@@ -19,6 +19,7 @@ public static class CommandLineGetValues
         {"gamestate", gameState},
         {"gamemode", gameMode},
         {"interactable", getInteractableData},
+        {"list", interactableList},
         {"log", getLogData},
         {"path", getPathData},
         {"prevstate", prevState},
@@ -53,6 +54,25 @@ public static class CommandLineGetValues
 
         string result = counter + " interactables found in this scene.";
         return result;
+    }
+
+    public static string interactableList(string input)
+    {
+        string returnString = "Interactables in this scene: ";
+        returnString += "\nName:   Site: Spot: Action: ObjectName:";
+        int length = returnString.Length;
+        foreach (Interactable item in InteractableManager.InteractableList)
+        {
+            returnString += "\n" + item.Name + " " + item.ID.siteID + " " + item.ID.spotID + 
+                                       " " + item.ID.actionID + " " + item.name;
+        }
+
+        if (returnString.Length <= length)
+        {
+            returnString = "No interactables found in this scene";
+        }
+
+        return returnString;
     }
 
     public static string gameState(string input)
@@ -136,13 +156,14 @@ public static class CommandLineGetValues
     public static string getStaticFields(object obj, string objName)
     {
         string returnString = "Variables for object: " + objName;
+        int length = returnString.Length;
         FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
 
         foreach (FieldInfo field in fields)
         {
             returnString += "\nField: " + field.Name + " Value: " + field.GetValue(null).ToString();
         }
-        if (returnString.Length < (25 + objName.Length))
+        if (returnString.Length <= length)
         {
             returnString = "Could not find any available variables";
         }
