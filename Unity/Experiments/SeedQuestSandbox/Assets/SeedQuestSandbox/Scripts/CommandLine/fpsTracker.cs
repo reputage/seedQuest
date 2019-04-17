@@ -24,14 +24,24 @@ public class fpsTracker : MonoBehaviour
     {
         //realFPS();
         avgFps();
+        //statWindowFps();
     }
 
+    // This is innaccurate and won't work in builds - only in the editor
+    public void statWindowFps()
+    {
+        fps = 0.04f / UnityEditor.UnityStats.renderTime;
+        text.text = "FPS: " + fps;
+    }
+
+    // Calculates the real FPS - stats window FPS is actually very innaccurate, this is far more accurate
     public void realFPS()
     {
         fps = 1.0f / Time.deltaTime;
         text.text = "FPS: " + fps;
     }
 
+    // Calculates the average FPS, more accurate than stats window FPS
     public void avgFps()
     {
         timeLeft -= Time.deltaTime;
@@ -52,3 +62,5 @@ public class fpsTracker : MonoBehaviour
     }
 
 }
+
+
