@@ -8,6 +8,8 @@ public class CommandLineInputUI : MonoBehaviour
     public GameObject commandLineField;
     public GameObject panel;
     public GameObject terminalLines;
+    public GameObject fpsPrefab;
+    public GameObject fpsDisplay;
     public InputField inputField;
     public Image panelImage;
     public Text inputText;
@@ -73,9 +75,18 @@ public class CommandLineInputUI : MonoBehaviour
         panelImage = panel.GetComponentInChildren<Image>(true);
         inputText = inputField.GetComponentInChildren<Text>();
         terminalText = terminalLines.GetComponentInChildren<Text>();
+        setFpsDisplay();
 
         ready = true;
         setActiveUi(false);
+    }
+
+    // Instantiate the FPS display object from the prefab
+    public void setFpsDisplay()
+    {
+        fpsDisplay =  Instantiate(fpsPrefab);
+        fpsDisplay.transform.SetParent(transform);
+        fpsDisplay.SetActive(false);
     }
 
     // Sets all UI elements to active or inactive, depending on if true or false is passed
@@ -193,6 +204,10 @@ public class CommandLineInputUI : MonoBehaviour
             terminalText.text = "";
             return;
         }
+        else if (input[0] == "fps")
+        {
+            toggleFpsDisplay();
+        }
 
         if (CommandLineManager.commands.ContainsKey(input[0]))
             output = CommandLineManager.commands[input[0]](parameter);
@@ -208,10 +223,21 @@ public class CommandLineInputUI : MonoBehaviour
             print(output);
     }
 
-    // Just prints to Debug.Log for now, should instead display to the front end terminal eventually
+    // Sets the text of the command line's terminal
     public void print(string input)
     {
         terminalText.text = terminalText.text + '\n' + input;
+    }
+
+    // Toggle the fps display object
+    public void toggleFpsDisplay()
+    {
+        if (fpsDisplay == null)
+            print("Could not instantiate FPS display object.");
+        else if(fpsDisplay.activeSelf)
+            fpsDisplay.SetActive(false);
+        else
+            fpsDisplay.SetActive(true);
     }
 
 }
