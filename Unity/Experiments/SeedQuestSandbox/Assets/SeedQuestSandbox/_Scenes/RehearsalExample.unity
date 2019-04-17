@@ -9932,7 +9932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 31.2}
+  m_AnchoredPosition: {x: 0, y: 31.199951}
   m_SizeDelta: {x: 600, y: 180}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!223 &1219554092
@@ -15364,7 +15364,7 @@ GameObject:
   - component: {fileID: 1853960157}
   - component: {fileID: 1853960156}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: IsometricCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15383,8 +15383,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b795677a14245bab51a00aee18bb70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothSpeed: 10
+  smoothSpeed: 1
   offset: {x: 5.41, y: 5.41, z: 5.41}
+  cameraDirection: {x: 1, y: 1, z: 1}
+  distance: 14
+  startingDistance: 28
+  useCameraMove: 1
+  moveOffset: {x: 0, y: 0, z: 0}
 --- !u!81 &1853960157
 AudioListener:
   m_ObjectHideFlags: 0
@@ -18695,6 +18700,11 @@ PrefabInstance:
         type: 3}
       propertyPath: cursorTextureWalking
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506645488758582509, guid: 7a00f4284fa04452c8db49a28901e3b4,
+        type: 3}
+      propertyPath: runClickDistance
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a00f4284fa04452c8db49a28901e3b4, type: 3}
