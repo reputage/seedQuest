@@ -7,6 +7,9 @@ public class LevelIconButton : MonoBehaviour {
     static public int activeIndex = -1;
     static public LevelIconButton[] activeButtons = new LevelIconButton[4];
 
+
+    public string name;
+    public string scenename;
     public Color backgroundColor;
     public Sprite iconImage;
 
