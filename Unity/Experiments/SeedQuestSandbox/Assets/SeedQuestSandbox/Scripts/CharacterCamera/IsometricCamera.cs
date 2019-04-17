@@ -10,7 +10,7 @@ public class IsometricCamera : MonoBehaviour
 
     static public Camera Camera = null;              // Static reference to Camera 
 
-    public float smoothSpeed = 10f;                  // Camera lerp smoothing speed parameter
+    public float smoothSpeed = 2f;                  // Camera lerp smoothing speed parameter
     public Vector3 offset = new Vector3(1, 1, -1);  // Camera position offset
     public Vector3 cameraDirection = new Vector3(1, 1, -1);
     public float distance = 14;
@@ -42,8 +42,8 @@ public class IsometricCamera : MonoBehaviour
 
     private void Update()
     {
-        CheckIfMouseOnEdge();
-        CheckForClickMove();
+        //CheckIfMouseOnEdge();
+        //CheckForClickMove();
     }
 
     public void CheckForClickMove()
@@ -176,7 +176,7 @@ public class IsometricCamera : MonoBehaviour
         if (playerTransform.position == Vector3.zero)
             return;
 
-        Vector3 desiredPosition = playerTransform.position + currentOffset + moveOffset;
+        Vector3 desiredPosition = playerTransform.position + currentOffset;// + moveOffset;
         Vector3 currentPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = currentPosition;
 
@@ -197,4 +197,3 @@ public class IsometricCamera : MonoBehaviour
         lerp_time += Time.deltaTime;
     }
 }
-

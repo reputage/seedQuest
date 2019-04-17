@@ -28,8 +28,9 @@ namespace SeedQuest.Interactables
         private bool dialogueSelected = false;
 
         public void Update() {
-            if (isReady())
-            {
+            if (isReady()) {
+                SetScale();
+                SetFontSize();
                 SetPosition();
                 SetRotation();
             }
@@ -61,6 +62,7 @@ namespace SeedQuest.Interactables
             debugActionUI = actionUI;
 
             SetScale();
+            SetFontSize();
             SetPosition();
             SetupLabel();
             SetupActionButtons();
@@ -88,10 +90,6 @@ namespace SeedQuest.Interactables
 
         /// <summary> Intialize and Setup Action Buttons </summary>
         public void SetupActionButtons() {
-            var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-            foreach (TMPro.TextMeshProUGUI text in textList)
-                text.fontSize = fontSize;
-
             Button[] buttons = actionUI.GetComponentsInChildren<Button>();
 
             if (mode == InteractableUIMode.NextPrevSelect)  {
@@ -291,6 +289,13 @@ namespace SeedQuest.Interactables
         /// <summary> Sets UI Size Scale </summary>
         public void SetScale() {
             actionUI.GetComponent<RectTransform>().localScale = new Vector3(-0.01f * scaleSize, 0.01f * scaleSize, 0.01f * scaleSize);
+        }
+
+
+        public void SetFontSize() {
+            var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+            foreach (TMPro.TextMeshProUGUI text in textList)
+                text.fontSize = fontSize;
         }
 
         /// <summary> Sets UI Position </summary>
