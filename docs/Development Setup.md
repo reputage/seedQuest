@@ -13,4 +13,4 @@ Make sure to install these dependencies before working on seedQuest
 
 
 # Troubleshooting
-1. If All the project files are there, but nothing is rendering, you probably didn't set up git lfs so you're missing all the asset files.
+1. If All the project files are there, but nothing is rendering, you probably didn't set up git lfs so you're asset files are all empty.
