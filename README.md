@@ -18,7 +18,7 @@ For help with SeedQuest or talk with developers about this project, visit our [S
 
 ### Lastest News
 
-SeedQuest MVP is coming soon. We'll release on github to the public on May 20th. Look forward to that!
+SeedQuest Beta is coming soon. We'll release on github to the public on May 20th. Look forward to that!
 
 ## How does SeedQuest work?
 
