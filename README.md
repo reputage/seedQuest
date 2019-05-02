@@ -16,6 +16,10 @@ To report issues with the application or bugs, please use the [Issues Page](http
  
 For help with SeedQuest or talk with developers about this project, visit our [Slack Channel](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWQwYmIwMjIyYTEwZGJjYzNhY2RhNjlhZWE2MDVkOThmMTU5MDhlMTkyZGViNGUyNjYyNTVkYjYyNmRmM2YyZTI). 
 
+### Lastest News
+
+SeedQuest MVP is coming soon. We'll release on github to the public on May 20th. Look forward to that!
+
 ## How does SeedQuest work?
 
 In SeedQuest, the player will visit a few different locations and perform various actions in a specific orfer. This order of actions is used to encode a key which will be used as a seed string. This seed is used to randomly generate the series of actions in the game that you'll need to remember. You have no control over that encoding, but you can select the seed string you would like to use. You can practice learning the order of actions in 'learn' mode, and then you can prove your memory in 'recover' mode. In 'recover' mode you can play the game to decode and recover your seed string by completeing the actions in the correct sequence. 
