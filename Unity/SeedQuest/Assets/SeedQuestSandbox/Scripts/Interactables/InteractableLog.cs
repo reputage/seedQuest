@@ -53,6 +53,11 @@ namespace SeedQuest.Interactables
         /// <summary> Gets number of log elements </summary>
         static public int Count { get => Instance.log.Count; }
 
+        /// <summary>  Gets the index of the current level based on log count </summary>
+        static public int CurrentLevelIndex { 
+            get { return (int) Mathf.Floor(Count / InteractableConfig.ActionsPerSite); } 
+        }
+
         /// <summary> Path Percent Complete based on ActionsPerGame </summary>
         static public float PercentComplete {
             get { return 100.0f * Instance.log.Count / InteractableConfig.ActionsPerGame; }

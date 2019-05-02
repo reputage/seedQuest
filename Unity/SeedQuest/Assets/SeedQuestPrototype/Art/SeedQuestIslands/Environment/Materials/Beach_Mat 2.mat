@@ -10,7 +10,7 @@ Material:
   m_Name: Beach_Mat 2
   m_Shader: {fileID: 4800000, guid: d4bb85d696a2a1c4aa8a764f70751303, type: 3}
   m_ShaderKeywords: _DETAIL_MULX2 _NORMALMAP
-  m_LightmapFlags: 4
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -20,6 +20,18 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base_Diffuse:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base_Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base_Spec:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -42,6 +54,10 @@ Material:
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 3305cf1edf6f89441bcde034af50f402, type: 3}
         m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 0, y: 0}
+    - _Emissions:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 3305cf1edf6f89441bcde034af50f402, type: 3}
@@ -83,6 +99,18 @@ Material:
         m_Texture: {fileID: 2800000, guid: 9fb53ba31f9de1b42a5e82eaf4bc5856, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Top_Diffuse:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Top_Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Top_Spec:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -93,11 +121,16 @@ Material:
     - _DetailNormalMapScale: 0.39
     - _DstBlend: 0
     - _Emission: 0
+    - _EmissionPower: 0
+    - _Fres_Bias_Power: 0.03
+    - _Fres_Power: 3.18
+    - _Fres_Scale_Power: -0.09
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
+    - _NormalPower: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
@@ -109,14 +142,18 @@ Material:
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
+    - _Base_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Base_Spec_Color: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 0}
     - _Col: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0.05660379, g: 0.05660379, b: 0.05660379, a: 1}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}
     - _Grass: {r: 0, g: 0, b: 0, a: 0}
     - _Grass_Spec: {r: 0.3207547, g: 0.30372658, b: 0.246618, a: 0}
     - _R: {r: 0, g: 0, b: 0, a: 0}
     - _Rock_Color: {r: 0.42352942, g: 0.30871445, b: 0.21303529, a: 0}
     - _Rock_Spec: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 0}
     - _Sped: {r: 0, g: 0, b: 0, a: 0}
-    - _TopColor: {r: 1, g: 1, b: 1, a: 0}
+    - _TopColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0}
+    - _Top_Spec_Color: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 0}

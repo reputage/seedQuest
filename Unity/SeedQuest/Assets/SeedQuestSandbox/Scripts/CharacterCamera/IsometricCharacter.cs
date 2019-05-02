@@ -5,14 +5,36 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class IsometricCharacter : MonoBehaviour {
+    
+    public float runSpeedMultiplier = 2;
+    public float runClickDistance = 6;
+
+    private NavMeshAgent agent;
+    private float walkSpeed;
+
+    public void Start() {
+        agent = GetComponent<NavMeshAgent>();
+        walkSpeed = agent.speed;
+    }
 
     public void Update() {
         MoveWithClick();
         CheckIfWalkable();
     }
+    
+    public void SetAgentSpeed(Vector3 target) {
+        float dist = GetDistance(transform.position, target);
+        if (dist > runClickDistance)
+            agent.speed = walkSpeed * runSpeedMultiplier;
+        else
+            agent.speed = walkSpeed;
+    }
 
-    public void MoveWithClick()
-    {
+    public float GetDistance(Vector3 v1, Vector3 v2) {
+        return (v1 - v2).magnitude;
+    }
+
+    public void MoveWithClick() {
         if (PauseManager.isPaused || PauseManager.isInteracting)
             return;
 
@@ -25,8 +47,9 @@ public class IsometricCharacter : MonoBehaviour {
                 NavMeshHit navHit;
                 int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
                 if (NavMesh.SamplePosition(hit.point, out navHit, 1.0f, walkableMask)) {
-                    NavMeshAgent agent = GetComponent<NavMeshAgent>();
+                    agent = GetComponent<NavMeshAgent>();
                     agent.SetDestination(hit.point);
+                    SetAgentSpeed(hit.point);
 
                     MarkerManager.GenerateMarker(hit.point + new Vector3(0, 0.1f, 0), Quaternion.identity);
                 }

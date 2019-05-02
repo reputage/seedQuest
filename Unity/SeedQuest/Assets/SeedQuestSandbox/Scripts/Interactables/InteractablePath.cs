@@ -53,6 +53,9 @@ namespace SeedQuest.Interactables
         {
             get
             {
+                if (Instance.path == null)
+                    return null;
+                
                 if (Instance.nextIndex < Instance.path.Count)
                     return Instance.path[Instance.nextIndex];
                 else

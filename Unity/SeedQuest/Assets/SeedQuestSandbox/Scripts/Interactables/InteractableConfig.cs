@@ -11,13 +11,13 @@ namespace SeedQuest.Interactables
     public class InteractableConfig
     {
         /// <summary> Numer of Bits for Levels/Sites in Game  </summary>
-        static public int SiteBits = 1; //4;
+        static public int SiteBits = 4; //1; //4;
 
         /// <summary> Numer of Levels/Sites in Game  </summary>
         static public int SiteCount { get { return (int)Mathf.Pow(2.0F, SiteBits); } }
 
         /// <summary> Number of Bits for Interactables per Level  </summary>
-        static public int InteractableBits = 3; //5;
+        static public int InteractableBits = 4; //3; //5;
 
         /// <summary> Number of Interactables per Level  </summary>
         static public int InteractableCount { get { return (int)Mathf.Pow(2.0F, InteractableBits); } }
@@ -29,10 +29,10 @@ namespace SeedQuest.Interactables
         static public int ActionCount { get { return (int)Mathf.Pow(2.0F, ActionBits); } }
 
         /// <summary> Number of Actions to do per Level </summary>
-        static public int ActionsPerSite = 3; //4;
+        static public int ActionsPerSite = 4; //3; //4;
 
         /// <summary> Number of Levels to do per Game </summary>
-        static public int SitesPerGame = 2;        
+        static public int SitesPerGame = 4; //2;        
 
         /// <summary> Number of Actions per Game </summary>
         static public float ActionsPerGame { get { return ActionsPerSite * SitesPerGame; } }

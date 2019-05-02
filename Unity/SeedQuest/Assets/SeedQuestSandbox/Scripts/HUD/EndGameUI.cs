@@ -25,9 +25,9 @@ public class EndGameUI : MonoBehaviour {
         textList[0].text = converter.DecodeSeed();
 
         if (GameManager.Mode == GameMode.Rehearsal)
-            textList[1].text = "Rehearsal Complete! \n Need more practice? Select 'Learn'. \n Ready to go? Select 'Recover'";
+            textList[1].text = "Practice Complete!";
         else
-            textList[1].text = "Key is Recovered!";
+            textList[1].text = "Seed is Recovered!";
     }
 
     /// <summary> Handles selecting PrototypeSelect Button </summary>
@@ -43,6 +43,11 @@ public class EndGameUI : MonoBehaviour {
     /// <summary> Handles selecting Recall Button </summary>
     public void Recall() {
         LoadingScreenUI.LoadRecall(RecallScene, true);
+    }
+
+    public void GoToStartScreen() {
+        MenuScreenManager.ActivateStart();
+        gameObject.SetActive(false);
     }
 
 }
