@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 namespace SeedQuest.Interactables
 {
@@ -55,9 +56,16 @@ namespace SeedQuest.Interactables
             get { return FindAllInteractables(); }
         }
 
+        static int CompareInteractableName(Interactable inter1, Interactable inter2)
+        {
+            return inter1.gameObject.name.CompareTo(inter1.gameObject.name);
+        }
+
         static Interactable[] FindAllInteractables()
         {
-            return GameObject.FindObjectsOfType<Interactable>();
+            Interactable[] items = GameObject.FindObjectsOfType<Interactable>();
+            System.Array.Sort(items, CompareInteractableName);
+            return items;
         }
 
         static public void Reset() {

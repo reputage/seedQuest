@@ -50,7 +50,7 @@ namespace SeedQuest.Level
         private Transform player;
 
         public void Awake() {
-            GameManager.State = GameState.Play;
+            //GameManager.State = GameState.Play;
 
             var playerObject = GameObject.FindGameObjectWithTag("Player");
             if (playerObject != null)

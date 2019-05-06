@@ -37,6 +37,8 @@ public class ProgressTrackerUI : MonoBehaviour
         SetProgressBar();
         SetProgressTicks();
         SetLocation();
+
+        progressPartialIcon.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -91,7 +93,7 @@ public class ProgressTrackerUI : MonoBehaviour
         string SeedString = converter.DecodeSeed();
         int length = Mathf.RoundToInt(InteractableConfig.SeedHexSize / (float)InteractableConfig.ActionsPerGame * (float)InteractableLog.Log.Count);
         progressText.text = SeedString.Substring(0, length);
-        progressPartialIcon.GetComponent<RectTransform>().localPosition = new Vector3(length * 22 - 80, 0, 0);
+        //progressPartialIcon.GetComponent<RectTransform>().localPosition = new Vector3(length * 22 - 80, 0, 0);
     }
 
     private void SetLocation()
