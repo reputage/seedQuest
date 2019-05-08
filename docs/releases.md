@@ -8,7 +8,7 @@
 The following are the links to the releases of SeedQuest: [Mac, PC](https://github.com/reputage/seedQuest/releases)
 
 ### SeedQuest Prototype (v0.2.2)
- - Learn seeds 112 bit seeds
+ - Learn 112 bit seeds
  - Memorize and Learn the order of actions in 'Learn mode'
  - Prove your memory to recover your seed string in 'Recover mode'
  
