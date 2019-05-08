@@ -5,7 +5,7 @@
 
 # Releases
 
-The following are the links to the releases of SeedQuest: [Mac](https://github.com/reputage/seedQuest/releases/download/v0.1.1/SeedQuestPrototype_v0_1_1_Mac.zip), [PC](https://github.com/reputage/seedQuest/releases/download/v0.1.1/SeedQuestPrototype_V0_1_1_Win.zip)
+The following are the links to the releases of SeedQuest: [Mac, PC](https://github.com/reputage/seedQuest/releases)
 
 ### SeedQuest Research Prototype (v0.1.1)
  - Select from 5 concepts for the SeedQuest game
