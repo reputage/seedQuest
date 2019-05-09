@@ -100,7 +100,6 @@ public class ScenePauseMenu : MonoBehaviour
         exitButton.onClick.AddListener(setPromptForMenu);
         quitButton.onClick.AddListener(setPromptForQuit);
 
-
         promptPopup.SetActive(true);
         promptCancel.onClick.AddListener(deactivatePrompt);
         promptExit.onClick.AddListener(quitGame);
@@ -144,16 +143,17 @@ public class ScenePauseMenu : MonoBehaviour
     public void exitToMenu()
     {
         // remove all progress from the interactable log
+
         // go to start scene
         SceneManager.LoadScene("_StartMenu");
     }
 
-	public void quitGame()
-	{
+    public void quitGame()
+    {
         Application.Quit();
-	}
+    }
 
-	private void changeTextToWhite(Button button)
+    private void changeTextToWhite(Button button)
     {
         Color white = new Color(1, 1, 1, 1);
         changeButtonTextColor(button, white);
