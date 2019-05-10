@@ -45,8 +45,10 @@ public class ScenePauseMenu : MonoBehaviour
     {
         getReferences();
         delegateButtons();
+        setPreview();
     }
 
+    // Toggle the menu on
     static public void ToggleOn()
     {
         if (Instance.gameObject.activeSelf)
@@ -56,6 +58,7 @@ public class ScenePauseMenu : MonoBehaviour
         GameManager.State = GameState.Menu;
     }
 
+    // Get the references to all the necessary components
     private void getReferences()
     {
         promptPopup.SetActive(true);
@@ -93,6 +96,7 @@ public class ScenePauseMenu : MonoBehaviour
         promptPopup.SetActive(false);
     }
 
+    // Set the functions used by each button
     public void delegateButtons()
     {
         returnButton.onClick.AddListener(returnToGame);
@@ -106,12 +110,36 @@ public class ScenePauseMenu : MonoBehaviour
         promptPopup.SetActive(false);
     }
 
+    // Set up the interactable previews for the scene
+    public void setPreview()
+    {
+        // not finished
+        //setInteractableTexts();
+        //setInteractableImages();
+    }
+
+    // Set the images for the interactable action previews
     public void setInteractableImages(Image im1, Image im2, Image im3, Image im4)
     {
         img1 = im1;
         img2 = im2;
         img3 = im3;
         img4 = im4;
+    }
+
+    // Set the text for the interactable action previews
+    public void setInteractableTexts(string inter1, string inter2, string inter3, string inter4, 
+                                    string st1, string st2, string st3, string st4)
+    {
+        interactable1.text = inter1;
+        interactable2.text = inter2;
+        interactable3.text = inter3;
+        interactable4.text = inter4;
+
+        state1.text = st1;
+        state2.text = st2;
+        state3.text = st3;
+        state4.text = st4;
     }
 
     public void deactivatePrompt()
@@ -122,6 +150,7 @@ public class ScenePauseMenu : MonoBehaviour
     public void returnToGame()
     {
         gameObject.SetActive(false);
+        GameManager.State = GameManager.PrevState;
     }
 
     public void replayScene()
@@ -165,6 +194,11 @@ public class ScenePauseMenu : MonoBehaviour
         changeButtonTextColor(button, black);
     }
 
+    private void changeButtonTextColor(Button button, Color color)
+    {
+        button.GetComponentInChildren<Text>().color = color;
+    }
+
     private void setPromptForQuit()
     {
         promptPopup.SetActive(true);
@@ -185,11 +219,6 @@ public class ScenePauseMenu : MonoBehaviour
 
         promptExit.onClick.RemoveAllListeners();
         promptExit.onClick.AddListener(exitToMenu);
-    }
-
-    private void changeButtonTextColor(Button button, Color color)
-    {
-        button.GetComponentInChildren<Text>().color = color;
     }
 
 }
