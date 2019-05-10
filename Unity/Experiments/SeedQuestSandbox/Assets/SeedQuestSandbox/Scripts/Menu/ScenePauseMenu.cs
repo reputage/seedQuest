@@ -149,8 +149,8 @@ public class ScenePauseMenu : MonoBehaviour
 
     public void returnToGame()
     {
-        gameObject.SetActive(false);
         GameManager.State = GameManager.PrevState;
+        gameObject.SetActive(false);
     }
 
     public void replayScene()
