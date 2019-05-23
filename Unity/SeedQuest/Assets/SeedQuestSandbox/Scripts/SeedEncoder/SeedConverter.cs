@@ -18,6 +18,22 @@ namespace SeedQuest.SeedEncoder
             return getInteractablePath(ids); 
         }
 
+        public List<int> encodeActionIDs(string seedString)
+        {
+            InteractableID[] ids = getPathIDs(seedString);
+            return getActionIds(ids);
+        }
+
+        public List<int> getActionIds(InteractableID[] pathIDs)
+        {
+            List<int> tempIDs = new List<int>();
+            for (int i = 0; i < pathIDs.Length; i++)
+            {
+                tempIDs.Add(pathIDs[i].actionID);
+            }
+            return tempIDs;
+        }
+
         /// <summary> 
         /// Returns recovered seed which as been decodes from a list of interactions
         /// </summary>

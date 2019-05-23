@@ -14,7 +14,7 @@ namespace SeedQuest.Interactables
         public Vector3 scale = Vector3.one;
         public Vector3 position = Vector3.zero;
         public Vector3 rotation = Vector3.zero;
-        public int fontSize = 36;
+        //public int fontSize = 36;
         public bool useOrthographic = true;
         public float fieldOfView = 60;
         public float orthographicSize = 1;
@@ -57,10 +57,13 @@ namespace SeedQuest.Interactables
 
         private void Update() {
             gameObject.SetActive(Show);
-            locationObservable.onChange(SetLocationTransform);
-            scaleObservable.onChange(SetLocationTransform);
-            //previewObserver.onChange(SetPreviewProperties);
-            SetPreviewProperties();
+            if (Show)
+            {
+                locationObservable.onChange(SetLocationTransform);
+                scaleObservable.onChange(SetLocationTransform);
+                //previewObserver.onChange(SetPreviewProperties);
+                SetPreviewProperties();
+            }
         }
 
         static public void ToggleShow() {
@@ -99,8 +102,8 @@ namespace SeedQuest.Interactables
                 previewChild.transform.localRotation = Quaternion.Euler(preview.rotation);
                 previewChild.transform.localScale = preview.scale;
 
-                previewTitle.fontSize = preview.fontSize;
-                previewText.fontSize = 0.8f * preview.fontSize;
+                //previewTitle.fontSize = preview.fontSize;
+                //previewText.fontSize = 0.8f * preview.fontSize;
 
                 Instance.previewCamera.orthographic = preview.useOrthographic;
                 Instance.previewCamera.fieldOfView = preview.fieldOfView;
@@ -145,14 +148,17 @@ namespace SeedQuest.Interactables
 
         /// <summary>  Sets Interactable Preview from Interactable </summary>
         /// <param name="interactable"> Interactable to set Preview with </param>
-        static public void SetPreviewObject(Interactable interactable)  {
+        static public void SetPreviewObject(Interactable interactable, int actionID)  {
 
+            int hello = 0;
             // Set Preview if interactablePreview has changed
             if (Instance == null || interactable.interactablePreview == Instance.preview)
-                return;
+                hello = 1;
+                //Debug.Log("Trying to exit setpreview function");
+                //return;
             else
                 Instance.preview = interactable.interactablePreview;
-            
+
             // Set Preview Watcher
             //Instance.previewObserver.Watch(Instance.preview);
 
@@ -172,14 +178,16 @@ namespace SeedQuest.Interactables
                 previewInteractable.DeleteUI();
                 previewInteractable.HighlightInteractableWithEffect(false);
             }
-            
+
             // Set Layer to "InteractablePreview"
             SetLayerRecursively(Instance.previewChild, 0);
 
             // Set Label Text
             Instance.previewTitle.text = interactable.Name;
             if (GameManager.Mode == GameMode.Rehearsal)
-                Instance.previewText.text = interactable.RehearsalActionName;
+            {
+                Instance.previewText.text = interactable.stateData.getStateName(actionID);// RehearsalActionName;
+            }
             else
                 Instance.previewText.text = "";
         } 

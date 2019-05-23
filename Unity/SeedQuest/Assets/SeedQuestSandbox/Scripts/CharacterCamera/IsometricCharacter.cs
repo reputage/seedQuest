@@ -18,6 +18,7 @@ public class IsometricCharacter : MonoBehaviour {
     }
 
     public void Update() {
+        MoveAndRotateCharacterWithKeys();
         MoveWithClick();
         CheckIfWalkable();
     }
@@ -34,6 +35,37 @@ public class IsometricCharacter : MonoBehaviour {
         return (v1 - v2).magnitude;
     }
 
+    // Basically tank controls
+    public void MoveAndRotateCharacterWithKeys()
+    {
+        bool isRunning = false;
+        float runSpeed = walkSpeed * runSpeedMultiplier;
+
+        // Get move quantity based on delta time and speed
+        float moveSpeed = 2 * (isRunning ? runSpeed : walkSpeed);
+        moveSpeed = PauseManager.isPaused ? 0 : moveSpeed;
+        float rotateSpeed = 200;
+
+        float horizontal = Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
+        float vertical = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+
+        if (vertical > 0.0f) {
+            agent.isStopped = true;
+            MarkerManager.DeleteMarker();
+        }
+
+        // Translate character
+        //transform.Translate(moveHorizontal, 0, 0);
+        transform.Translate(0, 0, vertical);
+        transform.localRotation *= Quaternion.Euler(0f, horizontal, 0f);
+
+        // Use Left Shift to Toggle Running
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isRunning = !isRunning;
+        }
+    }
+
     public void MoveWithClick() {
         if (PauseManager.isPaused || PauseManager.isInteracting)
             return;
@@ -44,13 +76,14 @@ public class IsometricCharacter : MonoBehaviour {
             RaycastHit hit;
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 100.0f)) {
+                    
                 NavMeshHit navHit;
                 int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
                 if (NavMesh.SamplePosition(hit.point, out navHit, 1.0f, walkableMask)) {
                     agent = GetComponent<NavMeshAgent>();
+                    agent.isStopped = false;
                     agent.SetDestination(hit.point);
                     SetAgentSpeed(hit.point);
-
                     MarkerManager.GenerateMarker(hit.point + new Vector3(0, 0.1f, 0), Quaternion.identity);
                 }
             }

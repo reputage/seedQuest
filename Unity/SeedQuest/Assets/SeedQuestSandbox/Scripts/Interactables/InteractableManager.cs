@@ -16,6 +16,7 @@ namespace SeedQuest.Interactables
         }
 
         public float nearDistance = 2.0f;
+        public float nearDistanceForZoom = 4.0f;
 
         public GameObject[] actionSpotIcons; // InteractableUI Prefab Templates
 
@@ -40,13 +41,30 @@ namespace SeedQuest.Interactables
             }
         }
 
-        static public void SetActiveInteractable(Interactable interactable)
+        private void ListenForNear() {
+            foreach (Interactable item in InteractableList)
+            {
+                Vector3 playerPosition = PlayerCtrl.PlayerTransform.position;
+                float dist = (item.transform.position - playerPosition).magnitude;
+                if (dist < Instance.nearDistanceForZoom)
+                    doNearInteractable(true);
+                else
+                    doNearInteractable(false);
+            }
+        }
+
+        static void doNearInteractable(bool isNear) {
+            
+        }
+
+
+        static public void SetActiveInteractable(Interactable interactable, int actionId)
         {
             Instance.activeInteractable = interactable;
             interactable.HighlightInteractable(true);
 
             if ((GameManager.Mode == GameMode.Sandbox || GameManager.Mode == GameMode.Recall) && interactable != null)
-                InteractablePreviewUI.SetPreviewObject(interactable); 
+                InteractablePreviewUI.SetPreviewObject(interactable, InteractablePath.Instance.actionIds[InteractablePath.Instance.nextIndex]); 
         }
 
         private Interactable[,] interactableLUT;
@@ -83,21 +101,6 @@ namespace SeedQuest.Interactables
                 interactable.DeleteUI(); 
         }
 
-        static void findNearInteractables()
-        {
-            Interactable[] list = FindObjectsOfType<Interactable>();
-
-            foreach (Interactable item in list)
-            {
-                Vector3 playerPosition = PlayerCtrl.PlayerTransform.position;
-                float dist = (item.transform.position - playerPosition).magnitude;
-                if (dist < Instance.nearDistance)
-                    doNearInteractable(true);
-                else
-                    doNearInteractable(false);
-            }
-        }
-
         static public void resetInteractableUIText() {
             foreach (Interactable interactable in FindAllInteractables())
                 interactable.interactableUI.SetText(interactable.Name);
@@ -109,11 +112,6 @@ namespace SeedQuest.Interactables
             foreach(Interactable interactable in FindAllInteractables()) {
                 interactable.interactableUI.hideActions();
             }
-        }
-
-        static void doNearInteractable(bool isNear)
-        {
-
         }
 
         static public void HighlightAllInteractables() {

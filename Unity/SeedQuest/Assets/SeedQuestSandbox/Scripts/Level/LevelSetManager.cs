@@ -32,6 +32,10 @@ public class LevelSetManager : MonoBehaviour
         CurrentLevels.Add(AllLevels[levelIndex]);
     }
 
+    static public void RemoveLevel(){
+        CurrentLevels.RemoveAt(CurrentLevels.Count - 1);
+    }
+
     /// <summary>  Gets the index of the current level based on log count </summary>
     static public int CurrentLevelIndex
     {

@@ -28,13 +28,17 @@ namespace SeedQuest.Interactables
         public InteractableID ID;
         
         private int actionIndex = -1;
-        public int ActionIndex { get => actionIndex; set => actionIndex = value; }
+        public int ActionIndex { get => actionIndex; set => actionIndex = value; } // Current Action State 
 
         [HideInInspector]
         public float interactDistance = 2.0f;
+
         private bool isOnHover = false;
+        public bool IsOnHover { get => isOnHover; } 
+
         [HideInInspector]
         public bool flagDeleteUI = false;
+
 
         void Start() {
             interactableUI.Initialize(this);
@@ -139,7 +143,8 @@ namespace SeedQuest.Interactables
 
                     if (!isOnHover)  {
                         GameManager.State = GameState.Interact;
-                        InteractableManager.SetActiveInteractable(this);
+                        AudioManager.Play("UI_Hover");
+                        InteractableManager.SetActiveInteractable(this, this.ActionIndex);
                     } 
 
                     isOnHover = true;
@@ -173,6 +178,7 @@ namespace SeedQuest.Interactables
 
                     if (hitThisInteractable) {
                         interactableUI.StartProgress();
+                        AudioManager.Play("UI_Click");
                         mouseDownICount = InteractableLog.Count;
                     }
                 }

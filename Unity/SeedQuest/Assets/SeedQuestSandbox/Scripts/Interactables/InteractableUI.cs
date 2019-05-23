@@ -24,13 +24,15 @@ namespace SeedQuest.Interactables
         private Button[] actionButtons;
         private Button checkButton;
         private Image[] checkImages;
+        private TMPro.TextMeshProUGUI actionUITextMesh;
+
+        private ProgressButton progressButton;
 
         private bool dialogueSelected = false;
 
         public void Update() {
             if (isReady()) {
                 SetScale();
-                SetFontSize();
                 SetPosition();
                 SetRotation();
             }
@@ -61,12 +63,15 @@ namespace SeedQuest.Interactables
             actionUI = GameObject.Instantiate(InteractableManager.Instance.actionSpotIcons[modeIndex], UIContainer);
             debugActionUI = actionUI;
 
+            initializeComponentRefs();
             SetScale();
-            SetFontSize();
             SetPosition();
             SetupLabel();
             SetupActionButtons();
             SetupCheckButton();
+
+            if (parent == InteractablePath.NextInteractable)
+                ToggleTracker(true);
         }
 
         /// <summary> Ready Status of InteractableUI </summary>
@@ -79,13 +84,23 @@ namespace SeedQuest.Interactables
             GameObject.Destroy(actionUI);
         }
 
+        public void initializeComponentRefs()
+        {
+            progressButton = actionUI.GetComponentInChildren<ProgressButton>();
+            labelButton = actionUI.GetComponentInChildren<Button>();
+            actionUITextMesh = actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+
+        }
+
         /// <summary> Intialize and Setupt Label Button </summary>
         public void SetupLabel() {
             var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
             textList[0].text = parent.Name;
 
-            labelButton = actionUI.GetComponentInChildren<Button>();
             labelButton.onClick.AddListener(delegate { onClickLabel(); });
+
+            foreach (TMPro.TextMeshProUGUI text in textList)
+                text.fontSize = fontSize;
         }
 
         /// <summary> Intialize and Setup Action Buttons </summary>
@@ -165,7 +180,10 @@ namespace SeedQuest.Interactables
 
             if(GameManager.Mode == GameMode.Rehearsal) {
                 if (actionIndex == InteractablePath.NextInteractable.ID.actionID)
+                {
+                    InteractableLog.Add(parent, parent.ActionIndex);
                     InteractablePath.GoToNextInteractable();
+                }
             }
             else if (GameManager.Mode == GameMode.Recall)
                 InteractableLog.Add(parent, parent.ActionIndex);
@@ -176,14 +194,24 @@ namespace SeedQuest.Interactables
             SetCheckButtonActive(false);
 
             if (GameManager.Mode == GameMode.Rehearsal) {
+                InteractableLog.Add(parent, parent.ActionIndex);
                 InteractablePath.GoToNextInteractable();
 
                 if (mode == InteractableUIMode.NextPrevSelect) {
-                    actionUI.GetComponentInChildren<ProgressButton>().SetActive(false);
+                    progressButton.SetActive(false);
                 } 
             }
             else if (GameManager.Mode == GameMode.Recall)
                 InteractableLog.Add(parent, parent.ActionIndex);
+
+
+            string values = "";
+            foreach (InteractableLogItem item in InteractableLog.Log)
+            {
+                values += item.siteIndex.ToString() + " " + item.interactableIndex.ToString() + " " + item.actionIndex.ToString() + " ";
+            }
+            //Debug.Log("Current Log values: " + values);
+
         }
 
         /// <summary> Sets Label Text to Current Action and Activates Checkmark if necessary </summary>
@@ -197,13 +225,12 @@ namespace SeedQuest.Interactables
         /// <summary> Sets Label Text </summary>
         public void SetText(string text) {
             if (actionUI == null) return;
-            var textMesh = actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            textMesh.text = text;
+            actionUITextMesh.text = text;
         }
 
         /// <summary> Gets Label Text </summary>
         public string GetText() {
-            return actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
+            return actionUITextMesh.text;
         }
 
         /// <summary> Show Action Button UI and Set Checkmark for Rehearsal Mode for ListSelect and GridSelect UI  </summary>
@@ -278,7 +305,7 @@ namespace SeedQuest.Interactables
         public void onHoverUI() {
             GameManager.State = GameState.Interact;
             showCurrentActions();
-            InteractableManager.SetActiveInteractable(parent);
+            InteractableManager.SetActiveInteractable(parent, parent.ActionIndex);
         }
 
         /// <summary> Handles exiting hovering UI </summary>
@@ -331,23 +358,23 @@ namespace SeedQuest.Interactables
         private void SetCheckButtonActive(bool active) {
             if (mode == InteractableUIMode.NextPrevSelect) {
                 //checkButton.gameObject.SetActive(active);
-                actionUI.GetComponentInChildren<ProgressButton>().SetShow(true, 3.0f);
-                actionUI.GetComponentInChildren<ProgressButton>().ProgressCompleteAction = onClickCheck;
+                progressButton.SetShow(true, 3.0f);
+                progressButton.ProgressCompleteAction = onClickCheck;
             }
         }
 
         public void StartProgress() {
             if (mode == InteractableUIMode.NextPrevSelect) {
-                if(actionUI.GetComponentInChildren<ProgressButton>().IsActive) {
-                    actionUI.GetComponentInChildren<ProgressButton>().startProgress();
+                if(progressButton.IsActive) {
+                    progressButton.startProgress();
                 }
             }
         }
 
         public void CheckProgress() {
             if (mode == InteractableUIMode.NextPrevSelect)  {
-                if (actionUI.GetComponentInChildren<ProgressButton>().IsActive) {
-                    actionUI.GetComponentInChildren<ProgressButton>().checkProgress();
+                if (progressButton.IsActive) {
+                    progressButton.checkProgress();
                 }
             }
         }
@@ -355,7 +382,7 @@ namespace SeedQuest.Interactables
         public float ProgressTime {
             get {
                 if (mode == InteractableUIMode.NextPrevSelect) {
-                    return actionUI.GetComponentInChildren<ProgressButton>().ProgressTime;
+                    return progressButton.ProgressTime;
                 }
                 else
                     return 0;
@@ -365,7 +392,7 @@ namespace SeedQuest.Interactables
         public bool ProgressComplete { 
             get {
                 if (mode == InteractableUIMode.NextPrevSelect)
-                    return actionUI.GetComponentInChildren<ProgressButton>().ProgressComplete;
+                    return progressButton.ProgressComplete;
                 else
                     return false;
             }
@@ -414,6 +441,38 @@ namespace SeedQuest.Interactables
             Debug.Log("Action UI is null or has some other issue");
             Bounds returnBounds = new Bounds(new Vector3(-997, -997, -997), new Vector3(0,0,0));
             return returnBounds;
+        }
+
+        public void ToggleTracker(bool active) {
+            if (actionUI == null) return;
+
+            Canvas tracker = actionUI.gameObject.GetComponentsInChildren<Canvas>(true)[2];
+            tracker.gameObject.SetActive(active);
+
+            RectTransform rect = actionUI.GetComponentsInChildren<Button>(true)[2].GetComponentInChildren<RectTransform>();
+            rect.localPosition = new Vector3(-169, 0, 0);
+        }
+
+        public bool IsOnHover() {
+            bool hover = false;
+
+            if(actionButtons != null) {
+                foreach (Button button in actionButtons) {
+                    if (button.GetComponentInChildren<InteractButton>() != null) {
+                        if (button.GetComponentInChildren<InteractButton>().IsOnHover)
+                            hover = true;
+                    }
+                }                
+            }
+
+            if(labelButton != null) {
+                if (labelButton.GetComponentInChildren<ProgressButton>() != null) {
+                    if (labelButton.GetComponentInChildren<ProgressButton>().IsOnHover)
+                        hover = true;
+                }                
+            }
+
+            return hover;
         }
 
     }

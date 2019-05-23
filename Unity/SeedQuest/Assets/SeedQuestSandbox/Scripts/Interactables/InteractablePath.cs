@@ -25,6 +25,8 @@ namespace SeedQuest.Interactables
         /// <summary> List of Interactables which represent the Path of Interactables to Complete </summary>
         public List<Interactable> path = null;
 
+        public List<int> actionIds = null;
+
         /// <summary> List of Interactables which represent the Path </summary>
         static public List<Interactable> Path {
             get { return Instance.path; }
@@ -73,6 +75,7 @@ namespace SeedQuest.Interactables
         static public void GeneratePathFromSeed(string seed) {
             SeedConverter converter = new SeedConverter();
             Instance.path = new List<Interactable>(converter.encodeSeed(seed));
+            Instance.actionIds = new List<int>(converter.encodeActionIDs(seed));
         }
 
         static public InteractableID[] GetPathIDsFromSeed(string seed) {
@@ -114,7 +117,6 @@ namespace SeedQuest.Interactables
         static public void GoToNextInteractable()
         {
             if (GameManager.Mode == GameMode.Rehearsal && NextInteractable == InteractableManager.ActiveInteractable) {
-                InteractableLog.Add(NextInteractable, NextInteractable.ID.actionID);
 
                 Instance.nextIndex++;
 
@@ -131,10 +133,12 @@ namespace SeedQuest.Interactables
             if (NextInteractable == null) return;
 
             if (GameManager.Mode == GameMode.Rehearsal) {
+                NextInteractable.interactableUI.ToggleTracker(true);
+
                 InteractableManager.UnHighlightAllInteractables();
                 NextInteractable.HighlightInteractableWithEffect(true);
-                InteractablePreviewUI.SetPreviewObject(NextInteractable);
-                InteractablePreviewUI.SetPreviewAction(NextInteractable.ID.actionID);
+                InteractablePreviewUI.SetPreviewObject(NextInteractable, Instance.actionIds[Instance.nextIndex]);
+                InteractablePreviewUI.SetPreviewAction(Instance.actionIds[Instance.nextIndex]);
             }
         }
     }
