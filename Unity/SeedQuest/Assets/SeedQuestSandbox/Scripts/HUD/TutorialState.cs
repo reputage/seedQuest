@@ -24,10 +24,10 @@ public class TutorialState : MonoBehaviour
         instance = null;
     }
 
-    public bool skip = false;
+    public static bool skip = false;
     public static bool Skip
     {
-        get { return Instance.skip; }
-        set { if (value == Instance.skip) return; Instance.skip = value; }
+        get { return skip; }
+        set { if (value == skip) return; skip = value; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using SeedQuest.Interactables;
 using SeedQuest.Level;
 
 public class LevelClearUI : MonoBehaviour {
@@ -17,9 +18,24 @@ public class LevelClearUI : MonoBehaviour {
         Instance.gameObject.SetActive(true);
     }
 
+    static public void ToggleOff()
+    {
+        Instance.gameObject.SetActive(false);
+    }
+
     public void GoToSceneSelect() {
         //LevelManager.GoToSceneSelect();
         MenuScreenManager.ActivateSceneLineUp();
         gameObject.SetActive(false);
+    }
+
+    public void ResetScene() {
+        for (int i = 0; i < InteractableConfig.ActionsPerSite; i++) {
+            InteractablePathManager.UndoLastAction();
+        }
+
+        InteractablePathManager.ShowLevelComplete = false;
+        GameManager.State = GameManager.PrevState;
+        ToggleOff();
     }
 }

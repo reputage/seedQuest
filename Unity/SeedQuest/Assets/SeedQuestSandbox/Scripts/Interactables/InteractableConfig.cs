@@ -29,10 +29,10 @@ namespace SeedQuest.Interactables
         static public int ActionCount { get { return (int)Mathf.Pow(2.0F, ActionBits); } }
 
         /// <summary> Number of Actions to do per Level </summary>
-        static public int ActionsPerSite = 4; //3; //4;
+        static public int ActionsPerSite = 3; //4; //3; //4;
 
         /// <summary> Number of Levels to do per Game </summary>
-        static public int SitesPerGame = 4; //2;        
+        static public int SitesPerGame = 6; //4; //2;        
 
         /// <summary> Number of Actions per Game </summary>
         static public float ActionsPerGame { get { return ActionsPerSite * SitesPerGame; } }

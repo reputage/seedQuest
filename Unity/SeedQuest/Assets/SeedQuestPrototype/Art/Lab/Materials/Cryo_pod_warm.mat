@@ -8,14 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Cryo_pod_warm
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: f996a7f3e7b070a4e9d83a9203a943f8, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -40,7 +39,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Diffuse_CutoutA:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Foam:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -60,24 +67,56 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WaterNormal:
+        m_Texture: {fileID: 2800000, guid: a53cf5449d11a15d1100a04b44295342, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _Wind_Sample:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Ampl_Power: 0.33
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _Distortion: 6.32
     - _DstBlend: 10
+    - _FoamDepth: -0.68
+    - _FoamFalloff: 0.5
+    - _FoamSmoothness: 15.03
+    - _FoamSpecular: -0.84
+    - _FoamSpeed: 0.01
+    - _Freq_Power: 0.45
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0.61
     - _Mode: 3
+    - _NormalScale: 2.47
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _Water1_Speed: -0.01
+    - _Water2_Speed: 0.01
+    - _WaterDepth: 0.26
+    - _WaterFalloff: 0.7
+    - _WaterSmoothness: -0.03
+    - _WaterSpecular: 1.12
+    - _WindPower: 0.02
     - _ZWrite: 0
+    - __dirty: 0
     m_Colors:
     - _Color: {r: 0.9245283, g: 0.24712975, b: 0.19624424, a: 0.6}
+    - _Color0: {r: 0.35884658, g: 0.6792453, b: 0.64409786, a: 1}
+    - _DeepColor: {r: 0.26415092, g: 1, b: 0.841869, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectColor: {r: 1, g: 0.4575472, b: 0.4575472, a: 0.5}
+    - _ShalowColor: {r: 0, g: 0.8770596, b: 0.8867924, a: 0}

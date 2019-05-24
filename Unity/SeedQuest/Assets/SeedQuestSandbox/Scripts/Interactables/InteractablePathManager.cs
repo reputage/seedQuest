@@ -30,7 +30,7 @@ namespace SeedQuest.Interactables {
         public InteractableLog log;
 
         /// <summary> Seed String </summary>
-        public static string SeedString = "76101B07DC633F955696D7664C2B"; //"EBE0AC8C"; //"EB204654C9";
+        public static string SeedString = "3720B091810D8127C55630F55DD2275C5"; //"772283D9D40BAC27C6D6D60537D7B3525"; //"76101B07DC633F955696D7664C2B"; //"EBE0AC8C"; //"EB204654C9";
 
         /// <summary> Has a Level been compleleted for MultiLevel Game </summary>
         static public bool ShowLevelComplete = false;
@@ -145,9 +145,14 @@ namespace SeedQuest.Interactables {
                 
                 // Create a subset of interactables in bounds
                 List<Interactable> subset = new List<Interactable>();
+
+                int counter = 0;
+
                 foreach(Interactable item in list) {
                     if(BoundingBox.InBounds(item.transform, bounds)) {
                         subset.Add(item);
+                        //Debug.Log("Item name: " + item.name + " item number: " + counter);
+                        counter++;
                     }
                 }
 
@@ -157,8 +162,13 @@ namespace SeedQuest.Interactables {
                     if (i < indices.Length)
                         subset[i].ID.spotID = indices[i];
                     else
+                    {
                         subset[i].ID.spotID = -1;
+                        //Debug.Log("Interactable setup error: setting " + subset[i].name + " spot ID to -1");
+                    }
                 }
+
+                //Debug.Log("Subset count: " + subset.Count + " Indices length: " + indices.Length);
 
                 // Throw Error for not enough interactables in a Site
                 if (GameManager.Mode != GameMode.Sandbox && subset.Count < InteractableConfig.InteractableCount)
@@ -166,6 +176,7 @@ namespace SeedQuest.Interactables {
 
                 siteCount++;
             }
+
         }
     }
 }

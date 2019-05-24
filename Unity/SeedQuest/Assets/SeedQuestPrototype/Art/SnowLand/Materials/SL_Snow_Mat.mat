@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SL_Snow_Mat
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: d4bb85d696a2a1c4aa8a764f70751303, type: 3}
   m_ShaderKeywords: _DETAIL_MULX2 _EMISSION _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
@@ -19,6 +19,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Base_Diffuse:
+        m_Texture: {fileID: 2800000, guid: 48db6bd2b1275e74c873996e0d582e0d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base_Normal:
+        m_Texture: {fileID: 2800000, guid: 57a872298e9438a43a4d8d34e3dfc0b8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base_Spec:
+        m_Texture: {fileID: 2800000, guid: f24c1d2e69a782a489ce6bdfa0dfb2d8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -39,6 +51,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 2945dcc69dfc1f64299a550d11d6dfd4, type: 3}
         m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
+    - _Emissions:
+        m_Texture: {fileID: 2800000, guid: 2945dcc69dfc1f64299a550d11d6dfd4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 48db6bd2b1275e74c873996e0d582e0d, type: 3}
         m_Scale: {x: 3, y: 3}
@@ -55,23 +71,52 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Top_Diffuse:
+        m_Texture: {fileID: 2800000, guid: 48db6bd2b1275e74c873996e0d582e0d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Top_Normal:
+        m_Texture: {fileID: 2800000, guid: 57a872298e9438a43a4d8d34e3dfc0b8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Top_Spec:
+        m_Texture: {fileID: 2800000, guid: f24c1d2e69a782a489ce6bdfa0dfb2d8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _BaseNormalScale: 0.3
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 17.48
     - _DstBlend: 0
+    - _EmissionPower: 1.06
+    - _Fres_Bias_Power: -0.07
+    - _Fres_Power: 2.64
+    - _Fres_Scale_Power: 0.18
     - _GlossMapScale: 0
     - _Glossiness: 0.855
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
+    - _NormalPower: 0.82
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TopNormalScale: 2.7
     - _UVSec: 0
     - _ZWrite: 1
+    - __dirty: 0
     m_Colors:
-    - _Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+    - _Base_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Base_Spec_Color: {r: 0.16981128, g: 0.16981128, b: 0.16981128, a: 0}
+    - _Color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
     - _EmissionColor: {r: 0.043678753, g: 0.035217427, b: 0.029500311, a: 1}
+    - _FresnelColor: {r: 0.8490566, g: 0.7648734, b: 0.5807227, a: 0}
+    - _TopColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Top_Spec_Color: {r: 0, g: 0, b: 0, a: 0}

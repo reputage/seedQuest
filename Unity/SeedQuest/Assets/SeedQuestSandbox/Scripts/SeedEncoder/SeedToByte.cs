@@ -334,11 +334,12 @@ namespace SeedQuest.SeedEncoder
             int valueIndex = 0;
             int locator = 0;
             int writeIndex = 0;
+            int warningCounter = 0;
 
             for (int i = 0; i < bits.Length; i++)
             {
                 if (writeIndex >= (varList.Count))
-                    Debug.Log("Warning: more bits in bitarray than in the list");
+                    warningCounter++;
                 else if (bits[i])
                 {
                     // Yes, I know this is reading the bits in reverse, this is intentional, manager wanted it done this way
@@ -346,7 +347,7 @@ namespace SeedQuest.SeedEncoder
                     value += Convert.ToInt32(Math.Pow(2, bitValue));
                 }
                 if (writeIndex > (varList.Count - 1))
-                    Debug.Log("Warning: more bits in bitarray than in the list");
+                    warningCounter++;
                 else if (locator == (varList[writeIndex] - 1))
                 {
                     // Store the location/spot/action

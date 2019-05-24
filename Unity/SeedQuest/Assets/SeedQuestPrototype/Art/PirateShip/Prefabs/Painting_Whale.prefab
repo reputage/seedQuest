@@ -1,5 +1,69 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &543459088287911093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 7545421682470176427}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7086799371699859069}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7086799371699859069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 788102935829276886, guid: cbe8ba5bcf724f24fa896ca62478762a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7545421682470176427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543459088287911093}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6022307005002326245}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6053409249142725742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 4374330772201216709, guid: cbe8ba5bcf724f24fa896ca62478762a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7545421682470176427}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5879560146372530547}
+  - component: {fileID: 5841868886723842140}
+  - component: {fileID: 4437844643485412380}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5879560146372530547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 7545421682470176427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6053409249142725742}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6022307005002326245}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5841868886723842140
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68,6 +132,38 @@ MonoBehaviour:
     actionID: 0
   interactDistance: 2
   flagDeleteUI: 0
+--- !u!1 &6140858609162175223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 7545421682470176427}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6022307005002326245}
+  m_Layer: 0
+  m_Name: PiratePainting_Nemesis (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6022307005002326245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 7545421682470176427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140858609162175223}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5879560146372530547}
+  - {fileID: 7086799371699859069}
+  m_Father: {fileID: 6047467184730161724}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8946042419130409163
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +191,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7086799371699859069}
+  - {fileID: 6022307005002326245}
   - {fileID: 6615385409686061063}
   - {fileID: 7882221387236335093}
   - {fileID: 8715673389287846718}
@@ -329,6 +425,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: d4a0e7ca896e91340ba185d6bc6c11b4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d95404dd22ea1e345b0299d352da0408, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4a0e7ca896e91340ba185d6bc6c11b4, type: 3}
 --- !u!4 &8715673389287846718 stripped
@@ -344,16 +445,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6047467184730161724}
     m_Modifications:
-    - target: {fileID: 4374330772201216709, guid: cbe8ba5bcf724f24fa896ca62478762a,
-        type: 3}
-      propertyPath: m_Name
-      value: PiratePainting_Nemesis
-      objectReference: {fileID: 0}
-    - target: {fileID: 4374330772201216709, guid: cbe8ba5bcf724f24fa896ca62478762a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 788102935829276886, guid: cbe8ba5bcf724f24fa896ca62478762a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -409,17 +500,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4374330772201216709, guid: cbe8ba5bcf724f24fa896ca62478762a,
+        type: 3}
+      propertyPath: m_Name
+      value: PiratePainting_Nemesis
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374330772201216709, guid: cbe8ba5bcf724f24fa896ca62478762a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbe8ba5bcf724f24fa896ca62478762a, type: 3}
---- !u!1 &6053409249142725742 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4374330772201216709, guid: cbe8ba5bcf724f24fa896ca62478762a,
-    type: 3}
-  m_PrefabInstance: {fileID: 7545421682470176427}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7086799371699859069 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 788102935829276886, guid: cbe8ba5bcf724f24fa896ca62478762a,
-    type: 3}
-  m_PrefabInstance: {fileID: 7545421682470176427}
-  m_PrefabAsset: {fileID: 0}

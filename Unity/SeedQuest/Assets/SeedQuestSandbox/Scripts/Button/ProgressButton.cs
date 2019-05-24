@@ -9,6 +9,8 @@ public class ProgressButton : MonoBehaviour
     private Image progress;
     private Animator[] animators;
     private bool isOnHover = false;
+    private bool isOnHoverFlag = false;
+    public bool IsOnHover { get => isOnHoverFlag; }
 
     [SerializeField]
     private bool progressComplete;
@@ -105,11 +107,15 @@ public class ProgressButton : MonoBehaviour
     }
 
     private void OnHoverEnter(){
+        isOnHoverFlag = true;
+
         if (isActive)
             animators[0].Play("ProgressHoverAnimation");
     }
 
     private void OnHoverExit(){
+        isOnHoverFlag = false;
+
         if (!isActive)
             return;
 
