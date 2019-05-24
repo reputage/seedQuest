@@ -18,7 +18,7 @@ For help with SeedQuest or talk with developers about this project, visit our [S
 
 ### Lastest News
 
-SeedQuest Beta is coming soon. We'll release on github to the public on May 20th. Look forward to that!
+SeedQuest Beta is here! Checkout SeedQuest for the full recovery of a 128 bit seed!
 
 ## How does SeedQuest work?
 
