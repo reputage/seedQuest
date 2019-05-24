@@ -193,7 +193,10 @@ namespace SeedQuest.Interactables
         public void onClickCheck() {
             SetCheckButtonActive(false);
 
-            if (GameManager.Mode == GameMode.Rehearsal) {
+            if (GameManager.Mode == GameMode.Rehearsal && 
+                parent == InteractablePath.NextInteractable && 
+                parent.ActionIndex == InteractablePath.NextAction) 
+            {
                 InteractableLog.Add(parent, parent.ActionIndex);
                 InteractablePath.GoToNextInteractable();
 
@@ -201,17 +204,20 @@ namespace SeedQuest.Interactables
                     progressButton.SetActive(false);
                 } 
             }
+            else if (GameManager.Mode == GameMode.Rehearsal){
+                // put 'incorrect interactable' code here
+            }
             else if (GameManager.Mode == GameMode.Recall)
                 InteractableLog.Add(parent, parent.ActionIndex);
 
-
+            /*
             string values = "";
             foreach (InteractableLogItem item in InteractableLog.Log)
             {
                 values += item.siteIndex.ToString() + " " + item.interactableIndex.ToString() + " " + item.actionIndex.ToString() + " ";
             }
-            //Debug.Log("Current Log values: " + values);
-
+            Debug.Log("Current Log values: " + values);
+            */
         }
 
         /// <summary> Sets Label Text to Current Action and Activates Checkmark if necessary </summary>

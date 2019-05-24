@@ -14,7 +14,8 @@ public class ActionLineCameraRig : MonoBehaviour
     }
 
     public void Initialize() {
-        Interactable[] interactables = InteractablePath.Path.ToArray(); 
+        Interactable[] interactables = InteractablePath.Path.ToArray();
+        int[] actionIds = InteractablePath.ActionIds.ToArray();
 
         int sceneIndex = InteractableLog.CurrentLevelIndex;
         int baseIndex = sceneIndex * InteractableConfig.ActionsPerSite;
@@ -22,7 +23,7 @@ public class ActionLineCameraRig : MonoBehaviour
         for (int i = 0; i < InteractableConfig.ActionsPerSite; i++) {
             Interactable interactable = interactables[baseIndex + i];
             rigs[i].SetPreviewObject(interactable);
-            rigs[i].SetPreviewAction(interactable.ID.actionID);
+            rigs[i].SetPreviewAction(actionIds[baseIndex + i]);
         }
     }
 }

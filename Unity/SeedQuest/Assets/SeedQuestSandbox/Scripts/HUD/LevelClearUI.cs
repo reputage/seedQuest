@@ -35,6 +35,7 @@ public class LevelClearUI : MonoBehaviour {
         }
 
         InteractablePathManager.ShowLevelComplete = false;
+        GameManager.State = GameManager.PrevState;
         ToggleOff();
     }
 }

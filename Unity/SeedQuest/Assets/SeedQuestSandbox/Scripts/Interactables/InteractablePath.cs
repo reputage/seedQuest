@@ -32,6 +32,11 @@ namespace SeedQuest.Interactables
             get { return Instance.path; }
         }
 
+        static public List<int> ActionIds
+        {
+            get { return Instance.actionIds; }
+        }
+
         /// <summary> Gets number of path elements </summary>
         static public int Count { get => Instance.path.Count; }
 
@@ -62,6 +67,20 @@ namespace SeedQuest.Interactables
                     return Instance.path[Instance.nextIndex];
                 else
                     return null;
+            }
+        }
+
+        static public int NextAction
+        {
+            get
+            {
+                if (Instance.actionIds == null)
+                    return -1;
+
+                if (Instance.nextIndex < Instance.actionIds.Count)
+                    return Instance.actionIds[Instance.nextIndex];
+                else
+                    return -1;
             }
         }
 
@@ -125,6 +144,10 @@ namespace SeedQuest.Interactables
 
                 if(NextInteractable != null)
                     InitializeNextInteractable();
+            }
+            else if (GameManager.Mode == GameMode.Rehearsal && NextInteractable != InteractableManager.ActiveInteractable)
+            {
+                Debug.Log("Next interactable is not the current active interactable.");
             }
         }
 

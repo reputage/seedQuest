@@ -201,6 +201,23 @@ public class LevelIconButton : MonoBehaviour {
             icon.numberIcons[3].gameObject.SetActive(false);
             icon.numberIcons[4].gameObject.SetActive(false);
             icon.numberIcons[5].gameObject.SetActive(false);
+
         }
     }
+
+    public static void ResetButtonStatus()
+    {
+        activeIndex = -1;
+        activeButtons = new LevelIconButton[activeLevelCount];
+
+        foreach (LevelIconButton icon in allIconButtons)
+        {
+            if (GameManager.Mode == GameMode.Recall)
+            {
+                icon.GetComponent<Button>().interactable = true;
+                icon.enableCover.gameObject.SetActive(false);
+            }
+        }
+    }
+
 }

@@ -117,7 +117,9 @@ public class MenuScreenManager : MonoBehaviour
     public void SetModeRecoverSeed()
     {
         GameManager.Mode = GameMode.Recall;
+        Debug.Log("Setting game mode to recall");
         GoToEncodeSeed();
+        LevelIconButton.ResetButtonStatus();
     }
 
     public void GoToSeedSetup()
@@ -276,12 +278,15 @@ public class MenuScreenManager : MonoBehaviour
 
         TextMeshProUGUI[] texts = actionLineUpCanvas.GetComponentsInChildren<TextMeshProUGUI>();
 
-        Interactable[] interactables = InteractablePath.Path.ToArray(); 
+        Interactable[] interactables = InteractablePath.Path.ToArray();
+        int[] actionIds = InteractablePath.ActionIds.ToArray();
         int sceneIndex = InteractableLog.CurrentLevelIndex;
         int baseIndex = sceneIndex * InteractableConfig.ActionsPerSite;
 
         for (int i = 0; i < InteractableConfig.ActionsPerSite; i++) {
             Interactable interactable = interactables[baseIndex + i];
+            interactable.ID.actionID = actionIds[baseIndex + i];
+
             texts[2 * i + 3].text = interactable.Name;
             texts[2 * i + 4].text = interactable.RehearsalActionName;
         }
