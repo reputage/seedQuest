@@ -26,11 +26,13 @@ public static class CommandLineManager
         {"gamemode", setGameMode},
         {"showcolliders", showBoxColliders},
         {"nextaction", doNextAction},
-        {"selectaction", selectAction},
+        {"skip", skipScene},
         {"finduierrors", findUiErrors},
-        {"resetitem", resetInteractable}
-        // make a function for 'select action' in recall mode that takes parameters for site id, interactable id, action id, in that order
-        // make a function for sandbox mode that shows the preview for an interactabel. takes parameters for site id, interactable id, and action id
+        {"customlearn", learnCustom},
+        {"custombreak", learnBreak}
+        //{"resetitem", resetInteractable},
+        //{"selectaction", selectAction},
+
     };
 
     // Initialize the help dictionary. All key strings must be lowercase.
@@ -47,9 +49,54 @@ public static class CommandLineManager
         {"gamemode", "Sets the gamemode in GameManager.\nParameters:\n Learn, recall, sandbox"},
         {"showcolliders", "Shows box colliders for interactables.\nUse 'showcolliders b' to show colliders for non-interctable objects"},
         {"nextaction", "Performs the next action in the interactable path list, only works in learn mode."},
-        {"selectaction", "Performs an action using the specified interactable.\nParameters:\nint siteID, int spotID, int action"},
+        {"skip", "Skip the current scene."},
         {"finduierrors", "Finds collisions between interactable objects and their interactableUIs"},
-        {"resetitem", "Finds and resets an item at the given site ID and spot ID.\nParameters:\n int siteID, int spotID"}
+        {"customlearn", "Creates a custom seed from input scene names and starts learn mode using that seed. \nParameters:\nSceneName1 SceneName2 SceneName3..."}
+        //{"resetitem", "Finds and resets an item at the given site ID and spot ID.\nParameters:\n int siteID, int spotID"},
+        //{"selectaction", "Performs an action using the specified interactable.\nParameters:\nint siteID, int spotID, int action"},
+
+    };
+
+    // Initialize fuzzy scene name dictionary.
+    public static Dictionary<string, string> fuzzySceneNames = new Dictionary<string, string>
+    {
+        {"arabian", "arabianday"}, {"arab", "arabianday"},
+        {"café", "cafe"},
+        {"campground", "campground iso"}, {"camping", "campground iso"}, {"camp", "campground iso"},
+        {"castle", "castlebeach"}, {"beach", "castlebeach"},
+        {"cliff", "cliffsideiso"}, {"cliffs", "cliffsideiso"}, {"cliffside", "cliffsideiso"},
+        {"dino", "dinosafari"}, {"dinosaur", "dinosafari"}, {"safari", "dinosafari"},
+        {"farms", "farm"},
+        {"haunted", "hauntedhouse"},
+        {"lab", "lab_iso"}, {"science", "lab_iso"},
+        {"restaurant", "nonnabig_iso"}, {"nonna", "nonnabig_iso"},
+        {"pirate", "pirateship_wreck"}, {"pirates", "pirateship_wreck"}, {"pirateship", "pirateship_wreck"},
+        {"saloon", "saloonbiggeriso"}, {"sallon", "saloonbiggeriso"}, {"western", "saloonbiggeriso"},
+        {"snow", "snowland"},
+        {"sorcerer", "sorcerertower"}, {"wizard", "sorcerertower"}, {"wizardtower", "sorcerertower"},
+        {"moon", "space"},
+        {"gym", "sports"}, {"workout", "sports"}
+    };
+
+    // Initialize fuzzy scene name dictionary.
+    public static Dictionary<string, int> sceneIndeces = new Dictionary<string, int>
+    {
+        {"farm", 0},
+        {"campground iso", 1}, 
+        {"castlebeach", 2},
+        {"cliffsideiso", 3},
+        {"dinosafari", 4},
+        {"hauntedhouse", 5},
+        {"sports", 6}, 
+        {"lab_iso", 7},
+        {"arabianday", 8},
+        {"nonnabig_iso", 9},
+        {"pirateship_wreck", 10}, 
+        {"saloonbiggeriso", 11},  
+        {"snowland", 12},
+        {"space", 13},
+        {"sorcerertower", 14}, 
+        {"cafe", 15}
     };
 
     // Here's a template for an example of a command. 
@@ -102,8 +149,141 @@ public static class CommandLineManager
         if (input == "")
             return "No scene specified";
 
+        if(fuzzySceneNames.ContainsKey(input))
+        {
+            SceneManager.LoadScene(fuzzySceneNames[input]);
+            return "Loading scene: " + fuzzySceneNames[input];
+        }
+
         SceneManager.LoadScene(input);
         return "Loading scene: " + input;
+    }
+
+    // Skip the current scene. Only works in Learn/reheasal mode.
+    public static string skipScene(string input)
+    {
+        if (GameManager.Mode == GameMode.Rehearsal)
+        {
+            int actionsThisScene = InteractableLog.Count % InteractableConfig.ActionsPerSite;
+            for (int i = 0 + actionsThisScene; i < InteractableConfig.ActionsPerSite; i++)
+            {
+                Debug.Log("Auto-performing action " + (i + 1));
+                InteractableManager.SetActiveInteractable(InteractablePath.NextInteractable, InteractablePath.NextAction);
+                InteractableLog.Add(InteractablePath.NextInteractable, InteractablePath.NextAction);
+                InteractablePath.GoToNextInteractable();
+            }
+            return "Skiping scene";
+        }
+        else if (GameManager.Mode == GameMode.Recall)
+        {
+            int actionsThisScene = InteractableLog.Count % InteractableConfig.ActionsPerSite;
+            for (int i = 0 + actionsThisScene; i < InteractableConfig.ActionsPerSite; i++)
+            {
+                Debug.Log("Auto-performing action " + (i + 1));
+                InteractableLog.Add(InteractableManager.InteractableList[0], 0);
+            }
+
+            return "Skiping scene";
+        }
+
+        return "Skip scene only supports Learn and Recal modes.";
+    }
+
+    // Creates a custom learn mode path with scenes dtermined by the user.
+    public static string learnCustom(string input)
+    {
+        return learnTest(input, false);
+    }
+
+    // Creates a custom learn mode that intentionaly tests whether a scene has all 16 interactables
+    public static string learnBreak(string input)
+    {
+        return learnTest(input, true);
+    }
+
+    // Creates a custom learn mode - does the heavy lifting for the above two functions
+    public static string learnTest(string input, bool tryToBreak)
+    {
+        string[] stringInputs = input.Split(null);
+        int[] scenes = new int[InteractableConfig.SitesPerGame];
+        int[] actions = new int[InteractableConfig.SitesPerGame + (InteractableConfig.SitesPerGame * InteractableConfig.ActionsPerSite * 2)];
+        if (stringInputs.Length <= 0 || input == null || input == "")
+        {
+            return "Please enter at least one scene name for the custom learn path.";
+        }
+        Debug.Log("Input: ." + input + ".");
+        Debug.Log("String input length: " + stringInputs.Length);
+
+        for (int i = 0; i < InteractableConfig.SitesPerGame; i++)
+        {
+            // queue up the scenes entered by user into a seed
+
+            if (i < stringInputs.Length)
+            {
+                if (sceneIndeces.ContainsKey(stringInputs[i]))
+                {
+                    scenes[i] = sceneIndeces[stringInputs[i]];
+                }
+                else if (fuzzySceneNames.ContainsKey(stringInputs[i]))
+                {
+                    scenes[i] = sceneIndeces[fuzzySceneNames[stringInputs[i]]];
+                }
+                else
+                {
+                    Debug.Log("String input length: " + stringInputs.Length);
+                    return "Do not recognize scene name: " + stringInputs[i];
+                }
+            }
+            else
+            {
+                scenes[i] = 2;
+            }
+
+        }
+
+        // Create custom seed using the chosen scenes
+        for (int i = 0; i < InteractableConfig.SitesPerGame; i++)
+        {
+            actions[i + i * InteractableConfig.ActionsPerSite * 2] = scenes[i];
+
+            for (int j = 0; j < InteractableConfig.ActionsPerSite; j++)
+            {
+                if (tryToBreak)
+                    actions[j * 2 + 1 + i + i * InteractableConfig.ActionsPerSite * 2] = j + 13;
+                else
+                    actions[j * 2 + 1 + i + i * InteractableConfig.ActionsPerSite * 2] = j % 16;
+                
+                actions[j * 2 + 2 + i + i * InteractableConfig.ActionsPerSite * 2] = j % 4;
+            }
+        }
+
+        SeedToByte seeds = new SeedToByte();
+        string seed = seeds.getSeed(actions);
+        Debug.Log("Artificial seed: " + seed);
+
+        InteractablePathManager.SeedString = seed;
+        InteractablePath.ResetPath();
+        InteractablePathManager.Reset();
+        LevelSetManager.ResetCurrentLevels();
+
+        for (int i = 0; i < scenes.Length; i++)
+        {
+            LevelSetManager.AddLevel(scenes[i]);
+        }
+
+        GameManager.Mode = GameMode.Rehearsal;
+        GameManager.State = GameState.Play;
+        InteractablePathManager.Initalize();
+
+        if (fuzzySceneNames.ContainsKey(stringInputs[0]))
+        {
+            SceneManager.LoadScene(fuzzySceneNames[stringInputs[0]]);
+            return "Loading custom seed. Scene: " + fuzzySceneNames[stringInputs[0]];
+        }
+
+        SceneManager.LoadScene(stringInputs[0]);
+
+        return "Loading custom seed. Scene: " + stringInputs[0];
     }
 
     // Returns a list of all the available scenes in the build by name
@@ -195,11 +375,16 @@ public static class CommandLineManager
     public static string doNextAction(string input)
     {
         if (InteractablePath.NextInteractable != null && GameManager.Mode == GameMode.Rehearsal)
+        {
+            InteractableManager.SetActiveInteractable(InteractablePath.NextInteractable, InteractablePath.NextAction);
+            InteractableLog.Add(InteractablePath.NextInteractable, InteractablePath.NextAction);
             InteractablePath.GoToNextInteractable();
+        }
         return "Performing next queued action";
     }
 
     // Input paramters: interactableID, action #
+    // Incompatible with the current version of SeedQuest
     public static string selectAction(string input)
     {
         string[] stringInputs = input.Split(null);
@@ -230,6 +415,7 @@ public static class CommandLineManager
     }
 
     // Reset the state of interactable with given siteID and spotID
+    // Incompatible with current build of SeedQuest
     public static string resetInteractable(string input)
     {
         string[] stringInputs = input.Split(null);

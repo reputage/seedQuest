@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
+  m_Name: TroughState 1
+  m_EditorClassIdentifier: 
+  interactableName: Trough
+  prompt: 
+  labelPosOffset: {x: 0, y: 1, z: 0}
+  states:
+  - actionName: Empty
+    prefab: {fileID: 6853220342187451464, guid: 912ac69efcb6610489e5f0f74a17e05e,
+      type: 3}
+    positionOffset: {x: 0, y: 0, z: 0}
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Splash
+    soundEffect:
+      name: 
+      clip: {fileID: 0}
+      volume: 1
+      loop: 0
+      source: {fileID: 0}
+    particleEffectName: 
+    particleEffect: {fileID: 0}
+  - actionName: Drink
+    prefab: {fileID: 6853220342187451464, guid: 4ea39b2ede0367f48b747de12d48ff26,
+      type: 3}
+    positionOffset: {x: 0, y: 0, z: 0}
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Slurp
+    soundEffect:
+      name: 
+      clip: {fileID: 0}
+      volume: 1
+      loop: 0
+      source: {fileID: 0}
+    particleEffectName: 
+    particleEffect: {fileID: 0}
+  - actionName: Poison
+    prefab: {fileID: 6853220342187451464, guid: a504fc9dca3e63946a32b5c7d061bbda,
+      type: 3}
+    positionOffset: {x: 0, y: 0, z: 0}
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Boil
+    soundEffect:
+      name: 
+      clip: {fileID: 0}
+      volume: 1
+      loop: 0
+      source: {fileID: 0}
+    particleEffectName: 
+    particleEffect: {fileID: 0}
+  - actionName: Fill With Hay
+    prefab: {fileID: 6853220342187451464, guid: 50216ec59ffcba1469982ca8afeb8288,
+      type: 3}
+    positionOffset: {x: 0, y: 0, z: 0}
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: Whoosh
+    soundEffect:
+      name: 
+      clip: {fileID: 0}
+      volume: 1
+      loop: 0
+      source: {fileID: 0}
+    particleEffectName: 
+    particleEffect: {fileID: 0}
+  effect: {fileID: 3589441540930374132, guid: c0d5d0c1d9437d14f96f05b7db572c46, type: 3}

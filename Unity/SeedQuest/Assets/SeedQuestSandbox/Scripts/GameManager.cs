@@ -35,6 +35,13 @@ public class GameManager : MonoBehaviour {
         set { graduatedMode = value; }
     }
 
+    private static bool tutorialMode = false;
+    public static bool TutorialMode
+    {
+        get { return tutorialMode; }
+        set { tutorialMode = value; }
+    }
+
     public GameState state = GameState.Play;
     public GameState prevState = GameState.Play;
     public static GameState State {

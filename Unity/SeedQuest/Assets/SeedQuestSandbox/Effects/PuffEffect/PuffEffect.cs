@@ -9,8 +9,11 @@ public class PuffEffect : MonoBehaviour {
     private bool isNotUsed = true;
     private ParticleSystem effect;
 
+    Camera c;
+
     // Use this for initialization
     void Start () {
+        c = Camera.main;
         effect = gameObject.GetComponentInChildren<ParticleSystem>();
         effect.Stop();
 	}
@@ -20,7 +23,7 @@ public class PuffEffect : MonoBehaviour {
 		
         if(Input.GetMouseButtonDown(0) && isNotUsed) {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = c.ScreenPointToRay(Input.mousePosition);
 
             if(Physics.Raycast(ray, out hit, 100.0f)) {
                 effect.Play();

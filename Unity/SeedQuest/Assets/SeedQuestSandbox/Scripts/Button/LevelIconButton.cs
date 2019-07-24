@@ -217,6 +217,12 @@ public class LevelIconButton : MonoBehaviour {
                 icon.GetComponent<Button>().interactable = true;
                 icon.enableCover.gameObject.SetActive(false);
             }
+
+            else
+            {
+                icon.GetComponent<Button>().interactable = false;
+                icon.enableCover.gameObject.SetActive(true);
+            }
         }
     }
 

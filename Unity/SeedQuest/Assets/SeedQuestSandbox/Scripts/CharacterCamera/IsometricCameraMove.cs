@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace SeedQuest.Experiment {
     
@@ -51,6 +52,9 @@ namespace SeedQuest.Experiment {
 
             if (Input.GetMouseButtonDown(0))
             {
+                if (EventSystem.current.IsPointerOverGameObject())
+                    return;
+
                 Vector3 mouse = Input.mousePosition;
                 Vector2 screen = new Vector2(Screen.width, Screen.height);
 

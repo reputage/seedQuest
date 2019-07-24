@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+using UnityEngine.EventSystems;
+
 public enum PlayerControlMode { Keyboard, Touch, Click };
 
 public class PlayerCtrl : MonoBehaviour {
@@ -37,7 +39,11 @@ public class PlayerCtrl : MonoBehaviour {
         if (PauseManager.isPaused || PauseManager.isInteracting)
             return;
 
+
         if(Input.GetMouseButtonDown(0)) {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
             Camera camera = IsometricCamera.Camera;
 
             RaycastHit hit;
