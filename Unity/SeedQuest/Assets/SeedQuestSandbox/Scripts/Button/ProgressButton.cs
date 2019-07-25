@@ -27,7 +27,10 @@ public class ProgressButton : MonoBehaviour
     public Action ProgressCompleteAction { set => progressCompleteAction = value; }
     public bool IsActive { get => isActive; }
 
+    Camera c;
+
     void Start() {
+        c = Camera.main;
         progressComplete = false;
         isActive = false;
         progressCompleteAction = null;
@@ -160,7 +163,6 @@ public class ProgressButton : MonoBehaviour
 
         if (progressTime == maxTime ) {
             if(!progressComplete) {
-                checkmarkAnimate();
                 progressComplete = true;
                 progressTime = 0;
                 progressCompleteAction?.Invoke();
@@ -172,9 +174,17 @@ public class ProgressButton : MonoBehaviour
         }
     }
     
-    private void checkmarkAnimate() {
+    public void checkmarkAnimate() {
         animators[0].Play("ProgressCompleteAnimation");
         animators[1].Play("CompleteCheckAnimation");
+        AudioManager.Play("UI_CheckmarkComplete");
+    }
+
+    public void exAnimate()
+    {
+        Debug.Log(animators.Length);
+        animators[0].Play("ProgressCompleteAnimation");
+        animators[2].Play("CompleteExAnimation");
         AudioManager.Play("UI_CheckmarkComplete");
     }
 
@@ -185,7 +195,7 @@ public class ProgressButton : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = c.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, 100.0f)) {
                 bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
@@ -198,7 +208,7 @@ public class ProgressButton : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0)) {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = c.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, 100.0f)) {
                 bool hitThis = hit.transform.GetInstanceID() == transform.GetInstanceID();
@@ -215,7 +225,6 @@ public class ProgressButton : MonoBehaviour
         if (PauseManager.isPaused == true)
             return;
 
-        Camera c = Camera.main;
         RaycastHit hit;
         Ray ray = c.ScreenPointToRay(Input.mousePosition);
 

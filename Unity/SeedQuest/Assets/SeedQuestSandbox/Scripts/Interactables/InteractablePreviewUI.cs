@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeedQuest.Utils;
+using System;
 
 namespace SeedQuest.Interactables
 {
@@ -163,8 +164,17 @@ namespace SeedQuest.Interactables
             //Instance.previewObserver.Watch(Instance.preview);
 
             // Remove old preview object
-            foreach (Transform child in Instance.previewObject.transform)
+            try
+            {
+                foreach (Transform child in Instance.previewObject.transform)
                     GameObject.Destroy(child.gameObject);
+            }
+
+            catch (NullReferenceException e)
+            {
+                return;
+            }
+
 
             // Create Preview Gameobject
             if(interactable.interactablePreview.previewPrefab != null) {

@@ -162,6 +162,11 @@ namespace SeedQuest.Interactables
                 NextInteractable.HighlightInteractableWithEffect(true);
                 InteractablePreviewUI.SetPreviewObject(NextInteractable, Instance.actionIds[Instance.nextIndex]);
                 InteractablePreviewUI.SetPreviewAction(Instance.actionIds[Instance.nextIndex]);
+
+                if (InteractableManager.Instance.useSingleTracker && Instance.nextIndex % 3 != 0)
+                {
+                    Instance.path[Instance.nextIndex - 1].interactableUI.ToggleTracker(false);
+                }
             }
         }
     }

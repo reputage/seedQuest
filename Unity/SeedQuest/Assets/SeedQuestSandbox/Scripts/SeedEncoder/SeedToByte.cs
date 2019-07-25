@@ -155,7 +155,17 @@ namespace SeedQuest.SeedEncoder
         {
             if (actionList == null)
                 actionList = listBuilder();
+
             returnBytes = seedConverterUniversal(actionsPerformed, actionList);
+
+            string bytes = "";
+            for (int i = 0; i < returnBytes.Length; i++)
+            {
+                bytes += returnBytes[i] + " ";
+            }
+
+            //Debug.Log("Return bytes: " + bytes);
+
             string convertedSeed = byteToSeed(returnBytes);
             return convertedSeed;
         }
@@ -383,7 +393,7 @@ namespace SeedQuest.SeedEncoder
                 finalBytes = shortSeed(actions, varList, totalBits);
             else
                 finalBytes = longSeed(actions, varList, totalBits);
-
+            
             // Reverse the order of the bits within each byte (yes, this is necessary)
             for (int i = 0; i < finalBytes.Length; i++)
                 finalBytes[i] = ReverseWithLookupTable(finalBytes[i]);
@@ -403,7 +413,10 @@ namespace SeedQuest.SeedEncoder
             int[] returnArray = new int[3];
 
             if (value == 0)
+            {
+                returnArray[2] = totalBits - leadBits;
                 return returnArray;
+            }
             else if (leadBits == 0)
             {
                 Debug.Log("Warning: leadBits field of findLeadingBitValue is 0 - check your function call");
@@ -477,16 +490,22 @@ namespace SeedQuest.SeedEncoder
                 if (i == 0)
                     bitsShifted += varList[0];
                 else if (i > 0) // If not the first int, add remainder bits from the previous one
+                {
                     if (remainder > 0)
                         pathAddRemainder(varList, listIndex, ref bitsShifted,
                                          ref remainder, ref remainderBits, ref path);
+                    else if (remainderBits > 0)
+                        pathNoRemainder(ref bitsShifted, ref remainderBits);
+                }
 
                 //while (bitsShifted < 64)
+
                 pathAddValues(actions, varList, ref listIndex, ref bitsShifted,
                                  ref remainder, ref remainderBits, ref path);
 
                 finalBytes = convertPathToBytes(finalBytes, path);
             }
+
             return finalBytes;
         }
 
@@ -582,9 +601,15 @@ namespace SeedQuest.SeedEncoder
                 bitsShifted += 0;//varList[listIndex + 1];
             else
                 Debug.Log("Can't add bitsShifted by varList[listIndex+1]");
+            
             bitsShifted += remainderBits;
             remainder = 0;
             remainderBits = 0;
+        }
+
+        public static void pathNoRemainder(ref int bitsShifted, ref int remainderBits)
+        {
+            bitsShifted += remainderBits;
         }
 
         // Convert the path ulong into a byte array

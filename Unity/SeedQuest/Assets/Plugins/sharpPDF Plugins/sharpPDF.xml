@@ -1,0 +1,3202 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>sharpPDF</name>
+    </assembly>
+    <members>
+        <member name="T:sharpPDF.circleElement">
+            <summary>
+            A Class that implements a PDF circle.
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfElement">
+            <summary>
+            A Class that implements a generic PDF element.
+            </summary>
+        </member>
+        <member name="T:sharpPDF.IWritable">
+            <summary>
+            Generic interface for pdf's objects
+            </summary>	
+        </member>
+        <member name="M:sharpPDF.IWritable.getText">
+            <summary>
+            Method that returns the PDF codes to write the object in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="F:sharpPDF.pdfElement._strokeColor">
+            <summary>
+            Element's color
+            </summary>
+        </member>
+        <member name="F:sharpPDF.pdfElement._fillColor">
+            <summary>
+            Border's color
+            </summary>
+        </member>
+        <member name="F:sharpPDF.pdfElement._coordX">
+            <summary>
+            X position of the element
+            </summary>
+        </member>
+        <member name="F:sharpPDF.pdfElement._coordY">
+            <summary>
+            Y position of the element
+            </summary>
+        </member>
+        <member name="F:sharpPDF.pdfElement._objectID">
+            <summary>
+            Element's ID
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfElement.getText">
+            <summary>
+            Method that returns the PDF codes to write the generic element in the document. It must be implemented by the derived class
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfElement.strokeColor">
+            <summary>
+            Border's color
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfElement.fillColor">
+            <summary>
+            Element's Color
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfElement.coordX">
+            <summary>
+            X position in the PDF document
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfElement.coordY">
+            <summary>
+            Y position in the PDF document
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfElement.objectID">
+            <summary>
+            Element's ID
+            </summary>
+        </member>
+        <member name="M:sharpPDF.circleElement.#ctor(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="Ray">Ray of the circle</param>
+            <param name="strokeColor">Color of circle's border</param>
+            <param name="fillColor">Color of the circle</param>
+        </member>
+        <member name="M:sharpPDF.circleElement.#ctor(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="Ray">Ray of the circle</param>
+            <param name="strokeColor">Color of circle's border</param>
+            <param name="fillColor">Color of the circle</param>
+        </member>
+        <member name="M:sharpPDF.circleElement.#ctor(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="Ray">Ray of the circle</param>
+            <param name="strokeColor">Color of circle's border</param>
+            <param name="fillColor">Color of the circle</param>
+            <param name="newWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.circleElement.#ctor(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="Ray">Ray of the circle</param>
+            <param name="strokeColor">Color of circle's border</param>
+            <param name="fillColor">Color of the circle</param>
+            <param name="newWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.circleElement.#ctor(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="Ray">Ray of the circle</param>
+            <param name="strokeColor">Color of circle's border</param>
+            <param name="fillColor">Color of the circle</param>
+            <param name="newStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.circleElement.#ctor(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="Ray">Ray of the circle</param>
+            <param name="strokeColor">Color of circle's border</param>
+            <param name="fillColor">Color of the circle</param>
+            <param name="newStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.circleElement.#ctor(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="Ray">Ray of the circle</param>
+            <param name="strokeColor">Color of circle's border</param>
+            <param name="fillColor">Color of the circle</param>
+            <param name="newWidth">Border's size</param>
+            <param name="newStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.circleElement.#ctor(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="Ray">Ray of the circle</param>
+            <param name="strokeColor">Color of circle's border</param>
+            <param name="fillColor">Color of the circle</param>
+            <param name="newWidth">Border's size</param>
+            <param name="newStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.circleElement.getText">
+            <summary>
+            Method that returns the PDF codes to write the circle in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="M:sharpPDF.circleElement.getYBezier(System.Int32,System.Int32,System.Char)">
+            <summary>
+            Private method that returns the Y position with the Bezier's function
+            </summary>
+            <param name="coordY">Y position of the circle's center</param>
+            <param name="ray">Circle's ray</param>
+            <param name="operation">Type of operation : '+' or '-'</param>
+            <returns>String that contains Y position</returns>
+        </member>
+        <member name="T:sharpPDF.imageElement">
+            <summary>
+            A Class that implements a PDF image.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.imageElement.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="imageName">Image's Name</param>
+            <param name="newCoordX">X position in the PDF document</param>
+            <param name="newCoordY">Y position in the PDF document</param>
+        </member>
+        <member name="M:sharpPDF.imageElement.#ctor(System.Drawing.Image,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="myImage">Image Object</param>
+            <param name="newCoordX">X position in the PDF document</param>
+            <param name="newCoordY">Y position in the PDF document</param>
+        </member>
+        <member name="M:sharpPDF.imageElement.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="imageName">Image's Name</param>
+            <param name="newCoordX">X position in the PDF document</param>
+            <param name="newCoordY">Y position in the PDF document</param>
+            <param name="newHeight">New height of the image</param>
+            <param name="newWidth">New width of the image</param>
+        </member>
+        <member name="M:sharpPDF.imageElement.#ctor(System.Drawing.Image,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="myImage">Image Object</param>
+            <param name="newCoordX">X position in the PDF document</param>
+            <param name="newCoordY">Y position in the PDF document</param>
+            <param name="newHeight">New height of the image</param>
+            <param name="newWidth">New width of the image</param>
+        </member>
+        <member name="M:sharpPDF.imageElement.getText">
+            <summary>
+            Method that returns the PDF codes to write the image in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="M:sharpPDF.imageElement.getXObjectText">
+            <summary>
+            Method that returns the PDF codes to write the XObject in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.imageElement.height">
+            <summary>
+            Original height of the image
+            </summary>
+        </member>
+        <member name="P:sharpPDF.imageElement.width">
+            <summary>
+            Original width of the image
+            </summary>
+        </member>
+        <member name="P:sharpPDF.imageElement.newHeight">
+            <summary>
+            New height of the image
+            </summary>
+        </member>
+        <member name="P:sharpPDF.imageElement.newWidth">
+            <summary>
+            New width of the image
+            </summary>
+        </member>
+        <member name="P:sharpPDF.imageElement.content">
+            <summary>
+            Byte array that contains the stream of the image
+            </summary>
+        </member>
+        <member name="P:sharpPDF.imageElement.xObjectID">
+            <summary>
+            XObject ID
+            </summary>
+        </member>
+        <member name="T:sharpPDF.IPdfDestination">
+            <summary>
+            Interface for a pdfDestination
+            </summary>
+        </member>
+        <member name="M:sharpPDF.IPdfDestination.getDestinationValue">
+            <summary>
+            Method that returns the PDF codes to write the destination
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="T:sharpPDF.lineElement">
+            <summary>
+            A Class that implements a PDF line.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>
+            <param name="newWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>		
+            <param name="newStyle">Line's style</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>		
+            <param name="newWidth">Line's size</param>
+            /// <param name="newStyle">Line's style</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>	
+            <param name="newColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>	
+            <param name="newColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>	
+            <param name="newStyle">Line's style</param>
+            <param name="newColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.pdfColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>	
+            <param name="newStyle">Line's style</param>
+            <param name="newColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>	
+            <param name="newWidth">Line's width</param>
+            <param name="newColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>	
+            <param name="newWidth">Line's width</param>
+            <param name="newColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>	
+            <param name="newWidth">Line's size</param>
+            <param name="newStyle">Line's style</param>
+            <param name="newColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.pdfColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position in the PDF document</param>
+            <param name="Y">Y position in the PDF document</param>
+            <param name="X1">X1 position in the PDF document</param>
+            <param name="Y1">Y1 position in the PDF document</param>	
+            <param name="newWidth">Line's size</param>
+            <param name="newStyle">Line's style</param>
+            <param name="newColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.lineElement.getText">
+            <summary>
+            Method that returns the PDF codes to write the line in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="T:sharpPDF.paragraphElement">
+            <summary>
+            A Class that implements a PDF paragraph.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.paragraphElement.#ctor(System.Collections.IEnumerable,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newContent">Text of the paragraph</param>
+            <param name="newFontSize">Font's size</param>
+            <param name="newFontType">Font's type</param>
+            <param name="newCoordX">X position in the PDF document</param>
+            <param name="newCoordY">Y position in the PDF document</param>
+        </member>
+        <member name="M:sharpPDF.paragraphElement.#ctor(System.Collections.IEnumerable,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="newContent">Text of the paragraph</param>
+            <param name="newFontSize">Font's size</param>
+            <param name="newFontType">Font's type</param>
+            <param name="newCoordX">X position in the PDF document</param>
+            <param name="newCoordY">Y position in the PDF document</param>
+            <param name="newStrokeColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.paragraphElement.#ctor(System.Collections.IEnumerable,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newContent">Text of the paragraph</param>
+            <param name="newFontSize">Font's size</param>
+            <param name="newFontType">Font's type</param>
+            <param name="newCoordX">X position in the PDF document</param>
+            <param name="newCoordY">Y position in the PDF document</param>
+            <param name="newStrokeColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.paragraphElement.getText">
+            <summary>
+            Method that returns the PDF codes to write the paragraph in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.paragraphElement.content">
+            <summary>
+            IEnumerable interface that contains paragraph's lines
+            </summary>
+        </member>
+        <member name="P:sharpPDF.paragraphElement.fontSize">
+            <summary>
+            Font's size
+            </summary>
+        </member>
+        <member name="P:sharpPDF.paragraphElement.fontType">
+            <summary>
+            Font's type
+            </summary>
+        </member>
+        <member name="T:sharpPDF.paragraphLine">
+            <summary>
+            A Class that implements a PDF paragraph's line.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.paragraphLine.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="strLine">Text of the line</param>
+            <param name="lineTopMargin">Top margin</param>
+            <param name="lineLeftMargin">Left margin</param>
+        </member>
+        <member name="M:sharpPDF.paragraphLine.getText">
+            <summary>
+            Method that returns the PDF codes to write the paragraph's line in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="T:sharpPDF.Exceptions.pdfBadColumnIndexException">
+            <summary>
+            Exception that represents an error during an access on the pdfTableRow's columns with a bad index
+            </summary>
+        </member>
+        <member name="T:sharpPDF.Exceptions.pdfException">
+            <summary>
+            Generic PDF Exception.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.Exceptions.pdfException.#ctor(System.String,System.Exception)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="message">Message for the exception</param>
+            <param name="ex">Inner exception</param>
+        </member>
+        <member name="M:sharpPDF.Exceptions.pdfBadColumnIndexException.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfBookmarkNode">
+            <summary>
+            Class that representa a single bookmark element
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfBookmarkNode.CompareTo(System.Object)">
+            <summary>
+            Method that allows to compare pdfBookmarkNodes (Inherited from IComparable)
+            </summary>
+            <param name="obj">Object to compare</param>
+            <returns>Compare result</returns>
+        </member>
+        <member name="M:sharpPDF.pdfBookmarkNode.getFirstChild">
+            <summary>
+            Method that returns the first child
+            </summary>
+            <returns>Object that represent the first child</returns>
+        </member>
+        <member name="M:sharpPDF.pdfBookmarkNode.getLastChild">
+            <summary>
+            Method that returns the last child
+            </summary>
+            <returns>Object that represent the last child</returns>
+        </member>
+        <member name="M:sharpPDF.pdfBookmarkNode.#ctor(System.String,sharpPDF.pdfPage,System.Boolean)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="Title">Bookmark's title</param>
+            <param name="Page">Destination Page</param>
+            <param name="openBookmark">The visibility of bookmark's childs</param>
+        </member>
+        <member name="M:sharpPDF.pdfBookmarkNode.#ctor(System.String,sharpPDF.pdfPage,System.Boolean,sharpPDF.IPdfDestination)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="Title">Bookmark's title</param>
+            <param name="Page">Destination Page</param>
+            <param name="openBookmark">The visibility of bookmark's childs</param>
+            <param name="Destination">Destination object</param>
+        </member>
+        <member name="M:sharpPDF.pdfBookmarkNode.addChildNode(sharpPDF.pdfBookmarkNode)">
+            <summary>
+            Method that add a child to the bookmark
+            </summary>
+            <param name="Child">Child object</param>
+        </member>
+        <member name="M:sharpPDF.pdfBookmarkNode.getText">
+            <summary>
+            Method that returns the PDF codes to write the object in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.Title">
+            <summary>
+            Bookmark's title
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.Page">
+            <summary>
+            Page's reference for the bookmark
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.Destination">
+            <summary>
+            Destination of the bookmark
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.open">
+            <summary>
+            The visibility of bookmark's childs
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.ObjectID">
+            <summary>
+            Bookmark's ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.prev">
+            <summary>
+            Prev bookmark ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.next">
+            <summary>
+            Next bookmark ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.first">
+            <summary>
+            First child ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.last">
+            <summary>
+            Last child ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.parent">
+            <summary>
+            Bokkmark's partent ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.childCount">
+            <summary>
+            Number of childs
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfBookmarkNode.Childs">
+            <summary>
+            Bookmark's childs
+            </summary>
+        </member>
+        <member name="T:sharpPDF.Exceptions.pdfBufferErrorException">
+            <summary>
+            Exception that represents an error during the I/O on the buffer.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.Exceptions.pdfBufferErrorException.#ctor(System.String,System.Exception)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="message">Message for the exception</param>
+            <param name="ex">Inner exception</param>
+        </member>
+        <member name="T:sharpPDF.pdfColor">
+            <summary>
+            A Class that implements a PDF color.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfColor.#ctor(sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newColor">Color</param>
+        </member>
+        <member name="M:sharpPDF.pdfColor.#ctor(System.String)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="HEXColor">Hex Color</param>
+        </member>
+        <member name="M:sharpPDF.pdfColor.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="rColor">Red component of the color</param>
+            <param name="gColor">Green component of the color</param>
+            <param name="bColor">Blue component of the color</param>
+        </member>
+        <member name="M:sharpPDF.pdfColor.formatColorComponent(System.Int32)">
+            <summary>
+            Method that formats a int color value with the pdf color format
+            </summary>
+            <param name="colorValue">Component of the color</param>
+            <returns>Formatted component of the color</returns>
+        </member>
+        <member name="M:sharpPDF.pdfColor.isColor">
+            <summary>
+            Method that validates the color
+            </summary>
+            <returns>Boolean value that represents the validity of the color</returns>
+        </member>
+        <member name="P:sharpPDF.pdfColor.rColor">
+            <summary>
+            R property of RGB color
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfColor.gColor">
+            <summary>
+            G property of RGB color
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfColor.bColor">
+            <summary>
+            B property of RGB color
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfColor.baseColor">
+            <summary>
+            The predefinedColor of the pdfColor
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfDestinationFactory">
+            <summary>
+            Class that represent a destination into a pdf document
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFactory.createPdfDestinationXYZ(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method that creates a pdfDestination with XYZ type
+            </summary>
+            <param name="left">Left margin</param>
+            <param name="top">Top margin</param>
+            <param name="zoom">Page's zoom</param>
+            <returns>pdfDestination object</returns>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFactory.createPdfDestinationFit">
+            <summary>
+            Method that creates a pdfDestination with Fit type
+            </summary>
+            <returns>pdfDestination object</returns>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFactory.createPdfDestinationFitH(System.Int32)">
+            <summary>
+            Method that creates a pdfDestination with FitH type
+            </summary>
+            <param name="top">Top margin</param>
+            <returns>pdfDestination object</returns>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFactory.createPdfDestinationFitV(System.Int32)">
+            <summary>
+            Method that creates a pdfDestination with FitV type
+            </summary>
+            <param name="left">Left margin</param>
+            <returns>pdfDestination object</returns>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFactory.createPdfDestinationFitR(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Mathod that creates a pdfDestination with FitR type
+            </summary>
+            <param name="left">Left margin</param>
+            <param name="top">Top margin</param>
+            <param name="bottom">Bottom margin</param>
+            <param name="right">Right margin</param>
+            <returns>pdfDestination object</returns>
+        </member>
+        <member name="T:sharpPDF.pdfDestinationFit">
+            <summary>
+            Class that represents a pdfDestination of Fit type.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFit.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFit.getDestinationValue">
+            <summary>
+            Method that returns the PDF codes to write the destination
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="T:sharpPDF.pdfDestinationFitH">
+            <summary>
+            Class that represents a pdfDestination of FitH type.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFitH.#ctor(System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="top">Top margin</param>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFitH.getDestinationValue">
+            <summary>
+            Method that returns the PDF codes to write the destination
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="T:sharpPDF.pdfDestinationFitR">
+            <summary>
+            Class that represents a pdfDestination of FitR type.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFitR.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="left">Left margin</param>
+            <param name="top">Top margin</param>
+            <param name="bottom">Bottom margin</param>
+            <param name="right">Right margin</param>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFitR.getDestinationValue">
+            <summary>
+            Method that returns the PDF codes to write the destination
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="T:sharpPDF.pdfDestinationFitV">
+            <summary>
+            Class that represents a pdfDestination of FitV type.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFitV.#ctor(System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="left">Left margin</param>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationFitV.getDestinationValue">
+            <summary>
+            Method that returns the PDF codes to write the destination
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="T:sharpPDF.Enumerators.pdfDestinationType">
+            <summary>
+            Enumerator that implements the type of pdf's destination.
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.pdfDestinationType.csNone">
+            <summary>
+            Null pdf's destination
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.pdfDestinationType.csXYZ">
+            <summary>
+            Pdf's destination with top, left and zoom value
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.pdfDestinationType.csFit">
+            <summary>
+            Pdf's destination that shows the entire page
+            within the window both horizontally and vertically.
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.pdfDestinationType.csFitH">
+            <summary>
+            Pdf's destination that display the page with the vertical coordinate top positioned
+            at the top edge of the window
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.pdfDestinationType.csFitV">
+            <summary>
+            Pdf's destination that display the page with the horizontal coordinate left positioned
+            at the left edge of the window
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.pdfDestinationType.csFitR">
+            <summary>
+            Pdf's destination that display the page with its contents magnified just enough
+            to fit the rectangle specified by the coordinates left, bottom, right, and top
+            entirely within the window both horizontally and vertically.
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfDestinationXYZ">
+            <summary>
+            Class that represents a pdfDestination of XYZ type.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationXYZ.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="left">Left margin</param>
+            <param name="top">Top margin</param>
+            <param name="zoom">Zoom</param>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationXYZ.getDestinationValue">
+            <summary>
+            Method that returns the PDF codes to write the destination
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="M:sharpPDF.pdfDestinationXYZ.getFormattedZoom">
+            <summary>
+            Method that format the zoom value
+            </summary>
+            <returns>String with zoom value</returns>
+        </member>
+        <member name="T:sharpPDF.pdfDocument">
+            <summary>
+            A Class that implements a PDF document.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.#ctor(System.String,System.String)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="author">Author of the document</param>
+            <param name="title">Title of the document</param>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="author">Author of the document</param>
+            <param name="title">Title of the document</param>
+            <param name="openBookmark">Allow to show directly bookmarks near the document</param>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.Finalize">
+            <summary>
+            Class's destructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.createPDF(System.IO.Stream)">
+            <summary>
+            Method that writes the PDF document on the stream
+            </summary>
+            <param name="outStream">Output stream</param>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.createPDF(System.String)">
+            <summary>
+            Method that writes the PDF document on a file
+            </summary>
+            <param name="outputFile">String that represents the name of the output file</param>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.initializeObjects">
+            <summary>
+            Private method for the initialization of all PDF objects
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.addPage">
+            <summary>
+            Method that creates a new page
+            </summary>
+            <returns>New PDF's page</returns>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.addPage(System.Int32,System.Int32)">
+            <summary>
+            Method that creates a new page
+            </summary>
+            <returns>New PDF's page</returns>
+            <param name="height">Height of the new page</param>
+            <param name="width">Width of the new page</param>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.writeToBuffer(System.IO.BufferedStream,System.String)">
+            <summary>
+            Method that writes into the buffer a string
+            </summary>
+            <param name="myBuffer">Output Buffer</param>
+            <param name="stringContent">String that contains the informations</param>
+            <returns>The number of the bytes written in the Buffer</returns>
+        </member>
+        <member name="M:sharpPDF.pdfDocument.writeToBuffer(System.IO.BufferedStream,System.Byte[])">
+            <summary>
+            Method that writes into the buffer a string
+            </summary>
+            <param name="myBuffer">Output Buffer</param>
+            <param name="byteContent">A Byte array that contains the informations</param>
+            <returns>The number of the bytes written in the Buffer</returns>
+        </member>
+        <member name="P:sharpPDF.pdfDocument.pageMarker">
+            <summary>
+            Document's page marker
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfDocument.persistentPage">
+            <summary>
+            Document's persistent page
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfDocument.Item(System.Int32)">
+            <summary>
+            Collection of pdf's page
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfFont">
+            <summary>
+            A Class that implements a PDF font.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfFont.#ctor(sharpPDF.Enumerators.predefinedFont,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newFontStyle">Font's style</param>
+            <param name="newFontNumber">Font's number in the PDF </param>
+        </member>
+        <member name="M:sharpPDF.pdfFont.getText">
+            <summary>
+            Method that returns the PDF codes to write the Font in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="M:sharpPDF.pdfFont.getFontName(sharpPDF.Enumerators.predefinedFont)">
+            <summary>
+            Static Mehtod that returns the name of the font
+            </summary>
+            <param name="fontType">Font's Type</param>
+            <returns>String that contains the name of the font</returns>
+        </member>
+        <member name="P:sharpPDF.pdfFont.fontStyle">
+            <summary>
+            Font's style
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfFont.objectID">
+            <summary>
+            Font's ID
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfHeader">
+            <summary>
+            A Class that implements a PDF header.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfHeader.#ctor(System.Boolean)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="openBookmark">Allows to show directly bookmarks near the document</param>
+        </member>
+        <member name="M:sharpPDF.pdfHeader.getText">
+            <summary>
+            Method that returns the PDF codes to write the Header in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfHeader.objectIDHeader">
+            <summary>
+            Header's ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfHeader.objectIDOutlines">
+            <summary>
+            Outlines's ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfHeader.objectIDInfo">
+            <summary>
+            Info's ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfHeader.pageTreeID">
+            <summary>
+            PageTree's ID
+            </summary>
+        </member>
+        <member name="T:sharpPDF.Exceptions.pdfImageIOException">
+            <summary>
+            Exception that represents an error during the I/O of an image file.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.Exceptions.pdfImageIOException.#ctor(System.String,System.Exception)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="message">Message for the exception</param>
+            <param name="ex">Inner exception</param>
+        </member>
+        <member name="T:sharpPDF.Exceptions.pdfImageNotFoundException">
+            <summary>
+            Exception that represents an nonexistent image 
+            </summary>
+        </member>
+        <member name="M:sharpPDF.Exceptions.pdfImageNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="message">Message for the exception</param>
+            <param name="ex">Inner exception</param>
+        </member>
+        <member name="T:sharpPDF.Exceptions.pdfIncorrectColumnException">
+            <summary>
+            Exception that represents the insert of a non-pdfTableColumn into a columns collection
+            </summary>
+        </member>
+        <member name="M:sharpPDF.Exceptions.pdfIncorrectColumnException.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="T:sharpPDF.Exceptions.pdfIncorrectParagraghException">
+            <summary>
+            Exception that represents an error during the creation of a paragraph, when the paragraph's element is of the wrong type(different form paragraphLine object)
+            </summary>
+        </member>
+        <member name="M:sharpPDF.Exceptions.pdfIncorrectParagraghException.#ctor">
+            <summary>
+            Class's constructor
+            </summary>		
+        </member>
+        <member name="T:sharpPDF.Exceptions.pdfIncorrectRowException">
+            <summary>
+            Exception that represents the insert of a non-pdfTableRow into a rows collection
+            </summary>
+        </member>
+        <member name="M:sharpPDF.Exceptions.pdfIncorrectRowException.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfInfo">
+            <summary>
+            A Class that implements a PDF info.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfInfo.#ctor(System.String,System.String)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="title">Document's title</param>
+            <param name="author">Document's author</param>
+        </member>
+        <member name="M:sharpPDF.pdfInfo.getText">
+            <summary>
+            Method that returns the PDF codes to write the Info in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfInfo.objectIDInfo">
+            <summary>
+            Info'sID
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfLineStyle">
+            <summary>
+            A Class that implements a PDF line style.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfLineStyle.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfLineStyle.#ctor(System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfLineStyle.#ctor(sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newStyle">Line's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfLineStyle.#ctor(System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newWidth">Line's size</param>
+            <param name="newStyle">Line's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfLineStyle.getText">
+            <summary>
+            Method that returns the PDF codes to write the line style in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfLineStyle.width">
+            <summary>
+            Line's size
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfLineStyle.lineStyle">
+            <summary>
+            Line's style
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfOutlines">
+            <summary>
+            A Class that implements a PDF Outlines.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfOutlines.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfOutlines.initializeOutlines(System.Int32)">
+            <summary>
+            Method that initialize
+            </summary>
+            <param name="counterID">Initial Object ID</param>
+            <returns>Updated Object ID</returns>
+        </member>
+        <member name="M:sharpPDF.pdfOutlines.addBookmark(sharpPDF.pdfBookmarkNode)">
+            <summary>
+            Method that adds a bookmark to the outlines object
+            </summary>
+            <param name="Bookmark">BookmarkNode Object</param>
+        </member>
+        <member name="M:sharpPDF.pdfOutlines.initializeBookmarks(System.Int32,System.Collections.ArrayList,System.Int32)">
+            <summary>
+            Method that initialize all bookmarks
+            </summary>
+            <param name="CounterID">Initial Object ID</param>
+            <param name="StartPoint">ArrayList of BookmarkNodes of the same level</param>
+            <param name="FatherID">Object ID of the father</param>
+            <returns>Number of childs</returns>
+        </member>
+        <member name="M:sharpPDF.pdfOutlines.getText">
+            <summary>
+            Method that returns the PDF codes to write the Outlines in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="M:sharpPDF.pdfOutlines.getNodes(System.Collections.ArrayList)">
+            <summary>
+            Method that returns all nodes from a start collection
+            </summary>
+            <param name="StartPoint">ArrayList with the start point of pdfBookmarkNodes</param>
+            <returns>Collection of all pdfBookmarkNodes from the start point</returns>
+        </member>
+        <member name="M:sharpPDF.pdfOutlines.getBookmarks">
+            <summary>
+            Method that returns a sorted(by objectID) collection of pdfBookmarkNodes
+            </summary>
+            <returns>Sorted bookmark collection</returns>
+        </member>
+        <member name="P:sharpPDF.pdfOutlines.objectIDOutlines">
+            <summary>
+            Outlines's ID
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfPage">
+            <summary>
+            A Class that implements a PDF page.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfPage.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfPage.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newHeight">Page's height</param>
+            <param name="newWidth">Page's width</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.Finalize">
+            <summary>
+            Class's distructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addImage(System.String,System.Int32,System.Int32)">
+            <summary>
+            Method that adds an image to the page object
+            </summary>
+            <param name="newImgSource">Image's name</param>
+            <param name="X">X position of the image in the page</param>
+            <param name="Y">Y position of the image in the page</param>		
+        </member>
+        <member name="M:sharpPDF.pdfPage.addImage(System.Drawing.Image,System.Int32,System.Int32)">
+            <summary>
+            Method that adds an image to the page object
+            </summary>
+            <param name="newImgObject">Image Object</param>
+            <param name="X">X position of the image in the page</param>
+            <param name="Y">Y position of the image in the page</param>		
+        </member>
+        <member name="M:sharpPDF.pdfPage.addImage(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method that adds an image to the page object
+            </summary>
+            <param name="newImgSource">Image's name</param>
+            <param name="X">X position of the image in the page</param>
+            <param name="Y">Y position of the image in the page</param>
+            <param name="height">New height of the image</param>
+            <param name="width">New width of the image</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addImage(System.Drawing.Image,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method that adds an image to the page object
+            </summary>
+            <param name="newImgObject">Image Object</param>
+            <param name="X">X position of the image in the page</param>
+            <param name="Y">Y position of the image in the page</param>
+            <param name="height">New height of the image</param>
+            <param name="width">New width of the image</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addText(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32)">
+            <summary>
+            Method that adds a text element to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="X">X position of the text in the page</param>
+            <param name="Y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addText(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a text element to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Text</param>
+            <param name="X">X position of the text in the page</param>
+            <param name="Y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addText(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a text element to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="X">X position of the text in the page</param>
+            <param name="Y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a paragraph to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a paragraph to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedAlignment)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="parAlign">Paragraph's alignment</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedAlignment,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a paragraph to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="parAlign">Paragraph's alignment</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedAlignment,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="parAlign">Paragraph's alignment</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.Collections.IEnumerable,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Interface IEnumerable that contains paragraphLine objects</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.Collections.IEnumerable,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a paragraph to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Interface IEnumerable that contains paragraphLine objects</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addParagraph(System.Collections.IEnumerable,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Interface IEnumerable that contains paragraphLine objects</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addTable(sharpPDF.pdfTable,System.Int32,System.Int32)">
+            <summary>
+            Method that adds a table to the page object
+            </summary>
+            <param name="newTable">The table object</param>
+            <param name="x">X position of the table in the page</param>
+            <param name="y">Y position of the table in the page</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a line to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Method that adds a line to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineColor">Line's color</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineColor">Line's color</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,System.Int32)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a line to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Method that adds a line to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineColor">Line's color</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineColor">Line's color</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderWidth">Border's size</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderWidth">Border's size</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a circle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a circle to the page object
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Method that adds a circle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Method that adds a circle to the page object
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a circle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a circle to the page object
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedLineStyle,System.Int32)">
+            <summary>
+            Method that adds a circle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderStyle">Border's style</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,sharpPDF.Enumerators.predefinedLineStyle,System.Int32)">
+            <summary>
+            Method that adds a circle to the page object
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderStyle">Border's style</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.addFonts(System.Collections.ArrayList)">
+            <summary>
+            Internal method that adds fonts object to the page object
+            </summary>
+            <param name="fonts">ArrayList of fonts object</param>
+        </member>
+        <member name="M:sharpPDF.pdfPage.getText">
+            <summary>
+            Method that returns the PDF codes to write the page in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfPage.objectID">
+            <summary>
+            Page's ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfPage.pageTreeID">
+            <summary>
+            PageTree's ID
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfPage.height">
+            <summary>
+            Page's height
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfPage.width">
+            <summary>
+            Page's width
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfPage.elements">
+            <summary>
+            Page's elements
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfPageMarker">
+            <summary>
+            Class that implements a pdf page marker
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfPageMarker.#ctor(System.Int32,System.Int32,sharpPDF.Enumerators.predefinedMarkerStyle)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="coordX">X position in the PDF document</param>
+            <param name="coordY">Y position in the PDF document</param>
+            <param name="style">Marker's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPageMarker.getMarker(System.Int32,System.Int32)">
+            <summary>
+            Method that creates a string for the page's marker
+            </summary>
+            <param name="pgIndex">Actual page</param>
+            <param name="pgNum">Number of pages</param>
+            <returns>Text that represents page's marker</returns>
+        </member>
+        <member name="M:sharpPDF.pdfPageMarker.arabicToRoman(System.Int32)">
+            <summary>
+            Private method that converts arabic numbers into roman numbers
+            </summary>
+            <param name="arabic">Arabic number</param>
+            <returns>Equivalent roman number</returns>
+        </member>
+        <member name="P:sharpPDF.pdfPageMarker.coordX">
+            <summary>
+            X position of the marker
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfPageMarker.coordY">
+            <summary>
+            Y position of the marker
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfPageMarker.fontType">
+            <summary>
+            Font's type
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfPageMarker.fontSize">
+            <summary>
+            Font's size
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfPageMarker.fontColor">
+            <summary>
+            Marker's color
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfPageMarker.pattern">
+            <summary>
+            Marker's pattern. In the pattern there are two simbols: #n# (that represents the
+            actual page) and #N# (that represents the number of pages).
+            The Default pattern is : "Page #n# Of #N#"
+            </summary>
+            <example>
+            This example shows how to use the pattern property:
+            <code>
+            pdfPageMarker marker = new pdfPageMarker(400,30);
+            marker.pattern = "Page #n#/#N#";
+            myDoc.pageMarker = marker
+            ......
+            ......
+            </code>
+            The result on the document is : "Page 1/2"
+            </example>
+        </member>
+        <member name="T:sharpPDF.pdfPageTree">
+            <summary>
+            A Class that implements a PDF pageTree.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfPageTree.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfPageTree.addPage(System.Int32)">
+            <summary>
+            Method that adds a page to the pageTree object
+            </summary>
+            <param name="pageID"></param>
+        </member>
+        <member name="M:sharpPDF.pdfPageTree.getText">
+            <summary>
+            Method that returns the PDF codes to write the pageTree in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfPageTree.objectID">
+            <summary>
+            Pagetree's ID
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfPersistentPage">
+            <summary>
+            Class that represents a persistent page.
+            All its objects are inherited by all document's pages.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.Finalize">
+            <summary>
+            Class's distructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addImage(System.String,System.Int32,System.Int32)">
+            <summary>
+            Method that adds an image to the page object
+            </summary>
+            <param name="newImgSource">Image's name</param>
+            <param name="X">X position of the image in the page</param>
+            <param name="Y">Y position of the image in the page</param>		
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addImage(System.Drawing.Image,System.Int32,System.Int32)">
+            <summary>
+            Method that adds an image to the page object
+            </summary>
+            <param name="newImgObject">Image Object</param>
+            <param name="X">X position of the image in the page</param>
+            <param name="Y">Y position of the image in the page</param>		
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addImage(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method that adds an image to the page object
+            </summary>
+            <param name="newImgSource">Image's name</param>
+            <param name="X">X position of the image in the page</param>
+            <param name="Y">Y position of the image in the page</param>
+            <param name="height">New height of the image</param>
+            <param name="width">New width of the image</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addImage(System.Drawing.Image,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method that adds an image to the page object
+            </summary>
+            <param name="newImgObject">Image Object</param>
+            <param name="X">X position of the image in the page</param>
+            <param name="Y">Y position of the image in the page</param>
+            <param name="height">New height of the image</param>
+            <param name="width">New width of the image</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addText(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32)">
+            <summary>
+            Method that adds a text element to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="X">X position of the text in the page</param>
+            <param name="Y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addText(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a text element to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Text</param>
+            <param name="X">X position of the text in the page</param>
+            <param name="Y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addText(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a text element to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="X">X position of the text in the page</param>
+            <param name="Y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a paragraph to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a paragraph to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedAlignment)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="parAlign">Paragraph's alignment</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedAlignment,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a paragraph to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="parAlign">Paragraph's alignment</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.String,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedAlignment,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Text</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="parWidth">Paragraph's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="parAlign">Paragraph's alignment</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.Collections.IEnumerable,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Interface IEnumerable that contains paragraphLine objects</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.Collections.IEnumerable,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a paragraph to the page object [DEPRECATED]
+            </summary>
+            <param name="newText">Interface IEnumerable that contains paragraphLine objects</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addParagraph(System.Collections.IEnumerable,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a paragraph to the page object
+            </summary>
+            <param name="newText">Interface IEnumerable that contains paragraphLine objects</param>
+            <param name="x">X position of the text in the page</param>
+            <param name="y">Y position of the text in the page</param>
+            <param name="fontType">Font's type</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.addTable(sharpPDF.pdfTable,System.Int32,System.Int32)">
+            <summary>
+            Method that adds a table to the page object
+            </summary>
+            <param name="newTable">The table object</param>
+            <param name="x">X position of the table in the page</param>
+            <param name="y">Y position of the table in the page</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a line to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Method that adds a line to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineColor">Line's color</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineColor">Line's color</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,System.Int32)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a line to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineColor">Line's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Method that adds a line to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineColor">Line's color</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawLine(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedLineStyle,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Method that adds a line to the page object
+            </summary>
+            <param name="X">X position of the line in the page</param>
+            <param name="Y">Y position of the line in the page</param>
+            <param name="X1">X1 position of the line in the page</param>
+            <param name="Y1">Y1 position of the line in the page</param>
+            <param name="lineStyle">Line's style</param>
+            <param name="lineColor">Line's color</param>
+            <param name="lineWidth">Line's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderWidth">Border's size</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawRectangle(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="borderWidth">Border's size</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Method that adds a circle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor)">
+            <summary>
+            Method that adds a circle to the page object
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Method that adds a circle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Method that adds a circle to the page object
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a circle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a circle to the page object
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedLineStyle,System.Int32)">
+            <summary>
+            Method that adds a circle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderStyle">Border's style</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="M:sharpPDF.pdfPersistentPage.drawCircle(System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,sharpPDF.Enumerators.predefinedLineStyle,System.Int32)">
+            <summary>
+            Method that adds a circle to the page object
+            </summary>
+            <param name="X">X position of the circle in the page</param>
+            <param name="Y">Y position of the circle in the page</param>
+            <param name="ray">Circle's ray</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Circle's color</param>
+            <param name="borderStyle">Border's style</param>
+            <param name="borderWidth">Border's size</param>
+        </member>
+        <member name="P:sharpPDF.pdfPersistentPage.persistentElements">
+            <summary>
+            Page's persistent elements
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfTable">
+            <summary>
+            A Class that implements an abstract table object
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTable.#ctor">
+            <summary>
+            Class's Constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTable.createRow">
+            <summary>
+            Method that creates a new row
+            </summary>
+            <returns>A new pdfTableRowObject</returns>
+        </member>
+        <member name="M:sharpPDF.pdfTable.addRow(sharpPDF.pdfTableRow)">
+            <summary>
+            Method to add a new row into the table
+            </summary>
+            <param name="newRow">New row</param>
+        </member>
+        <member name="M:sharpPDF.pdfTable.GetEnumerator">
+            <summary>
+            Enumerator for table's rows
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:sharpPDF.pdfTable.borderSize">
+            <summary>
+            Border's Size
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTable.borderColor">
+            <summary>
+            Border's color
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTable.tableHeader">
+            <summary>
+            Table's header
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTable.tableHeaderStyle">
+            <summary>
+            The style of the table's header
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTable.rowStyle">
+            <summary>
+            The style of a table's row
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTable.alternateRowStyle">
+            <summary>
+            The alternate style of a table's row
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTable.cellpadding">
+            <summary>
+            The cellpadding of the table
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTable.Item(System.Int32)">
+            <summary>
+            Table's rows
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTable.rowsCount">
+            <summary>
+            The number of rows
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfTableColumn">
+            <summary>
+            A Class that implements an abstract table's column object
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTableColumn.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTableColumn.#ctor(System.String,sharpPDF.Enumerators.predefinedAlignment,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="columnValue">Text value of the column</param>
+            <param name="columnAlign">Alignment of the column</param>
+            <param name="columnSize">Size of the column</param>
+        </member>
+        <member name="M:sharpPDF.pdfTableColumn.getText">
+            <summary>
+            Method that returns the PDF codes to write the tableColumn in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfTableColumn.columnValue">
+            <summary>
+            Column's content
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTableColumn.columnAlign">
+            <summary>
+            Column's text align
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTableColumn.columnSize">
+            <summary>
+            Column's size
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfTableHeader">
+            <summary>
+            A Class that implements an abstract table's header object
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfTableRow">
+            <summary>
+            A Class that implements an abstract table's row object
+            </summary>
+        </member>
+        <member name="F:sharpPDF.pdfTableRow._cols">
+            <summary>
+            ArrayList of Columns
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTableRow.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTableRow.#ctor(sharpPDF.pdfTableHeader)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="tableHeader">Row Template based on Table's Header</param>
+        </member>
+        <member name="M:sharpPDF.pdfTableRow.GetEnumerator">
+            <summary>
+            Enumerator of the column's collection
+            </summary>
+            <returns>A IEnumerator of the indexed property</returns>
+        </member>
+        <member name="M:sharpPDF.pdfTableRow.getText">
+            <summary>
+            Method that returns the PDF codes to write the tableRow in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfTableRow.Item(System.Int32)">
+            <summary>
+            Indexer of the pdfTableRow that represents its columns
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTableRow.columnsCount">
+            <summary>
+            The number of columns
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTableHeader.#ctor">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTableHeader.addColumn(sharpPDF.pdfTableColumn)">
+            <summary>
+            Method to add a template column to the table's header
+            </summary>
+            <param name="newColumn"></param>
+        </member>
+        <member name="T:sharpPDF.pdfTableRowStyle">
+            <summary>
+            Class that represents the style of a table's row
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTableRowStyle.#ctor(sharpPDF.Enumerators.predefinedFont,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor)">
+            <summary>
+            Class's constructor
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTableRowStyle.fontType">
+            <summary>
+            Type of the Font
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTableRowStyle.fontSize">
+            <summary>
+            Size of the Font
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTableRowStyle.fontColor">
+            <summary>
+            Color of the Font
+            </summary>
+        </member>
+        <member name="P:sharpPDF.pdfTableRowStyle.bgColor">
+            <summary>
+            Color of the BackGround
+            </summary>
+        </member>
+        <member name="T:sharpPDF.pdfTrailer">
+            <summary>
+            A Class that implements a PDF trailer.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTrailer.#ctor(System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="lastObjectID">The ID of the last object in the document</param>
+        </member>
+        <member name="M:sharpPDF.pdfTrailer.Finalize">
+            <summary>
+            Class's destructor
+            </summary>
+        </member>
+        <member name="M:sharpPDF.pdfTrailer.addObject(System.String)">
+            <summary>
+            Method that adds an object to the trailer object
+            </summary>
+            <param name="offset"></param>
+        </member>
+        <member name="M:sharpPDF.pdfTrailer.getText">
+            <summary>
+            Method that returns the PDF codes to write the trailer in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.pdfTrailer.xrefOffset">
+            <summary>
+            The offset of the XREF table
+            </summary>
+        </member>
+        <member name="T:sharpPDF.Exceptions.pdfWritingErrorException">
+            <summary>
+            Exception that represents an error during the writing of the PDF document.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.Exceptions.pdfWritingErrorException.#ctor(System.String,System.Exception)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="message">Message for the exception</param>
+            <param name="ex">Inner exception</param>
+        </member>
+        <member name="T:sharpPDF.Enumerators.predefinedLineStyle">
+            <summary>
+            Enumerator that implements the style of a line.
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedLineStyle.csNormal">
+            <summary>
+            Normal line
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedLineStyle.csOutlinedSmall">
+            <summary>
+            Thin Outlined line
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedLineStyle.csOutlined">
+            <summary>
+            Outlined line
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedLineStyle.csOutlinedBig">
+            <summary>
+            Big Outlined line
+            </summary>
+        </member>
+        <member name="T:sharpPDF.Enumerators.predefinedAlignment">
+            <summary>
+            Enumerator that implements the alignment of a paragraph.
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedAlignment.csLeft">
+            <summary>
+            Left Alignment
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedAlignment.csRight">
+            <summary>
+            Right Alignment
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedAlignment.csCenter">
+            <summary>
+            Center Alignment
+            </summary>
+        </member>
+        <member name="T:sharpPDF.Enumerators.predefinedColor">
+            <summary>
+            Enumerator that implements standard PDF colors.
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csNoColor">
+            <summary>
+            No color
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csBlack">
+            <summary>
+            Black
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csWhite">
+            <summary>
+            White
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csRed">
+            <summary>
+            Red
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csLightRed">
+            <summary>
+            Light Red
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csDarkRed">
+            <summary>
+            Dark Red
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csOrange">
+            <summary>
+            Orange
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csLightOrange">
+            <summary>
+            Light Orange
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csDarkOrange">
+            <summary>
+            Dark orange
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csYellow">
+            <summary>
+            Yellow
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csLightYellow">
+            <summary>
+            Light Yellow
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csDarkYellow">
+            <summary>
+            Dark Yellow
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csBlue">
+            <summary>
+            Blue
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csLightBlue">
+            <summary>
+            Light Blue
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csDarkBlue">
+            <summary>
+            Dark Blue
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csGreen">
+            <summary>
+            Green
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csLightGreen">
+            <summary>
+            Light Green
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csDarkGreen">
+            <summary>
+            Dark Green
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csCyan">
+            <summary>
+            Cyan
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csLightCyan">
+            <summary>
+            Light Cyan
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csDarkCyan">
+            <summary>
+            Dark Cyan
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csPurple">
+            <summary>
+            Purple
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csLightPurple">
+            <summary>
+            Light Purple
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csDarkPurple">
+            <summary>
+            Dark Purple
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csGray">
+            <summary>
+            Gray
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csLightGray">
+            <summary>
+            Light Gray
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csDarkGray">
+            <summary>
+            Dark Gray
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedColor.csUserColor">
+            <summary>
+            User color with RGB
+            </summary>
+        </member>
+        <member name="T:sharpPDF.Enumerators.predefinedFont">
+            <summary>
+            Enumerator that implements standard PDF fonts.
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csHelvetica">
+            <summary>
+            Font Helvetica
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csHelveticaBold">
+            <summary>
+            Font Helvetica Bold
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csHelveticaOblique">
+            <summary>
+            Font Helvetica Oblique
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csHelvetivaBoldOblique">
+            <summary>
+            Font Helvetica Bold Oblique
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csCourier">
+            <summary>
+            Font Courier
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csCourierBold">
+            <summary>
+            Font Courier Bold
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csCourierOblique">
+            <summary>
+            Font Courier Oblique
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csCourierBoldOblique">
+            <summary>
+            Font Courier Bold Oblique
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csTimes">
+            <summary>
+            Font Times
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csTimesBold">
+            <summary>
+            Font Times Bold
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csTimesOblique">
+            <summary>
+            Font Times Oblique
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedFont.csTimesBoldOblique">
+            <summary>
+            Font Times Bold Oblique
+            </summary>
+        </member>
+        <member name="T:sharpPDF.Enumerators.predefinedMarkerStyle">
+            <summary>
+            Enumerator that implements standard PDF page's markers.
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedMarkerStyle.csArabic">
+            <summary>
+            Numeric page's marker
+            </summary>
+        </member>
+        <member name="F:sharpPDF.Enumerators.predefinedMarkerStyle.csRoman">
+            <summary>
+            Literal page's marker
+            </summary>
+        </member>
+        <member name="T:sharpPDF.rectangleElement">
+            <summary>
+            A Class that implements a PDF rectangle.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.rectangleElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Class's constructor [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+        </member>
+        <member name="M:sharpPDF.rectangleElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+        </member>
+        <member name="M:sharpPDF.rectangleElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="newWidth">Border's width</param>
+        </member>
+        <member name="M:sharpPDF.rectangleElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="newWidth">Border's width</param>
+        </member>
+        <member name="M:sharpPDF.rectangleElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="newStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.rectangleElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="newStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.rectangleElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor,sharpPDF.Enumerators.predefinedColor,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object [DEPRECATED]
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="newWidth">Border's width</param>
+            <param name="newStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.rectangleElement.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,sharpPDF.pdfColor,sharpPDF.pdfColor,System.Int32,sharpPDF.Enumerators.predefinedLineStyle)">
+            <summary>
+            Method that adds a rectangle to the page object
+            </summary>
+            <param name="X">X position of the rectangle in the page</param>
+            <param name="Y">Y position of the rectangle in the page</param>
+            <param name="X1">X1 position of the rectangle in the page</param>
+            <param name="Y1">Y1 position of the rectangle in the page</param>
+            <param name="strokeColor">Border's color</param>
+            <param name="fillColor">Rectancle's color</param>
+            <param name="newWidth">Border's width</param>
+            <param name="newStyle">Border's style</param>
+        </member>
+        <member name="M:sharpPDF.rectangleElement.getText">
+            <summary>
+            Method that returns the PDF codes to write the rectangle in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="T:sharpPDF.textAdapter">
+            <summary>
+            Abstract class that implements different functions used for text and paragraph
+            </summary>
+        </member>
+        <member name="F:sharpPDF.textAdapter.fontWeight">
+            <summary>
+            Static property with the dimensions of the standard fonts
+            </summary>
+        </member>
+        <member name="M:sharpPDF.textAdapter.encodeHEX(System.String)">
+            <summary>
+            Static method that encodes the string
+            </summary>
+            <param name="strText">Input Text</param>
+            <returns>Result of the encoding</returns>
+        </member>
+        <member name="M:sharpPDF.textAdapter.checkText(System.String)">
+            <summary>
+            Static method that checks special characters into a string
+            </summary>
+            <param name="strText">Input Text</param>
+            <returns>Formatted Text</returns>
+        </member>
+        <member name="M:sharpPDF.textAdapter.formatParagraph(System.String,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32)">
+            <summary>
+            Static method thats format a paragraph
+            </summary>
+            <param name="strText">Input Text</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontType">Font's type</param>
+            <param name="parWidth">Paragrapfh's width</param>
+            <returns>IEnumerable interface that cointains paragraphLine objects</returns>
+        </member>
+        <member name="M:sharpPDF.textAdapter.formatParagraph(System.String,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32)">
+            <summary>
+            Static method thats format a paragraph
+            </summary>
+            <param name="strText">Input Text</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontType">Font's type</param>
+            <param name="parWidth">Paragrapfh's width</param>
+            <param name="lineHeight">Line's height</param>
+            <returns>IEnumerable interface that cointains paragraphLine objects</returns>
+        </member>
+        <member name="M:sharpPDF.textAdapter.formatParagraph(System.String,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedAlignment)">
+            <summary>
+            Static method thats format a paragraph
+            </summary>
+            <param name="strText">Input Text</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontType">Font's type</param>
+            <param name="parWidth">Paragrapfh's width</param>
+            <param name="lineHeight">Line's height</param>
+            <param name="parAlign">Paragraph's Alignment</param>
+            <returns>IEnumerable interface that cointains paragraphLine objects</returns>
+        </member>
+        <member name="M:sharpPDF.textAdapter.wordWeight(System.String,System.Int32,sharpPDF.Enumerators.predefinedFont)">
+            <summary>
+            Static Method that returns the lenght of a single word
+            </summary>
+            <param name="word">Input word</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontType">Font's type</param>
+            <returns>Size of the word</returns>
+        </member>
+        <member name="M:sharpPDF.textAdapter.cropWord(System.String,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32)">
+            <summary>
+            Static Method that crop a word to put it in a predefined space
+            </summary>
+            <param name="word">Input word</param>
+            <param name="fontSize">Font's size</param>
+            <param name="fontType">Font's type</param>
+            <param name="textSpace">Max text's space</param>
+            <returns>Cropped word</returns>
+        </member>
+        <member name="T:sharpPDF.textElement">
+            <summary>
+            Descrizione di riepilogo per textElement.
+            </summary>
+        </member>
+        <member name="M:sharpPDF.textElement.#ctor(System.String,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newContent">Text's content</param>
+            <param name="newFontSize">Font's size</param>
+            <param name="newFontType">Font's type</param>
+            <param name="newCoordX">X position of the text in the page</param>
+            <param name="newCoordY">Y position of the text in the page</param>
+        </member>
+        <member name="M:sharpPDF.textElement.#ctor(System.String,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,sharpPDF.Enumerators.predefinedColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newContent">Text's content</param>
+            <param name="newFontSize">Font's size</param>
+            <param name="newFontType">Font's type</param>
+            <param name="newCoordX">X position of the text in the page</param>
+            <param name="newCoordY">Y position of the text in the page</param>
+            <param name="newStrokeColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.textElement.#ctor(System.String,System.Int32,sharpPDF.Enumerators.predefinedFont,System.Int32,System.Int32,sharpPDF.pdfColor)">
+            <summary>
+            Class's constructor
+            </summary>
+            <param name="newContent">Text's content</param>
+            <param name="newFontSize">Font's size</param>
+            <param name="newFontType">Font's type</param>
+            <param name="newCoordX">X position of the text in the page</param>
+            <param name="newCoordY">Y position of the text in the page</param>
+            <param name="newStrokeColor">Font's color</param>
+        </member>
+        <member name="M:sharpPDF.textElement.getText">
+            <summary>
+            Method that returns the PDF codes to write the text in the document
+            </summary>
+            <returns>String that contains PDF codes</returns>
+        </member>
+        <member name="P:sharpPDF.textElement.content">
+            <summary>
+            Text's content
+            </summary>
+        </member>
+        <member name="P:sharpPDF.textElement.fontSize">
+            <summary>
+            Font's size
+            </summary>
+        </member>
+        <member name="P:sharpPDF.textElement.fontType">
+            <summary>
+            Font's type
+            </summary>
+        </member>
+    </members>
+</doc>

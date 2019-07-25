@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class IsometricCamera : MonoBehaviour
 {
     static public IsometricCamera instance;
     static public Camera Camera = null;                         // Static reference to Camera 
 
-    private Transform playerTransform;                          // Reference to player transform
+    public Transform playerTransform;                          // Reference to player transform
     public float smoothSpeed = 2f;                              // Camera lerp smoothing speed parameter
     public Vector3 cameraDirection = new Vector3(1, 1, -1);     // Camera direction vector
     public float distance = 14;                                 // Default camera distance from player
@@ -40,10 +41,19 @@ public class IsometricCamera : MonoBehaviour
         IsometricCamera.StaticDistance = distance;
     }
 
-    private void Start() {
+    private void Start()
+    {
         //transform.position = cameraDirection.normalized * startingDistance;
         CameraZoom.nearDistance = nearDistance;
         CameraZoom.farDistance = farDistance;
+
+        #if UNITY_WEBGL
+            PostProcessLayer layer = GetComponent<PostProcessLayer>();
+            layer.enabled = false;
+        #else
+            PostProcessLayer layer = GetComponent<PostProcessLayer>();
+            layer.enabled = true;
+        #endif
     }
 
     private void LateUpdate() {

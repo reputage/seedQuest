@@ -103,7 +103,7 @@ public class CommandLineInputUI : MonoBehaviour
     public void resetAlpha()
     {
         float alpha = 1;
-        float panelAlpha = 0.8f;
+        float panelAlpha = 0.97f;
         Color panelColor = panelImage.color;
         Color textColor = inputText.color;
         panelColor.a = panelAlpha;

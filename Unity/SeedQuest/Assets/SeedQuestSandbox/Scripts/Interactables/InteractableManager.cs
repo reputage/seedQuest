@@ -17,6 +17,8 @@ namespace SeedQuest.Interactables
 
         public float nearDistance = 2.0f;
         public float nearDistanceForZoom = 4.0f;
+        public bool useSingleTracker = true;
+        public bool useInteractableNames = true;
 
         public GameObject[] actionSpotIcons; // InteractableUI Prefab Templates
 
@@ -123,6 +125,14 @@ namespace SeedQuest.Interactables
         {
             foreach (Interactable interactable in FindAllInteractables())
                 interactable.HighlightInteractable(false);
+        }
+
+        static public void UnTrackAllInteractables()
+        {
+            foreach (Interactable interactable in FindAllInteractables())
+            {
+                interactable.interactableUI.ToggleTracker(false);
+            }
         }
 
 

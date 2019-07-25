@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 namespace SeedQuest.Interactables
 {
@@ -20,11 +21,16 @@ namespace SeedQuest.Interactables
 
         private Interactable parent;
         private GameObject actionUI = null;
+        private TMPro.TextMeshProUGUI persistentLabel;
         private Button labelButton;
         private Button[] actionButtons;
         private Button checkButton;
         private Image[] checkImages;
+        private Image[] actionButtonImages;
         private TMPro.TextMeshProUGUI actionUITextMesh;
+        private RectTransform actionUIRect;
+
+        Camera c;
 
         private ProgressButton progressButton;
 
@@ -35,6 +41,24 @@ namespace SeedQuest.Interactables
                 SetScale();
                 SetPosition();
                 SetRotation();
+            }
+
+            if (InteractableManager.Instance.useInteractableNames)
+            {
+                if (persistentLabel.text != actionUITextMesh.text)
+                {
+                    persistentLabel.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (persistentLabel.gameObject.activeSelf)
+                    {
+                        persistentLabel.gameObject.SetActive(false);
+                        Color temp = actionUI.GetComponentInChildren<Image>().color;
+                        temp.a = 0.0f;
+                        actionUI.GetComponentInChildren<Image>().color = temp;
+                    }
+                }
             }
         }
 
@@ -88,17 +112,23 @@ namespace SeedQuest.Interactables
         {
             progressButton = actionUI.GetComponentInChildren<ProgressButton>();
             labelButton = actionUI.GetComponentInChildren<Button>();
-            actionUITextMesh = actionUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+            c = Camera.main;
+            actionUIRect = actionUI.GetComponent<RectTransform>();
+            var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+            actionUITextMesh = textList[0];
+            persistentLabel = textList[1];
 
         }
 
         /// <summary> Intialize and Setupt Label Button </summary>
         public void SetupLabel() {
-            var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-            textList[0].text = parent.Name;
+            actionUITextMesh.text = parent.Name;
+            if (InteractableManager.Instance.useInteractableNames) persistentLabel.text = parent.Name;
+            persistentLabel.gameObject.SetActive(false);
 
             labelButton.onClick.AddListener(delegate { onClickLabel(); });
 
+            var textList = actionUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
             foreach (TMPro.TextMeshProUGUI text in textList)
                 text.fontSize = fontSize;
         }
@@ -109,6 +139,7 @@ namespace SeedQuest.Interactables
 
             if (mode == InteractableUIMode.NextPrevSelect)  {
                 actionButtons = new Button[buttons.Length - 2];
+
             }
             else if (mode == InteractableUIMode.GridSelect || mode == InteractableUIMode.ListSelect || mode == InteractableUIMode.Dialogue) {
                 actionButtons = new Button[buttons.Length - 1];
@@ -181,6 +212,7 @@ namespace SeedQuest.Interactables
             if(GameManager.Mode == GameMode.Rehearsal) {
                 if (actionIndex == InteractablePath.NextInteractable.ID.actionID)
                 {
+                    InteractableManager.SetActiveInteractable(parent, parent.ActionIndex);
                     InteractableLog.Add(parent, parent.ActionIndex);
                     InteractablePath.GoToNextInteractable();
                 }
@@ -193,22 +225,29 @@ namespace SeedQuest.Interactables
         public void onClickCheck() {
             SetCheckButtonActive(false);
 
-            if (GameManager.Mode == GameMode.Rehearsal && 
-                parent == InteractablePath.NextInteractable && 
-                parent.ActionIndex == InteractablePath.NextAction) 
+            if (GameManager.Mode == GameMode.Rehearsal &&
+                parent == InteractablePath.NextInteractable &&
+                parent.ActionIndex == InteractablePath.NextAction)
             {
+                InteractableManager.SetActiveInteractable(parent, parent.ActionIndex);
+                progressButton.checkmarkAnimate();
                 InteractableLog.Add(parent, parent.ActionIndex);
                 InteractablePath.GoToNextInteractable();
 
-                if (mode == InteractableUIMode.NextPrevSelect) {
+                if (mode == InteractableUIMode.NextPrevSelect)
+                {
                     progressButton.SetActive(false);
-                } 
+                }
             }
-            else if (GameManager.Mode == GameMode.Rehearsal){
-                // put 'incorrect interactable' code here
+            else if (GameManager.Mode == GameMode.Rehearsal)
+            {
+                progressButton.exAnimate();
             }
             else if (GameManager.Mode == GameMode.Recall)
+            {
+                progressButton.checkmarkAnimate();
                 InteractableLog.Add(parent, parent.ActionIndex);
+            }
 
             /*
             string values = "";
@@ -280,7 +319,9 @@ namespace SeedQuest.Interactables
 
             else {
                 foreach (Button button in actionButtons)
+                {
                     button.transform.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -321,7 +362,7 @@ namespace SeedQuest.Interactables
 
         /// <summary> Sets UI Size Scale </summary>
         public void SetScale() {
-            actionUI.GetComponent<RectTransform>().localScale = new Vector3(-0.01f * scaleSize, 0.01f * scaleSize, 0.01f * scaleSize);
+            actionUIRect.localScale = new Vector3(-0.01f * scaleSize, 0.01f * scaleSize, 0.01f * scaleSize);
         }
 
 
@@ -336,23 +377,23 @@ namespace SeedQuest.Interactables
             Vector3 labelPositionOffset = Vector3.zero;
             if (parent.stateData != null) labelPositionOffset = parent.stateData.labelPosOffset;
             Vector3 position = parent.transform.position + labelPositionOffset + positionOffset;
-            actionUI.GetComponent<RectTransform>().position = position;
+            actionUIRect.position = position;
         }
 
         /// <summary> Sets UI Rotation </summary>
         public void SetRotation()  {
             if (useRotateToCamera) {
                 BillboardInteractable();
-                actionUI.GetComponent<RectTransform>().Rotate(rotationOffset);
+                actionUIRect.Rotate(rotationOffset);
             }
             else {
-                actionUI.GetComponent<RectTransform>().rotation = Quaternion.Euler(rotationOffset);
+                actionUIRect.rotation = Quaternion.Euler(rotationOffset);
             }
         }
 
         /// <summary> Sets Billboarding for UI i.e. so UI follows camera </summary>
         public void BillboardInteractable() {
-            Vector3 targetPosition = Camera.main.transform.position - (100 * Camera.main.transform.forward ) ;
+            Vector3 targetPosition = c.transform.position - (100 * c.transform.forward ) ;
             Vector3 interactablePosition = actionUI.transform.position;
             Vector3 lookAtDir = targetPosition - interactablePosition;
 
@@ -462,20 +503,22 @@ namespace SeedQuest.Interactables
         public bool IsOnHover() {
             bool hover = false;
 
-            if(actionButtons != null) {
-                foreach (Button button in actionButtons) {
-                    if (button.GetComponentInChildren<InteractButton>() != null) {
-                        if (button.GetComponentInChildren<InteractButton>().IsOnHover)
+            if (actionButtons != null)
+            {
+                foreach (Button button in actionButtons)
+                {
+                    InteractButton interactButton = button.GetComponentInChildren<InteractButton>();
+                    if (interactButton != null)
+                    {
+                        if (interactButton.IsOnHover)
                             hover = true;
                     }
-                }                
+                }
             }
 
-            if(labelButton != null) {
-                if (labelButton.GetComponentInChildren<ProgressButton>() != null) {
-                    if (labelButton.GetComponentInChildren<ProgressButton>().IsOnHover)
-                        hover = true;
-                }                
+            if(progressButton != null) {
+                if (progressButton.IsOnHover)
+                    hover = true;
             }
 
             return hover;

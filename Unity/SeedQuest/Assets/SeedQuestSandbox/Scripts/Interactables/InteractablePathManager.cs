@@ -30,7 +30,12 @@ namespace SeedQuest.Interactables {
         public InteractableLog log;
 
         /// <summary> Seed String </summary>
-        public static string SeedString = "3720B091810D8127C55630F55DD2275C5"; //"772283D9D40BAC27C6D6D60537D7B3525"; //"76101B07DC633F955696D7664C2B"; //"EBE0AC8C"; //"EB204654C9";
+        public static string SeedString = "372CB805A7004E2044C8A0F55DDA275C5"; //"3720B025A102812744F830F55DDA275C5"; //"3720B091810D8127C55630F55DD2275C5"; //"772283D9D40BAC27C6D6D60537D7B3525"; //"76101B07DC633F955696D7664C2B"; //"EBE0AC8C"; //"EB204654C9";
+
+        public static string SeedSentence = "ugly call hard appear amount velvet mask thunder quick spot weekend hybrid";
+
+        // This is the old seed sentence - keeping for testing purposes
+        //public static string SeedSentence = "ugly call give address amount venture misery dose quick spoil weekend inspire";
 
         /// <summary> Has a Level been compleleted for MultiLevel Game </summary>
         static public bool ShowLevelComplete = false;
@@ -62,7 +67,8 @@ namespace SeedQuest.Interactables {
                 }
                 else if(LevelManager.IsMultiLevelGame && ShowLevelComplete) {
                     GameManager.State = GameState.Menu;
-                    LevelClearUI.ToggleOn();
+                    if (!GameManager.TutorialMode)
+                        LevelClearUI.ToggleOn();
                 }
             }
             else if(GameManager.Mode == GameMode.Recall) {
@@ -72,7 +78,8 @@ namespace SeedQuest.Interactables {
                 }
                 else if(LevelManager.IsMultiLevelGame && ShowLevelComplete) {
                     GameManager.State = GameState.Menu;
-                    LevelClearUI.ToggleOn();
+                    if (!GameManager.TutorialMode)
+                        LevelClearUI.ToggleOn();
                 }
             }
         }
@@ -154,6 +161,9 @@ namespace SeedQuest.Interactables {
                         //Debug.Log("Item name: " + item.name + " item number: " + counter);
                         counter++;
                     }
+                    else
+                        Debug.Log("Item out of bounds! Item name: " + item.name + " item number: " + counter);
+
                 }
 
                 // Update siteID and spot ID for in-bounds subset
@@ -172,7 +182,7 @@ namespace SeedQuest.Interactables {
 
                 // Throw Error for not enough interactables in a Site
                 if (GameManager.Mode != GameMode.Sandbox && subset.Count < InteractableConfig.InteractableCount)
-                    Debug.Log("WARNING: SiteBounds does not contain sufficent interactables.");
+                    Debug.Log("WARNING: SiteBounds does not contain sufficent interactables. " + subset.Count + " vs. " + InteractableConfig.InteractableCount);
 
                 siteCount++;
             }

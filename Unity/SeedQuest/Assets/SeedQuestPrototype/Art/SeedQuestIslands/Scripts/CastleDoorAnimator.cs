@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Animator))]
 public class CastleDoorAnimator : MonoBehaviour {
@@ -15,6 +16,9 @@ public class CastleDoorAnimator : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
             RaycastHit hit;
             Ray ray = new Ray(c.transform.position, c.transform.forward);
 

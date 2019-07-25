@@ -158,7 +158,7 @@ public class ScenePauseMenu : MonoBehaviour
         // remove any actions performed in the current scene from the interactable log
         // calculate # of actions to undo
         int actionsThisScene = InteractableLog.Count % InteractableConfig.ActionsPerSite;
-        Debug.Log("Found " + actionsThisScene + " actions to undo");
+        //Debug.Log("Found " + actionsThisScene + " actions to undo");
 
         if (actionsThisScene > 0)
         {

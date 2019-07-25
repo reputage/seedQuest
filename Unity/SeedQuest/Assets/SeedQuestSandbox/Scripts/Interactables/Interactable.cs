@@ -26,6 +26,11 @@ namespace SeedQuest.Interactables
         public InteractablePreviewInfo interactablePreview;
         public InteractableHighlightsProps interactableHighlights;
         public InteractableID ID;
+
+        public Shader defaultShader;
+        public Shader highlightShader;
+
+        Camera c;
         
         private int actionIndex = -1;
         public int ActionIndex { get => actionIndex; set => actionIndex = value; } // Current Action State 
@@ -42,6 +47,7 @@ namespace SeedQuest.Interactables
 
         void Start() {
             interactableUI.Initialize(this);
+            getRefs();
         }
 
         void Update()  {
@@ -103,6 +109,13 @@ namespace SeedQuest.Interactables
             DoAction(actionIndex);
         }
 
+        public void getRefs()
+        {
+            defaultShader = Shader.Find("Standard");
+            highlightShader = Shader.Find("SeedQuest/RimOutline");
+            c = Camera.main;
+        }
+
         public void DoAction(int actionIndex)  {
             this.actionIndex = actionIndex;
             InteractableState state = stateData.states[actionIndex];
@@ -131,7 +144,6 @@ namespace SeedQuest.Interactables
             if (PauseManager.isPaused == true)
                 return;
 
-            Camera c = Camera.main;
             RaycastHit hit;
             Ray ray = c.ScreenPointToRay(Input.mousePosition);
 
@@ -171,7 +183,7 @@ namespace SeedQuest.Interactables
 
             if (Input.GetMouseButtonDown(0)) {
                 RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Ray ray = c.ScreenPointToRay(Input.mousePosition);
 
                 if (Physics.Raycast(ray, out hit, 100.0f)) {
                     bool hitThisInteractable = hit.transform.GetInstanceID() == transform.GetInstanceID();
@@ -187,7 +199,7 @@ namespace SeedQuest.Interactables
             if (Input.GetMouseButtonUp(0))
             {
                 RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Ray ray = c.ScreenPointToRay(Input.mousePosition);
 
                 if (Physics.Raycast(ray, out hit, 100.0f))
                 {
@@ -212,10 +224,8 @@ namespace SeedQuest.Interactables
             if (!interactableHighlights.useHighlightsShader)
                 return;
 
-            Shader defaultShader = Shader.Find("Standard");
-            Shader highlightShader = Shader.Find("SeedQuest/RimOutline");
-
             Renderer[] rendererList = transform.GetComponentsInChildren<Renderer>();
+
             foreach (Renderer renderer in rendererList) {
 
                 if (renderer.GetComponent<ParticleSystem>() != null)
