@@ -48,8 +48,11 @@ public class HUDManager : MonoBehaviour {
     public void InstantiateHUDElement<T>(HUDItemProps props) {
         if(props.use && props.prefab != null && GetComponentInChildren<T>(true) == null) {
 
-            PrefabUtility.InstantiatePrefab(props.prefab, transform);
-            //Instantiate(props.prefab, transform);
+            #if UNITY_EDITOR
+                PrefabUtility.InstantiatePrefab(props.prefab, transform);
+            #else
+                Instantiate(props.prefab, transform);
+            #endif
         }
     }
 
@@ -60,8 +63,11 @@ public class HUDManager : MonoBehaviour {
         HUDItemProps props = Instance.GetProps<T>();
         if (props.prefab != null && Instance.GetComponentInChildren<T>(true) == null) {
 
-           PrefabUtility.InstantiatePrefab(props.prefab, Instance.transform);
-           //Instantiate(props.prefab, Instance.transform);
+            #if UNITY_EDITOR
+                PrefabUtility.InstantiatePrefab(props.prefab, Instance.transform);
+            #else
+                Instantiate(props.prefab, Instance.transform);
+            #endif
         }
     }
 
