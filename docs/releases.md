@@ -1,6 +1,6 @@
 ![Logo](https://github.com/reputage/seedQuest/blob/master/media/SeedQuestLogo-Github.png)
 
-![SeedQuest-V0.2.5](https://img.shields.io/badge/SeedQuest(beta)-V0.2.5-orange.svg)
+![SeedQuest-V0.2.6](https://img.shields.io/badge/SeedQuest(beta)-V0.2.6-orange.svg)
 ![Platforms-MacOS-Windows](https://img.shields.io/badge/Platform-MacOS%20%7C%20Windows-blue.svg)
 
 # Releases
