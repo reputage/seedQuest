@@ -7,6 +7,13 @@
 
 The following are the links to the releases of SeedQuest: [Mac, PC](https://github.com/reputage/seedQuest/releases)
 
+### SeedQuest v0.2.6 
+- UI Updates (GameUI, PauseMenu)
+- Tutorial Update
+- Stability Updates
+- BIP-39 Support Added
+- Bug Fixes
+
 ### SeedQuest Prototype (v0.2.5)
  - Learn 128 bit seeds
  - Memorize and Learn the order of actions in 'Learn mode'
