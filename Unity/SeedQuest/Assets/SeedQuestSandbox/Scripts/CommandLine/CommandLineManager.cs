@@ -41,6 +41,7 @@ public static class CommandLineManager
         {"help", "Displays a list of commands"},
         {"print", "Prints a string to the console"},
         {"quit", "Quits the application"},
+        {"fps", "Displays an FPS counter."},
         {"get", "Prints an available value.\nParameters:\n string valueName\n" + getHelp("")},
         {"moveplayer", "Moves the player to the specified location.\nParameters:\n int x, int y, int z"},
         {"loadscene", "Loads the specified scene. 'help scenes' returns a list of available scene names. \nParameters:\n string sceneName"},
@@ -192,17 +193,17 @@ public static class CommandLineManager
     // Creates a custom learn mode path with scenes dtermined by the user.
     public static string learnCustom(string input)
     {
-        return learnTest(input, false);
+        return learnTest(input, false, false, false);
     }
 
     // Creates a custom learn mode that intentionaly tests whether a scene has all 16 interactables
     public static string learnBreak(string input)
     {
-        return learnTest(input, true);
+        return learnTest(input, false, false, true);
     }
 
     // Creates a custom learn mode - does the heavy lifting for the above two functions
-    public static string learnTest(string input, bool tryToBreak)
+    public static string learnTest(string input, bool random, bool iterative, bool tryToBreak)
     {
         string[] stringInputs = input.Split(null);
         int[] scenes = new int[InteractableConfig.SitesPerGame];
@@ -211,13 +212,12 @@ public static class CommandLineManager
         {
             return "Please enter at least one scene name for the custom learn path.";
         }
-        Debug.Log("Input: ." + input + ".");
+        Debug.Log("Input: " + input);
         Debug.Log("String input length: " + stringInputs.Length);
 
         for (int i = 0; i < InteractableConfig.SitesPerGame; i++)
         {
             // queue up the scenes entered by user into a seed
-
             if (i < stringInputs.Length)
             {
                 if (sceneIndeces.ContainsKey(stringInputs[i]))
@@ -230,7 +230,7 @@ public static class CommandLineManager
                 }
                 else
                 {
-                    Debug.Log("String input length: " + stringInputs.Length);
+                    Debug.Log("Do not recognize scene name: " + stringInputs[i]);
                     return "Do not recognize scene name: " + stringInputs[i];
                 }
             }
@@ -241,6 +241,8 @@ public static class CommandLineManager
 
         }
 
+        int counter = 0;
+
         // Create custom seed using the chosen scenes
         for (int i = 0; i < InteractableConfig.SitesPerGame; i++)
         {
@@ -248,12 +250,20 @@ public static class CommandLineManager
 
             for (int j = 0; j < InteractableConfig.ActionsPerSite; j++)
             {
-                if (tryToBreak)
+                if (iterative)
+                    actions[j * 2 + 1 + i + i * InteractableConfig.ActionsPerSite * 2] = counter % 16;
+                else if (random)
+                    actions[j * 2 + 1 + i + i * InteractableConfig.ActionsPerSite * 2] = UnityEngine.Random.Range(0, 100) % 16;
+                else if (tryToBreak)
                     actions[j * 2 + 1 + i + i * InteractableConfig.ActionsPerSite * 2] = j + 13;
-                else
+                else 
                     actions[j * 2 + 1 + i + i * InteractableConfig.ActionsPerSite * 2] = j % 16;
                 
                 actions[j * 2 + 2 + i + i * InteractableConfig.ActionsPerSite * 2] = j % 4;
+
+                //if (iterative)
+                //    Debug.Log("Counter " + counter % 16);
+                counter++;
             }
         }
 
@@ -264,11 +274,18 @@ public static class CommandLineManager
         InteractablePathManager.SeedString = seed;
         InteractablePath.ResetPath();
         InteractablePathManager.Reset();
-        LevelSetManager.ResetCurrentLevels();
+        if (GameManager.V2Menus)
+            WorldManager.Reset();
+        else
+            LevelSetManager.ResetCurrentLevels();
+
 
         for (int i = 0; i < scenes.Length; i++)
         {
-            LevelSetManager.AddLevel(scenes[i]);
+            if (GameManager.V2Menus)
+                WorldManager.Add(scenes[i]);
+            else
+                LevelSetManager.AddLevel(scenes[i]);
         }
 
         GameManager.Mode = GameMode.Rehearsal;
@@ -279,6 +296,10 @@ public static class CommandLineManager
         {
             SceneManager.LoadScene(fuzzySceneNames[stringInputs[0]]);
             return "Loading custom seed. Scene: " + fuzzySceneNames[stringInputs[0]];
+        }
+        else
+        {
+            Debug.Log("Could not find scene named " + stringInputs[0]);
         }
 
         SceneManager.LoadScene(stringInputs[0]);

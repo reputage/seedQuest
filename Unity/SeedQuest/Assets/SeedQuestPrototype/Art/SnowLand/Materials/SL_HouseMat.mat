@@ -8,17 +8,22 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SL_HouseMat
-  m_Shader: {fileID: 4800000, guid: 77376bf8fa4ccd246ab62da7ac735d2d, type: 3}
-  m_ShaderKeywords: _DETAIL_MULX2 _METALLICGLOSSMAP _NORMALMAP
-  m_LightmapFlags: 0
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_ShaderKeywords: _METALLICSPECGLOSSMAP _OCCLUSIONMAP
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2050
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Base_Diffuse:
         m_Texture: {fileID: 2800000, guid: 4bb39e745f6493a44b7e0fa296b2a3dc, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -57,7 +62,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 3, y: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 2800000, guid: 82a4ea0d3178d334a8dcdf98a5aab74a, type: 3}
@@ -95,6 +100,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Top_Diffuse:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -112,13 +121,17 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AlphaClip: 0
     - _BaseNormalScale: 1.5
     - _Bias_Power: 0
+    - _Blend: 0
     - _BumpScale: 1
+    - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EmissionPower: 0.4
+    - _EnvironmentReflections: 1
     - _Fres_Bias_Power: 0.29
     - _Fres_Power: 6.64
     - _Fres_Scale_Power: 6.18
@@ -126,20 +139,26 @@ Material:
     - _GlossMapScale: 0.171
     - _Glossiness: 0.855
     - _GlossyReflections: 1
-    - _Metallic: 0
+    - _Metallic: 0.5
     - _Mode: 0
     - _NormalPower: 1.45
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.171
     - _SmoothnessTextureChannel: 0
     - _SnowAmount: 0.85
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Surface: 0
     - _TopNormalScale: 0.95
     - _UVSec: 0
+    - _WorkflowMode: 1
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
+    - _BaseColor: {r: 0.47748303, g: 0.5471698, b: 0.5471698, a: 1}
     - _Base_Color: {r: 1, g: 1, b: 1, a: 0}
     - _Base_Spec_Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 0}
     - _Color: {r: 0.4774831, g: 0.5471698, b: 0.5471698, a: 1}
@@ -153,5 +172,19 @@ Material:
     - _Grass_Spec: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 0}
     - _Rock_Color: {r: 0.20367567, g: 0.21432002, b: 0.21698111, a: 0}
     - _Rock_Spec: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TopColor: {r: 1, g: 1, b: 1, a: 0}
     - _Top_Spec_Color: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 0}
+--- !u!114 &2572084544415424971
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1

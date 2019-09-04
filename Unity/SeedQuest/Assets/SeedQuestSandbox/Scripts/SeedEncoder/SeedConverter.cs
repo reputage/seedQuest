@@ -102,6 +102,7 @@ namespace SeedQuest.SeedEncoder
         /// </summary>
         private int[] EncodeInteractions() {
 
+            Debug.Log("Items in log: " + InteractableLog.Log.Count);
             // Create a copy of the List and gernerate a list with zero fills if not enought log items
             List<InteractableLogItem> log = new List<InteractableLogItem>();
             foreach (InteractableLogItem item in InteractableLog.Log) {

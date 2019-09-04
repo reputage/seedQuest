@@ -50,6 +50,7 @@ namespace SeedQuest.SeedEncoder
             sumTest(ref passed, testBreakPoints());
             sumTest(ref passed, testSmallSeeds());
             sumTest(ref passed, testSeeds5BitActions());
+            //sumTest(ref passed, testSpecialException());
 
             string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
             Debug.Log(passedString);
@@ -449,6 +450,57 @@ namespace SeedQuest.SeedEncoder
             byte[] finalSeed = SeedToByte.seedConverterUniversal(hexActions, hexList);
 
             return finalSeed;
+        }
+
+        // Similar to the above tests, but tests many possible bit sizes
+        public int[] testSpecialException()
+        {
+            int[] passed = new int[2];
+            passed[1] = 4;
+
+            string seed4 = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+            string seed1 = "52BE1E391AF51C8794E37CD3FEC3054D1";
+            string seed2 = "6C87DDE23A0F865E087A4DDF2A7A6077A";
+            string seed3 = "D159F42FE7DEE8161FDEE3BEF50C63F93";
+
+            int[] actions1 = seedToByte.getActions(seed1);
+            int[] actions2 = seedToByte.getActions(seed2);
+            int[] actions3 = seedToByte.getActions(seed3);
+            int[] actions4 = seedToByte.getActions(seed4);
+
+            string final1 = seedToByte.getSeed(actions1);
+            string final2 = seedToByte.getSeed(actions2);
+            string final3 = seedToByte.getSeed(actions3);
+            string final4 = seedToByte.getSeed(actions4);
+
+            if (seed1 == final1)
+                passed[0] += 1;
+            else
+            {
+                Debug.Log("Test for seed: " + seed1 + " failed. final: " + final1);
+            }
+            if (seed2 == final2)
+                passed[0] += 1;
+            else
+            {
+                Debug.Log("Test for seed: " + seed2 + " failed. final: " + final2);
+            }
+            if (seed3 == final3)
+                passed[0] += 1;
+            else
+            {
+                Debug.Log("Test for seed: " + seed3 + " failed. final: " + final3);
+            }
+            if (seed4 == final4)
+                passed[0] += 1;
+            else
+            {
+                Debug.Log("Test for seed: " + seed4 + " failed. final: " + final4);
+            }
+
+
+
+            return passed;
         }
     }
 }

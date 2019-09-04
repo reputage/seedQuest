@@ -25,7 +25,9 @@ public class LevelClearUI : MonoBehaviour {
 
     public void GoToSceneSelect() {
         //LevelManager.GoToSceneSelect();
-        MenuScreenManager.ActivateSceneLineUp();
+        if (MenuScreenV2.Instance != null)
+            MenuScreenV2.Instance.ReturnToSceneLineUp();
+
         gameObject.SetActive(false);
     }
 

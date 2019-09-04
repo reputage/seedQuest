@@ -119,7 +119,10 @@ public class EndGameUI : MonoBehaviour
 
     public void GoToStartScreen() {
         SeedQuest.Level.LevelManager.Instance.StopLevelMusic();
-        MenuScreenManager.ActivateStart();
+        if (GameManager.V2Menus)
+            MenuScreenV2.Instance.GoToStart();
+        else
+            MenuScreenManager.ActivateStart();
         gameObject.SetActive(false);
         GameManager.GraduatedMode = false;
     }
@@ -169,10 +172,10 @@ public class EndGameUI : MonoBehaviour
         BIP39Converter bpc = new BIP39Converter();
         string seed = bipSeed + "\n0x" + hexSeed;
 
-        QRCodeGenerator qrGenerator = new QRCodeGenerator();
-        QRCodeData qrCodeData = qrGenerator.CreateQrCode(textList[0].text, QRCodeGenerator.ECCLevel.Q);
-        UnityQRCode qrCode = new UnityQRCode(qrCodeData);
-        Texture2D qrCodeAsTexture2D = qrCode.GetGraphic(20);
+        //QRCodeGenerator qrGenerator = new QRCodeGenerator();
+        //QRCodeData qrCodeData = qrGenerator.CreateQrCode(textList[0].text, QRCodeGenerator.ECCLevel.Q);
+        //UnityQRCode qrCode = new UnityQRCode(qrCodeData);
+        //Texture2D qrCodeAsTexture2D = qrCode.GetGraphic(20);
 
         //byte[] bytes = qrCodeAsTexture2D.EncodeToPNG();
         //File.WriteAllBytes(Application.dataPath + "/../SavedQRCode.png", bytes);
@@ -211,78 +214,28 @@ public class EndGameUI : MonoBehaviour
         //textList[1].gameObject.SetActive(true);
     }
 
-    public void downloadQRCode()
-    {
-        var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        string seed = textList[0].text;
-        QRCodeGenerator qrGenerator = new QRCodeGenerator();
-        QRCodeData qrCodeData = qrGenerator.CreateQrCode(seed, QRCodeGenerator.ECCLevel.Q);
-        UnityQRCode qrCode = new UnityQRCode(qrCodeData);
-        Texture2D qrCodeAsTexture2D = qrCode.GetGraphic(20);
-
-        byte[] bytes = qrCodeAsTexture2D.EncodeToPNG();
-
-        // These need to be tested
-        #if UNITY_WEBGL
-            //Download("seed.png", bytes);
-        #elif UNITY_EDITOR
-        string path = EditorUtility.SaveFilePanel("Save As", "Downloads", "seed", "txt");
-        if (path.Length != 0)
-        {
-            File.WriteAllBytes(Application.dataPath + "/../SavedQRCode.png", bytes);
-        }
-        #else
-            string downloads = "";
-            if (System.Environment.OSVersion.Platform == System.PlatformID.Unix)
-            {
-                string home = System.Environment.GetEnvironmentVariable("HOME");
-                downloads = System.IO.Path.Combine(home, "Downloads");
-            }
-            else
-            {
-                downloads = System.Convert.ToString(Microsoft.Win32.Registry.GetValue(
-                    @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
-                    , "{374DE290-123F-4565-9164-39C4925E467B}"
-                    , String.Empty));
-            }
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(downloads, "seed.png")))
-            {
-                outputFile.Write(bytes);
-            }
-        #endif
-        //textList[1].text = "Seed Downloaded";
-        //textList[1].gameObject.SetActive(true);
-    }
-
-    public void characterMode()
-    {
-        var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        textList[0].text = hexSeed;
-
-        Button[] buttons = Instance.GetComponentsInChildren<Button>();
-        GameObject characterButton = buttons[4].gameObject;
-        GameObject wordsButton = buttons[5].gameObject;
-
-        // color RGB values taken from UX doc in Figma
-        characterButton.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(255,255,255,255);
-        characterButton.GetComponent<Image>().color = new Color32(32, 32, 32, 255);
-        wordsButton.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(89, 89, 89, 255);
-        wordsButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-    }
-
     public void wordsMode()
     {
         var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         textList[0].text = bipSeed;
 
         Button[] buttons = Instance.GetComponentsInChildren<Button>();
+
+        /*
+        foreach (Button buttonOb in buttons)
+        {
+            Debug.Log("Button name: " + buttonOb.gameObject.name);
+        }
+        */
+
         GameObject characterButton = buttons[4].gameObject;
         GameObject wordsButton = buttons[5].gameObject;
 
-        wordsButton.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
-        wordsButton.GetComponent<Image>().color = new Color(0, 0, 0, 255);
         characterButton.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(89, 89, 89, 255);
-        characterButton.GetComponent<Image>().color = new Color(255, 255, 255, 255);
+        characterButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        wordsButton.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+        wordsButton.GetComponent<Image>().color = new Color32(55, 90, 122, 255);
+
     }
 
     public static void setupCharacterMode()
@@ -295,7 +248,22 @@ public class EndGameUI : MonoBehaviour
         GameObject wordsButton = buttons[5].gameObject;
 
         characterButton.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
-        characterButton.GetComponent<Image>().color = new Color32(32, 32, 32, 255);
+        characterButton.GetComponent<Image>().color = new Color32(55, 90, 122, 255);
+        wordsButton.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(89, 89, 89, 255);
+        wordsButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+    }
+
+    public void characterMode()
+    {
+        var textList = Instance.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        textList[0].text = hexSeed;
+
+        Button[] buttons = Instance.GetComponentsInChildren<Button>();
+        GameObject characterButton = buttons[4].gameObject;
+        GameObject wordsButton = buttons[5].gameObject;
+
+        characterButton.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+        characterButton.GetComponent<Image>().color = new Color32(55, 90, 122, 255);
         wordsButton.GetComponentInChildren<TextMeshProUGUI>().color = new Color32(89, 89, 89, 255);
         wordsButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
     }
@@ -329,6 +297,4 @@ public class EndGameUI : MonoBehaviour
     }
 
 
-    //crowd estate unveil olive execute foot excess two twist piano orchard avoid
-    // 
 }
