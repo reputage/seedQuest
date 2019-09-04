@@ -1,11 +1,20 @@
 ![Logo](https://github.com/reputage/seedQuest/blob/master/media/SeedQuestLogo-Github.png)
 
-![SeedQuest-V0.2.6](https://img.shields.io/badge/SeedQuest(beta)-V0.2.6-orange.svg)
+![SeedQuest-V0.2.7](https://img.shields.io/badge/SeedQuest(beta)-V0.2.7-orange.svg)
 ![Platforms-MacOS-Windows](https://img.shields.io/badge/Platform-MacOS%20%7C%20Windows-blue.svg)
 
 # Releases
 
 The following are the links to the releases of SeedQuest: [Mac, PC](https://github.com/reputage/seedQuest/releases)
+
+### SeedQuest v0.2.7
+- UI Updates (IntroScreen, SeedSetup, WorldSelect, SceneLineup, ActionLineUp)
+- Upgrade to LightWeight Render Pipeline (LWP)
+- Fast Recovery Mode
+- Interactable UI Update
+- Basic Character Animations
+- Stability Updates
+- Bug Fixes
 
 ### SeedQuest v0.2.6 
 - UI Updates (GameUI, PauseMenu)
