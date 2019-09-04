@@ -159,7 +159,7 @@ namespace SeedQuest.Interactables
                 NextInteractable.interactableUI.ToggleTracker(true);
 
                 InteractableManager.UnHighlightAllInteractables();
-                NextInteractable.HighlightInteractableWithEffect(true);
+                //NextInteractable.HighlightInteractableWithEffect(true);
                 InteractablePreviewUI.SetPreviewObject(NextInteractable, Instance.actionIds[Instance.nextIndex]);
                 InteractablePreviewUI.SetPreviewAction(Instance.actionIds[Instance.nextIndex]);
 

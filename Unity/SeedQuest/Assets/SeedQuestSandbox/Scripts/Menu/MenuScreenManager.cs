@@ -34,20 +34,28 @@ public class MenuScreenManager : MonoBehaviour
     private Canvas sceneLineUpCanvas;
     private Canvas actionLineUpCanvas;
     private Canvas backButtonCanvas;
+    private Canvas debugCanvas;
+    private Canvas startDebugCanvas;
 
     private float sceneLoadProgressValue;
     private Slider sceneLoadProgress;
     private Button sceneContinueButton;
     private bool isBip;
+    private bool debugRandom;
+    private bool counting;
+    public bool isDebug;
 
     private Image greenCheck;
     private Image redWarning;
     private Image greenOutline;
     private Image redOutline;
 
+    private InteractableAutoCounter autoCounter;
+
     public void Awake()
     {
         isBip = false;
+        isDebug = false;
         canvas = GetComponentsInChildren<Canvas>(true);
         motionBackgroundCanvas = canvas[1];
         startCanvas = canvas[2];
@@ -56,6 +64,8 @@ public class MenuScreenManager : MonoBehaviour
         sceneLineUpCanvas = canvas[7];
         actionLineUpCanvas = canvas[8];
         backButtonCanvas = canvas[9];
+        startDebugCanvas = canvas[10];
+        debugCanvas = canvas[11];
 
         Image[] images = canvas[4].GetComponentsInChildren<Image>();
         // Unity is bugged and doesn't allow you to properly re-order child objects of prefabs
@@ -67,6 +77,8 @@ public class MenuScreenManager : MonoBehaviour
 
         sceneLoadProgress = GetComponentInChildren<Slider>(true);
         sceneContinueButton = sceneLineUpCanvas.GetComponentInChildren<Button>(true);
+
+        autoCounter = GetComponentInChildren<InteractableAutoCounter>(true);
     }
 
     public void Start()
@@ -87,6 +99,19 @@ public class MenuScreenManager : MonoBehaviour
         RotateBackground();
 
         sceneLoadProgress.value = sceneLoadProgressValue;
+
+        if (state == MenuScreenStates.ModeSelect && Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            GoToDebugCanvas();
+        }
+        if (counting)
+        {
+            if (autoCounter.finished)
+            {
+                setCounterDebugText();
+                counting = false;
+            }
+        }
 
     #if UNITY_WEBGL
         if (state == MenuScreenStates.SeedSetup)
@@ -115,6 +140,9 @@ public class MenuScreenManager : MonoBehaviour
         canvas[7].gameObject.SetActive(false);
         canvas[8].gameObject.SetActive(false);
         canvas[9].gameObject.SetActive(false);
+        canvas[10].gameObject.SetActive(false);
+        canvas[11].gameObject.SetActive(false);
+
     }
 
     public void GoToStart()
@@ -128,6 +156,7 @@ public class MenuScreenManager : MonoBehaviour
     public void GoBack()
     {
         GameManager.Mode = GameMode.Rehearsal;
+        isDebug = false;
 
         if (state == MenuScreenStates.EncodeSeed)
         {
@@ -189,6 +218,7 @@ public class MenuScreenManager : MonoBehaviour
     {
         state = MenuScreenStates.EncodeSeed;
         ResetCanvas();
+        LevelSetManager.ResetCurrentLevels();
         encodeSeedCanvas.gameObject.SetActive(true);
         SetupRotateBackground(330);
         SetupEncodeSeedBip();
@@ -251,7 +281,7 @@ public class MenuScreenManager : MonoBehaviour
     public void SetupSeedSetup()
     {
         TMP_InputField seedInputField = GetComponentInChildren<TMP_InputField>();
-        //seedInputField.text = InteractablePathManager.SeedString;
+        seedInputField.text = InteractablePathManager.SeedString;
         int charLimit = InteractableConfig.SeedHexLength;
 
         seedInputField.characterLimit = charLimit;
@@ -260,7 +290,7 @@ public class MenuScreenManager : MonoBehaviour
     public void SetupSeedSetupBip()
     {
         TMP_InputField seedInputField = GetComponentInChildren<TMP_InputField>();
-        seedInputField.text = InteractablePathManager.SeedString;
+        seedInputField.text = checkHexLength(InteractablePathManager.SeedString);
         int charLimit = 700;
 
         seedInputField.characterLimit = charLimit;
@@ -275,6 +305,7 @@ public class MenuScreenManager : MonoBehaviour
             TMP_InputField seedInputField = GetComponentInChildren<TMP_InputField>(true);
 
             string seedFromInput = removeHexPrefix(seedInputField.text);
+
             if (InteractableConfig.SeedHexLength % 2 == 1)
             {
                 if (seedFromInput.Length == InteractableConfig.SeedHexLength)
@@ -321,11 +352,29 @@ public class MenuScreenManager : MonoBehaviour
             else
             {
                 hexSeed = seedFromInput;
-                //Debug.Log("Seed appears to be hex");
+                if (InteractableConfig.SeedHexLength % 2 == 1)
+                {
+                    if (seedFromInput.Length == InteractableConfig.SeedHexLength)
+                    {
+                        string seedText = seedFromInput + "0";
+                        char[] array = seedText.ToCharArray();
+                        array[array.Length - 1] = array[array.Length - 2];
+                        array[array.Length - 2] = '0';
+                        hexSeed = new string(array);
+                    }
+                    else if (seedFromInput.Length == InteractableConfig.SeedHexLength + 1)
+                    {
+                        char[] array = seedFromInput.ToCharArray();
+                        array[array.Length - 2] = '0';
+                        hexSeed = new string(array);
+                    }
+                    else
+                        Debug.Log("Seed: " + hexSeed);
+                }
             }
 
             //Debug.Log("Sentence: " + seedFromInput);
-            //Debug.Log("Seed: " + hexSeed);
+            Debug.Log("Seed: " + hexSeed);
 
             InteractablePathManager.SeedString = hexSeed;
 
@@ -604,7 +653,7 @@ public class MenuScreenManager : MonoBehaviour
             warningText.GetComponent<TextMeshProUGUI>().color = new Color32(255, 20, 20, 255);
             setRedWarning();
         }
-        else if (seedString.Length > 33)
+        else if (seedString.Length > 34)
         {
             validHex = false;
 
@@ -637,7 +686,7 @@ public class MenuScreenManager : MonoBehaviour
 
     public void checkInputSeed()
     {
-        Debug.Log("Hello from checkInputSeed()");
+        //Debug.Log("Hello from checkInputSeed()");
         TMP_InputField seedInputField = GetComponentInChildren<TMP_InputField>();
         string seed = removeHexPrefix(seedInputField.text);
         bool validSeed = validSeedString(seed);
@@ -688,5 +737,87 @@ public class MenuScreenManager : MonoBehaviour
         if (hexString != null && hexString.StartsWith("0x"))
             hexString = hexString.Substring(2);
         return hexString;
+    }
+
+    // The end game UI removes a superfluous character from hex strings, this 
+    //  fixes a UI issue that arises when restarting from end game UI
+    public static string checkHexLength(string hexString)
+    {
+        if (hexString.Length == 34 && hexString[32] == '0')
+        {
+            hexString = hexString.Substring(0, 32) + hexString.Substring(33, 1);
+        }
+        Debug.Log("Fixed string: " + hexString);
+
+        return hexString;   
+    }
+
+    public void GoToDebugCanvas()
+    {
+        ResetCanvas();
+        debugCanvas.gameObject.SetActive(true);
+    }
+
+    public void GoToEncodeDebugOrdered()
+    {
+        debugRandom = false;
+        isDebug = true;
+        debugCanvas.gameObject.SetActive(false);
+        state = MenuScreenStates.EncodeSeed;
+        SetModeRecoverSeed();
+    }
+
+    public void GoToEncodeDebugRand()
+    {
+        debugRandom = true;
+        isDebug = true;
+        debugCanvas.gameObject.SetActive(false);
+        state = MenuScreenStates.EncodeSeed;
+        SetModeRecoverSeed();
+    }
+
+    public void startDebugRun()
+    {
+        if (!debugRandom)
+        {
+            CloseMenuScreen();
+            DebugSeedUtility.startIterative();
+        }
+        else
+        {
+            CloseMenuScreen();
+            DebugSeedUtility.startRandom();
+        }
+    }
+
+    public void autoCountInteractables()
+    {
+        autoCounter.loadFirstScene();
+        GoToWaitingForCounter();
+    }
+
+    public void GoToWaitingForCounter()
+    {
+        // This function will be finished at a later time - since 
+        //  the start menu is going to be changing anyways.
+
+        // To do: 
+        //  deactivate debug card
+        //  activate waiting card
+
+        debugCanvas.GetComponentsInChildren<RectTransform>()[4].gameObject.SetActive(false);
+        counting = true;
+    }
+
+    public void setCounterDebugText()
+    {
+        Debug.Log("Setting text: " + autoCounter.results);
+        TextMeshProUGUI counterText = debugCanvas.GetComponentsInChildren<TextMeshProUGUI>()[0];
+        counterText.text = autoCounter.results;
+    }
+
+    public static void SetEncodeSeedDebugCanvas()
+    {
+        Instance.startDebugCanvas.gameObject.SetActive(true);
     }
 }

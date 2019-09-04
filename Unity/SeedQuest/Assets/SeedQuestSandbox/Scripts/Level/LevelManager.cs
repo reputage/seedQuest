@@ -44,6 +44,12 @@ namespace SeedQuest.Level
         /// <summary> MultiLevelGame Flag important for InteractablePath calculations </summary>
         static public bool IsMultiLevelGame { get => Instance.isMultiLevelGame; }
 
+        /// <summary> Fast Recovery Data for Fast Recovery feature </summary>
+        public FastRecoveryData fastRecoveryData = null;
+
+        /// <summary> Fast Recovery Data for Fast Recovery feature </summary>
+        static public FastRecoveryData FastRecoveryData { get => Instance.fastRecoveryData; }
+
         /// <summary>  List of Bounds to represent Sites/Zones in a GameLevel </summary>
         public List<BoundingBox> bounds = new List<BoundingBox>();
 

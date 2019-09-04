@@ -59,9 +59,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4165489041822405555, guid: 93c117e3a0cc5414db04f868c8cc646f, type: 3}
-  - {fileID: -176891438005756714, guid: 93c117e3a0cc5414db04f868c8cc646f, type: 3}
-  - {fileID: 2431860964690092988, guid: 93c117e3a0cc5414db04f868c8cc646f, type: 3}
+  - {fileID: 2100000, guid: 95dc65761a9434d8790d786854bb83cd, type: 2}
+  - {fileID: 2100000, guid: 09713c026df45c64a9b721a77da0b79d, type: 2}
+  - {fileID: 2100000, guid: 002f265f1a9734f19a30918f96ba7b10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -69,6 +69,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -115,7 +116,13 @@ MonoBehaviour:
     useRotateToCamera: 1
     rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 0, z: 0}
+    buttonOffset: {x: 0, y: 0, z: 0}
+    labelOffset: {x: 0, y: 0, z: 0}
+    scalingCoefficient: 0
     debugActionUI: {fileID: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
     screenPositionOffset: {x: 0, y: 0}
@@ -125,7 +132,6 @@ MonoBehaviour:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    fontSize: 36
     useOrthographic: 1
     fieldOfView: 60
     orthographicSize: 1
@@ -147,5 +153,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 0
     actionID: 0
+  defaultShader: {fileID: 0}
   interactDistance: 2
   flagDeleteUI: 0

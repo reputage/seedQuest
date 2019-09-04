@@ -16,6 +16,8 @@ public class CameraSlider : MonoBehaviour
     }
 
     public void ListenForKeyDown() {
+        if (FastRecoveryUI.Instance.gameObject.activeSelf)
+            return;
         var input = Input.GetAxis("Mouse ScrollWheel");
 
         if (input > 0.0f) {

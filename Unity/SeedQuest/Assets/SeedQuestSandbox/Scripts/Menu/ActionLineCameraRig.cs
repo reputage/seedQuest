@@ -26,4 +26,8 @@ public class ActionLineCameraRig : MonoBehaviour
             rigs[i].SetPreviewAction(actionIds[baseIndex + i]);
         }
     }
+
+    public void Continue() {
+        MenuScreenV2.Instance.CloseSceneLineUp();
+    }
 }

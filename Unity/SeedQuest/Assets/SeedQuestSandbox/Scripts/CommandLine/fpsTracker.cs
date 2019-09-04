@@ -10,37 +10,43 @@ public class fpsTracker : MonoBehaviour
     public float fps;
     public float deltaFps;
     public float timeLeft;
+    public float fpsAverage;
+    public float unityEstimate;
     public int frameCounter;
 
-    // Start is called before the first frame update
     void Start()
     {
         text = GetComponentInChildren<Text>();
         timeLeft = updateInterval;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //realFPS();
-        avgFps();
+        setText(AccumulateFps());
     }
 
-    public void realFPS()
+    public void setText(string input)
+    {
+        text.text = input;
+    }
+
+    public string realFps()
     {
         fps = 1.0f / Time.deltaTime;
-        text.text = "FPS: " + fps;
+        return "Actual FPS: " + fps;
     }
 
-    public void avgFps()
+    public string avgFps()
     {
         timeLeft -= Time.deltaTime;
         deltaFps += Time.timeScale / Time.deltaTime;
         frameCounter += 1;
+        string returnString = "";
 
         if (timeLeft <= 0f)
         {
-            text.text = "FPS: " + (deltaFps / frameCounter).ToString("f2");
+            fpsAverage = (deltaFps / frameCounter);
+            unityEstimate = (1.29f * deltaFps / frameCounter);
             if ((deltaFps / frameCounter) < 1)
             {
                 text.text = "";
@@ -49,6 +55,18 @@ public class fpsTracker : MonoBehaviour
             deltaFps = 0f;
             frameCounter = 0;
         }
+
+        returnString = "Average FPS: " + fpsAverage.ToString("f2");
+        returnString += "\nEditor FPS: " + unityEstimate.ToString("f2");
+
+        return returnString;
+
+    }
+
+    public string AccumulateFps()
+    {
+        string total = realFps() + "\n" + avgFps();
+        return total;
     }
 
 }

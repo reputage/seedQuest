@@ -16,7 +16,7 @@ public class MenuProgressTopBarUI : MonoBehaviour
     public void Awake() {
         sceneText = GetComponentsInChildren<TextMeshProUGUI>()[3];
         actionText = GetComponentsInChildren<TextMeshProUGUI>()[4];
-        progress = GetComponentsInChildren<Image>()[2];
+        progress = GetComponentsInChildren<Image>()[6];
     }
 
     public void Update() {
@@ -35,13 +35,11 @@ public class MenuProgressTopBarUI : MonoBehaviour
         progress.GetComponent<RectTransform>().offsetMax = new Vector2(value, 0);
     }
 
-    public void OnClickMenuButton()
-    {
+    public void OnClickMenuButton() {
         PauseMenuUI.ToggleOn();
     }
 
-    public void OnClickHelpButton()
-    {
+    public void OnClickHelpButton() {
         HelpMenuUI.ToggleOn();
     }
 
@@ -54,5 +52,10 @@ public class MenuProgressTopBarUI : MonoBehaviour
         else {
             Debug.Log("Unable to undo actions from a previous scene.");
         }
+    }
+
+    public void OnClickFastRecoveryButton()
+    {
+        FastRecoveryUI.ToggleActive();
     }
 }

@@ -15,14 +15,15 @@ namespace SeedQuest.Interactables
             }
         }
 
-        public float nearDistance = 2.0f;
+        public float nearDistance = 4.0f;
         public float nearDistanceForZoom = 4.0f;
+        public GameObject interactableLabelUI;
+        public GameObject[] actionSpotIcons; // InteractableUI Prefab Templates
+        public Interactable activeInteractable = null;
+
         public bool useSingleTracker = true;
         public bool useInteractableNames = true;
-
-        public GameObject[] actionSpotIcons; // InteractableUI Prefab Templates
-
-        public Interactable activeInteractable = null;
+        public bool useSeparatedUI = false;
 
         static public Interactable ActiveInteractable {
             get { return Instance.activeInteractable; }
@@ -63,7 +64,7 @@ namespace SeedQuest.Interactables
         static public void SetActiveInteractable(Interactable interactable, int actionId)
         {
             Instance.activeInteractable = interactable;
-            interactable.HighlightInteractable(true);
+            //interactable.HighlightInteractable(true);
 
             if ((GameManager.Mode == GameMode.Sandbox || GameManager.Mode == GameMode.Recall) && interactable != null)
                 InteractablePreviewUI.SetPreviewObject(interactable, InteractablePath.Instance.actionIds[InteractablePath.Instance.nextIndex]); 

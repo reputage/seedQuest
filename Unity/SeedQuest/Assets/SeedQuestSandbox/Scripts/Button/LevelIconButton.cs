@@ -69,7 +69,7 @@ public class LevelIconButton : MonoBehaviour {
     }
 
     public void onClickButton() {
-        ActivateNumberIcon(this, iconIndex, true);
+        ActivateNumberIcon(this, iconIndex, true, MenuScreenManager.Instance.isDebug);
         EnableNextIconButton();
 
         if (GameManager.Mode == GameMode.Recall)
@@ -85,7 +85,7 @@ public class LevelIconButton : MonoBehaviour {
     }
 
     public void DeactivateIcon() {
-        ActivateNumberIcon(this, iconIndex, false);
+        ActivateNumberIcon(this, iconIndex, false, MenuScreenManager.Instance.isDebug);
     }
 
     private void SetupHoverEvents()
@@ -161,7 +161,7 @@ public class LevelIconButton : MonoBehaviour {
         allIconButtons[siteID].ActivateIconForRehersal(iconOrderIndex);
     }
 
-    public static void ActivateNumberIcon(LevelIconButton iconButton, int iconIndex, bool isActive) {
+    public static void ActivateNumberIcon(LevelIconButton iconButton, int iconIndex, bool isActive, bool debug) {
         if (activeIndex >= activeButtons.Length)
             return;
 
@@ -176,8 +176,12 @@ public class LevelIconButton : MonoBehaviour {
             LevelSetManager.AddLevel(iconIndex);
             MenuScreenManager.SetLevelPanel(activeIndex, iconIndex);
 
-            if (activeIndex == InteractableConfig.SitesPerGame - 1) {
+            if (activeIndex == InteractableConfig.SitesPerGame - 1 && debug == false) {
                 MenuScreenManager.SetEncodeSeedContinueCanvas();
+            }
+            else if (activeIndex == InteractableConfig.SitesPerGame - 1)
+            {
+                MenuScreenManager.SetEncodeSeedDebugCanvas();
             }
         }
         else {

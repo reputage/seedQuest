@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SeedQuest.Interactables;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,18 +33,21 @@ namespace SeedQuest.HUD
             map = images[2];
             playerIcon = images[3];
             pinIcon = images[4];
-            overlay = images[5];
-            largeMap = images[6];
-            overlay.gameObject.SetActive(false);
+            //overlay = images[5];
+            //largeMap = images[6];
+            //overlay.gameObject.SetActive(false);
 
             map.sprite = source;
-            largeMap.sprite = source;
+            //largeMap.sprite = source;
             //map.transform.eulerAngles = new Vector3(0, 0, -rotation);
             map.rectTransform.sizeDelta = source.bounds.size * mapZoom;
-            largeMap.rectTransform.sizeDelta = new Vector2(980 / source.bounds.size.y * source.bounds.size.x, 980);
+            //largeMap.rectTransform.sizeDelta = new Vector2(980 / source.bounds.size.y * source.bounds.size.x, 980);
             //map.transform.localPosition = new Vector3(0, playerYOffset, 0);
             mapContainer.transform.eulerAngles = new Vector3(0, 0, rotation);
-            pinIcon.gameObject.SetActive(false);
+            if (GameManager.Mode != GameMode.Rehearsal)
+            {
+                pinIcon.gameObject.SetActive(false);
+            }
             active = false;
         }
 
@@ -51,11 +55,20 @@ namespace SeedQuest.HUD
         {
             playerIcon.transform.eulerAngles = new Vector3(0, -180, player.transform.eulerAngles.y-rotation);
             map.transform.localPosition = new Vector3(-player.transform.localPosition.x * xScale + playerXOffset, -player.transform.localPosition.z * yScale + playerYOffset, 0);
+            if (GameManager.Mode == GameMode.Rehearsal)
+            {
+                pinIcon.transform.localPosition = new Vector3((InteractablePath.NextInteractable.LookAtPosition.x - player.transform.localPosition.x) * xScale, (InteractablePath.NextInteractable.LookAtPosition.z - player.transform.localPosition.z) * yScale, 0);
+            }
 
-            ListenForKeyDown();
+           else if (GameManager.Mode == GameMode.Recall || GameManager.Mode == GameMode.Sandbox)
+            {
+                pinIcon.gameObject.SetActive(false);
+            }
+
+            //ListenForKeyDown();
         }
 
-        private void ListenForKeyDown()
+        /*private void ListenForKeyDown()
         {
             if (InputManager.GetKeyDown(KeyCode.M) && !active)
             {
@@ -68,7 +81,7 @@ namespace SeedQuest.HUD
                 overlay.gameObject.SetActive(false);
                 active = false;
             }
-        }
+        }*/
 
         // Legacy Minimap Code
         /*public GameObject lightObjects;

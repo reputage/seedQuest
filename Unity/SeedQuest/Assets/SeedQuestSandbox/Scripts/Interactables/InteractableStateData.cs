@@ -100,5 +100,15 @@ namespace SeedQuest.Interactables
         {
             return prompt;
         }
+
+        public void stopAudio()
+        {
+            for (int i = 0; i < states.Count; i++)
+            {
+                if (states[i].soundEffectName != "")
+                    AudioManager.Stop(states[i].soundEffectName);
+            }
+        }
+
     }
 }

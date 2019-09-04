@@ -152,6 +152,7 @@ namespace SeedQuest.Interactables
         static public void SetPreviewObject(Interactable interactable, int actionID)  {
 
             int hello = 0;
+
             // Set Preview if interactablePreview has changed
             if (Instance == null || interactable.interactablePreview == Instance.preview)
                 hello = 1;
@@ -200,7 +201,24 @@ namespace SeedQuest.Interactables
             }
             else
                 Instance.previewText.text = "";
-        } 
+        }
+
+        static public void ClearPreviewObject()
+        {
+            if (Instance == null)
+                return;
+
+            try
+            {
+                foreach (Transform child in Instance.previewObject.transform)
+                    GameObject.Destroy(child.gameObject);
+            }
+
+            catch (NullReferenceException e)
+            {
+                return;
+            }
+        }
 
         /// <summary>  Recursively set the layer for all children to "InteractablePreview" until max depth is reached or there is no more children </summary>
         static public void SetLayerRecursively(GameObject gameObject, int depth) {
