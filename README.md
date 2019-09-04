@@ -2,7 +2,7 @@
 
 ![Logo](https://github.com/reputage/seedQuest/blob/master/media/SeedQuestLogo-Github.png)
 
-![SeedQuest-V0.2.6](https://img.shields.io/badge/SeedQuest(beta)-V0.2.6-orange.svg)
+![SeedQuest-V0.2.7](https://img.shields.io/badge/SeedQuest(beta)-V0.2.7-orange.svg)
 ![Platforms-MacOS-Windows-Web](https://img.shields.io/badge/Platform-MacOS%20%7C%20Windows%20%7C%20Web%20(Chrome)-blue.svg)
 
 ## You have just found SeedQuest
