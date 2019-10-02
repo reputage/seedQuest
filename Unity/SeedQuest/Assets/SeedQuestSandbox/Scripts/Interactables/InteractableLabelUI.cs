@@ -13,35 +13,41 @@ public class InteractableLabelUI
     private Button labelButton;
     private TextMeshProUGUI labelText;
     private Image labelIcon;
+    private Image trackerIcon;
 
     private Interactable interactable;
     private Vector3 labelPosition = new Vector3();
+    private Animator animator;
+
+    static private bool show;
 
     public void Initialize(Interactable parentInteractable) {
+        show = true;
+
         InstantiateLabel(parentInteractable);
         SetComponentRef();
         SetLabelText();
         SetPosition();
-        ToggleIcon(false);
         SetHoverEvents();
+        ToggleTrackerIcon(false);
+        ToggleText(false);
     }
 
     public void Update() {
         if (!isReady()) return;
         SetPosition();
-        //SetIcon();
-        //ListenForNear();
-    }
-
-    public void DeleteUI() {
-        GameObject.Destroy(labelObject);
+        ListenForNear();
     }
 
     static public void ToggleAll(bool active) {
+        show = active;
+    }
+
+    static public void ClearInteractableUI() {
         GameObject container = GameObject.Find("InteractableUIContainer");
         if (container != null) {
-            foreach (Transform child in container.transform){
-                child.gameObject.SetActive(active);
+            foreach (Transform child in container.transform) {
+                GameObject.Destroy(child.gameObject);
             }
         }
     }
@@ -66,24 +72,17 @@ public class InteractableLabelUI
         labelObject = GameObject.Instantiate(InteractableManager.Instance.interactableLabelUI, UIContainer);
     }
 
-    static public void ClearInteractableUI() {
-        GameObject container = GameObject.Find("InteractableUIContainer");
-        if (container != null) {
-            foreach (Transform child in container.transform) {
-                GameObject.Destroy(child.gameObject);
-            }
-        }
-    }
-
     private bool isReady() {
         return labelObject != null;
     }
 
     private void SetComponentRef() {
-        labelCanvas = labelObject.GetComponentsInChildren<Canvas>()[1];
-        labelButton = labelObject.GetComponentInChildren<Button>();
-        labelText = labelObject.GetComponentInChildren<TextMeshProUGUI>();
+        animator = labelObject.GetComponent<Animator>();
+        labelCanvas = labelObject.GetComponentsInChildren<Canvas>(true)[1];
+        labelButton = labelObject.GetComponentInChildren<Button>(true);
+        labelText = labelObject.GetComponentInChildren<TextMeshProUGUI>(true);
         labelIcon = labelObject.GetComponentsInChildren<Image>(true)[0];
+        trackerIcon = labelObject.GetComponentsInChildren<Image>(true)[1];
 
         labelButton.onClick.AddListener(ActivateInteractable);
     }
@@ -92,25 +91,37 @@ public class InteractableLabelUI
         labelText.text = interactable.Name;
     }
 
-    private void SetPosition() {
-        Vector3 position = interactable.transform.position + interactable.interactableUI.positionOffset + interactable.stateData.labelPosOffset;
-        labelPosition = IsometricCamera.Camera.WorldToScreenPoint(position);
-        labelCanvas.transform.position = labelPosition;
+    public Vector3 LabelPosition {
+        get {
+            Vector3 offset = interactable.stateData != null ? interactable.stateData.labelPosOffset : Vector3.zero;
+            Vector3 position = interactable.transform.position + interactable.interactableUI.positionOffset + offset;
+            return position;
+        }
     }
 
-    private void SetIcon() {
-        bool active = interactable == InteractableManager.ActiveInteractable;
-        labelIcon.gameObject.SetActive(active);
+    private void SetPosition() {
+        labelPosition = IsometricCamera.Camera.WorldToScreenPoint(LabelPosition);
+        labelCanvas.transform.position = labelPosition;
+    }   
+
+    public void ToggleTrackerIcon(bool active) {
+        if (labelObject == null) return;
+
+        trackerIcon.gameObject.SetActive(active);
+        labelIcon.gameObject.SetActive(!active);
     }
 
     private void ToggleIcon(bool active) {
         labelIcon.gameObject.SetActive(active);
     }
 
+    private void ToggleText(bool active) {
+        labelText.gameObject.SetActive(active);
+    }
+
     private void SetHoverEvents() {
         EventTrigger trigger = labelObject.GetComponent<EventTrigger>();
-        if (trigger == null)
-        {
+        if (trigger == null) {
             labelObject.gameObject.AddComponent<EventTrigger>();
             trigger = labelObject.GetComponent<EventTrigger>();
         }
@@ -126,30 +137,38 @@ public class InteractableLabelUI
         trigger.triggers.Add(exit);
     }
 
-    private void OnHoverEnter() {
-        ToggleIcon(true);
+    public void OnHoverEnter() {
+        if(GameManager.Mode == GameMode.Sandbox)
+            InteractableManager.SetActiveInteractable(interactable);
+        
+        ToggleText(true);
+        animator.Play("HoverStartLabelAnimation");
         AudioManager.Play("UI_Hover");
     }
 
-    private void OnHoverExit() {
-        ToggleIcon(false);
+    public void OnHoverExit() {
+        ToggleText(false);
+        animator.Play("HoverStopLabelAnimation");
     }
-
+    
     public void ActivateInteractable() {
-        InteractableManager.SetActiveInteractable(interactable, interactable.ActionIndex);
+        if (!labelObject.activeSelf) return;
+        if (FastRecoveryUI.Instance.gameObject.activeSelf) return;
+
+        AudioManager.Play("UI_Click");
+        InteractableManager.SetActiveInteractable(interactable);
         InteractableActionsUI.Toggle(true);
-        ToggleIcon(false);
     }
 
     private void ListenForNear() {
-        Vector3 playerPosition = IsometricCamera.instance.playerTransform.position;
-        Vector3 interactablePosition = interactable.GetComponent<BoxCollider>().center + interactable.interactableCamera.lookAtOffset;
-        //interactablePosition = interactable.transform.InverseTransformPoint(interactablePosition);
-
-        float dist = (interactablePosition - playerPosition).magnitude;
-        if (dist < InteractableManager.Instance.nearDistance)
+        if(interactable.PlayerIsNear() && show) {
             labelObject.SetActive(true);
-        else
+        }
+        else {
             labelObject.SetActive(false);
+        }
+
+        if (InteractablePath.isNextInteractable(interactable) && show)
+            labelObject.SetActive(true);
     }
 }

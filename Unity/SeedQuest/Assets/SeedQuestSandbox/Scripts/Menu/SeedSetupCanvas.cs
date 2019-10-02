@@ -19,27 +19,46 @@ public class SeedSetupCanvas : MonoBehaviour
     public TMP_InputField seedInputField;
     public TextMeshProUGUI warningTextTMP;
 
-    public void Back() 
+    private void Update()
     {
+        bool doUpdate = GetComponentInChildren<SeedStrSelection>(true).updateFlag;
+
+        if (doUpdate)
+        {
+            seedInputField.text = "";
+            checkInputSeed();
+            GetComponentInChildren<SeedStrSelection>().updateFlag = false;
+        }
+    }
+
+    public void Back() {
         MenuScreenV2.Instance.GoToStart();
     }
 
-    public void FindKey() 
-    {
+    public void FindKey() {
         EncodeSeed();
         MenuScreenV2.Instance.GoToEncodeSeed();
     }
 
-    public void SetRandomSeed()
-    {
+    public void SetRandomSeed() {
         InteractablePathManager.SetRandomSeed();
         seedInputField.text = InteractablePathManager.SeedString;
     }
 
-    public void SetRandomBIP39Seed()
-    {
+    public void SetRandomBIP39Seed() {
         InteractablePathManager.SetRandomSeed();
-        seedInputField.text = bpc.getSentenceFromHex(InteractablePathManager.SeedString);
+        if(InteractableConfig.SitesPerGame == 6)
+            seedInputField.text = bpc.getSentenceFromHex(InteractablePathManager.SeedString);
+        else
+        {
+            int wordCount = InteractableConfig.SitesPerGame * 2;
+            if (wordCount <= 0)
+                Debug.Log("Error: word count should not be less than or equal to zero");
+            Debug.Log("Word count: " + wordCount);
+
+            seedInputField.text = bpc.getShortSentenceFromHex(InteractablePathManager.SeedString, wordCount);
+        }
+
     }
 
     // Check the user's input to verify that it's a valid seed
@@ -73,7 +92,11 @@ public class SeedSetupCanvas : MonoBehaviour
             string seedFromInput = seedInputField.text;
             string hexSeed = "";
 
-            if (!SeedUtility.detectHex(seedFromInput) && SeedUtility.validBip(seedFromInput))
+            if (!SeedUtility.detectHex(seedFromInput) && SeedUtility.validBip(seedFromInput) && InteractableConfig.SitesPerGame < 6)
+            {
+                hexSeed = bpc.getHexFromShortSentence(seedFromInput, InteractableConfig.SitesPerGame * 2);
+            }
+            else if (!SeedUtility.detectHex(seedFromInput) && SeedUtility.validBip(seedFromInput))
             {
                 hexSeed = bpc.getHexFromSentence(seedFromInput);
             }
@@ -115,40 +138,41 @@ public class SeedSetupCanvas : MonoBehaviour
 
         string[] wordArray = seedString.Split(null);
 
-        if (seedString == "" || seedString.Length < 1)
-        {
+        if (seedString == "" || seedString.Length < 1) {
             deactivateCheckSymbols();
             warningTextTMP.text = "";
             validHex = false;
         }
-        else if (!validHex && wordArray.Length > 1 && wordArray.Length < 12)
+        else if (!validHex && wordArray.Length > 1 && wordArray.Length != ((InteractableConfig.SitesPerGame * 2 )) && InteractableConfig.SitesPerGame < 6)
         {
+            Debug.Log("array length: " + wordArray.Length + " word req: " + InteractableConfig.SitesPerGame * 2);
+            warningTextTMP.text = "Remember to add spaces between the words.";
+            warningTextTMP.color = new Color32(255, 20, 20, 255);
+            setRedWarning();
+        }
+        else if (!validHex && wordArray.Length > 1 && wordArray.Length < 12 && InteractableConfig.SitesPerGame == 6) {
             Debug.Log("array length: " + wordArray.Length);
             warningTextTMP.text = "Remember to add spaces between the words.";
             warningTextTMP.color = new Color32(255, 20, 20, 255);
             setRedWarning();
         }
-        else if (!validHex && wordArray.Length > 1 && !SeedUtility.validBip(seedString))
-        {
+        else if (!validHex && wordArray.Length > 1 && !SeedUtility.validBip(seedString)) {
             warningTextTMP.text = "Make sure the words are spelled correctly.";
             warningTextTMP.color = new Color32(255, 20, 20, 255);
             setRedWarning();
         }
-        else if (!validHex)
-        {
+        else if (!validHex) {
             warningTextTMP.text = "Character seeds must only contain hex characters.";
             warningTextTMP.color = new Color32(255, 20, 20, 255);
             setRedWarning();
         }
-        else if (seedString.Length < 33)
-        {
+        else if (seedString.Length < InteractableConfig.SeedHexLength) {
             validHex = false;
             warningTextTMP.text = "Not enough characters!";
             warningTextTMP.color = new Color32(255, 20, 20, 255);
             setRedWarning();
         }
-        else if (seedString.Length > 34)
-        {
+        else if (seedString.Length > InteractableConfig.SeedHexLength + 1) {
             validHex = false;
             warningTextTMP.text = "Too many characters!";
             warningTextTMP.color = new Color32(255, 20, 20, 255);

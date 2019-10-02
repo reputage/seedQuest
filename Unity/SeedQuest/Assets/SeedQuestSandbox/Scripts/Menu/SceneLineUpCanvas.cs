@@ -18,10 +18,19 @@ public class SceneLineUpCanvas : MonoBehaviour
         Initialize();
     }
 
+    public void Update() {
+        
+    }
+
     public void Initialize() {
 
+        int count = 0;
         foreach (Image outline in worldOutlines) {
             outline.gameObject.SetActive(false);
+
+            if(count >= InteractableConfig.SitesPerGame)
+                outline.transform.parent.gameObject.SetActive(false);
+            count++;
         }
 
         SetImages();
@@ -38,10 +47,8 @@ public class SceneLineUpCanvas : MonoBehaviour
         worldOutlines[index].gameObject.SetActive(true);
     }
 
-    public void SetImages()
-    {
-        for (int i = 0; i < 6; i++)
-        {
+    public void SetImages() {
+        for (int i = 0; i < InteractableConfig.SitesPerGame; i++) {
             worldImages[i].sprite = WorldManager.CurrentSceneList[i].preview;
             worldText[i].text = WorldManager.CurrentSceneList[i].name;
         }

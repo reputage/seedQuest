@@ -64,6 +64,8 @@ namespace SeedQuest.Interactables {
                 if(InteractablePath.PathComplete) {
                     GameManager.State = GameState.End;
                     EndGameUI.ToggleOn();
+                    if (InteractablePreviewUI.Show)
+                        InteractablePreviewUI.ToggleShow();
                 }
                 else if(LevelManager.IsMultiLevelGame && ShowLevelComplete) {
                     GameManager.State = GameState.Menu;

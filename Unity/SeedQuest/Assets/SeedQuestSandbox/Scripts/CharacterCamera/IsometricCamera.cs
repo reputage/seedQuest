@@ -88,7 +88,7 @@ public class IsometricCamera : MonoBehaviour
         Interactable interactable = InteractableManager.ActiveInteractable;
         Vector3 iOffset = interactable.GetComponent<BoxCollider>().center;
         Vector3 currentOffset = CameraZoom.GetCurrentZoomDistance(cameraDirection, interactable.interactableCamera.zoomDistance, distance);
-        Vector3 desiredPosition = interactable.transform.position + currentOffset;
+        Vector3 desiredPosition = interactable.transform.position + interactable.interactableCamera.positionOffset + currentOffset;
         Vector3 currentPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = currentPosition;
     }

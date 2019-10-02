@@ -28,11 +28,23 @@ public class GameManager : MonoBehaviour {
         set { Instance.mode = value; }
     }
 
-    private static bool graduatedMode = false;
-    public static bool GraduatedMode
+    private static bool[] graduatedFlags = new bool[6];
+    public static bool[] GraduatedFlags
     {
-        get { return graduatedMode; }
-        set { graduatedMode = value; }
+        get { return graduatedFlags; }
+        set { graduatedFlags = value; }
+    }
+
+    public static void ResetGraduatedRehearsal()
+    {
+        GraduatedFlags = new bool[6];
+    }
+
+    private static bool reviewMode = false;
+    public static bool ReviewMode
+    {
+        get { return reviewMode; }
+        set { reviewMode = value; }
     }
 
     private static bool tutorialMode = false;
@@ -69,6 +81,8 @@ public class GameManager : MonoBehaviour {
 
         if (InputManager.GetKeyDown(KeyCode.F) && state != GameState.Menu)
         {
+            if (Mode == GameMode.Rehearsal)
+                return;
             FastRecoveryUI.ToggleActive();
         }
     }

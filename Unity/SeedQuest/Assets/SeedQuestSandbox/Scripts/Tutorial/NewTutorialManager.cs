@@ -23,6 +23,7 @@ public class NewTutorialManager : MonoBehaviour
 
     void Awake()
     {
+        MenuScreenV2.Instance.DeactivateTopMenu();
         GameManager.Mode = GameMode.Rehearsal;
         GameManager.TutorialMode = true;
         canvas = GetComponentsInChildren<Canvas>(true);
@@ -41,6 +42,11 @@ public class NewTutorialManager : MonoBehaviour
 
     private void Update()
     {
+        if (currentCanvasIndex < 5)
+        {
+            GameManager.State = GameState.Menu;
+        }
+
         if (currentCanvasIndex == 2)
         {
             menuBar.gameObject.GetComponent<Canvas>().sortingOrder = 3;
@@ -48,6 +54,7 @@ public class NewTutorialManager : MonoBehaviour
 
         if (currentCanvasIndex == 5)
         {
+            GameManager.State = GameState.Play;
             menuBar.gameObject.GetComponent<Canvas>().sortingOrder = 1;
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (Vector3.Distance(playerStartPosition, player.transform.localPosition) > 0.037)
@@ -62,6 +69,7 @@ public class NewTutorialManager : MonoBehaviour
 
         if (currentCanvasIndex == 6)
         {
+            GameManager.State = GameState.Menu;
             minimapCanvas.sortingOrder = 3;
             sliderCanvas.sortingOrder = 3;
         }
@@ -83,7 +91,8 @@ public class NewTutorialManager : MonoBehaviour
 
 		else if (currentCanvasIndex == 10)
 		{
-			if (InteractableLog.Count > 0)
+            GameManager.State = GameState.Play;
+            if (InteractableLog.Count > 0)
 			{
 				NextCanvas();
 			}
@@ -111,27 +120,30 @@ public class NewTutorialManager : MonoBehaviour
 			{
 				InteractablePathManager.Reset();
 				InteractablePreviewUI.ToggleShow();
-				InteractableManager.UnHighlightAllInteractables();
-				InteractableManager.UnTrackAllInteractables();
 				ParticleSystem[] particles = FindObjectsOfType<ParticleSystem>();
 				foreach (ParticleSystem particle in particles)
 					particle.Stop();
+                InteractableActionsUI.Toggle(false);
+                InteractableManager.ResetLabelTrackers();
+                GameManager.State = GameState.Menu;
 				GoToCanvas(14);
 			}
 		}
 
 		else if (currentCanvasIndex == 14)
 		{
-
-			if (recall)
+            if (recall)
 			{
 				//Debug.Log(InteractableLog.Count);
 				if (InteractableLog.Count == 3)
 				{
-					GoToCanvas(15);
+                    GameManager.State = GameState.Menu;
+                    GoToCanvas(15);
 				}
 			}
-		}
+            else
+                GameManager.State = GameState.Menu;
+        }
     }
 
     public void NextCanvas()

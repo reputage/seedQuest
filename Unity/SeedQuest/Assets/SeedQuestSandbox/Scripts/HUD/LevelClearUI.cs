@@ -14,12 +14,14 @@ public class LevelClearUI : MonoBehaviour {
     static public void ToggleOn() {
         if (Instance.gameObject.activeSelf)
             return;
-
+        GameManager.GraduatedFlags[InteractableLog.CurrentLevelIndex - 1] = true;
         Instance.gameObject.SetActive(true);
+        GameManager.State = GameState.Menu;
     }
 
     static public void ToggleOff()
     {
+        GameManager.State = GameState.Play;
         Instance.gameObject.SetActive(false);
     }
 
@@ -38,6 +40,8 @@ public class LevelClearUI : MonoBehaviour {
 
         InteractablePathManager.ShowLevelComplete = false;
         GameManager.State = GameManager.PrevState;
+        if (GameManager.Mode == GameMode.Rehearsal)
+            InteractablePreviewUI.ToggleShow();
         ToggleOff();
     }
 }

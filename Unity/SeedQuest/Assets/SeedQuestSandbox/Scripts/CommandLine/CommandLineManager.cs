@@ -80,7 +80,7 @@ public static class CommandLineManager
     };
 
     // Initialize fuzzy scene name dictionary.
-    public static Dictionary<string, int> sceneIndeces = new Dictionary<string, int>
+    public static Dictionary<string, int> oldSceneIndeces = new Dictionary<string, int>
     {
         {"farm", 0},
         {"campground iso", 1}, 
@@ -98,6 +98,27 @@ public static class CommandLineManager
         {"space", 13},
         {"sorcerertower", 14}, 
         {"cafe", 15}
+    };
+
+    // Initialize fuzzy scene name dictionary.
+    public static Dictionary<string, int> newSceneIndeces = new Dictionary<string, int>
+    {
+        {"campground iso", 0},
+        {"cafe", 1},
+        {"castlebeach", 2},
+        {"arabianday", 3},
+        {"dinosafari", 4},
+        {"farm", 5},
+        {"hauntedhouse", 6},
+        {"sports", 7},
+        {"cliffsideiso", 8},
+        {"lab_iso", 9},
+        {"sorcerertower", 10},
+        {"pirateship_wreck", 11},
+        {"nonnabig_iso", 12},
+        {"saloonbiggeriso", 13},
+        {"snowland", 14},
+        {"space", 15}
     };
 
     // Here's a template for an example of a command. 
@@ -169,7 +190,7 @@ public static class CommandLineManager
             for (int i = 0 + actionsThisScene; i < InteractableConfig.ActionsPerSite; i++)
             {
                 Debug.Log("Auto-performing action " + (i + 1));
-                InteractableManager.SetActiveInteractable(InteractablePath.NextInteractable, InteractablePath.NextAction);
+                InteractableManager.SetActiveInteractable(InteractablePath.NextInteractable);
                 InteractableLog.Add(InteractablePath.NextInteractable, InteractablePath.NextAction);
                 InteractablePath.GoToNextInteractable();
             }
@@ -212,21 +233,19 @@ public static class CommandLineManager
         {
             return "Please enter at least one scene name for the custom learn path.";
         }
-        Debug.Log("Input: " + input);
-        Debug.Log("String input length: " + stringInputs.Length);
 
         for (int i = 0; i < InteractableConfig.SitesPerGame; i++)
         {
             // queue up the scenes entered by user into a seed
             if (i < stringInputs.Length)
             {
-                if (sceneIndeces.ContainsKey(stringInputs[i]))
+                if (newSceneIndeces.ContainsKey(stringInputs[i]))
                 {
-                    scenes[i] = sceneIndeces[stringInputs[i]];
+                    scenes[i] = newSceneIndeces[stringInputs[i]];
                 }
                 else if (fuzzySceneNames.ContainsKey(stringInputs[i]))
                 {
-                    scenes[i] = sceneIndeces[fuzzySceneNames[stringInputs[i]]];
+                    scenes[i] = newSceneIndeces[fuzzySceneNames[stringInputs[i]]];
                 }
                 else
                 {
@@ -397,7 +416,7 @@ public static class CommandLineManager
     {
         if (InteractablePath.NextInteractable != null && GameManager.Mode == GameMode.Rehearsal)
         {
-            InteractableManager.SetActiveInteractable(InteractablePath.NextInteractable, InteractablePath.NextAction);
+            InteractableManager.SetActiveInteractable(InteractablePath.NextInteractable);
             InteractableLog.Add(InteractablePath.NextInteractable, InteractablePath.NextAction);
             InteractablePath.GoToNextInteractable();
         }
@@ -461,8 +480,6 @@ public static class CommandLineManager
                 item.ActionIndex = 0;
                 InteractableState state = item.stateData.states[item.ActionIndex];
                 state.enterState(item);
-                //item.HighlightInteractable(true, true);
-                item.interactableUI.SetActionUI(item.ActionIndex);
                 return "resetting interactable at site: " + intInput[0] + " and spot: " + intInput[1];
             }
         }

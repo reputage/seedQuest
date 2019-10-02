@@ -13,16 +13,33 @@ public static class SeedUtility
         BIP39Converter bpc = new BIP39Converter();
         string hex = "";
 
-        try
+        if (InteractableConfig.SitesPerGame < 6)
         {
-            hex = bpc.getHexFromSentence(seed);
+            try
+            {
+                hex = bpc.getHexFromShortSentence(seed, InteractableConfig.SitesPerGame * 2);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Exception: " + e);
+                return false;
+            }
+            string[] words = seed.Split(null);
+            if (words.Length != InteractableConfig.SitesPerGame * 2)
+                return false;
         }
-        catch (Exception e)
+        else
         {
-            Debug.Log("Exception: " + e);
-            return false;
+            try
+            {
+                hex = bpc.getHexFromSentence(seed);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Exception: " + e);
+                return false;
+            }
         }
-
         return true;
     }
 

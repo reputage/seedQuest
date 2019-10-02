@@ -43,15 +43,15 @@ public class InteractableCameraRig : MonoBehaviour
         if (interactable.interactablePreview.previewPrefab != null)
         {
             previewChild = Instantiate(interactable.interactablePreview.previewPrefab, previewObject.transform);
+            Destroy(previewChild.GetComponent<Interactable>());
         }
         else
         {
             previewChild = Instantiate(interactable.gameObject, previewObject.transform);
+            Destroy(previewChild.GetComponent<Interactable>());
 
             // Destroy InteractableUI and Remove Highlights
             Interactable previewInteractable = previewChild.GetComponent<Interactable>();
-            previewInteractable.DeleteUI();
-            //previewInteractable.HighlightInteractableWithEffect(false);
             Destroy(previewInteractable);
         }
 
@@ -95,8 +95,8 @@ public class InteractableCameraRig : MonoBehaviour
         if (previewProps != null)
         {
             Interactable interactable = previewChild.GetComponent<Interactable>();
-            if (interactable != null)
-                interactable.HighlightInteractable(false);
+            //if (interactable != null)
+            //    interactable.HighlightInteractable(false);
 
             previewChild.transform.localPosition = previewProps.position;
             previewChild.transform.localRotation = Quaternion.Euler(previewProps.rotation);

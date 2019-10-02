@@ -87,7 +87,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8034654880556672499}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2943289204979943875}
@@ -164,7 +164,13 @@ MonoBehaviour:
     useRotateToCamera: 1
     rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 0, z: 0}
+    buttonOffset: {x: 0, y: 0, z: 0}
+    labelOffset: {x: 0, y: 0, z: 0}
+    scalingCoefficient: 0
     debugActionUI: {fileID: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
   interactableTracker:
     positionOffset: {x: 0, y: 0, z: 0}
     screenPositionOffset: {x: 0, y: 0}
@@ -174,7 +180,6 @@ MonoBehaviour:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    fontSize: 36
     useOrthographic: 1
     fieldOfView: 60
     orthographicSize: 1
@@ -196,6 +201,7 @@ MonoBehaviour:
     siteID: 0
     spotID: 0
     actionID: 0
+  defaultShader: {fileID: 0}
   interactDistance: 2
   flagDeleteUI: 0
 --- !u!1001 &435428260481145675
