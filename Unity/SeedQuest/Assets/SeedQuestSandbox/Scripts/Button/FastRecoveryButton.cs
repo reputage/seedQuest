@@ -13,77 +13,62 @@ public class FastRecoveryButton : MonoBehaviour, IPointerDownHandler, IPointerUp
     private float time;
     private bool progressCompleted;
     private Image progress;
+    private float buttonLength;
 
-    public void Start()
-    {
+    public void Start() {
         progressCompleted = false;
         progress = gameObject.transform.GetChild(0).GetComponent<Image>();
+        buttonLength = gameObject.GetComponent<RectTransform>().sizeDelta.x;
     }
 
-    public void Update()
-    {
+    public void Update() {
         CheckForButtonDown();       
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
+    public void OnPointerDown(PointerEventData eventData) {
         buttonPressed = true;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
+    public void OnPointerUp(PointerEventData eventData) {
         buttonPressed = false;
         progressCompleted = false;
         time = 0.0f;
-        progress.GetComponent<RectTransform>().offsetMax = new Vector2(-360, progress.GetComponent<RectTransform>().offsetMax.y);
-
+        progress.GetComponent<RectTransform>().offsetMax = new Vector2(-buttonLength, progress.GetComponent<RectTransform>().offsetMax.y);
     }
 
-    public Interactable Interactable
-    {
+    public Interactable Interactable {
         get { return interactable; }
         set { interactable = value; }
     }
 
-    public int ActionIndex
-    {
+    public int ActionIndex {
         get { return actionIndex; }
         set { actionIndex = value; }
     }
 
-    public void CheckForButtonDown()
-    {
-        if (buttonPressed && !progressCompleted)
-        {
+    public void CheckForButtonDown() {
+        if (buttonPressed && !progressCompleted) {
             time += Time.deltaTime;
-            if (time >= 0.2f)
-            {
-                float progressPosition = 360 * (-1 + (time - 0.2f / 1.0f));
+            if (time >= 0.2f) {
+                interactable.PreviewAction(actionIndex);
+
+                float progressPosition = buttonLength * (-1 + (time - 0.2f / 1.0f));
+
                 RectTransform progressTransform = progress.GetComponent<RectTransform>();
                 progressTransform.offsetMax = new Vector2(progressPosition, progressTransform.offsetMax.y);
-                if (time >= 1.2f)
-                {
-                    if (GameManager.Mode == GameMode.Rehearsal)
-                    {
-                        if (interactable.ID == InteractablePath.NextInteractable.ID && actionIndex == InteractablePath.NextAction)
-                        {
-                            InteractableManager.SetActiveInteractable(interactable, actionIndex);
-                            interactable.SelectAction(actionIndex);
-                            InteractablePath.GoToNextInteractable();
-                        }
-                    }
-                    else
-                        interactable.SelectAction(actionIndex);
+
+                if (time >= 1.2f) {
+                    interactable.SelectAction(actionIndex);
+
                     progressCompleted = true;
-                    progressTransform.offsetMax = new Vector2(-360, progressTransform.offsetMax.y);
+                    progressTransform.offsetMax = new Vector2(-buttonLength, progressTransform.offsetMax.y);
                     time = 0.0f;
                 }
             }
         }
-        else
-        {
+        else {
             RectTransform progressTransform = progress.GetComponent<RectTransform>();
-            progressTransform.offsetMax = new Vector2(-360, progressTransform.offsetMax.y);
+            progressTransform.offsetMax = new Vector2(-buttonLength, progressTransform.offsetMax.y);
             time = 0.0f;
             EventSystem.current.SetSelectedGameObject(null);
         }

@@ -38,6 +38,7 @@ public class DebugScreen : MonoBehaviour
         DebugSeedUtility.debugLearnRun = true;
         DebugSeedUtility.debugLearnRand = false;
         MenuScreenV2.Instance.GoToEncodeSeed();
+        MenuScreenV2.Instance.DeactivateTopMenu();
     }
 
     public void GoToEncodeDebugRand()
@@ -46,6 +47,7 @@ public class DebugScreen : MonoBehaviour
         DebugSeedUtility.debugLearnRun = true;
         DebugSeedUtility.debugLearnRand = true;
         MenuScreenV2.Instance.GoToEncodeSeed();
+        MenuScreenV2.Instance.DeactivateTopMenu();
     }
 
 

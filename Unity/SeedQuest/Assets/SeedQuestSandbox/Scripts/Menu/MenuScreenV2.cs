@@ -24,6 +24,8 @@ public class MenuScreenV2 : MonoBehaviour
     private Canvas actionLineUpCanvas;
     private Canvas debugCanvas;
 
+    public GameObject topMenu;
+
     void Awake() {
         SetComponentReferences();
     }
@@ -66,6 +68,7 @@ public class MenuScreenV2 : MonoBehaviour
         state = MenuScreenStates.Start;
         ResetCanvas();
         startCanvas.gameObject.SetActive(true);
+        topMenu.SetActive(true);
     }
 
     public void SetModeLearnSeed() {
@@ -89,6 +92,7 @@ public class MenuScreenV2 : MonoBehaviour
         ResetCanvas();
         encodeSeedCanvas.gameObject.SetActive(true);
         encodeSeedCanvas.gameObject.GetComponent<EncodeSeedCanvas>().resetCanvas();
+        encodeSeedCanvas.gameObject.GetComponent<EncodeSeedCanvas>().resetSeedStr();
         LevelSetManager.ResetCurrentLevels();
         WorldManager.Reset();
     }
@@ -97,6 +101,7 @@ public class MenuScreenV2 : MonoBehaviour
         GameManager.State = GameState.Menu;
         state = MenuScreenStates.SceneLineUp;
         ResetCanvas();
+        topMenu.SetActive(false);
         sceneLineUpCanvas.GetComponent<SceneLineUpCanvas>().ToggleOn();
         sceneLineUpCanvas.GetComponent<SceneLineUpCanvas>().StartScene();
     }
@@ -128,5 +133,10 @@ public class MenuScreenV2 : MonoBehaviour
     public void GoToDebugCanvas() {
         ResetCanvas();
         debugCanvas.gameObject.SetActive(true);
+    }
+
+    public void DeactivateTopMenu()
+    {
+        topMenu.SetActive(false);
     }
 }

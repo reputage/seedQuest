@@ -22,6 +22,13 @@ namespace SeedQuest.Interactables
             actionIndex = _actionIndex;
         }
 
+        public InteractableLogItem(int _siteIndex, int _interactableIndex, int _actionIndex)
+        {
+            siteIndex = _siteIndex;
+            interactableIndex = _interactableIndex;
+            actionIndex = _actionIndex;
+        }
+
         public int SiteIndex { get => siteIndex; }
 
         public int InteractableIndex { get => interactableIndex;  }
@@ -76,6 +83,15 @@ namespace SeedQuest.Interactables
         /// <summary> Add an Interactable to Log </summary>
         static public void Add(Interactable interactable, int actionIndex) {
             Instance.log.Add(new InteractableLogItem(interactable, actionIndex));
+
+            if (GameManager.Mode == GameMode.Recall && PathLevelComplete)
+                InteractablePathManager.ShowLevelComplete = true;
+        }
+
+        /// <summary> Add an Interactable to Log </summary>
+        static public void Add(int siteIndex, int interactableIndex, int actionIndex)
+        {
+            Instance.log.Add(new InteractableLogItem(siteIndex, interactableIndex, actionIndex));
 
             if (GameManager.Mode == GameMode.Recall && PathLevelComplete)
                 InteractablePathManager.ShowLevelComplete = true;

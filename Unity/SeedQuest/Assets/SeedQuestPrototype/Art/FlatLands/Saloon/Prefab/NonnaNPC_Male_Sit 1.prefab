@@ -69,6 +69,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -148,6 +149,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -225,6 +227,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -249,7 +252,7 @@ GameObject:
   - component: {fileID: 6303365193471919778}
   - component: {fileID: 6169333873819679173}
   m_Layer: 0
-  m_Name: NPC_Male_Sit
+  m_Name: NonnaNPC_Male_Sit 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,28 +301,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74d45b3e5e757f459d492bcc7a88370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateData: {fileID: 11400000, guid: 7f5cf306746ac254f890aa046eda2b5a, type: 2}
+  stateData: {fileID: 0}
   interactableUI:
+    name: 
     fontSize: 36
     scaleSize: 1
     mode: 2
     useRotateToCamera: 1
     rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 1, z: 0}
+    buttonOffset: {x: 0, y: 0, z: 0}
+    labelOffset: {x: 0, y: 0, z: 0}
+    scalingCoefficient: 0
+    debugActionUI: {fileID: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactableTracker:
+    positionOffset: {x: 0, y: 0, z: 0}
+    screenPositionOffset: {x: 0, y: 0}
+    screenWobbleDirection: {x: 0, y: 1}
+    screenRotation: 0
   interactablePreview:
     scale: {x: 0.6, y: 0.6, z: 0.6}
     position: {x: 0, y: 0, z: 0}
     rotation: {x: -20, y: 35, z: -15}
-    fontSize: 36
     useOrthographic: 1
     fieldOfView: 60
     orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  interactableHighlights:
+    useHighlightsShader: 1
+    highlightColor: {r: 1, g: 1, b: 1, a: 1}
+    highlightPower: 0.2
+    rimColor: {r: 1, g: 1, b: 1, a: 1}
+    rimExponent: 3
+    rimPower: 0.6
+    outlineColor: {r: 1, g: 1, b: 1, a: 1}
+    outlineWidth: 0.02
+    outlinePower: 0.2
+    dynamicFlashSpeed: 0.5
   ID:
     siteID: 0
     spotID: 0
     actionID: 0
-  currentStateID: 0
+  defaultShader: {fileID: 0}
   interactDistance: 2
+  flagDeleteUI: 0
 --- !u!1 &782491831
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,6 +415,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -454,7 +485,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100002, guid: add57ce09d21a444f96cfc3a523364b4, type: 3}
+  - {fileID: 2100000, guid: 53f4e035488897847b236268eef6abbe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -462,6 +493,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -539,6 +571,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -616,6 +649,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -693,6 +727,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -770,6 +805,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -847,6 +883,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

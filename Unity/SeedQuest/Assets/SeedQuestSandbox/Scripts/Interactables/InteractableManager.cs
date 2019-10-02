@@ -16,7 +16,6 @@ namespace SeedQuest.Interactables
         }
 
         public float nearDistance = 4.0f;
-        public float nearDistanceForZoom = 4.0f;
         public GameObject interactableLabelUI;
         public GameObject[] actionSpotIcons; // InteractableUI Prefab Templates
         public Interactable activeInteractable = null;
@@ -29,8 +28,7 @@ namespace SeedQuest.Interactables
             get { return Instance.activeInteractable; }
         }
 
-        private void Awake()
-        {
+        private void Awake() {
             //InitalizeLookUp();
         }
 
@@ -44,27 +42,8 @@ namespace SeedQuest.Interactables
             }
         }
 
-        private void ListenForNear() {
-            foreach (Interactable item in InteractableList)
-            {
-                Vector3 playerPosition = PlayerCtrl.PlayerTransform.position;
-                float dist = (item.transform.position - playerPosition).magnitude;
-                if (dist < Instance.nearDistanceForZoom)
-                    doNearInteractable(true);
-                else
-                    doNearInteractable(false);
-            }
-        }
-
-        static void doNearInteractable(bool isNear) {
-            
-        }
-
-
-        static public void SetActiveInteractable(Interactable interactable, int actionId)
-        {
+        static public void SetActiveInteractable(Interactable interactable) {
             Instance.activeInteractable = interactable;
-            //interactable.HighlightInteractable(true);
 
             if ((GameManager.Mode == GameMode.Sandbox || GameManager.Mode == GameMode.Recall) && interactable != null)
                 InteractablePreviewUI.SetPreviewObject(interactable, InteractablePath.Instance.actionIds[InteractablePath.Instance.nextIndex]); 
@@ -72,13 +51,11 @@ namespace SeedQuest.Interactables
 
         private Interactable[,] interactableLUT;
 
-        static public Interactable[] InteractableList
-        {
+        static public Interactable[] InteractableList {
             get { return FindAllInteractables(); }
         }
 
-        static int CompareInteractableName(Interactable inter1, Interactable inter2)
-        {
+        static int CompareInteractableName(Interactable inter1, Interactable inter2) {
             return inter1.gameObject.name.CompareTo(inter1.gameObject.name);
         }
 
@@ -87,6 +64,15 @@ namespace SeedQuest.Interactables
             Interactable[] items = GameObject.FindObjectsOfType<Interactable>();
             System.Array.Sort(items, CompareInteractableName);
             return items;
+        }
+
+        static public void ResetLabelTrackers()
+        {
+            Interactable[] interactables = GameObject.FindObjectsOfType<Interactable>();
+            foreach (Interactable interactable in interactables)
+            {
+                interactable.ResetInteractableLabelTrackerIcon();
+            }
         }
 
         static public void Reset() {
@@ -98,44 +84,6 @@ namespace SeedQuest.Interactables
                 interactable.Delete();
             }
         }
-
-        static public void deleteAllInteractableUI() {
-            foreach (Interactable interactable in FindAllInteractables())
-                interactable.DeleteUI(); 
-        }
-
-        static public void resetInteractableUIText() {
-            foreach (Interactable interactable in FindAllInteractables())
-                interactable.interactableUI.SetText(interactable.Name);
-        }
-
-        /// <summary> Hides all UI Canvas for Interactables </summary>
-        static public void hideAllInteractableUI()
-        {
-            foreach(Interactable interactable in FindAllInteractables()) {
-                interactable.interactableUI.hideActions();
-            }
-        }
-
-        static public void HighlightAllInteractables() {
-            foreach(Interactable interactable in FindAllInteractables()) 
-                interactable.HighlightInteractable(true);
-        }
-
-        static public void UnHighlightAllInteractables()
-        {
-            foreach (Interactable interactable in FindAllInteractables())
-                interactable.HighlightInteractable(false);
-        }
-
-        static public void UnTrackAllInteractables()
-        {
-            foreach (Interactable interactable in FindAllInteractables())
-            {
-                interactable.interactableUI.ToggleTracker(false);
-            }
-        }
-
 
         /// <summary> Initalize LookUp Table for querying interactable based on siteID and spotID  </summary>
         static public void InitalizeLookUp()

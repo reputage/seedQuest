@@ -139,14 +139,24 @@ namespace SeedQuest.Interactables
 
                 Instance.nextIndex++;
 
-                if (PathLevelComplete)
-                    InteractablePathManager.ShowLevelComplete = true;
+                if (PathLevelComplete) {
+                    if (GameManager.TutorialMode)
+                    {
+                        return;
+                    }
+
+                    if (GameManager.ReviewMode == false ) {
+                        GameManager.ReviewMode = true;
+                        FastRecoveryUI.Instance.StartFastRehearsal();
+                    }
+                    else
+                        InteractablePathManager.ShowLevelComplete = true;
+                }
 
                 if(NextInteractable != null)
                     InitializeNextInteractable();
             }
-            else if (GameManager.Mode == GameMode.Rehearsal && NextInteractable != InteractableManager.ActiveInteractable)
-            {
+            else if (GameManager.Mode == GameMode.Rehearsal && NextInteractable != InteractableManager.ActiveInteractable) {
                 Debug.Log("Next interactable is not the current active interactable.");
             }
         }
@@ -156,17 +166,9 @@ namespace SeedQuest.Interactables
             if (NextInteractable == null) return;
 
             if (GameManager.Mode == GameMode.Rehearsal) {
-                NextInteractable.interactableUI.ToggleTracker(true);
-
-                InteractableManager.UnHighlightAllInteractables();
-                //NextInteractable.HighlightInteractableWithEffect(true);
+                NextInteractable.SetInteractableLabelTrackerIcon();
                 InteractablePreviewUI.SetPreviewObject(NextInteractable, Instance.actionIds[Instance.nextIndex]);
                 InteractablePreviewUI.SetPreviewAction(Instance.actionIds[Instance.nextIndex]);
-
-                if (InteractableManager.Instance.useSingleTracker && Instance.nextIndex % 3 != 0)
-                {
-                    Instance.path[Instance.nextIndex - 1].interactableUI.ToggleTracker(false);
-                }
             }
         }
     }

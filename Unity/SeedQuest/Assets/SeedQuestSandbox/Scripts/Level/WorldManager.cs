@@ -20,7 +20,6 @@ public class WorldManager : MonoBehaviour
 
     /// <summary> Adds world scene with index </summary>
     static public void Add(int index) {
-        Debug.Log("Adding to current scenes");
         Instance.currentScenes.Add(Instance.worldSceneList.worldScenes[index]);
     }
 

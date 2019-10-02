@@ -7,7 +7,7 @@ using SeedQuest.Interactables;
 
 public class GraduatedRehearsal : MonoBehaviour
 {
-    private int currentLogLength;
+    /*private int currentLogLength;
     public void Start()
     {
         if (GameManager.Mode == GameMode.Rehearsal && GameManager.GraduatedMode)
@@ -34,5 +34,5 @@ public class GraduatedRehearsal : MonoBehaviour
     {
         currentLogLength = InteractableLog.Count;
         InteractablePreviewUI.ToggleShow();
-    }
+    }*/
 }

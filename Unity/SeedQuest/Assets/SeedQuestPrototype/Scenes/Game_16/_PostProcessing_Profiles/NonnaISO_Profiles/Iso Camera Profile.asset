@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7115135872909873809
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
+  m_Name: AmbientOcclusion
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  mode:
+    overrideState: 1
+    value: 1
+  intensity:
+    overrideState: 1
+    value: 0.79
+  color:
+    overrideState: 1
+    value: {r: 0, g: 0, b: 0, a: 1}
+  ambientOnly:
+    overrideState: 1
+    value: 1
+  noiseFilterTolerance:
+    overrideState: 1
+    value: 0
+  blurTolerance:
+    overrideState: 1
+    value: -4.6
+  upsampleTolerance:
+    overrideState: 1
+    value: -12
+  thicknessModifier:
+    overrideState: 1
+    value: 2.93
+  directLightingStrength:
+    overrideState: 1
+    value: 0.455
+  radius:
+    overrideState: 1
+    value: 0.25
+  quality:
+    overrideState: 1
+    value: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,7 +64,7 @@ MonoBehaviour:
   settings:
   - {fileID: 114365515895394768}
   - {fileID: 114308192083105862}
-  - {fileID: 8352989600244305226}
+  - {fileID: -7115135872909873809}
 --- !u!114 &114308192083105862
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1374,52 +1423,3 @@ MonoBehaviour:
   dirtIntensity:
     overrideState: 1
     value: 0
---- !u!114 &8352989600244305226
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
-  m_Name: AmbientOcclusion
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  mode:
-    overrideState: 1
-    value: 1
-  intensity:
-    overrideState: 1
-    value: 4
-  color:
-    overrideState: 1
-    value: {r: 0.09594163, g: 0.13104393, b: 0.20754719, a: 1}
-  ambientOnly:
-    overrideState: 1
-    value: 1
-  noiseFilterTolerance:
-    overrideState: 1
-    value: 0
-  blurTolerance:
-    overrideState: 1
-    value: -4.6
-  upsampleTolerance:
-    overrideState: 1
-    value: -12
-  thicknessModifier:
-    overrideState: 1
-    value: 10
-  directLightingStrength:
-    overrideState: 1
-    value: 1
-  radius:
-    overrideState: 1
-    value: 0.25
-  quality:
-    overrideState: 1
-    value: 2

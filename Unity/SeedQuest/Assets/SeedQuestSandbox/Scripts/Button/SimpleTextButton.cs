@@ -10,13 +10,17 @@ public class SimpleTextButton : MonoBehaviour
     public Color32 defaultColor = Color.black;
     public Color32 hoverColor = Color.black;
 
-    public void Awake()
-    {
+    public void Awake() {
         SetButtonHoverEvents();
     }
 
-    public void SetButtonHoverEvents()
-    {
+    public void Start() {
+        TextMeshProUGUI text = GetComponentInChildren<TextMeshProUGUI>();
+        if (text != null)
+            text.color = defaultColor; 
+    }
+
+    public void SetButtonHoverEvents() {
         EventTrigger trigger = GetComponent<EventTrigger>();
         if (trigger == null) {
             gameObject.AddComponent<EventTrigger>();
@@ -34,8 +38,7 @@ public class SimpleTextButton : MonoBehaviour
         trigger.triggers.Add(exit);
     }
 
-    private void OnHoverEnter()
-    {
+    private void OnHoverEnter() {
         TextMeshProUGUI text = GetComponentInChildren<TextMeshProUGUI>();
         if (text != null)
             text.color = hoverColor;
@@ -45,8 +48,7 @@ public class SimpleTextButton : MonoBehaviour
         AudioManager.Play("UI_Hover");
     }
 
-    private void OnHoverExit()
-    {
+    private void OnHoverExit() {
         TextMeshProUGUI text = GetComponentInChildren<TextMeshProUGUI>();
         if (text != null)
             text.color = defaultColor;

@@ -38,6 +38,12 @@ namespace SeedQuest.Interactables
             // Update with Prefab
             if (prefab != null) {
                 GameObject _prefab = GameObject.Instantiate(prefab, item.transform);
+
+                // Destroy Interactable components in prefab
+                foreach (Interactable i in _prefab.GetComponentsInChildren<Interactable>(true)) {
+                    GameObject.Destroy(i);
+                }
+
                 _prefab.transform.position += positionOffset;
                
                 if (item.GetComponent<MeshFilter>() != null)

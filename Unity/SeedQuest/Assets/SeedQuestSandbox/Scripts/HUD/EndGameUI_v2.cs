@@ -126,7 +126,7 @@ public class EndGameUI_v2 : MonoBehaviour
         SeedQuest.Level.LevelManager.Instance.StopLevelMusic();
         MenuScreenManager.ActivateStart();
         gameObject.SetActive(false);
-        GameManager.GraduatedMode = false;
+        GameManager.ResetGraduatedRehearsal();
     }
 
     public void ResetPlaythrough()
@@ -134,7 +134,6 @@ public class EndGameUI_v2 : MonoBehaviour
         InteractablePathManager.Reset();
         MenuScreenManager.ActivateSceneLineUp();
         gameObject.SetActive(false);
-        GameManager.GraduatedMode = true;
     }
 
     public void copySeed()
