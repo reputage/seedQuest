@@ -14,7 +14,7 @@ You can find the latest version of the SeedQuest [here](https://github.com/reput
 
 To report issues with the application or bugs, please use the [Issues Page](https://github.com/reputage/seedQuest/issues).
  
-For help with SeedQuest or talk with developers about this project, visit our [Slack Channel](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWQwYmIwMjIyYTEwZGJjYzNhY2RhNjlhZWE2MDVkOThmMTU5MDhlMTkyZGViNGUyNjYyNTVkYjYyNmRmM2YyZTI). 
+For help with SeedQuest or talk with developers about this project, visit our [Slack Channel](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWU3YzMxOGNkYWZkZjUzYTYzYzgzYjBjOTg3MjJhOWE5ZjM1Y2EyNzUwZmNhMzFlMTI2ODk5NzRiYTA4OTVlODg). 
 
 ### Lastest News
 
@@ -26,7 +26,7 @@ In SeedQuest, the player will visit a few different locations and perform variou
 
 ## SeedQuest Community
 
-SeedQuest is an open source project and we want to grow a community of people working on and activately improving the SeedQuest game. We welcome feedback on the project. To facilitate this we have created a Slack channel (seedquest.slack.com) that anyone can join. Join the Slack channel [here](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWQwYmIwMjIyYTEwZGJjYzNhY2RhNjlhZWE2MDVkOThmMTU5MDhlMTkyZGViNGUyNjYyNTVkYjYyNmRmM2YyZTI). 
+SeedQuest is an open source project and we want to grow a community of people working on and activately improving the SeedQuest game. We welcome feedback on the project. To facilitate this we have created a Slack channel (seedquest.slack.com) that anyone can join. Join the Slack channel [here](https://join.slack.com/t/seedquest/shared_invite/enQtNDgyMjUyNzQ2OTAxLWU3YzMxOGNkYWZkZjUzYTYzYzgzYjBjOTg3MjJhOWE5ZjM1Y2EyNzUwZmNhMzFlMTI2ODk5NzRiYTA4OTVlODg). 
 
 ## Collaboration
 
