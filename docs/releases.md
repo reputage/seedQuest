@@ -1,11 +1,16 @@
 ![Logo](https://github.com/reputage/seedQuest/blob/master/media/SeedQuestLogo-Github.png)
 
-![SeedQuest-V0.2.8](https://img.shields.io/badge/SeedQuest(beta)-V0.2.8-orange.svg)
+![SeedQuest-V0.2.9](https://img.shields.io/badge/SeedQuest(beta)-V0.2.9-orange.svg)
 ![Platforms-MacOS-Windows](https://img.shields.io/badge/Platform-MacOS%20%7C%20Windows-blue.svg)
 
 # Releases
 
 The following are the links to the releases of SeedQuest: [Mac, PC](https://github.com/reputage/seedQuest/releases)
+
+### SeedQuest v0.2.9
+- Interactable Asset Improvements
+- Stability Updates
+- Bug Fixes
 
 ### SeedQuest v0.2.8
 - UI Updates
