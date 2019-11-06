@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Farm_Horses
   m_EditorClassIdentifier: 
-  interactableName: Gary the Horse
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Gary the Horse
+    positionOffset: {x: 0, y: 4.55, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 3, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 15
+  interactablePreview:
+    scale: {x: 0.6, y: 0.6, z: 0.6}
+    position: {x: 0.5, y: -1, z: 0}
+    rotation: {x: 0, y: 45, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 2
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 4
+    actionID: 0
   states:
   - actionName: Put Saddle On
     prefab: {fileID: 4054183081290729917, guid: 9972b46506d58604487b97f51a56410a,

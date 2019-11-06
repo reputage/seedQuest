@@ -82,7 +82,7 @@ public class InteractableTrackerUI : MonoBehaviour
 
     /// <summary> Activates/Deactivates the tracker and arrow gameobjects </summary>
     private void SetActive() {
-        if (GameManager.GraduatedFlags[InteractableLog.CurrentLevelIndex] == true) {
+        if (InteractableLog.CurrentLevelIndex < GameManager.GraduatedFlags.Length && GameManager.GraduatedFlags[InteractableLog.CurrentLevelIndex] == true) {
             tracker.gameObject.SetActive(false);
             arrow.gameObject.SetActive(false);
             return;

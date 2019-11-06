@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: DinoEggState
   m_EditorClassIdentifier: 
-  interactableName: Dino Egg
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Dino Egg
+    positionOffset: {x: 0, y: 3, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0.6, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 0.4, y: 0.4, z: 0.4}
+    position: {x: 0, y: -0.28, z: -1.37}
+    rotation: {x: -25, y: 0, z: -2.07}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 4
+    spotID: 12
+    actionID: 0
   states:
   - actionName: Speckled Egg
     prefab: {fileID: 5724289026626159298, guid: 5b9c08141575bed488af31407f0774da,

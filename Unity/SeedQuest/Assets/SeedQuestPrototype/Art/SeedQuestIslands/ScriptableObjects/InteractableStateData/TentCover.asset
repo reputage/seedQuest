@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: TentCover
   m_EditorClassIdentifier: 
-  interactableName: TentCover
-  prompt: 
-  labelPosOffset: {x: 0, y: 2, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: TentCover
+    positionOffset: {x: 0, y: 2.95, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 100, y: 100, z: 100}
+    position: {x: 0.12, y: 0.02, z: 1.05}
+    rotation: {x: -89.5, y: 134.19, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 13
+    actionID: 0
   states:
   - actionName: Color Red
     prefab: {fileID: 935398865374356219, guid: 1f65a0c4fb7d4874299c6d373ae0d7f4, type: 3}

@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: CactusState
   m_EditorClassIdentifier: 
-  interactableName: Cactus
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Cactus
+    positionOffset: {x: 0, y: 6, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 3.7, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 0.4, y: 0.4, z: 0.4}
+    position: {x: 0, y: -0.7, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 11
+    spotID: 1
+    actionID: 0
   states:
   - actionName: Flower Cactus
     prefab: {fileID: 1131393680845914122, guid: e4331b723e60241478d308879ce77ea2,

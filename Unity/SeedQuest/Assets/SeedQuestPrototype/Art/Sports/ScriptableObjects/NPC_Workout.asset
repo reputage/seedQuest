@@ -12,12 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: NPC_Workout
   m_EditorClassIdentifier: 
-  interactableName: Workout
-  prompt: 
-  labelPosOffset: {x: 0.75, y: 4, z: -2}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Workout
+    positionOffset: {x: 1, y: 2.42, z: -2}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 1.6, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: -0.12, y: -2.34, z: 1.69}
+    rotation: {x: 0, y: 34.37, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 5
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 6
+    spotID: 9
+    actionID: 0
   states:
-  - actionName: Just The Bar
-    prefab: {fileID: 109430776807929897, guid: 12d931d27220c4b2fa6e86a498751038, type: 3}
+  - actionName: Light Weights
+    prefab: {fileID: 4974170445361750368, guid: 875c86e38d0926a4f9b3ed07169a1b56,
+      type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
     material: {fileID: 0}
@@ -33,8 +54,9 @@ MonoBehaviour:
       source: {fileID: 0}
     particleEffectName: 
     particleEffect: {fileID: 0}
-  - actionName: Warmup
-    prefab: {fileID: 109430776807929897, guid: a26ef67172c7944409efc1103f0f1aa1, type: 3}
+  - actionName: Heavy Weights
+    prefab: {fileID: 4974170445361750368, guid: cc6f9a7e0d9f7e642b8ea77a8f00df91,
+      type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
     material: {fileID: 0}
@@ -50,8 +72,9 @@ MonoBehaviour:
       source: {fileID: 0}
     particleEffectName: 
     particleEffect: {fileID: 0}
-  - actionName: Max Out
-    prefab: {fileID: 109430776807929897, guid: 30c66060449ad40b7b6e086a93d63120, type: 3}
+  - actionName: Break the Record
+    prefab: {fileID: 4974170445361750368, guid: 26d499cd6e1ed7d43995ce1930171a68,
+      type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
     material: {fileID: 0}
@@ -67,8 +90,9 @@ MonoBehaviour:
       source: {fileID: 0}
     particleEffectName: 
     particleEffect: {fileID: 0}
-  - actionName: World Record
-    prefab: {fileID: 109430776807929897, guid: 4a3c876c4e9774c2386832135729b544, type: 3}
+  - actionName: Struggle
+    prefab: {fileID: 4974170445361750368, guid: 1681ca4d9734eb243aada0dae46b569e,
+      type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
     material: {fileID: 0}

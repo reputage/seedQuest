@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: InteractableCageGuy
   m_EditorClassIdentifier: 
-  interactableName: Prisoner
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Prisoner
+    positionOffset: {x: 0.29, y: -3.39, z: -0.22}
+  interactableCamera:
+    lookAtOffset: {x: -1.2, y: -2.2, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 5
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0.48, y: 0.3, z: 0}
+    rotation: {x: 0, y: 18.47, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 11
+    actionID: 0
   states:
   - actionName: Give food
     prefab: {fileID: 1832382976161920, guid: 9d4ba09e263d17c46841bd6356b30627, type: 3}

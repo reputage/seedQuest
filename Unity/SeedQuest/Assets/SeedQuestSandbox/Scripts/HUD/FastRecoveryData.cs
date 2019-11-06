@@ -12,7 +12,10 @@ public class FastRecoveryData : ScriptableObject
     public Sprite interactableIcon;
     public Sprite interactableIconSelected;
     public bool useInteractableUIPositions;
+    public bool restrictViewport;
     public bool useRenderTexture;
     public float renderCameraHeight;
-    public bool restrictViewport;
+    public float renderCameraOffsetX;
+    public float renderCameraOffsetZ;
+    public float renderRotationMultiplier;
 }

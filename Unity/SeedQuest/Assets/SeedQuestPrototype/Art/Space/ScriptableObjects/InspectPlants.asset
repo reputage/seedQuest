@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: InspectPlants
   m_EditorClassIdentifier: 
-  interactableName: Inspect Plant
-  prompt: 
-  labelPosOffset: {x: 0, y: 3, z: -1}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: -1}
+  interactableUI:
+    name: Inspect Plant
+    positionOffset: {x: 0, y: 3, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 1.7, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 25
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0.5, y: -1, z: 1.71}
+    rotation: {x: 9.12, y: 157.52, z: -7.05}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 4
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 13
+    spotID: 1
+    actionID: 0
   states:
   - actionName: Pick Fruit
     prefab: {fileID: 2307224147868741636, guid: 4a8a138b3ef7e43af90c6dbd1b60608a,

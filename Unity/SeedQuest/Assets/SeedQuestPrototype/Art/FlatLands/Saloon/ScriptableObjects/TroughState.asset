@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: TroughState
   m_EditorClassIdentifier: 
-  interactableName: Trough
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 1, z: 0}
+  interactableUI:
+    name: Trough
+    positionOffset: {x: 0, y: 1, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 1, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 0.4, y: 0.4, z: 0.4}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: -25, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 11
+    spotID: 0
+    actionID: 0
   states:
   - actionName: Empty
     prefab: {fileID: 6853220342187451464, guid: 912ac69efcb6610489e5f0f74a17e05e,

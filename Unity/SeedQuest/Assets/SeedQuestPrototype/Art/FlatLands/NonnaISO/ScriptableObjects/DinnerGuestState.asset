@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: DinnerGuestState
   m_EditorClassIdentifier: 
-  interactableName: Guest
-  prompt: '"Hey, you!"'
-  labelPosOffset: {x: 0, y: 1.8, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Guest
+    positionOffset: {x: 0, y: 2.8, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0.5, y: 2, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 14
+  interactablePreview:
+    scale: {x: 0.6, y: 0.6, z: 0.6}
+    position: {x: 0, y: -0.5, z: 0}
+    rotation: {x: -20, y: 35, z: -15}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 9
+    spotID: 14
+    actionID: 0
   states:
   - actionName: '"Where''s my dinner?!"'
     prefab: {fileID: 4791335610652403816, guid: dfa4ae947cb687e40b7308ad2290ca8e,

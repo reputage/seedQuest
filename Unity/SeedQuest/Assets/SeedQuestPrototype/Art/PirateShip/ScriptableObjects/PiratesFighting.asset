@@ -12,9 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: PiratesFighting
   m_EditorClassIdentifier: 
-  interactableName: Pirate Fight
-  prompt: Choose Weapon
-  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Pirate Fight
+    positionOffset: {x: 0, y: 2.8, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: -0.5, y: 0.5, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 0.3, y: 0.3, z: 0.3}
+    position: {x: 0, y: -0.4, z: -2.14}
+    rotation: {x: 14.91, y: -200.22, z: -3.53}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 10
+    spotID: 5
+    actionID: 2
+  defaultState:
+    actionName: 
+    prefab: {fileID: 7677134751137853443, guid: 7adae4da39f9a42468bea8fb2c213752,
+      type: 3}
+    positionOffset: {x: 0, y: 0, z: 0}
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+    materialIndex: 0
+    uvOffset: {x: 0, y: 0}
+    animatorController: {fileID: 0}
+    soundEffectName: 
+    soundEffect:
+      name: 
+      clip: {fileID: 0}
+      volume: 1
+      loop: 0
+      source: {fileID: 0}
+    particleEffectName: 
+    particleEffect: {fileID: 0}
   states:
   - actionName: Broadsword
     prefab: {fileID: 7677134751137853443, guid: 708702cf5fda0a34b9586b027fd405c0,

@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: TalkingCrab
   m_EditorClassIdentifier: 
-  interactableName: Talking Crab
-  prompt: Question Crab
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Talking Crab
+    positionOffset: {x: 0, y: 3.3, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 1.33, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 13.5
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: -0.1, y: -0.3, z: -1.46}
+    rotation: {x: 36.5, y: 154.55, z: -6.78}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 10
+    spotID: 13
+    actionID: 0
   states:
   - actionName: '"Where''s the rum?"'
     prefab: {fileID: 6893589726669832447, guid: 8b2f28da3b95d2748a6cf5757176664f,

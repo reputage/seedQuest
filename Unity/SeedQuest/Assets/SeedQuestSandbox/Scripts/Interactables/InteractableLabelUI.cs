@@ -12,6 +12,7 @@ public class InteractableLabelUI
     private Canvas labelCanvas;
     private Button labelButton;
     private TextMeshProUGUI labelText;
+    private TextMeshProUGUI labelText2;
     private Image labelIcon;
     private Image trackerIcon;
 
@@ -27,6 +28,7 @@ public class InteractableLabelUI
         InstantiateLabel(parentInteractable);
         SetComponentRef();
         SetLabelText();
+        SetLabelText2();
         SetPosition();
         SetHoverEvents();
         ToggleTrackerIcon(false);
@@ -80,21 +82,27 @@ public class InteractableLabelUI
         animator = labelObject.GetComponent<Animator>();
         labelCanvas = labelObject.GetComponentsInChildren<Canvas>(true)[1];
         labelButton = labelObject.GetComponentInChildren<Button>(true);
-        labelText = labelObject.GetComponentInChildren<TextMeshProUGUI>(true);
+        labelText = labelObject.GetComponentsInChildren<TextMeshProUGUI>(true)[0];
+        labelText2 = labelObject.GetComponentsInChildren<TextMeshProUGUI>(true)[1];
         labelIcon = labelObject.GetComponentsInChildren<Image>(true)[0];
         trackerIcon = labelObject.GetComponentsInChildren<Image>(true)[1];
 
         labelButton.onClick.AddListener(ActivateInteractable);
     }
 
-    private void SetLabelText() {
+    public void SetLabelText() {
         labelText.text = interactable.Name;
+    }
+
+    public void SetLabelText2()
+    {
+        labelText2.text = interactable.Name;
     }
 
     public Vector3 LabelPosition {
         get {
-            Vector3 offset = interactable.stateData != null ? interactable.stateData.labelPosOffset : Vector3.zero;
-            Vector3 position = interactable.transform.position + interactable.interactableUI.positionOffset + offset;
+            Vector3 offset = interactable.stateData != null ? interactable.stateData.interactableUI.positionOffset : Vector3.zero;
+            Vector3 position = interactable.transform.position + offset;
             return position;
         }
     }
@@ -117,6 +125,7 @@ public class InteractableLabelUI
 
     private void ToggleText(bool active) {
         labelText.gameObject.SetActive(active);
+        labelText2 .gameObject.SetActive(active);
     }
 
     private void SetHoverEvents() {
@@ -153,7 +162,12 @@ public class InteractableLabelUI
     
     public void ActivateInteractable() {
         if (!labelObject.activeSelf) return;
-        if (FastRecoveryUI.Instance.gameObject.activeSelf) return;
+        if (FastRecoveryUI.Instance != null) { 
+            if (FastRecoveryUI.Instance.gameObject.activeSelf) return;
+        }
+
+        if (GameManager.State == GameState.Menu)
+            return;
 
         AudioManager.Play("UI_Click");
         InteractableManager.SetActiveInteractable(interactable);

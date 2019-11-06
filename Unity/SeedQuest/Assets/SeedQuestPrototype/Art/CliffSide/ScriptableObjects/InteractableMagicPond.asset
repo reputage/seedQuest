@@ -13,8 +13,28 @@ MonoBehaviour:
   m_Name: InteractableMagicPond
   m_EditorClassIdentifier: 
   interactableName: Magic Pond
-  prompt: 
-  labelPosOffset: {x: 0, y: 0.5, z: 0}
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: 
+    positionOffset: {x: 0, y: 3.8, z: -0.23}
+  interactableCamera:
+    lookAtOffset: {x: -1.3, y: 1.3, z: -1.3}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 25
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0, y: 0, z: -2.43}
+    rotation: {x: -35, y: 0, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 14
+    actionID: 0
   states:
   - actionName: Dip Backpack
     prefab: {fileID: 1038512631705658, guid: 4ece4bfbb53310e478ae53038ea382fa, type: 3}

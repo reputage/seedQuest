@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: PottedPlantState_Camp
   m_EditorClassIdentifier: 
-  interactableName: Potted Plant
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Potted Plant
+    positionOffset: {x: 0, y: 3, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0.7, y: 0, z: -0.2}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 15
+  interactablePreview:
+    scale: {x: 1.2, y: 1.2, z: 1.2}
+    position: {x: 0, y: -0.75, z: 0}
+    rotation: {x: -25, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 3
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 1
+    spotID: 0
+    actionID: 0
   states:
   - actionName: Bonsai
     prefab: {fileID: 649978990977836235, guid: e172ed7f44cd7f94baeefa47678d9de7, type: 3}

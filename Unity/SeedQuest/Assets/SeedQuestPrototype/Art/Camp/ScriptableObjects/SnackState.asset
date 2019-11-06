@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: SnackState
   m_EditorClassIdentifier: 
-  interactableName: Snack
-  prompt: 
-  labelPosOffset: {x: 0.75, y: 2, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Snack
+    positionOffset: {x: 0.75, y: 2, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 1.6, y: -1.6, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 5
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0.3, y: -0.6, z: 0}
+    rotation: {x: -45, y: 45, z: -25}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 1
+    spotID: 2
+    actionID: 0
   states:
   - actionName: Trout
     prefab: {fileID: 4705918875697450250, guid: 34877b6473dc73b43b9f0cb13aadc7f4,

@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Punching_Bag
   m_EditorClassIdentifier: 
-  interactableName: Punching Bag
-  prompt: 
-  labelPosOffset: {x: 0.25, y: -1, z: -1}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Punching Bag
+    positionOffset: {x: 0.37, y: -5.63, z: 0.5}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 15
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 5.68, y: 57.11, z: 121.01}
+    rotation: {x: 0, y: 17.74, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 100
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 6
+    spotID: 5
+    actionID: 0
   states:
   - actionName: Setup Red Bag
     prefab: {fileID: 283491573351540091, guid: e88e2ffd491de704f9d525fe7f7f9773, type: 3}

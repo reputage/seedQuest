@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: CustomerState_Pirates
   m_EditorClassIdentifier: 
-  interactableName: Unhappy Hostage
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Unhappy Hostage
+    positionOffset: {x: 0, y: 4.5, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 1.2, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 0.5, y: 0.5, z: 0.5}
+    position: {x: 0, y: -0.5, z: -2.78}
+    rotation: {x: 0, y: 202.58, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 10
+    spotID: 3
+    actionID: 0
   states:
   - actionName: Ghost
     prefab: {fileID: 2321414932990144570, guid: ff913a6fc5a9b824c98311c3ae92d2b3,

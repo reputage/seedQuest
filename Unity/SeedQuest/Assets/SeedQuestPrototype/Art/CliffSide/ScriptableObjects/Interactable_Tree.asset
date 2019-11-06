@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Interactable_Tree
   m_EditorClassIdentifier: 
-  interactableName: Choose Tree
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Choose Tree
+    positionOffset: {x: 1, y: 3, z: -1}
+  interactableCamera:
+    lookAtOffset: {x: 0.37, y: 1.76, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0, y: -2.59, z: 6.48}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 11
+    actionID: 1
   states:
   - actionName: Dead
     prefab: {fileID: 7666482916795212649, guid: b33e1d0dfa3f0304e923c5ddd58e72c1,

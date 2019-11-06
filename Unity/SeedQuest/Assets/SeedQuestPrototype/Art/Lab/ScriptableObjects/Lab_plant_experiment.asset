@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Lab_plant_experiment
   m_EditorClassIdentifier: 
-  interactableName: Plant experiment
-  prompt: 
-  labelPosOffset: {x: 1, y: 2, z: -0.2}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Plant experiment
+    positionOffset: {x: 1, y: 2, z: -0.2}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0.9, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 0.2, y: 0.2, z: 0.2}
+    position: {x: 0.1, y: -0.2, z: -1.74}
+    rotation: {x: -15, y: -77.7, z: 23.24}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 7
+    spotID: 5
+    actionID: 0
   states:
   - actionName: Water plant
     prefab: {fileID: 100000, guid: 4856d62a73242431fa256e6ea1bb25cf, type: 3}

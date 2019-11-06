@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Farm_AppleTree
   m_EditorClassIdentifier: 
-  interactableName: Apple Tree
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Apple Tree
+    positionOffset: {x: 2.64, y: 6.83, z: -2.04}
+  interactableCamera:
+    lookAtOffset: {x: 1.5, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 0.2, y: 0.2, z: 0.2}
+    position: {x: 0, y: -0.6, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 10
+    actionID: 0
   states:
   - actionName: Dig for Treasure
     prefab: {fileID: 6898210968892752399, guid: a8b9275a61cd61042ad92a8835f25d9f,

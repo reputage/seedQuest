@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: InteractableTent
   m_EditorClassIdentifier: 
-  interactableName: Tent
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Tent
+    positionOffset: {x: 0, y: 5.99, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: -66, z: -22.5}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 25
+  interactablePreview:
+    scale: {x: 0.01, y: 0.01, z: 0.01}
+    position: {x: 0.39, y: -0.78, z: 0}
+    rotation: {x: 0, y: 214.82, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 8
+    actionID: 0
   states:
   - actionName: Red
     prefab: {fileID: 1711078068548631522, guid: 00019a69587fff849bae2ba76b48d9ca,

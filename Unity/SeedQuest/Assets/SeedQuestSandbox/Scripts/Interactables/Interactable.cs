@@ -14,17 +14,12 @@ namespace SeedQuest.Interactables
     public class Interactable : MonoBehaviour {
 
         public InteractableStateData stateData = null;
-        public InteractableUI interactableUI;
-        public InteractableCameraProps interactableCamera;
-        public InteractablePreviewInfo interactablePreview;
         public InteractableID ID;
-
         private InteractableLabelUI interactableLabel;
 
         private int actionIndex = -1;
         public int ActionIndex { get => actionIndex; set => actionIndex = value; } // Current Action State 
         private float interactDistance = 16.0f;  
-
         private bool isOnHover = false;
         public bool IsOnHover { get => isOnHover; } 
 
@@ -39,21 +34,23 @@ namespace SeedQuest.Interactables
             HoverOnInteractable();
         }
 
+        public void UpdateStateData(InteractableStateData data) {
+            stateData = data;
+            interactableLabel.SetLabelText();
+        }
+
+        public InteractableUI interactableUI { get => stateData.interactableUI; }
+
+        public InteractableCameraProps interactableCamera { get => stateData.interactableCamera; }
+
+        public InteractablePreviewInfo interactablePreview { get => stateData.interactablePreview; }
+
         public string Name {
-            get {
-                if (interactableUI.name != "")
-                    return interactableUI.name;
-                else if (stateData != null)
-                    return stateData.interactableName;
-                else
-                    return "Error: Missing StateData/Name";
-            }
+            get { return stateData != null ? stateData.interactableUI.name : "Error: Missing StateData"; }
         }
 
         public string RehearsalActionName  {
-            get {
-                return (stateData == null) ? "Action #" + ID.actionID : this.stateData.getStateName(ID.actionID);
-            }
+            get { return (stateData == null) ? "Action #" + ID.actionID : this.stateData.getStateName(ID.actionID); }
         }
 
         public bool IsNextInteractable { get => InteractablePath.NextInteractable == this; }
@@ -176,10 +173,12 @@ namespace SeedQuest.Interactables
         void OnDrawGizmos() {
             
             // Display the interactable label show radius when player enters radius
+            /*
             if(PlayerIsNear()) {
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(LookAtPosition, interactDistance);
             }
+            */
         }
     }
 }

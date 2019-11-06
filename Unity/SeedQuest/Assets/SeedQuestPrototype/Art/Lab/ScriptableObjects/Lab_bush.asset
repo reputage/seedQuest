@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Lab_bush
   m_EditorClassIdentifier: 
-  interactableName: Botany Experiment
-  prompt: 
-  labelPosOffset: {x: 0, y: 2, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Botany Experiment
+    positionOffset: {x: 0, y: 1.9, z: -1}
+  interactableCamera:
+    lookAtOffset: {x: 0.7, y: 1, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 9
+  interactablePreview:
+    scale: {x: 0.3, y: 0.3, z: 0.3}
+    position: {x: 0.5, y: -0.2, z: 0}
+    rotation: {x: -17.03, y: 8.55, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 7
+    spotID: 11
+    actionID: 2
   states:
   - actionName: Raspberry
     prefab: {fileID: 765759730692422701, guid: 39e33fe473c22f8409ea2aec3218401b, type: 3}

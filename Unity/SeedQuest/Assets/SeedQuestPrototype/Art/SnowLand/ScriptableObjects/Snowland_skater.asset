@@ -12,9 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Snowland_skater
   m_EditorClassIdentifier: 
-  interactableName: Ice Skater
-  prompt: Show ya moves.
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Ice Skater
+    positionOffset: {x: 0, y: 2, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 2.3, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 30
+  interactablePreview:
+    scale: {x: 0.5, y: 0.5, z: 0.5}
+    position: {x: -0.1, y: -0.59, z: -2.3}
+    rotation: {x: 0, y: 195.54, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 7514232086469248931, guid: 93fa358958dbb8b438720e7dfa70c373,
+      type: 3}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 12
+    spotID: 2
+    actionID: 0
   states:
   - actionName: Go Slow
     prefab: {fileID: 9221906431703373290, guid: a72278107cbffe24491fc4bd42140a86,

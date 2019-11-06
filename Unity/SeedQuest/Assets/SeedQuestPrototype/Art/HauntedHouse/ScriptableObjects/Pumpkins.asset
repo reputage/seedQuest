@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Pumpkins
   m_EditorClassIdentifier: 
-  interactableName: Pumpkins
-  prompt: Smash Pumpkin
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Pumpkins
+    positionOffset: {x: 0, y: 3.43, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: -1.24, y: 1.24, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 30
+  interactablePreview:
+    scale: {x: 0.3, y: 0.3, z: 0.3}
+    position: {x: 0, y: 0.1, z: -1}
+    rotation: {x: 0, y: 15, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 5
+    spotID: 5
+    actionID: 0
   states:
   - actionName: Smash Blue
     prefab: {fileID: 8647353445203941601, guid: cdb95e9fce7781e4785c101e950072ce,

@@ -12,8 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: FlowerState_ISO
   m_EditorClassIdentifier: 
-  interactableName: Flower Pot
-  labelPosOffset: {x: 0.5, y: 4.3, z: -0.5}
+  interactableUI:
+    name: Flower Pot
+    positionOffset: {x: 0, y: 3.18, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0.72, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 18
+  interactablePreview:
+    scale: {x: 0.4, y: 0.4, z: 0.4}
+    position: {x: 0, y: -0.5, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 0
+    actionID: 0
   states:
   - actionName: White
     prefab: {fileID: 5628023767147161450, guid: ba55a75058acebb4197158e307cad848,

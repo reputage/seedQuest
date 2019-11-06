@@ -79,8 +79,10 @@ public class GameManager : MonoBehaviour {
             //ScenePauseMenu.ToggleOn();
         }
 
-        if (InputManager.GetKeyDown(KeyCode.F) && state != GameState.Menu)
+        if (InputManager.GetKeyDown(KeyCode.F))
         {
+            if (state == GameState.Menu && !FastRecoveryUI.Instance.gameObject.activeSelf)
+                return;
             if (Mode == GameMode.Rehearsal)
                 return;
             FastRecoveryUI.ToggleActive();

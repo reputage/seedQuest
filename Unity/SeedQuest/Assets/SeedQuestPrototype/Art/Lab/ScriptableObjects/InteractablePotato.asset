@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: InteractablePotato
   m_EditorClassIdentifier: 
-  interactableName: PotatoLight
-  prompt: 
-  labelPosOffset: {x: 0, y: 0.3, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: PotatoLight
+    positionOffset: {x: -0.31, y: 1, z: 0.09}
+  interactableCamera:
+    lookAtOffset: {x: -0.3, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 6
+  interactablePreview:
+    scale: {x: 2, y: 2, z: 2}
+    position: {x: 0, y: -0.85, z: 0}
+    rotation: {x: 3.2, y: 128.04, z: -6.89}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 7
+    spotID: 0
+    actionID: 0
   states:
   - actionName: Moldy Potato
     prefab: {fileID: 1688884851040738, guid: 459340a5d0a19df44a0d22864ed66b4f, type: 3}

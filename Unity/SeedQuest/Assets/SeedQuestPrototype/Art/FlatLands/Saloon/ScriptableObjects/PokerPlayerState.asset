@@ -12,8 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: PokerPlayerState
   m_EditorClassIdentifier: 
-  interactableName: Poker Players
-  labelPosOffset: {x: -0.5, y: 2.3, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Poker Players
+    positionOffset: {x: 0.5, y: 2.3, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 1, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 0.4, y: 0.4, z: 0.4}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 220, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 11
+    spotID: 14
+    actionID: 0
   states:
   - actionName: Dandies
     prefab: {fileID: 3486433075635808067, guid: 9a3361b30a1ad8949b49892771f929be,

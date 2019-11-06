@@ -12,9 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: ShelfSML_State_ISO
   m_EditorClassIdentifier: 
-  interactableName: Decor
-  prompt: 
-  labelPosOffset: {x: 0.5, y: 2.5, z: -0.5}
+  interactableUI:
+    name: Decor
+    positionOffset: {x: 0.7, y: 1.5, z: -0.3}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 1.3, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 12
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0.1, y: -0.4, z: 0}
+    rotation: {x: -23, y: 27, z: -13}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 9
+    spotID: 10
+    actionID: 0
   states:
   - actionName: Model of Truck
     prefab: {fileID: 2095372128640004600, guid: c2da33064633739499e73b19e899729f,

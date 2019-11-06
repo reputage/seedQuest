@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: CargoState
   m_EditorClassIdentifier: 
-  interactableName: Cargo
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Cargo
+    positionOffset: {x: 0, y: 3, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 0.15, y: 0.15, z: 0.15}
+    position: {x: 0, y: -0.4, z: 0}
+    rotation: {x: 35, y: 225, z: 25}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 11
+    spotID: 4
+    actionID: 0
   states:
   - actionName: Bananas
     prefab: {fileID: 3052510345987896761, guid: 9d411ea0c541e594eba1dfcc837933dc,

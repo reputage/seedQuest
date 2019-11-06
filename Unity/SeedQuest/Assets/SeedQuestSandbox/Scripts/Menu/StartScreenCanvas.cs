@@ -6,6 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class StartScreenCanvas : MonoBehaviour
 {
+    private Animator animator;
+
+    public void Awake() {
+        animator = gameObject.GetComponent<Animator>();
+    }
+
+    private void Start() {
+        Invoke("StartAnimation", 0.1f);
+        AudioManager.Play("MenuStart");
+    }
+
+    private void StartAnimation() {
+        animator.Play("StartMenuAnimation");
+    }
+
+    public void StartIdleAnimation() {
+        animator.Play("StartMenu_Idle");
+    }
+
     public void OnClickMenuButton() {
         PauseMenuUI.ToggleOn();
     }
@@ -17,7 +36,6 @@ public class StartScreenCanvas : MonoBehaviour
     public void StartTutorial() {
         StartCoroutine(LoadAsync("NonnaISO"));
     }
-
 
     public void HideKey() {
         MenuScreenV2.Instance.SetModeLearnSeed();

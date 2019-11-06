@@ -23,7 +23,7 @@ public class BIP39Tests
         sumTest(ref passed, testGetSentenceShort());
         sumTest(ref passed, testGetSentenceSitesBased());
 
-        string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " tests.";
+        string passedString = "Successfully passed " + passed[0] + " of " + passed[1] + " BIP39 tests.";
         Debug.Log(passedString);
         return passedString;
     }

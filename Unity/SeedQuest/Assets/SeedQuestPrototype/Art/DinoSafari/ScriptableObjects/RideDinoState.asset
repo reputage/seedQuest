@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: RideDinoState
   m_EditorClassIdentifier: 
-  interactableName: Ride A Dino
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Ride A Dino
+    positionOffset: {x: 2.1, y: 1.81, z: -2.35}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 3, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 40
+  interactablePreview:
+    scale: {x: 0.1, y: 0.1, z: 0.1}
+    position: {x: 0.16, y: -0.4, z: -2.89}
+    rotation: {x: 10, y: 223.24, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 4
+    spotID: 2
+    actionID: 0
   states:
   - actionName: Pterodactyl
     prefab: {fileID: 520202849902082177, guid: 9d344d8f4df802641ac2f30b2cd3a119, type: 3}

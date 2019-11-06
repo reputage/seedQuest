@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Cannons
   m_EditorClassIdentifier: 
-  interactableName: Choose Cannon Ammo
-  prompt: What'll ya launch?!
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Choose Cannon Ammo
+    positionOffset: {x: 0, y: 3.4, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: -0.4, y: 1.7, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 15
+  interactablePreview:
+    scale: {x: 0.3, y: 0.3, z: 0.3}
+    position: {x: 0.5, y: -0.66, z: -1.9}
+    rotation: {x: -2.6, y: 73.44, z: 1.3}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 10
+    spotID: 14
+    actionID: 2
   states:
   - actionName: Bananas
     prefab: {fileID: 8604678539666640822, guid: a67bbf5e68baf5f479c93b3c3160f0c9,

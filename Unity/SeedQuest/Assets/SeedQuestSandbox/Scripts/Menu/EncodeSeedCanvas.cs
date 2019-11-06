@@ -90,6 +90,22 @@ public class EncodeSeedCanvas : MonoBehaviour {
             continueButton.gameObject.SetActive(true);
         
         buttons[i].GetComponentsInChildren<Image>(true)[3].gameObject.SetActive(false);
+        PlaySound(sceneCount);
+    }
+
+    public void PlaySound(int i) {
+        if (i == 1)
+            AudioManager.Play("UI_SceneSelect1");
+        else if (i == 2)
+            AudioManager.Play("UI_SceneSelect2");
+        else if (i == 3)
+            AudioManager.Play("UI_SceneSelect3");
+        else if (i == 4)
+            AudioManager.Play("UI_SceneSelect4");
+        else if (i == 5)
+            AudioManager.Play("UI_SceneSelect5");
+        else if (i == 6)
+            AudioManager.Play("UI_SceneSelect6");
     }
 
     public void UnInteractiveButtons() {
