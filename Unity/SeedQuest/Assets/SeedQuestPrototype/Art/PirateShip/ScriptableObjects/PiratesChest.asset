@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: PiratesChest
   m_EditorClassIdentifier: 
-  interactableName: OpenChest
-  prompt: Select Bounty
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: OpenChest
+    positionOffset: {x: 0, y: 3.48, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 2.2, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 15
+  interactablePreview:
+    scale: {x: 0.5, y: 0.5, z: 0.5}
+    position: {x: 0.21, y: -0.4, z: -1.94}
+    rotation: {x: -25, y: 42.33, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 10
+    spotID: 4
+    actionID: 0
   states:
   - actionName: Bones
     prefab: {fileID: 7900200594585753735, guid: 99f6f043b586fe840b91c34be6361489,
@@ -88,4 +108,4 @@ MonoBehaviour:
       source: {fileID: 0}
     particleEffectName: 
     particleEffect: {fileID: 0}
-  effect: {fileID: 3589441540930374132, guid: 17cd872619e32454988deb088cee490b, type: 3}
+  effect: {fileID: 3589441540930374132, guid: c0d5d0c1d9437d14f96f05b7db572c46, type: 3}

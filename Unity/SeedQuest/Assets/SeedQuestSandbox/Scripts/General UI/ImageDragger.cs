@@ -19,8 +19,8 @@ public class ImageDragger : MonoBehaviour, IDragHandler, IEndDragHandler
 
         if (useViewport)
         {
-            float x = (transform.GetComponent<RectTransform>().sizeDelta.x - viewport.GetComponent<RectTransform>().sizeDelta.x) / 2;
-            float y = (transform.GetComponent<RectTransform>().sizeDelta.y - viewport.GetComponent<RectTransform>().sizeDelta.y) / 2;
+            float x = (transform.GetComponent<RectTransform>().sizeDelta.x - viewport.GetComponent<RectTransform>().rect.width) / 2;
+            float y = (transform.GetComponent<RectTransform>().sizeDelta.y - viewport.GetComponent<RectTransform>().rect.height) / 2;
 
             if (transform.localPosition.x > x)
                 transform.localPosition = new Vector3(x, transform.localPosition.y, 0);

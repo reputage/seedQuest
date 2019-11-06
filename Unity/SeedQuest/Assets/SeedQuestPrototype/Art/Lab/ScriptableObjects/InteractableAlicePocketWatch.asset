@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: InteractableAlicePocketWatch
   m_EditorClassIdentifier: 
-  interactableName: Pocket Watch
-  prompt: 
-  labelPosOffset: {x: 0, y: 0.5, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Pocket Watch
+    positionOffset: {x: 0, y: 2.66, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0.8, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0.1, y: 0, z: -2.81}
+    rotation: {x: 70, y: -43.7, z: 120}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 12
+    actionID: 0
   states:
   - actionName: Set Time To 12
     prefab: {fileID: 6835933707172826466, guid: d561d49778833f84e8fda32692831094,

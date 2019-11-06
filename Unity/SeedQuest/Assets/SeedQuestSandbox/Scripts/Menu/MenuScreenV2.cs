@@ -68,6 +68,7 @@ public class MenuScreenV2 : MonoBehaviour
         state = MenuScreenStates.Start;
         ResetCanvas();
         startCanvas.gameObject.SetActive(true);
+        GetComponentInChildren<StartScreenCanvas>().StartIdleAnimation();
         topMenu.SetActive(true);
     }
 

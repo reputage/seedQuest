@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: MortarPestleState_ST
   m_EditorClassIdentifier: 
-  interactableName: Mortar and Pestle
-  prompt: Grind Ingredients
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Mortar and Pestle
+    positionOffset: {x: 0, y: 3, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0.7, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 9.23
+  interactablePreview:
+    scale: {x: 0.7, y: 0.7, z: 0.7}
+    position: {x: 0, y: -0.2, z: 0}
+    rotation: {x: -35, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 14
+    spotID: 4
+    actionID: 0
   states:
   - actionName: Dog Bone
     prefab: {fileID: 8027204159296825774, guid: e620e1aa7bca6114ebd15c6e3db05ba2,

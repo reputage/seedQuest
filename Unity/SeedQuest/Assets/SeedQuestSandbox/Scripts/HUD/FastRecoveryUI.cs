@@ -20,20 +20,20 @@ public class FastRecoveryUI : MonoBehaviour
     private List<Button> buttons;
     private GameObject buttonPrefab;
     private GameObject interactableGroup;
+    private Camera renderCamera;
     private Button[] interactableButtons;
     private TMPro.TMP_Text mainTitle;
     private TMPro.TMP_Text instructions;
     private TMPro.TMP_Text interactableTitle;
     private TMPro.TMP_Text previewMapInstructions;
-    //private Image startingTitleImage;
     private Slider slider;
+    private Slider rotator;
     private Interactable[] interactables;
     private int interactableProgress;
-    private int sliderMin;
-    private int sliderMax;
     private bool levelFlag;
     private Animator animator;
     private List<InteractableLogItem> backupLog;
+    private float currentScale;
 
     static private FastRecoveryUI instance = null;
     static private FastRecoveryUI setInstance() { instance = HUDManager.Instance.GetComponentInChildren<FastRecoveryUI>(true); return instance; }
@@ -43,79 +43,47 @@ public class FastRecoveryUI : MonoBehaviour
 
     private void Awake()
     {
+        // Setup references
         SetRefs();
+
+        // Hide unused UI elements
         buttonPrefab.gameObject.SetActive(false);
         ToggleInteractableGroup(false);
+
+        // Add slider value change listner
         slider.onValueChanged.AddListener(delegate { OnSlideValueChanged(); });
 
+        // Setup map
         Transform buttonGroup;
         if (settings.useRenderTexture)
         {
-            map.gameObject.SetActive(false);
-            GameObject tempCameraObject = new GameObject();
-            tempCameraObject.name = "TempCamera";
-            Camera tempCamera = tempCameraObject.AddComponent<Camera>();
-            tempCamera.transform.localPosition = new Vector3(0, settings.renderCameraHeight, 0);
-            tempCamera.transform.eulerAngles = new Vector3(90, 0, 0);
-            RenderTexture target = new RenderTexture(512, 512, 16, RenderTextureFormat.ARGB32);
-            tempCamera.targetTexture = target;
-            tempCamera.enabled = false;
-            tempCamera.Render();
-            rawMap.texture = tempCamera.targetTexture;
-            if (settings.restrictViewport)
-            {
-                rawMap.rectTransform.sizeDelta = new Vector2(980, 980);
-                slider.minValue = 980;
-                slider.value = slider.minValue;
-            }
-
-            else
-                rawMap.rectTransform.sizeDelta = new Vector2(1000, 1000);
-            buttonGroup = rawMap.transform.GetChild(0);
+            buttonGroup = SetupRawMap();
         }
 
         else
         {
-            rawMap.gameObject.SetActive(false);
-            map.sprite = settings.source;
-            if (settings.restrictViewport)
-            {
-                if ((980 / settings.source.bounds.size.y * settings.source.bounds.size.x) < 880f)
-                {
-                    map.rectTransform.sizeDelta = new Vector2(880, 880 / settings.source.bounds.size.x * settings.source.bounds.size.y);
-                    slider.minValue = 880 / settings.source.bounds.size.x * settings.source.bounds.size.y;
-                }
-                else
-                {
-                    map.rectTransform.sizeDelta = new Vector2(980 / settings.source.bounds.size.y * settings.source.bounds.size.x, 980);
-                    slider.minValue = 980;
-                }
-                slider.value = slider.minValue;
-            }
-
-            else
-                map.rectTransform.sizeDelta = new Vector2(1000 / settings.source.bounds.size.y * settings.source.bounds.size.x, 1000);
-            buttonGroup = map.transform.GetChild(0);
+            buttonGroup = SetupMap();
         }
 
+        // Setup interactables
         foreach (Interactable interactable in interactables)
         {
             GameObject buttonObject = Instantiate(buttonPrefab);
             Button button = buttonObject.GetComponentInChildren<Button>();
             buttonObject.transform.SetParent(buttonGroup);
-            if (settings.useInteractableUIPositions)
-                buttonObject.transform.localPosition = new Vector3(interactable.LookAtPosition.x * settings.scale, interactable.LookAtPosition.z * settings.scale, 0);
-            else
-                buttonObject.transform.localPosition = new Vector3(interactable.transform.localPosition.x * settings.scale, interactable.transform.localPosition.z * settings.scale, 0);
+            GetButtonPosition(buttonObject, interactable);
             buttonObject.gameObject.SetActive(true);
             button.onClick.AddListener(() => OnButtonClick(interactable, button));
             SetHoverEvents(buttonObject);
             buttons.Add(button);
         }
 
+        
         buttonGroup.localPosition = new Vector3(settings.xOffset, settings.yOffset, 0);
         buttonGroup.localEulerAngles = new Vector3(0, 0, settings.rotation);
+        OnSlideValueChanged();
 
+        // Setup UI for review mode
         if (GameManager.Mode == GameMode.Rehearsal)
         {
             mainTitle.text = "REVIEW";
@@ -125,17 +93,12 @@ public class FastRecoveryUI : MonoBehaviour
             previewMapInstructions.text = "Choose an orb from the map to the right.";
             previewMapInstructions.transform.localPosition = new Vector3(previewMapInstructions.transform.localPosition.x, 140, previewMapInstructions.transform.localPosition.z);
             back.gameObject.SetActive(false);
-            if (settings.useInteractableUIPositions)
-                pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.LookAtPosition.x * settings.scale, InteractablePath.NextInteractable.LookAtPosition.z * settings.scale, 0);
-            else
-                pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.transform.localPosition.x * settings.scale, InteractablePath.NextInteractable.transform.localPosition.z * settings.scale, 0);
-            pin.transform.localEulerAngles = new Vector3(0, 0, -settings.rotation);
-            pin.transform.position = new Vector3(pin.transform.position.x, pin.transform.position.y + 30, pin.transform.position.z);
-            pin.transform.SetAsLastSibling();
+            GetPinPosition();
         }
 
         else
         {
+            // Hide unused UI elements
             pin.gameObject.SetActive(false);
             skip.gameObject.SetActive(false);
         }
@@ -145,6 +108,7 @@ public class FastRecoveryUI : MonoBehaviour
 
     private void Update()
     {
+        // Poll for different events
         ListenForKeyDown();
         CheckForProgress();
         CheckForLevelChange();
@@ -153,6 +117,7 @@ public class FastRecoveryUI : MonoBehaviour
 
     //====================================================================================================//
 
+    // Listen for scroll wheel and adjust slider value accordingly
     private void ListenForKeyDown()
     {
         var input = Input.GetAxis("Mouse ScrollWheel") * 20;
@@ -184,6 +149,7 @@ public class FastRecoveryUI : MonoBehaviour
 
     //====================================================================================================//
 
+    // Setup references
     private void SetRefs()
     {
         settings = LevelManager.FastRecoveryData;
@@ -197,7 +163,6 @@ public class FastRecoveryUI : MonoBehaviour
         else
             pin = images[3];
         rawMap = gameObject.GetComponentInChildren<RawImage>();
-        //startingTitleImage = images[8];
         buttonPrefab = images[6].transform.parent.gameObject;
         preview = images[7];
         back = images[16];
@@ -210,7 +175,9 @@ public class FastRecoveryUI : MonoBehaviour
         instructions = texts[1];
         interactableTitle = texts[2];
         previewMapInstructions = texts[11];
-        slider = gameObject.GetComponentInChildren<Slider>();
+        Slider[] sliders = gameObject.GetComponentsInChildren<Slider>();
+        slider = sliders[0];
+        rotator = sliders[1];
         interactableProgress = 0;
         List<Interactable> interactableList = new List<Interactable>();
         foreach (Interactable interactable in InteractableManager.InteractableList)
@@ -225,6 +192,109 @@ public class FastRecoveryUI : MonoBehaviour
 
     //====================================================================================================//
 
+    // Setup map (using render texture)
+    private Transform SetupRawMap()
+    {
+        // Hide image map
+        map.gameObject.SetActive(false);
+
+        // Setup render camera
+        GameObject cameraObject = new GameObject();
+        cameraObject.name = "RenderCamera";
+        renderCamera = cameraObject.AddComponent<Camera>();
+        renderCamera.transform.localPosition = new Vector3(0 + settings.renderCameraOffsetX, (float)settings.renderCameraHeight, 0 + settings.renderCameraOffsetZ);
+        renderCamera.transform.localRotation = Quaternion.Euler(90, Camera.main.transform.localEulerAngles.y, 0);
+        RenderTexture target = new RenderTexture(1024, 1024, 16, RenderTextureFormat.ARGB32);
+        renderCamera.targetTexture = target;
+        renderCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("Player"));
+        renderCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("FastRecoveryHide"));
+        renderCamera.enabled = true;
+        renderCamera.Render();
+        rawMap.texture = renderCamera.targetTexture;
+
+        // Set render texture dimensions and slider values
+        ResetRawMap();
+
+        // Add 2D to 3D rotation listener and values
+        rotator.onValueChanged.AddListener(delegate { OnRotateValueChanged(); });
+        rotator.minValue = 15;
+        rotator.maxValue = 90;
+
+        // Return buttons container
+        return rawMap.transform.GetChild(0);
+    }
+
+    //====================================================================================================//
+
+    // Reset map (using render texture)
+    private void ResetRawMap()
+    {
+        rawMap.transform.localPosition = new Vector3(0, 0, 0);
+        if (settings.restrictViewport)
+        {
+            rawMap.rectTransform.sizeDelta = new Vector2(Screen.height - 100, Screen.height - 100);
+            slider.minValue = Screen.height - 100;
+            slider.value = slider.minValue;
+        }
+
+        else
+            rawMap.rectTransform.sizeDelta = new Vector2(1000, 1000);
+
+        float newXOffset = (settings.xOffset * slider.value) / slider.minValue;
+        float newYOffset = (settings.yOffset * slider.value) / slider.minValue;
+        rawMap.transform.GetChild(0).localPosition = new Vector3(-500 + newXOffset, -500 + newYOffset, 0) * currentScale;
+        rawMap.transform.GetChild(0).eulerAngles = Vector3.zero;
+    }
+
+    //====================================================================================================//
+
+    // Setup map (using image) 
+    private Transform SetupMap()
+    {
+        // Hide render texture map and 2D to 3D rotator
+        rawMap.gameObject.SetActive(false);
+        rotator.transform.parent.gameObject.SetActive(false);
+
+        // Set map image
+        map.sprite = settings.source;
+
+        // Set map dimensions and slider values
+        ResetMap();
+
+        // Return button container
+        return map.transform.GetChild(0);
+    }
+
+    //====================================================================================================//
+
+    // Reset map (using image)
+    private void ResetMap()
+    {
+        map.transform.localPosition = new Vector3(0, 0, 0);
+        if (settings.restrictViewport)
+        {
+            if (((Screen.height - 100) / settings.source.bounds.size.y * settings.source.bounds.size.x) < (Screen.width - 1040))
+            {
+                map.rectTransform.sizeDelta = new Vector2((Screen.width - 1040), (Screen.width - 1040) / settings.source.bounds.size.x * settings.source.bounds.size.y);
+                slider.minValue = (Screen.width - 1040) / settings.source.bounds.size.x * settings.source.bounds.size.y;
+            }
+            else
+            {
+                map.rectTransform.sizeDelta = new Vector2((Screen.height - 100) / settings.source.bounds.size.y * settings.source.bounds.size.x, (Screen.height - 100));
+                slider.minValue = Screen.height - 100;
+            }
+            slider.value = slider.minValue;
+        }
+        else
+        {
+            map.rectTransform.sizeDelta = new Vector2(1000 / settings.source.bounds.size.y * settings.source.bounds.size.x, 1000);
+            slider.value = 1000;
+        }
+    }
+
+
+    //====================================================================================================//
+
     public void Toggle(bool active)
     {
         if (!active)
@@ -232,13 +302,9 @@ public class FastRecoveryUI : MonoBehaviour
             GameManager.State = GameState.Menu;
             animator.Play("SlideUp");
             ToggleInteractableGroup(false);
+            rotator.value = rotator.maxValue;
 
-            for (int i = 0; i < 4; i++)
-            {
-                interactableButtons[i].onClick.RemoveAllListeners();
-                interactableButtons[i].gameObject.GetComponent<Animation>().Stop();
-                interactableButtons[i].gameObject.GetComponent<Image>().color = Color.white;
-            }
+            ResetActionButtons();
 
             foreach (Button button in buttons)
             {
@@ -251,49 +317,21 @@ public class FastRecoveryUI : MonoBehaviour
 
             if (settings.useRenderTexture)
             {
-                rawMap.transform.localPosition = new Vector3(0, 0, 0);
-                if (settings.restrictViewport)
-                {
-                    rawMap.rectTransform.sizeDelta = new Vector2(980, 980);
-                    slider.value = slider.minValue;
-                }
+                ResetRawMap();
             }
             else
             {
-                map.transform.localPosition = new Vector3(0, 0, 0);
-                if (settings.restrictViewport)
-                {
-                    if ((980 / settings.source.bounds.size.y * settings.source.bounds.size.x) < 880f)
-                    {
-                        map.rectTransform.sizeDelta = new Vector2(880, 880 / settings.source.bounds.size.x * settings.source.bounds.size.y);
-                    }
-                    else
-                        map.rectTransform.sizeDelta = new Vector2(980 / settings.source.bounds.size.y * settings.source.bounds.size.x, 980);
-                    slider.value = slider.minValue;
-                }
-                else
-                {
-                    map.rectTransform.sizeDelta = new Vector2(1000 / settings.source.bounds.size.y * settings.source.bounds.size.x, 1000);
-                    slider.value = 1000;
-                }
+                ResetMap();
             }
-            if (GameManager.GraduatedFlags[InteractableLog.CurrentLevelIndex] == true)
-                pin.gameObject.SetActive(false);
-            else
-            {
-                if (settings.useInteractableUIPositions)
-                    pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.LookAtPosition.x * settings.scale, InteractablePath.NextInteractable.LookAtPosition.z * settings.scale, 0);
-                else
-                    pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.transform.localPosition.x * settings.scale, InteractablePath.NextInteractable.transform.localPosition.z * settings.scale, 0);
-                pin.transform.localEulerAngles = new Vector3(0, 0, -settings.rotation);
-                pin.transform.position = new Vector3(pin.transform.position.x, pin.transform.position.y + 30, pin.transform.position.z);
-            }
+
+            GetPinPosition();
 
             InteractablePreviewUI.ClearPreviewObject();
         }
         else
         {
-            GameManager.State = GameState.Play;
+            if (!LevelClearUI.Instance.gameObject.activeSelf)
+                GameManager.State = GameState.Play;
             if (settings.useRenderTexture)
                 EventSystem.current.SetSelectedGameObject(rawMap.gameObject);
             else
@@ -329,6 +367,19 @@ public class FastRecoveryUI : MonoBehaviour
 
     //====================================================================================================//
 
+    private void ResetActionButtons()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            //interactableButtons[i].onClick.RemoveAllListeners();
+            RemoveHoverForActionButton(interactableButtons[i]);
+            interactableButtons[i].gameObject.GetComponent<Animation>().Stop();
+            interactableButtons[i].gameObject.GetComponent<Image>().color = Color.white;
+        }
+    }
+
+    //====================================================================================================//
+
     public void SkipButtonOnClick()
     {
         GameManager.ReviewMode = false;
@@ -343,6 +394,52 @@ public class FastRecoveryUI : MonoBehaviour
         LevelClearUI.ToggleOn();
     }
 
+    //====================================================================================================//
+
+    private void GetButtonPosition(GameObject button, Interactable interactable)
+    {
+        if (settings.useInteractableUIPositions && !settings.useRenderTexture)
+        {
+            button.transform.parent.localPosition = new Vector3(interactable.LookAtPosition.x * currentScale, interactable.LookAtPosition.z * currentScale, 0);
+        }
+        else if (settings.useRenderTexture)
+        {
+            //Vector3 position = interactable.transform.localPosition + interactable.interactableUI.positionOffset;
+            button.transform.parent.localPosition = renderCamera.WorldToScreenPoint(interactable.LabelPosition) * currentScale;
+        }
+        else
+        {
+            button.transform.parent.localPosition = new Vector3(interactable.transform.localPosition.x * currentScale, interactable.transform.localPosition.z * currentScale, 0);
+        }
+    }
+
+    //====================================================================================================//
+
+    private void GetPinPosition()
+    {
+        if (GameManager.GraduatedFlags[InteractableLog.CurrentLevelIndex] == true || GameManager.Mode != GameMode.Rehearsal)
+        {
+            pin.gameObject.SetActive(false);
+            return;
+        }
+   
+        if (pin.gameObject.activeSelf)
+        {
+            if (settings.useInteractableUIPositions && !settings.useRenderTexture)
+                pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.LookAtPosition.x * settings.scale, InteractablePath.NextInteractable.LookAtPosition.z * settings.scale, 0);
+            else if (settings.useRenderTexture)
+            {
+
+                //Vector3 position = InteractablePath.NextInteractable.transform.localPosition + InteractablePath.NextInteractable.interactableUI.positionOffset;
+                pin.transform.localPosition = renderCamera.WorldToScreenPoint(InteractablePath.NextInteractable.LabelPosition) * currentScale;
+            }
+            else
+                pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.transform.localPosition.x * settings.scale, InteractablePath.NextInteractable.transform.localPosition.z * settings.scale, 0);
+            pin.transform.localEulerAngles = new Vector3(0, 0, -settings.rotation);
+            pin.transform.position = new Vector3(pin.transform.position.x, pin.transform.position.y + 30, pin.transform.position.z);
+            pin.transform.SetAsLastSibling();
+        }
+    }
 
     //====================================================================================================//
 
@@ -350,22 +447,14 @@ public class FastRecoveryUI : MonoBehaviour
     {
         if (!toggle)
         {
-            interactableTitle.text = "Titl";//"Choose a";
-            //startingTitleImage.gameObject.SetActive(!toggle);
-            //interactableGroup.SetActive(toggle);
+            interactableTitle.text = "Title";
         }
-
-        /*else
-        {
-            interactableGroup.SetActive(toggle);
-            //startingTitleImage.gameObject.SetActive(!toggle);
-        }*/
 
         preview.gameObject.SetActive(toggle);
         mapInstructions.gameObject.SetActive(!toggle);
         if (GameManager.Mode == GameMode.Rehearsal && GameManager.ReviewMode == true && toggle)
         {
-            previewMapInstructions.text = "Select an option and keep the button pressed to perform an action.";
+            previewMapInstructions.gameObject.SetActive(false);
         }
         else if (GameManager.Mode == GameMode.Rehearsal && GameManager.ReviewMode == true && !toggle)
         {
@@ -410,8 +499,6 @@ public class FastRecoveryUI : MonoBehaviour
                 interactableButtons[i].gameObject.GetComponent<FastRecoveryButton>().Interactable = interactable;
                 interactableButtons[i].gameObject.GetComponent<FastRecoveryButton>().ActionIndex = temp;
 
-
-
                 if (GameManager.Mode == GameMode.Rehearsal && GameManager.GraduatedFlags[InteractableLog.CurrentLevelIndex] != true)
                 {
                     if (InteractablePath.NextInteractable.ID == interactable.ID)
@@ -419,14 +506,10 @@ public class FastRecoveryUI : MonoBehaviour
                         if (InteractablePath.NextAction == temp)
                         {
                             interactableButtons[i].gameObject.GetComponent<Animation>().Play();
-                            /*ColorBlock colors = interactableButtons[i].colors;
-                            colors.normalColor = new Color(189, 205, 217);
-                            colors.highlightedColor = new Color(189, 205, 217);
-                            interactableButtons[i].colors = colors;*/
                         }
                     }
                 }
-                interactableButtons[i].onClick.AddListener(() => OnInteractableButtonClick(temp));
+                SetHoverForActionButton(interactableButtons[i], interactable, i);
             }
         }
 
@@ -434,22 +517,10 @@ public class FastRecoveryUI : MonoBehaviour
         {
             button.gameObject.GetComponent<Image>().sprite = settings.interactableIcon;
             InteractablePreviewUI.ClearPreviewObject();
-            //startingTitleImage.gameObject.SetActive(false);
             ToggleInteractableGroup(false);
 
-            for (int i = 0; i < 4; i++)
-            {
-                interactableButtons[i].onClick.RemoveAllListeners();
-            }
+            ResetActionButtons();
         }
-    }
-
-    //====================================================================================================//
-
-    public void OnInteractableButtonClick(int index)
-    {
-        AudioManager.Play("UI_Click");
-        InteractablePreviewUI.SetPreviewAction(index);
     }
 
     //====================================================================================================//
@@ -457,27 +528,22 @@ public class FastRecoveryUI : MonoBehaviour
     public void OnSlideValueChanged()
     {
         InteractablePreviewUI.ClearPreviewObject();
-        //startingTitleImage.gameObject.SetActive(false);
         ToggleInteractableGroup(false);
 
-        for (int i = 0; i < 4; i++)
-        {
-            interactableButtons[i].onClick.RemoveAllListeners();
-        }
+        ResetActionButtons();
 
-        float newScale;
         float newXOffset;
         float newYOffset;
 
         if (settings.restrictViewport)
         {
-            newScale = (settings.scale * slider.value) / slider.minValue;
+            currentScale = (settings.scale * slider.value) / slider.minValue;
             newXOffset = (settings.xOffset * slider.value) / slider.minValue;
             newYOffset = (settings.yOffset * slider.value) / slider.minValue;
         }
         else
         {
-            newScale = (settings.scale * slider.value) / 1000;
+            currentScale = (settings.scale * slider.value) / 1000;
             newXOffset = (settings.xOffset * slider.value) / 1000;
             newYOffset = (settings.yOffset * slider.value) / 1000;
         }
@@ -485,30 +551,16 @@ public class FastRecoveryUI : MonoBehaviour
         for (int i = 0; i < buttons.Count; i++)
         {
             buttons[i].gameObject.GetComponent<Image>().sprite = settings.interactableIcon;
-            if (settings.useInteractableUIPositions)
-            {
-                buttons[i].transform.parent.localPosition = new Vector3(interactables[i].LookAtPosition.x * newScale, interactables[i].LookAtPosition.z * newScale, 0);
-            }
-            else
-            {
-                buttons[i].transform.parent.localPosition = new Vector3(interactables[i].transform.localPosition.x * newScale, interactables[i].transform.localPosition.z * newScale, 0);
-            }
+            GetButtonPosition(buttons[i].gameObject, interactables[i]);
         }
 
-        if (GameManager.Mode == GameMode.Rehearsal)
-        {
-            if (settings.useInteractableUIPositions)
-                pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.LookAtPosition.x * newScale, InteractablePath.NextInteractable.LookAtPosition.z * newScale, 0);
-            else
-                pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.transform.localPosition.x * newScale, InteractablePath.NextInteractable.transform.localPosition.z * newScale, 0);
-            pin.transform.position = new Vector3(pin.transform.position.x, pin.transform.position.y + 30, pin.transform.position.z);
-        }
+        GetPinPosition();
 
-        if (settings.useRenderTexture)
+       if (settings.useRenderTexture)
         {
             rawMap.transform.localPosition = new Vector3(0, 0, 0);
             rawMap.rectTransform.sizeDelta = new Vector2(slider.value, slider.value);
-            rawMap.transform.GetChild(0).localPosition = new Vector3(newXOffset, newYOffset, 0);
+            rawMap.transform.GetChild(0).localPosition = new Vector3(-500 + newXOffset, -500 + newYOffset, 0) * currentScale;
         }
         else
         {
@@ -516,6 +568,31 @@ public class FastRecoveryUI : MonoBehaviour
             map.rectTransform.sizeDelta = new Vector2(slider.value / settings.source.bounds.size.y * settings.source.bounds.size.x, slider.value);
             map.transform.GetChild(0).localPosition = new Vector3(newXOffset, newYOffset, 0);
         }
+    }
+
+    //====================================================================================================//
+
+    public void OnRotateValueChanged()
+    {
+        renderCamera.transform.localRotation = Quaternion.Euler(rotator.value, Camera.main.transform.localEulerAngles.y, 0);
+        double height = settings.renderCameraHeight;
+        double sinTheta = System.Math.Sin(System.Math.Round(rotator.value * System.Math.PI / 180, 2));
+        double cosTheta = System.Math.Cos(System.Math.Round(rotator.value * System.Math.PI / 180, 2));
+        double tanSigma = System.Math.Tan(System.Math.Round(Camera.main.transform.eulerAngles.y * System.Math.PI / 180, 2));
+        float x = (float)(height * tanSigma * cosTheta);
+        float y = (float)(height * sinTheta);
+        float z = (float)(height * cosTheta);
+        renderCamera.transform.localPosition = new Vector3((-x + settings.renderCameraOffsetX) * settings.renderRotationMultiplier, y, (-z + settings.renderCameraOffsetZ) * settings.renderRotationMultiplier);
+
+        float newXOffset = (settings.xOffset * slider.value) / slider.minValue;
+        float newYOffset = (settings.yOffset * slider.value) / slider.minValue;
+        rawMap.transform.GetChild(0).localPosition = new Vector3(-500 + newXOffset, -500 + newYOffset, 0) * currentScale;
+        rawMap.transform.GetChild(0).eulerAngles = Vector3.zero;
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            GetButtonPosition(buttons[i].gameObject, interactables[i]);
+        }
+        GetPinPosition();
     }
 
     //====================================================================================================//
@@ -542,26 +619,17 @@ public class FastRecoveryUI : MonoBehaviour
             if (GameManager.Mode == GameMode.Rehearsal && InteractableLog.Count % 3 != 0)
             {
                 InteractablePreviewUI.ClearPreviewObject();
-                float currentScale;
                 if (settings.restrictViewport)
                     currentScale = (settings.scale * slider.value) / slider.minValue;
                 else
                     currentScale = (settings.scale * slider.value) / 1000;
 
-                if (settings.useInteractableUIPositions)
-                    pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.LookAtPosition.x * currentScale, InteractablePath.NextInteractable.LookAtPosition.z * currentScale, 0);
-                else
-                    pin.transform.localPosition = new Vector3(InteractablePath.NextInteractable.transform.localPosition.x * currentScale, InteractablePath.NextInteractable.transform.localPosition.z * currentScale, 0);
-                pin.transform.position = new Vector3(pin.transform.position.x, pin.transform.position.y + 30, pin.transform.position.z);
+                GetPinPosition();
 
                 for (int i = 0; i < 4; i++)
                 {
                     interactableButtons[i].gameObject.GetComponent<Animation>().Stop();
                     interactableButtons[i].gameObject.GetComponent<Image>().color = Color.white;
-                    /*ColorBlock colors = interactableButtons[i].colors;
-                    colors.normalColor = Color.white;
-                    colors.highlightedColor = Color.white;
-                    interactableButtons[i].colors = colors;*/
                 }
             }
         }
@@ -652,6 +720,51 @@ public class FastRecoveryUI : MonoBehaviour
         exit.eventID = EventTriggerType.PointerExit;
         exit.callback.AddListener((data) => { OnHoverExit(buttonObject); });
         trigger.triggers.Add(exit);
+    }
+
+    //====================================================================================================//
+
+    void hoverActionButton(Interactable interactable, int actionIndex)
+    {
+        InteractablePreviewUI.SetPreviewObject(interactable, actionIndex, true);
+    }
+
+    //====================================================================================================//
+
+    private void SetHoverForActionButton(Button button, Interactable interactable, int index)
+    {
+        EventTrigger trigger = button.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            button.gameObject.AddComponent<EventTrigger>();
+            trigger = button.GetComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerEnter;
+        entry.callback.AddListener((data) => { OnHoverEnter(interactable, index); });
+        trigger.triggers.Add(entry);
+
+    }
+
+    //====================================================================================================//
+
+    private void RemoveHoverForActionButton(Button button)
+    {
+        EventTrigger trigger = button.GetComponent<EventTrigger>();
+        if (trigger != null)
+        {
+            Destroy(trigger);
+        }
+
+    }
+
+    //====================================================================================================//
+
+    private void OnHoverEnter(Interactable interactable, int actionIndex)
+    {
+        hoverActionButton(interactable, actionIndex);
+        AudioManager.Play("UI_Hover");
     }
 
     //====================================================================================================//

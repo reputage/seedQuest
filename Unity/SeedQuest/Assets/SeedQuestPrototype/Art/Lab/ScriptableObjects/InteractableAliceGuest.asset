@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: InteractableAliceGuest
   m_EditorClassIdentifier: 
-  interactableName: Party Guest
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0.5, z: 0}
+  interactableUI:
+    name: Party Guest
+    positionOffset: {x: 0, y: 0, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 0
+    actionID: 0
   states:
   - actionName: Beetle
     prefab: {fileID: 3884645842821133540, guid: bbac9ac21478b104fbfd16c2fe29ef5e,

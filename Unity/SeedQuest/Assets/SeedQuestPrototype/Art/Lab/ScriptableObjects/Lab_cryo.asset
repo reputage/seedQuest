@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Lab_cryo
   m_EditorClassIdentifier: 
-  interactableName: Cryogenic experiment
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Cryogenic Experiment
+    positionOffset: {x: 0.31, y: 3.04, z: -0.11}
+  interactableCamera:
+    lookAtOffset: {x: 3, y: 3.3, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 22
+  interactablePreview:
+    scale: {x: 0.2, y: 0.2, z: 0.2}
+    position: {x: -0.31, y: -0.2, z: -3.27}
+    rotation: {x: 0, y: 172.35, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 7
+    spotID: 2
+    actionID: 0
   states:
   - actionName: Check time
     prefab: {fileID: 299993321983915121, guid: 5dfed6062246e4ec8b80035a026db564, type: 3}

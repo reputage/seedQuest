@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: SendLetterState_ST
   m_EditorClassIdentifier: 
-  interactableName: Send Letter
-  prompt: Send Letter
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Send Letter
+    positionOffset: {x: 0, y: 3.5, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: -0.35, y: 0.75, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 12
+  interactablePreview:
+    scale: {x: 0.5, y: 0.5, z: 0.5}
+    position: {x: 0, y: -0.6, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 14
+    spotID: 10
+    actionID: 0
   states:
   - actionName: Via Raven
     prefab: {fileID: 229473185271200584, guid: ce3a8b0baeab1f544a03bf8aceb92451, type: 3}

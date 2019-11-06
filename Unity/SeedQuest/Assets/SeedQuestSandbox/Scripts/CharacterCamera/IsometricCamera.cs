@@ -56,7 +56,8 @@ public class IsometricCamera : MonoBehaviour
             layer.enabled = false;
         #else
             PostProcessLayer layer = GetComponent<PostProcessLayer>();
-            layer.enabled = true;
+            if(layer != null)
+                layer.enabled = true;
         #endif
     }
 

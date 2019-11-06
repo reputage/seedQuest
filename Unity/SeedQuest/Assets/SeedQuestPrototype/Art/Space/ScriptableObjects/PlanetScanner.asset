@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: PlanetScanner
   m_EditorClassIdentifier: 
-  interactableName: Scan Planets
-  prompt: 
-  labelPosOffset: {x: 1, y: 1.5, z: -1}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Scan Planets
+    positionOffset: {x: 1, y: 2.5, z: -1}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0.8, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 8
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 13
+    spotID: 10
+    actionID: 0
   states:
   - actionName: Habitable Planet
     prefab: {fileID: 0}

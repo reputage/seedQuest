@@ -12,9 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: GangState
   m_EditorClassIdentifier: 
-  interactableName: Gang
-  prompt: Where you think you're going?
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Gang
+    positionOffset: {x: 3, y: 3, z: -2}
+  interactableCamera:
+    lookAtOffset: {x: 2.69, y: 1.08, z: -0.88}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 31.09
+  interactablePreview:
+    scale: {x: 0.4, y: 0.4, z: 0.4}
+    position: {x: 0, y: -0.5, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 6098384646139566294, guid: d37e88df7026026489670482e539c863,
+      type: 3}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 11
+    spotID: 11
+    actionID: 0
   states:
   - actionName: '"Your money or your life."'
     prefab: {fileID: 3446485896083236943, guid: 63855af4bf6b9f049930ff18c655991c,

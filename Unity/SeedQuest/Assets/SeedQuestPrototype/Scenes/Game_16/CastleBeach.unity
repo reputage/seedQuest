@@ -1835,28 +1835,15 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: 2b0fff7b33fd21a4797d97f7c1966080, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 0.9, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 0.6, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: 0.78, y: 4, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
-    position: {x: 0, y: -0.15, z: -3.05}
-    rotation: {x: -112.03, y: 0, z: 0}
+    position: {x: 0, y: -0.5, z: 0}
+    rotation: {x: -35, y: 0, z: 0}
     useOrthographic: 0
     fieldOfView: 60
     orthographicSize: 0.5
@@ -1867,7 +1854,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 8
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &152059239
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2505,6 +2491,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3a97554058defd14dad67c8aca442fd9, type: 2}
+    - target: {fileID: 2300004, guid: f07aa59eb78de6e4dad8ddbed787e3e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8aec1b28347af2c47bf14a79d1cd2d16, type: 2}
+    - target: {fileID: 2300006, guid: f07aa59eb78de6e4dad8ddbed787e3e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6d8bae26299bc4f49b8a87a9f427f555, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07aa59eb78de6e4dad8ddbed787e3e7, type: 3}
 --- !u!1 &208433527
@@ -4990,13 +4984,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346694519}
-  m_LocalRotation: {x: -0, y: 0.38422614, z: -0, w: 0.923239}
-  m_LocalPosition: {x: -2.6, y: -10.82, z: 0.09}
-  m_LocalScale: {x: 17.74062, y: 10.30353, z: 8.320822}
+  m_LocalRotation: {x: -0, y: 0.4051166, z: -0, w: 0.9142651}
+  m_LocalPosition: {x: -4.3, y: -10.82, z: -0.7}
+  m_LocalScale: {x: 17.74062, y: 10.30353, z: 7.87816}
   m_Children: []
   m_Father: {fileID: 1960113305}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 45.191, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 47.797, z: 0}
 --- !u!23 &346694521
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6241,24 +6235,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: b56dd93e3b0e22b488f486eba5142f99, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 3, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0.91, y: 1.32, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: 0, y: 4.57, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0.31, y: -0.29, z: -2.52}
@@ -6273,7 +6254,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 15
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &433908447
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9157,24 +9137,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: 4d332386bb919294bbb665ba42324d11, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.37
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 3.44, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0.34, y: 0.24, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 8
-  interactableTracker:
-    positionOffset: {x: -0.63, y: 4.62, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0.56, y: -1.19, z: 1.5}
@@ -9189,7 +9156,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 9
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &631610462
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11173,7 +11139,7 @@ Transform:
   m_GameObject: {fileID: 804978363}
   m_LocalRotation: {x: -0, y: -0.568305, z: -0, w: -0.82281804}
   m_LocalPosition: {x: -35.77, y: -6, z: 19.96}
-  m_LocalScale: {x: 11.241602, y: 10.30353, z: 8.320822}
+  m_LocalScale: {x: 8.790708, y: 10.30353, z: 8.320822}
   m_Children: []
   m_Father: {fileID: 1960113305}
   m_RootOrder: 10
@@ -11245,24 +11211,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: 7c6edbccacd063045bf15f9b73465787, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 0.5, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 1, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: 0, y: 3.63, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0.19, y: -0.36, z: -2.62}
@@ -11277,7 +11230,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 14
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &805575058
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11559,6 +11511,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.7886307
+      objectReference: {fileID: 0}
+    - target: {fileID: 906395948844803104, guid: 4ea39b2ede0367f48b747de12d48ff26,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 906395948844803104, guid: 4ea39b2ede0367f48b747de12d48ff26,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7541152320417599480, guid: 4ea39b2ede0367f48b747de12d48ff26,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7541152320417599480, guid: 4ea39b2ede0367f48b747de12d48ff26,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ea39b2ede0367f48b747de12d48ff26, type: 3}
@@ -12388,24 +12360,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: d94570a2a49585a4fb85d608b74e3c67, type: 2}
   interactableUI:
     name: Well
-    fontSize: 36
-    scaleSize: 1.41
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
-    positionOffset: {x: 2.21, y: 3.8, z: -2.04}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
+    positionOffset: {x: 1, y: 3, z: -1}
   interactableCamera:
     lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: 0, y: 7.46, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0.56, y: -2.03, z: 6.06}
@@ -12420,7 +12379,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 1
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &886424042
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13666,24 +13624,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: 394925dc283b9ba47bd2cbbf02cd3f4d, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0.19, y: 2.28, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 1.16, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: 0, y: 4.86, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0, y: -0.34, z: -2.03}
@@ -13698,7 +13643,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 11
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &976947939
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13917,7 +13861,27 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3299451255003334176, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299451255003334176, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2113433156851601028, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5189172222182442056, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5189172222182442056, guid: c1257323fb9b1491581df1856a5d6733,
         type: 3}
       propertyPath: m_Layer
       value: 5
@@ -13942,7 +13906,47 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7415277374583614698, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 454341222457197795, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224863546580584904, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.800003
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224863546580584904, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224863546580584904, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.800003
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224863546580584904, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2076888104898421178, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 293227655970854535, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 293227655970854535, guid: c1257323fb9b1491581df1856a5d6733,
         type: 3}
       propertyPath: m_Layer
       value: 5
@@ -13987,21 +13991,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 237712979517244297, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 237712979517244297, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 237712979754575223, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 8796258935133183206, guid: c1257323fb9b1491581df1856a5d6733,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -14011,6 +14000,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6007540840568886315, guid: c1257323fb9b1491581df1856a5d6733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4203676832289758519, guid: c1257323fb9b1491581df1856a5d6733,
         type: 3}
@@ -14027,67 +14021,17 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1224863546580584904, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1.800003
-      objectReference: {fileID: 0}
-    - target: {fileID: 1224863546580584904, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1224863546580584904, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1.800003
-      objectReference: {fileID: 0}
-    - target: {fileID: 1224863546580584904, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3299451255003334176, guid: c1257323fb9b1491581df1856a5d6733,
+    - target: {fileID: 237712979517244297, guid: c1257323fb9b1491581df1856a5d6733,
         type: 3}
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 3299451255003334176, guid: c1257323fb9b1491581df1856a5d6733,
+    - target: {fileID: 237712979517244297, guid: c1257323fb9b1491581df1856a5d6733,
         type: 3}
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 5189172222182442056, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5189172222182442056, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415277374583614698, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 454341222457197795, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 293227655970854535, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 293227655970854535, guid: c1257323fb9b1491581df1856a5d6733,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6007540840568886315, guid: c1257323fb9b1491581df1856a5d6733,
+    - target: {fileID: 237712979754575223, guid: c1257323fb9b1491581df1856a5d6733,
         type: 3}
       propertyPath: m_Layer
       value: 5
@@ -14312,6 +14256,84 @@ Transform:
   m_Father: {fileID: 672341540}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1018371053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1018371054}
+  - component: {fileID: 1018371056}
+  - component: {fileID: 1018371055}
+  m_Layer: 0
+  m_Name: Cube (14)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1018371054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018371053}
+  m_LocalRotation: {x: -0, y: 0.06793046, z: -0, w: -0.9976901}
+  m_LocalPosition: {x: -30.6, y: -6, z: 0.7}
+  m_LocalScale: {x: -15.053336, y: 10.30353, z: 7.209647}
+  m_Children: []
+  m_Father: {fileID: 1960113305}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: -367.79, z: 0}
+--- !u!23 &1018371055
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018371053}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1018371056
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018371053}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1020216030
 GameObject:
   m_ObjectHideFlags: 0
@@ -15334,13 +15356,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105120441}
-  m_LocalRotation: {x: -0, y: -0.568305, z: -0, w: -0.82281804}
-  m_LocalPosition: {x: -15.81, y: -6, z: -13.31}
-  m_LocalScale: {x: 42.678825, y: 10.30353, z: 8.320822}
+  m_LocalRotation: {x: -0, y: -0.11309232, z: -0, w: -0.9935845}
+  m_LocalPosition: {x: -19.19, y: -6, z: 1.74}
+  m_LocalScale: {x: -15.053336, y: 10.30353, z: 7.209647}
   m_Children: []
   m_Father: {fileID: 1960113305}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: -290.736, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -347.013, z: 0}
 --- !u!23 &1105120443
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17146,7 +17168,7 @@ Transform:
   m_GameObject: {fileID: 1299421077}
   m_LocalRotation: {x: -0, y: -0.83028615, z: -0, w: -0.5573374}
   m_LocalPosition: {x: 3.08, y: -10.82, z: 30.72}
-  m_LocalScale: {x: 16.173994, y: 10.30353, z: 8.320822}
+  m_LocalScale: {x: 11.4448805, y: 10.30353, z: 7.7432733}
   m_Children: []
   m_Father: {fileID: 1960113305}
   m_RootOrder: 13
@@ -17426,24 +17448,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: c17112da269237d4b9a510a8901138e7, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: -1.04, y: 1.25, z: -0.48}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: -1.73, y: 3.88, z: 0.05}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 1.76, y: -1.16, z: 1.46}
@@ -17458,7 +17467,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 7
     actionID: 0
-  flagDeleteUI: 0
 --- !u!4 &1306214537 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5959189707000753086, guid: 39e33fe473c22f8409ea2aec3218401b,
@@ -20460,24 +20468,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: a121262ce290ad8498eda2c555333b04, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 0.5, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 1, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 15
-  interactableTracker:
-    positionOffset: {x: 0, y: 3.37, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0, y: -0.43, z: -1.8}
@@ -20492,7 +20487,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 6
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &1537253238
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20904,7 +20898,7 @@ Transform:
   m_GameObject: {fileID: 1604750364}
   m_LocalRotation: {x: -0, y: -0.568305, z: -0, w: -0.82281804}
   m_LocalPosition: {x: -30.19, y: -6, z: 28.69}
-  m_LocalScale: {x: 11.241602, y: 10.30353, z: 8.320822}
+  m_LocalScale: {x: 8.0763035, y: 10.30353, z: 8.320822}
   m_Children: []
   m_Father: {fileID: 1960113305}
   m_RootOrder: 11
@@ -22532,7 +22526,7 @@ Transform:
   m_GameObject: {fileID: 1716437643}
   m_LocalRotation: {x: -0, y: 0.23050655, z: -0, w: 0.9730708}
   m_LocalPosition: {x: 10.27, y: -10.82, z: 7.22}
-  m_LocalScale: {x: 16.540257, y: 10.30353, z: 9.326585}
+  m_LocalScale: {x: 7.8519907, y: 10.30353, z: 9.326585}
   m_Children: []
   m_Father: {fileID: 1960113305}
   m_RootOrder: 12
@@ -24750,7 +24744,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 6a1aff344311dec449c29ddd10feb7bf, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 6a1aff344311dec449c29ddd10feb7bf, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 6a1aff344311dec449c29ddd10feb7bf, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -24766,7 +24764,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100012, guid: 6a1aff344311dec449c29ddd10feb7bf, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: 6a1aff344311dec449c29ddd10feb7bf, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6a1aff344311dec449c29ddd10feb7bf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24834,7 +24836,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b0856f6f9af5f6145ab6da23ac2eded3, type: 2}
     - target: {fileID: 100010, guid: 6a1aff344311dec449c29ddd10feb7bf, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: 6a1aff344311dec449c29ddd10feb7bf, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a1aff344311dec449c29ddd10feb7bf, type: 3}
@@ -25832,24 +25838,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: 1cd12fc409f3b824396da36437ccb9af, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 2, y: 4.5, z: -1}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 1.5, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 15
-  interactableTracker:
-    positionOffset: {x: 0, y: 6.17, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0.4, y: -0.95, z: -1.07}
@@ -25864,7 +25857,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 12
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &1923120422
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26231,6 +26223,7 @@ Transform:
   - {fileID: 1604750365}
   - {fileID: 1716437644}
   - {fileID: 1299421078}
+  - {fileID: 1018371054}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26389,8 +26382,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972507350}
   m_LocalRotation: {x: -0, y: -0.568305, z: -0, w: -0.82281804}
-  m_LocalPosition: {x: -39.93, y: -6, z: -3.23}
-  m_LocalScale: {x: 11.241602, y: 10.30353, z: 8.320822}
+  m_LocalPosition: {x: -40.64, y: -6, z: -0.58}
+  m_LocalScale: {x: 6.755528, y: 10.30353, z: 6.4358225}
   m_Children: []
   m_Father: {fileID: 1960113305}
   m_RootOrder: 7
@@ -26926,24 +26919,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: e497b9b2eeec25749a4596289132bde0, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.7
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 0.74, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: 0, y: 2.14, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0, y: 1.09, z: 0}
@@ -26958,7 +26938,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 13
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &2012483777
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27638,24 +27617,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: 815c68951ca2b2d448a4983b52d790bc, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.76
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
-    positionOffset: {x: 0.98, y: 1.52, z: -2.76}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
+    positionOffset: {x: 1, y: 3, z: -1}
   interactableCamera:
     lookAtOffset: {x: 0.37, y: 1.76, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 20
-  interactableTracker:
-    positionOffset: {x: 0, y: 7.81, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0, y: -2.59, z: 6.48}
@@ -27670,7 +27636,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 6
     actionID: 1
-  flagDeleteUI: 0
 --- !u!65 &2070494994
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28372,10 +28337,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 4049434664126903209, guid: 60efb4839362f4a89a682dcacc4ed593,
+    - target: {fileID: 7853472701785297717, guid: 60efb4839362f4a89a682dcacc4ed593,
         type: 3}
-      propertyPath: state
-      value: 6
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5105786211925052156, guid: 60efb4839362f4a89a682dcacc4ed593,
         type: 3}
@@ -28392,16 +28357,29 @@ PrefabInstance:
       propertyPath: prevState
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4049434664326887411, guid: 60efb4839362f4a89a682dcacc4ed593,
+    - target: {fileID: 7723091332566478742, guid: 60efb4839362f4a89a682dcacc4ed593,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7853472701785297717, guid: 60efb4839362f4a89a682dcacc4ed593,
+      propertyPath: actionSpotIcons.Array.data[0]
+      value: 
+      objectReference: {fileID: 1114428110661150, guid: ebba1f71b28acad4e8c44439dac62f18,
         type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
+    - target: {fileID: 2441172510099472386, guid: 60efb4839362f4a89a682dcacc4ed593,
+        type: 3}
+      propertyPath: debugMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 333bf0c9a3ca84c71a77a4cda594e558, type: 2}
+    - target: {fileID: 6973026263860940960, guid: 60efb4839362f4a89a682dcacc4ed593,
+        type: 3}
+      propertyPath: GameSounds
+      value: 
+      objectReference: {fileID: 11400000, guid: fd5428d4e6c1867408a794d77d546701,
+        type: 2}
+    - target: {fileID: 2960801132888328306, guid: 60efb4839362f4a89a682dcacc4ed593,
+        type: 3}
+      propertyPath: effects.Array.data[0].effectPrefab
+      value: 
+      objectReference: {fileID: 5659696234857117301, guid: 764a8fc7fa5bde84da9f078340190b38,
+        type: 3}
     - target: {fileID: 5277423461085533882, guid: 60efb4839362f4a89a682dcacc4ed593,
         type: 3}
       propertyPath: m_Layer
@@ -28647,6 +28625,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4049434664126903209, guid: 60efb4839362f4a89a682dcacc4ed593,
+        type: 3}
+      propertyPath: state
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049434664326887411, guid: 60efb4839362f4a89a682dcacc4ed593,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7982286101232740420, guid: 60efb4839362f4a89a682dcacc4ed593,
         type: 3}
       propertyPath: m_Layer
@@ -28672,29 +28660,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 7723091332566478742, guid: 60efb4839362f4a89a682dcacc4ed593,
-        type: 3}
-      propertyPath: actionSpotIcons.Array.data[0]
-      value: 
-      objectReference: {fileID: 1114428110661150, guid: ebba1f71b28acad4e8c44439dac62f18,
-        type: 3}
-    - target: {fileID: 6973026263860940960, guid: 60efb4839362f4a89a682dcacc4ed593,
-        type: 3}
-      propertyPath: GameSounds
-      value: 
-      objectReference: {fileID: 11400000, guid: fd5428d4e6c1867408a794d77d546701,
-        type: 2}
-    - target: {fileID: 2441172510099472386, guid: 60efb4839362f4a89a682dcacc4ed593,
-        type: 3}
-      propertyPath: debugMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: 333bf0c9a3ca84c71a77a4cda594e558, type: 2}
-    - target: {fileID: 2960801132888328306, guid: 60efb4839362f4a89a682dcacc4ed593,
-        type: 3}
-      propertyPath: effects.Array.data[0].effectPrefab
-      value: 
-      objectReference: {fileID: 5659696234857117301, guid: 764a8fc7fa5bde84da9f078340190b38,
-        type: 3}
     - target: {fileID: 1968383781261186, guid: 60efb4839362f4a89a682dcacc4ed593, type: 3}
       propertyPath: m_Name
       value: GameMangers
@@ -29714,24 +29679,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: e930e352997fb834db91c5b533c1c07d, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 1, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: 0, y: 3.74, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: 0, y: -0.18, z: -2.87}
@@ -29746,7 +29698,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 10
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &1853914768888448
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32310,24 +32261,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: 0500c7a720a3c424d8662c7b76673fd3, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.86
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0, y: 0.95, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: 0, y: 4.72, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 100, y: 100, z: 100}
     position: {x: 0.12, y: 0.02, z: 1.05}
@@ -32342,7 +32280,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 2
     actionID: 0
-  flagDeleteUI: 0
 --- !u!4 &225155495601403818
 Transform:
   m_ObjectHideFlags: 0
@@ -42076,24 +42013,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: 72206172f5b246e4c9de7166cea3ca3e, type: 2}
   interactableUI:
     name: 
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: -1, y: 2.75, z: 0}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: -4.22, y: -0.2, z: 3.53}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 8
-  interactableTracker:
-    positionOffset: {x: 0, y: 4.42, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 1, y: 1, z: 1}
     position: {x: -0.74, y: 0, z: 0}
@@ -42108,7 +42032,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 5
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &1235941129835392208
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43341,7 +43264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3805880916874535317}
   m_LocalRotation: {x: -0.27984816, y: 0.36470523, z: -0.11591691, w: -0.88047624}
-  m_LocalPosition: {x: 7.0260286, y: 13.242479, z: -8.444832}
+  m_LocalPosition: {x: 14.507851, y: 20.724304, z: -15.926656}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1724840600}
@@ -61080,8 +61003,8 @@ GameObject:
   m_Name: Pot_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &8306273127804416394
 GameObject:
@@ -61098,8 +61021,8 @@ GameObject:
   m_Name: chicken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &8306390796874185494
 GameObject:
@@ -61134,24 +61057,11 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: 8bcca5c85c7adfd429e064d85b492531, type: 2}
   interactableUI:
     name: FirePit
-    fontSize: 36
-    scaleSize: 1.5
-    mode: 0
-    useRotateToCamera: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: 0.4, y: 3.46, z: -0.7}
-    buttonOffset: {x: 0, y: 0, z: 0}
-    labelOffset: {x: 0, y: 0, z: 0}
-    scalingCoefficient: 0
-    debugActionUI: {fileID: 0}
   interactableCamera:
     lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     zoomDistance: 10
-  interactableTracker:
-    positionOffset: {x: 0, y: 4.61, z: 0}
-    screenPositionOffset: {x: 0, y: 0}
-    screenWobbleDirection: {x: 0, y: 1}
-    screenRotation: 0
   interactablePreview:
     scale: {x: 0.01, y: 0.01, z: 0.01}
     position: {x: 0.06, y: -0.66, z: -2.93}
@@ -61166,7 +61076,6 @@ MonoBehaviour:
     siteID: 0
     spotID: 4
     actionID: 0
-  flagDeleteUI: 0
 --- !u!65 &8306390796874185496
 BoxCollider:
   m_ObjectHideFlags: 0

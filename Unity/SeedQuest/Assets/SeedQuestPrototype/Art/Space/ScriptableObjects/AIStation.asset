@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: AIStation
   m_EditorClassIdentifier: 
-  interactableName: AI Station
-  prompt: How can I serve you?
-  labelPosOffset: {x: 0, y: 2, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: AI Station
+    positionOffset: {x: 0, y: 2.46, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0, y: -1, z: -0.96}
+    rotation: {x: 0, y: 104.48, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 2
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 13
+    spotID: 12
+    actionID: 0
   states:
   - actionName: Show Weather Report.
     prefab: {fileID: 7096925954236056139, guid: 5bcb44f82341c244eb211bda878447e1,

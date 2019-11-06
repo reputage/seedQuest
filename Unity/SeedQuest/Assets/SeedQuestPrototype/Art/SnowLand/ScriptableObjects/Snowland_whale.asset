@@ -13,8 +13,28 @@ MonoBehaviour:
   m_Name: Snowland_whale
   m_EditorClassIdentifier: 
   interactableName: 
-  prompt: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: 'Snowland Whale '
+    positionOffset: {x: 0, y: 0, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 0
+    actionID: 0
   states:
   - actionName: Whale
     prefab: {fileID: 523190773789361524, guid: 25d34688387bd3e48a6ec9d1afb41285, type: 3}

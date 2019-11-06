@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: CampPestState
   m_EditorClassIdentifier: 
-  interactableName: Ship Creature
-  prompt: Pick Ship Animal
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Ship Creature
+    positionOffset: {x: 0, y: 1.5, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: -25, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 1
+    spotID: 11
+    actionID: 0
   states:
   - actionName: Beetle
     prefab: {fileID: 1978926852092029750, guid: 93d14606ea9a3e94993c7fdc707898f2,

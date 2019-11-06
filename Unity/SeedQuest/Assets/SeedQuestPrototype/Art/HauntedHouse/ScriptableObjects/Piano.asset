@@ -12,12 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Piano
   m_EditorClassIdentifier: 
-  interactableName: Piano
-  prompt: Change Color
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Piano
+    positionOffset: {x: 0.18, y: 3.53, z: -0.57}
+  interactableCamera:
+    lookAtOffset: {x: -0.62, y: 1.2, z: 0.4}
+    positionOffset: {x: -15.05, y: 1, z: -1.07}
+    zoomDistance: 29.57
+  interactablePreview:
+    scale: {x: 0.2, y: 0.2, z: 0.2}
+    position: {x: 0, y: -0.54, z: -1.91}
+    rotation: {x: 0, y: -41.38, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 5
+    spotID: 4
+    actionID: 0
   states:
   - actionName: Black
-    prefab: {fileID: 3979327935251964525, guid: 3fb4eca0f3081684580d79bc5d5c36b1,
+    prefab: {fileID: 8661553356368715991, guid: d8e476f1b262669419f2b0f85ea49864,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
@@ -34,8 +54,8 @@ MonoBehaviour:
       source: {fileID: 0}
     particleEffectName: 
     particleEffect: {fileID: 0}
-  - actionName: Blue
-    prefab: {fileID: 3572753096618931237, guid: b6bb7d9e8fbeccf4ea8af5455905ea10,
+  - actionName: Cover up
+    prefab: {fileID: 4965149471205033769, guid: 13daa45ae78787a44a34550c556b0a71,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
@@ -53,7 +73,7 @@ MonoBehaviour:
     particleEffectName: 
     particleEffect: {fileID: 0}
   - actionName: Pink
-    prefab: {fileID: 3891829840016133960, guid: cff9033e54b7cd94caa9c7ee8d9fefec,
+    prefab: {fileID: 6297420179636501829, guid: 1311c9b88530bc94d90086ec73883744,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
@@ -71,7 +91,7 @@ MonoBehaviour:
     particleEffectName: 
     particleEffect: {fileID: 0}
   - actionName: Red
-    prefab: {fileID: 2412500335854461548, guid: a9d10fe18685fbe49a9dafef654e316f,
+    prefab: {fileID: 4710432206963918842, guid: 9788eb6429c02b64f8fd1c46d2ff2a28,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}

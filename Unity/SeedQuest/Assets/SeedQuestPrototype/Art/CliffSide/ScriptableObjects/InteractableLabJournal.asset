@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: InteractableLabJournal
   m_EditorClassIdentifier: 
-  interactableName: Research Journal
-  prompt: 
-  labelPosOffset: {x: 0, y: 0.5, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Research Journal
+    positionOffset: {x: 0.2, y: 1.1, z: 0.2}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0.4, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 5
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0.1, y: 0, z: -2.54}
+    rotation: {x: 49.65, y: 194.7, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 7
+    spotID: 9
+    actionID: 2
   states:
   - actionName: Don't Read
     prefab: {fileID: 1810221522872466, guid: 514d24680ab85f049a29777857d2ab5e, type: 3}

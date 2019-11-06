@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: BroomState_ST
   m_EditorClassIdentifier: 
-  interactableName: Cast Magic
-  prompt: Cast Magic
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Cast Magic
+    positionOffset: {x: 0, y: 1.32, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: -0.22, y: 0.07, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 0.75, y: 0.75, z: 0.75}
+    position: {x: 0, y: 0.5, z: 0}
+    rotation: {x: 0, y: 54.66, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 8
+    spotID: 15
+    actionID: 0
   states:
   - actionName: Sweeping
     prefab: {fileID: 7771437357989862125, guid: 490b7d646c02de149833a88ab36f7ff9,

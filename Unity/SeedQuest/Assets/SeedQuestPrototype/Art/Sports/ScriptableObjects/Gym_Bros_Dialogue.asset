@@ -12,12 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Gym_Bros_Dialogue
   m_EditorClassIdentifier: 
-  interactableName: Gym Bros
-  prompt: What should my workout be?
-  labelPosOffset: {x: 0, y: 4, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Gym Bros
+    positionOffset: {x: 0, y: 4, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: -0.6, y: 2.62, z: 0}
+    positionOffset: {x: 0.1, y: 0, z: 0}
+    zoomDistance: 17.81
+  interactablePreview:
+    scale: {x: 0.5, y: 0.5, z: 0.5}
+    position: {x: 0, y: -0.17, z: 0}
+    rotation: {x: -2.3, y: 48.09, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 6
+    spotID: 13
+    actionID: 0
   states:
-  - actionName: Focus on arms. Legs don't matter!
-    prefab: {fileID: 3076746802050413392, guid: fff76286ee852654491eff32fad1b07d,
+  - actionName: '"Get that cardio up!"'
+    prefab: {fileID: 2128142890921534248, guid: cf24d64db48f2444dade2ccd3b07ef7e,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
@@ -34,8 +54,8 @@ MonoBehaviour:
       source: {fileID: 0}
     particleEffectName: 
     particleEffect: {fileID: 0}
-  - actionName: Try some crunches.
-    prefab: {fileID: 3076746802050413392, guid: fff76286ee852654491eff32fad1b07d,
+  - actionName: '"Try some crunches!"'
+    prefab: {fileID: 2128142890921534248, guid: 8b366c7b8e4f14c48a1684b180979de7,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
@@ -52,8 +72,8 @@ MonoBehaviour:
       source: {fileID: 0}
     particleEffectName: 
     particleEffect: {fileID: 0}
-  - actionName: Cardio never hurts.
-    prefab: {fileID: 3076746802050413392, guid: fff76286ee852654491eff32fad1b07d,
+  - actionName: '"Do you even lift bro?!"'
+    prefab: {fileID: 2128142890921534248, guid: 0ba4623c9e41a924b89a0974fd5b4867,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
@@ -70,8 +90,8 @@ MonoBehaviour:
       source: {fileID: 0}
     particleEffectName: 
     particleEffect: {fileID: 0}
-  - actionName: You're asking the wrong person!
-    prefab: {fileID: 3076746802050413392, guid: fff76286ee852654491eff32fad1b07d,
+  - actionName: '"Chest Press for Great Pecs!"'
+    prefab: {fileID: 1099418545864529059, guid: fecd3c6f729f7674096af8c277a299c0,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}

@@ -212,7 +212,7 @@ namespace SeedQuest.SeedEncoder
         {
             if (hex.Length % 2 == 1)
             {
-                Debug.Log("The binary key cannot have an odd number of digits - shortening the string");
+                //Debug.Log("The binary key cannot have an odd number of digits - shortening the string");
                 hex = hex.Substring(0, (hex.Length - 1));
             }
             byte[] bytes = new byte[hex.Length >> 1];

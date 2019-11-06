@@ -50,7 +50,7 @@ public class FastRecoveryButton : MonoBehaviour, IPointerDownHandler, IPointerUp
         if (buttonPressed && !progressCompleted) {
             time += Time.deltaTime;
             if (time >= 0.2f) {
-                interactable.PreviewAction(actionIndex);
+                //interactable.PreviewAction(actionIndex);
 
                 float progressPosition = buttonLength * (-1 + (time - 0.2f / 1.0f));
 

@@ -6,7 +6,6 @@ using SeedQuest.Interactables;
 
 public static class SeedUtility 
 {
-
     // Checks a string to see if it's a valid bip-39 seed phrase
     public static bool validBip(string seed)
     {
@@ -51,8 +50,78 @@ public static class SeedUtility
         return hexString;
     }
 
+    public static bool validBase64(string input)
+    {
+        int base64Length = ((5 + InteractableConfig.BitEncodingCount) / 6);
+
+        if (detectBase64(input) && input.Length == base64Length)
+            return true;
+
+        return false;
+    }
+
+    public static bool detectBase64(string input)
+    {
+        if (System.Text.RegularExpressions.Regex.IsMatch(input, @"^[a-zA-Z0-9\+/]*={0,2}$"))
+            return true;
+            
+        return false;
+    }
+
+    public static bool validAscii(string input)
+    {
+        int AsciiLength = ((InteractableConfig.BitEncodingCount) / 8);
+        byte[] bytes = AsciiConverter.asciiToByte(input);
+        if (input.Length == AsciiLength && detectAscii(input))
+            return true;
+
+        return false;
+    }
+
+    public static bool detectAscii(string input)
+    {
+        if (System.Text.RegularExpressions.Regex.IsMatch(input, @"^[ -~]"))
+            return true;
+
+        return false;
+    }
+
+    public static string asciiToHexLengthCheck(string hex)
+    {
+        if (hex.Length < InteractableConfig.BitEncodingCount / 4)
+        {
+            for (int i = 0; i < ((InteractableConfig.BitEncodingCount / 4) - hex.Length); i++)
+            {
+                hex += "0";
+            }
+        }
+
+        if (hex.Length % 2 == 1)
+            hex += "0";
+        
+        return hex;
+    }
+
+    public static string hexToAsciiLengthCheck(string hex)
+    {
+        if (hex.Length > InteractableConfig.BitEncodingCount / 4)
+        {
+            Debug.Log("Shortening hex for Ascii conversion");
+            hex = hex.Substring(0, (hex.Length - 2));
+        }
+
+        return hex;
+    }
+
+
     public static bool validHex(string input)
     {
+        if (InteractableConfig.SeedHexLength % 2 == 1)
+        {
+            if (input.Length == InteractableConfig.SeedHexLength + 1 && input[input.Length - 2] != '0')
+                return false;
+        }
+
         bool valid = true;
         foreach (char c in input)
         {

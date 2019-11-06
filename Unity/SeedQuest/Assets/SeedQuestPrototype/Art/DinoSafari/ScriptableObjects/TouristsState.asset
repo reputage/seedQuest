@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: TouristsState
   m_EditorClassIdentifier: 
-  interactableName: Tourists
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Tourists
+    positionOffset: {x: 2, y: 6.5, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: -1, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 0.3, y: 0.3, z: 0.3}
+    position: {x: -0.2, y: -0.5, z: -2.41}
+    rotation: {x: -4.9, y: 38.6, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 4
+    spotID: 3
+    actionID: 0
   states:
   - actionName: Dogs
     prefab: {fileID: 6098384646139566294, guid: b590f906898af0e4098687e5d7b3fc0e,

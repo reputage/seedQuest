@@ -21,7 +21,7 @@ public class InteractableActionsUI : MonoBehaviour
     // Start is called before the first frame update
     void Awake() {
         SetComponentRef();
-        //SetHoverEvents();
+        SetHoverEvents();
     }
 
     public void Update() {
@@ -55,10 +55,10 @@ public class InteractableActionsUI : MonoBehaviour
             actionButtons[i] = buttons[i + 1];
 
         buttons[0].onClick.AddListener(() => { BackExit(); });
-        actionButtons[0].onClick.AddListener(() => { clickActionButton(0); });
+        /*actionButtons[0].onClick.AddListener(() => { clickActionButton(0); });
         actionButtons[1].onClick.AddListener(() => { clickActionButton(1); });
         actionButtons[2].onClick.AddListener(() => { clickActionButton(2); });
-        actionButtons[3].onClick.AddListener(() => { clickActionButton(3); });
+        actionButtons[3].onClick.AddListener(() => { clickActionButton(3); });*/
 
         actionButtons[0].gameObject.GetComponent<FastRecoveryButton>().ActionIndex = 0;
         actionButtons[1].gameObject.GetComponent<FastRecoveryButton>().ActionIndex = 1;
@@ -88,7 +88,7 @@ public class InteractableActionsUI : MonoBehaviour
     void clickActionButton(int actionIndex) {
         /* InteractableActionsUI.Toggle(false); */
 
-        interactable.PreviewAction(actionIndex);
+        //interactable.PreviewAction(actionIndex);
         //AudioManager.Play("UI_Hover");
     }
 
@@ -121,7 +121,7 @@ public class InteractableActionsUI : MonoBehaviour
     }
 
     private void OnHoverEnter(int actionIndex) {
-        //hoverActionButton(actionIndex-1);
+        hoverActionButton(actionIndex-1);
         AudioManager.Play("UI_Hover");
     }
 
@@ -130,19 +130,17 @@ public class InteractableActionsUI : MonoBehaviour
     } 
 
     private void BackExit() {
+        interactable.stateData.SetToDefaultState(interactable);
         InteractableActionsUI.Toggle(false);
-    }
+    } 
 
-    public void CheckForProgress()
-    {
-        if (InteractableLog.Count > interactableProgress)
-        {
+    public void CheckForProgress() {
+        if (InteractableLog.Count > interactableProgress) {
             interactableProgress = InteractableLog.Count;
             InteractableActionsUI.Toggle(false);
         }
 
-        else if (InteractableLog.Count < interactableProgress)
-        {
+        else if (InteractableLog.Count < interactableProgress) {
             interactableProgress = InteractableLog.Count;
         }
     }

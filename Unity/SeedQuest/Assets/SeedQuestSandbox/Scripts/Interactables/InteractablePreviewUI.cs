@@ -149,7 +149,7 @@ namespace SeedQuest.Interactables
 
         /// <summary>  Sets Interactable Preview from Interactable </summary>
         /// <param name="interactable"> Interactable to set Preview with </param>
-        static public void SetPreviewObject(Interactable interactable, int actionID)  {
+        static public void SetPreviewObject(Interactable interactable, int actionID, bool showActionState = false)  {
 
             int hello = 0;
 
@@ -176,10 +176,32 @@ namespace SeedQuest.Interactables
             // Create Preview Gameobject
             if(interactable.interactablePreview.previewPrefab != null) {
                 Instance.previewChild = Instantiate(interactable.interactablePreview.previewPrefab, Instance.previewObject.transform);
+                if (showActionState)
+                {
+                    Interactable previewInteractable = Instance.previewChild.GetComponent<Interactable>();
+                    if (previewInteractable == null) return;
+                    if (previewInteractable.stateData == null) return;
+
+                    InteractableState state = previewInteractable.stateData.states[actionID];
+                    state.enterState(previewInteractable, false);
+
+                    SetLayerRecursively(Instance.previewChild, 0);
+                }
                 Destroy(Instance.previewChild.GetComponent<Interactable>());
             }
             else {
                 Instance.previewChild = Instantiate(interactable.gameObject, Instance.previewObject.transform);
+                if (showActionState)
+                {
+                    Interactable previewInteractable = Instance.previewChild.GetComponent<Interactable>();
+                    if (previewInteractable == null) return;
+                    if (previewInteractable.stateData == null) return;
+
+                    InteractableState state = previewInteractable.stateData.states[actionID];
+                    state.enterState(previewInteractable, false);
+
+                    SetLayerRecursively(Instance.previewChild, 0);
+                }
                 Destroy(Instance.previewChild.GetComponent<Interactable>());
             }
 

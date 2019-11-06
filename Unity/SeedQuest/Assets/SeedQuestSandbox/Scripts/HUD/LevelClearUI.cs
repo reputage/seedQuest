@@ -25,6 +25,12 @@ public class LevelClearUI : MonoBehaviour {
         Instance.gameObject.SetActive(false);
     }
 
+    public void Update()
+    {
+        if (Instance.gameObject.activeSelf && GameManager.State != GameState.Menu)
+            GameManager.State = GameState.Menu;
+    }
+
     public void GoToSceneSelect() {
         //LevelManager.GoToSceneSelect();
         if (MenuScreenV2.Instance != null)

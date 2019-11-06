@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Farm_Tractor
   m_EditorClassIdentifier: 
-  interactableName: Tractor
-  prompt: 
+  interactableName: 
   labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Tractor
+    positionOffset: {x: -3, y: 4.23, z: -0.67}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 3.5, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 30
+  interactablePreview:
+    scale: {x: 0.2, y: 0.2, z: 0.2}
+    position: {x: 0, y: -0.85, z: -1.68}
+    rotation: {x: 0, y: -48.12, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 3
+    actionID: 0
   states:
   - actionName: Fix Engine
     prefab: {fileID: 5014856295243706801, guid: 0f1ed11acf4d14907984fdeabf1969d2,

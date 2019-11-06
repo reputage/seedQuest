@@ -12,8 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: HostState_ISO
   m_EditorClassIdentifier: 
-  interactableName: Host
-  labelPosOffset: {x: 0, y: 3, z: 0}
+  interactableUI:
+    name: Host
+    positionOffset: {x: 0, y: 0, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0.45, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 14
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 0
+    actionID: 0
   states:
   - actionName: Host
     prefab: {fileID: 7618092903285078375, guid: 8f18331c906549b4da5755a5615c017e,

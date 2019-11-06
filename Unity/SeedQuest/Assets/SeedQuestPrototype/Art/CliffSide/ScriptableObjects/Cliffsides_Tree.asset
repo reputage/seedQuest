@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Cliffsides_Tree
   m_EditorClassIdentifier: 
-  interactableName: Tree
-  prompt: 
-  labelPosOffset: {x: 0, y: 3.5, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Tree
+    positionOffset: {x: 0, y: 3.5, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 2.5, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0.4, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 0
+    actionID: 0
   states:
   - actionName: Do Nothing
     prefab: {fileID: 3739944403619610996, guid: e79d7b641f725334a8f8469c4e3d45d8,

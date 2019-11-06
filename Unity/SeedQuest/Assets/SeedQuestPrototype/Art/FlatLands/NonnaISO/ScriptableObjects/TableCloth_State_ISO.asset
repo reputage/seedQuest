@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: TableCloth_State_ISO
   m_EditorClassIdentifier: 
-  interactableName: Table Cloth
-  prompt: 
-  labelPosOffset: {x: 1, y: 3, z: -1}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Table Cloth
+    positionOffset: {x: 1, y: 3, z: -1}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 1, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 0.45, y: 0.45, z: 0.45}
+    position: {x: -0.2, y: 0.2, z: 0}
+    rotation: {x: -25, y: 25, z: -15}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 9
+    spotID: 8
+    actionID: 0
   states:
   - actionName: Fine Cloth
     prefab: {fileID: 7773334211349780339, guid: ff4a3f9a2a3bebd4f9d8a0d1b6445ef9,

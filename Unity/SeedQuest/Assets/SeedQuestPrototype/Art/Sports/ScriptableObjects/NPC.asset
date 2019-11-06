@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: NPC
   m_EditorClassIdentifier: 
-  interactableName: Character Swap
-  prompt: 
-  labelPosOffset: {x: 0, y: 3.5, z: -1}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Character Swap
+    positionOffset: {x: 0, y: 4.75, z: -1}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 2, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 20
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 1.02, y: -1, z: 0}
+    rotation: {x: 0, y: 199.67, z: 0}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 3
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 6
+    spotID: 15
+    actionID: 0
   states:
   - actionName: Yoga Chicks
     prefab: {fileID: 6786379062611081498, guid: 72df3bc0eb6814ef7805c80e3e5343d6,

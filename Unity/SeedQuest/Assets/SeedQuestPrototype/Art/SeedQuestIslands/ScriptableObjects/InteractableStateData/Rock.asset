@@ -12,8 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Rock
   m_EditorClassIdentifier: 
-  interactableName: Rock
-  labelPosOffset: {x: 0, y: 1, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Rock
+    positionOffset: {x: -1.06, y: 3.5, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: -1.63, y: 0.72, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 14
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0.44, y: -0.31, z: -0.76}
+    rotation: {x: 7.3, y: -160.28, z: 2.25}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 0
+    spotID: 0
+    actionID: 0
   states:
   - actionName: Mine Gold
     prefab: {fileID: 687158116743440380, guid: 8b7ddd2b05559ca4e93cb303ee4c47de, type: 3}

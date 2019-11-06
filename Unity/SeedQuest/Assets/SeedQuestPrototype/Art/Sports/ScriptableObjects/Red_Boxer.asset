@@ -12,12 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Red_Boxer
   m_EditorClassIdentifier: 
-  interactableName: Red Boxer
-  prompt: How should I attack?
-  labelPosOffset: {x: 0, y: 3, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Red Boxer
+    positionOffset: {x: 0, y: 3, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 1.24, z: 0}
+    positionOffset: {x: -4.63, y: -3.3, z: 0}
+    zoomDistance: 10
+  interactablePreview:
+    scale: {x: 0.7, y: 0.7, z: 0.7}
+    position: {x: 0, y: -0.38, z: 0}
+    rotation: {x: -22.41, y: 0, z: 0}
+    useOrthographic: 1
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 1
+    rotateSpeed: 25
+  ID:
+    siteID: 6
+    spotID: 1
+    actionID: 0
   states:
   - actionName: Uppercut
-    prefab: {fileID: 6105970811388533429, guid: a19b082bb0f0141eda3ae3282194f22d,
+    prefab: {fileID: 7733246024330483545, guid: d7e0e6d076779e54bb89e086491234c8,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
@@ -35,7 +55,7 @@ MonoBehaviour:
     particleEffectName: 
     particleEffect: {fileID: 0}
   - actionName: Jab
-    prefab: {fileID: 6105970811388533429, guid: a19b082bb0f0141eda3ae3282194f22d,
+    prefab: {fileID: 7733246024330483545, guid: 44385451cf9b86949a76965d2ed3d121,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
@@ -53,7 +73,7 @@ MonoBehaviour:
     particleEffectName: 
     particleEffect: {fileID: 0}
   - actionName: Right Hook
-    prefab: {fileID: 6105970811388533429, guid: a19b082bb0f0141eda3ae3282194f22d,
+    prefab: {fileID: 7733246024330483545, guid: 6f6bc62e1c4280e43825e7938145b048,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}
@@ -70,8 +90,8 @@ MonoBehaviour:
       source: {fileID: 0}
     particleEffectName: 
     particleEffect: {fileID: 0}
-  - actionName: Cross
-    prefab: {fileID: 6105970811388533429, guid: a19b082bb0f0141eda3ae3282194f22d,
+  - actionName: Throw in Towel
+    prefab: {fileID: 7733246024330483545, guid: 57bf85437df655941b608b670515e24e,
       type: 3}
     positionOffset: {x: 0, y: 0, z: 0}
     mesh: {fileID: 0}

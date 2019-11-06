@@ -10,6 +10,7 @@ using SeedQuest.Interactables;
 public class SceneLineUpCanvas : MonoBehaviour
 {
     public GameObject continueButton;
+    public GameObject spinningLoadIcon;
     public Image[] worldImages;
     public Image[] worldOutlines;
     public TextMeshProUGUI[] worldText;
@@ -23,7 +24,8 @@ public class SceneLineUpCanvas : MonoBehaviour
     }
 
     public void Initialize() {
-
+        SeedQuest.Level.LevelManager.Instance.StopLevelMusic();
+        AudioManager.Play("Loading");
         int count = 0;
         foreach (Image outline in worldOutlines) {
             outline.gameObject.SetActive(false);
@@ -76,6 +78,14 @@ public class SceneLineUpCanvas : MonoBehaviour
         }
 
         //sceneLoadProgress.gameObject.SetActive(false);
+        /*spinningLoadIcon.gameObject.SetActive(false);
+        spinningLoadIcon.transform.parent.GetComponent<TMP_Text>().text = "Continue";
+        int index = spinningLoadIcon.transform.parent.GetSiblingIndex();
+        spinningLoadIcon.transform.parent.parent.GetChild(index + 1).GetComponent<TMP_Text>().text = "Your world has finished loading.";*/
+        spinningLoadIcon.transform.parent.gameObject.SetActive(false);
+        AudioManager.Stop("Loading");
+        int index = spinningLoadIcon.transform.parent.GetSiblingIndex();
+        spinningLoadIcon.transform.parent.parent.GetChild(index + 1).gameObject.SetActive(false);
         continueButton.gameObject.SetActive(true);
     }
 
@@ -85,6 +95,11 @@ public class SceneLineUpCanvas : MonoBehaviour
         InteractableLabelUI.ClearInteractableUI();
         SetImages();
 
+        spinningLoadIcon.transform.parent.gameObject.SetActive(true);
+        //spinningLoadIcon.transform.parent.GetComponent<TMP_Text>().text = "Loading";
+        int index = spinningLoadIcon.transform.parent.GetSiblingIndex();
+        //spinningLoadIcon.transform.parent.parent.GetChild(index + 1).GetComponent<TMP_Text>().text = "While you wait, why don't you review the world sequence?";*/
+        spinningLoadIcon.transform.parent.parent.GetChild(index + 1).gameObject.SetActive(true);
         continueButton.gameObject.SetActive(false);
         if(WorldManager.CurrentWorldScene != null)
             StartCoroutine(LoadAsync(WorldManager.CurrentWorldScene.sceneName));

@@ -12,9 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1c21d9ece6c4e229a7c25408d3063a, type: 3}
   m_Name: Ball_Display
   m_EditorClassIdentifier: 
-  interactableName: Ball Display
-  prompt: 
-  labelPosOffset: {x: 0, y: 3, z: 0}
+  interactableName: 
+  labelPosOffset: {x: 0, y: 0, z: 0}
+  interactableUI:
+    name: Ball Display
+    positionOffset: {x: 0, y: 3, z: 0}
+  interactableCamera:
+    lookAtOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
+    zoomDistance: 5
+  interactablePreview:
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 0, y: 0, z: -2.77}
+    rotation: {x: -20.3, y: 72.6, z: 40.39}
+    useOrthographic: 0
+    fieldOfView: 60
+    orthographicSize: 1
+    previewPrefab: {fileID: 0}
+    useRotate: 0
+    rotateSpeed: 25
+  ID:
+    siteID: 6
+    spotID: 8
+    actionID: 0
   states:
   - actionName: Football
     prefab: {fileID: 100000, guid: 88b12badd75dc4c278af4b9e7b826e28, type: 3}

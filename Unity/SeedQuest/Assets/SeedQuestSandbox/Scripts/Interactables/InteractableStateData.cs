@@ -89,11 +89,13 @@ namespace SeedQuest.Interactables
     }
 
     [CreateAssetMenu(menuName = "Interactables/InteractableStateData")]
-    public class InteractableStateData : ScriptableObject
-    {
-        public string interactableName;
-        public string prompt;
-        public Vector3 labelPosOffset;
+    public class InteractableStateData : ScriptableObject {
+        public InteractableUI interactableUI;
+        public InteractableCameraProps interactableCamera;
+        public InteractablePreviewInfo interactablePreview;
+        public InteractableID ID;
+
+        public InteractableState defaultState;
         public List<InteractableState> states;
         public GameObject effect;
 
@@ -102,9 +104,9 @@ namespace SeedQuest.Interactables
             return states[index].actionName;
         }
 
-        public string getPrompt()
-        {
-            return prompt;
+        public void SetToDefaultState(Interactable interactable) {
+            if (defaultState.prefab != null)
+                defaultState.enterState(interactable);
         }
 
         public void stopAudio()
