@@ -30,7 +30,7 @@ SeedQuest is an open source project and we want to grow a community of people wo
 
 ## Collaboration
 
-If you would like to be a collaborator or work on the 3D assets, please contact michael.mendoza@consensys.net or weston.bodily@consensys.net for information and access to the assets.
+Currently SeedQuest is being developed in the [SeedQuestAssets repo](https://github.com/reputage/seedQuestAssets). 
 
 ## Background
 
