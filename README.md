@@ -30,7 +30,7 @@ SeedQuest is an open source project and we want to grow a community of people wo
 
 ## Collaboration
 
-Currently SeedQuest is being developed in the [SeedQuestAssets repo](https://github.com/reputage/seedQuestAssets). 
+Currently SeedQuest is being developed in the [SeedQuestAssets repo](https://github.com/reputage/seedQuestAssets). Want to collaborate on the project? Please join the project slack and post a message.
 
 ## Background
 
