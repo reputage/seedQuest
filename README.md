@@ -22,7 +22,7 @@ SeedQuest Beta is here! Checkout SeedQuest for the full recovery of a 128 bit se
 
 ## How does SeedQuest work?
 
-In SeedQuest, the player will visit a few different locations and perform various actions in a specific orfer. This order of actions is used to encode a key which will be used as a seed string. This seed is used to randomly generate the series of actions in the game that you'll need to remember. You have no control over that encoding, but you can select the seed string you would like to use. You can practice learning the order of actions in 'learn' mode, and then you can prove your memory in 'recover' mode. In 'recover' mode you can play the game to decode and recover your seed string by completeing the actions in the correct sequence. 
+In SeedQuest, the player will visit a few different locations and perform various actions in a specific order. This order of actions is used to encode a key which will be used as a seed string. This seed is used to randomly generate the series of actions in the game that you'll need to remember. You have no control over that encoding, but you can select the seed string you would like to use. You can practice learning the order of actions in 'learn' mode, and then you can prove your memory in 'recover' mode. In 'recover' mode you can play the game to decode and recover your seed string by completeing the actions in the correct sequence. 
 
 ## SeedQuest Community
 
